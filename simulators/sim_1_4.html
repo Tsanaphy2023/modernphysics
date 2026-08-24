@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 1.4 สเปกตรัมของอะตอมไฮโดรเจน & สูตรริดเบิร์ก</title>
+  <title>1.4 สเปกตรัมของอะตอมไฮโดรเจน</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,32 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+      margin: 0;
+      padding: 6px;
+      overflow-x: hidden;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -47,32 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -86,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -99,14 +96,14 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
       width: 100%;
-      height: 250px;
+      height: 230px;
     }
     .readout-grid {
       display: grid;
@@ -114,35 +111,55 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 1.4 สเปกตรัมของไฮโดรเจน: การเปลี่ยนระดับพลังงาน & สูตรริดเบิร์ก
-      </div>
+      <div class="sim-title"><span>🔬</span> 1.4 สเปกตรัมของไฮโดรเจน: การเปลี่ยนระดับพลังงาน & สูตรริดเบิร์ก</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
     <div class="control-grid">
       <div class="ctrl-box">
         <label>อนุกรมสเปกตรัม (Lower Level n₁):</label>
@@ -158,9 +175,7 @@
         <input type="range" id="slider_n2" min="2" max="7" value="3">
       </div>
     </div>
-
-    <div class="canvas-box"><canvas id="simCanvas" width="640" height="250"></canvas></div>
-
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="235"></canvas></div>
     <div class="readout-grid">
       <div class="readout-card"><div class="readout-val" id="val_lam">656.3 nm</div><div class="readout-lbl">ความยาวคลื่นโฟตอนที่คาย (λ)</div></div>
       <div class="readout-card"><div class="readout-val" id="val_de">1.89 eV</div><div class="readout-lbl">พลังงานที่ปลดปล่อย (ΔE)</div></div>
@@ -169,6 +184,7 @@
   </div>
 
   <script>
+
     const cv = document.getElementById("simCanvas");
     const ctx = cv.getContext("2d");
     const selSeries = document.getElementById("sel_series");
@@ -181,18 +197,14 @@
       const dE = 13.6 * (1/(n1*n1) - 1/(n2*n2));
 
       let name = "สเปกตรัม", col = "#00f0ff";
-      if (n1 === 1) {
-        name = "Lyman (" + n2 + "→1 UV)"; col = "#a855f7";
-      } else if (n1 === 2) {
+      if (n1 === 1) { name = "Lyman (" + n2 + "→1 UV)"; col = "#a855f7"; }
+      else if (n1 === 2) {
         if (n2 === 3) { name = "H-alpha (สีแดง 656.3 nm)"; col = "#ef4444"; }
-        else if (n2 === 4) { name = "H-beta (สีฟ้าคราม 486.1 nm)"; col = "#06b6d4"; }
-        else if (n2 === 5) { name = "H-gamma (สีน้ำเงิน 434.0 nm)"; col = "#3b82f6"; }
-        else { name = "H-delta (สีม่วง 410.2 nm)"; col = "#8b5cf6"; }
-      } else if (n1 === 3) {
-        name = "Paschen (" + n2 + "→3 IR)"; col = "#f97316";
-      } else {
-        name = "Brackett (" + n2 + "→4 Far-IR)"; col = "#e11d48";
-      }
+        else if (n2 === 4) { name = "H-beta (ฟ้าคราม 486.1 nm)"; col = "#06b6d4"; }
+        else if (n2 === 5) { name = "H-gamma (น้ำเงิน 434.0 nm)"; col = "#3b82f6"; }
+        else { name = "H-delta (ม่วง 410.2 nm)"; col = "#8b5cf6"; }
+      } else if (n1 === 3) { name = "Paschen (" + n2 + "→3 IR)"; col = "#f97316"; }
+      else { name = "Brackett (" + n2 + "→4 Far-IR)"; col = "#e11d48"; }
       return { lam: lam_nm, dE: dE, name: name, color: col };
     }
 
@@ -208,66 +220,49 @@
       document.getElementById("val_de").textContent = info.dE.toFixed(2) + " eV";
       
       const lnEl = document.getElementById("val_line");
-      lnEl.textContent = info.name;
-      lnEl.style.color = info.color;
+      lnEl.textContent = info.name; lnEl.style.color = info.color;
 
       ctx.clearRect(0, 0, cv.width, cv.height);
 
-      // -------------------------------------------------------------
-      // 1. Left Panel: Bohr Energy Level Ladder Transitions
-      // -------------------------------------------------------------
-      const ladderX = 40, ladderW = 220;
+      // Left Panel: Bohr Ladder
+      const ladderX = 35, ladderW = 215;
       ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
-      ctx.fillText("ระดับพลังงานควอนตัม (Bohr Energy Levels)", ladderX, 22);
+      ctx.fillText("ระดับพลังงานควอนตัม (Bohr Energy Levels)", ladderX, 18);
 
       for(let n=1; 7 > n; n++) {
-        const y = 210 - 170 * (1 - 1/(n*n));
-        const isTarget = (n === n1);
-        const isInitial = (n === n2);
-
+        const y = 205 - 165 * (1 - 1/(n*n));
+        const isTarget = (n === n1), isInitial = (n === n2);
         ctx.strokeStyle = isTarget ? "#00f0ff" : (isInitial ? "#f59e0b" : "#334155");
         ctx.lineWidth = (isTarget || isInitial) ? 2.5 : 1;
-        ctx.beginPath();
-        ctx.moveTo(ladderX, y);
-        ctx.lineTo(ladderX + ladderW, y);
-        ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(ladderX, y); ctx.lineTo(ladderX + ladderW, y); ctx.stroke();
 
         ctx.fillStyle = isTarget ? "#00f0ff" : (isInitial ? "#f59e0b" : "#64748b");
         ctx.font = "10px 'JetBrains Mono', monospace";
-        ctx.fillText("n=" + n + " (" + (-13.6/(n*n)).toFixed(2) + " eV)", ladderX + ladderW + 8, y + 4);
+        ctx.fillText("n=" + n + " (" + (-13.6/(n*n)).toFixed(2) + " eV)", ladderX + ladderW + 6, y + 4);
       }
 
-      // Transition Arrow (n2 -> n1)
-      const yStart = 210 - 170 * (1 - 1/(n2*n2));
-      const yEnd = 210 - 170 * (1 - 1/(n1*n1));
+      // Transition Arrow
+      const yStart = 205 - 165 * (1 - 1/(n2*n2));
+      const yEnd = 205 - 165 * (1 - 1/(n1*n1));
       ctx.strokeStyle = info.color; ctx.lineWidth = 3;
-      ctx.beginPath(); ctx.moveTo(ladderX + 110, yStart); ctx.lineTo(ladderX + 110, yEnd); ctx.stroke();
-      // Arrowhead
+      ctx.beginPath(); ctx.moveTo(ladderX + 105, yStart); ctx.lineTo(ladderX + 105, yEnd); ctx.stroke();
       ctx.fillStyle = info.color;
-      ctx.beginPath();
-      ctx.moveTo(ladderX + 105, yEnd - 8); ctx.lineTo(ladderX + 115, yEnd - 8); ctx.lineTo(ladderX + 110, yEnd);
-      ctx.fill();
+      ctx.beginPath(); ctx.moveTo(ladderX + 100, yEnd - 8); ctx.lineTo(ladderX + 110, yEnd - 8); ctx.lineTo(ladderX + 105, yEnd); ctx.fill();
 
-      // Pulsing emitted photon packet
+      // Emitted Photon
       const prog = (tick*0.04) % 1;
-      const photonWaveX = ladderX + 110 + prog * 180;
-      const photonWaveY = (yStart + yEnd)/2;
+      const photonWaveX = ladderX + 105 + prog * 175;
       ctx.fillStyle = info.color;
-      ctx.beginPath(); ctx.arc(photonWaveX, photonWaveY, 4.5, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(photonWaveX, (yStart + yEnd)/2, 4.5, 0, Math.PI*2); ctx.fill();
 
-      // -------------------------------------------------------------
-      // 2. Right Panel: Spectrograph Film / Emission Spectrum Lines
-      // -------------------------------------------------------------
-      const specX = 350, specY = 40, specW = 265, specH = 80;
-      ctx.fillStyle = "#030712";
-      ctx.strokeStyle = "#1e293b"; ctx.lineWidth = 2;
-      ctx.fillRect(specX, specY, specW, specH);
-      ctx.strokeRect(specX, specY, specW, specH);
+      // Right Panel: Spectrograph Film
+      const specX = 350, specY = 35, specW = 265, specH = 75;
+      ctx.fillStyle = "#030712"; ctx.strokeStyle = "#1e293b"; ctx.lineWidth = 2;
+      ctx.fillRect(specX, specY, specW, specH); ctx.strokeRect(specX, specY, specW, specH);
 
       ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
-      ctx.fillText("แถบสเปกตรัมที่บันทึกได้ (Spectrograph Film)", specX, 30);
+      ctx.fillText("แถบสเปกโตรกราฟ (Spectrograph Film)", specX, 26);
 
-      // Draw all Balmer visible lines for reference
       if (n1 === 2) {
         const balmerLines = [
           { n: 3, lam: 656.3, col: "#ef4444" },
@@ -276,41 +271,36 @@
           { n: 6, lam: 410.2, col: "#8b5cf6" }
         ];
         balmerLines.forEach(l => {
-          // Map 380 - 700 nm to specX to specX + specW
           const lx = specX + ((l.lam - 380) / 320) * specW;
           const isSelected = (l.n === n2);
-          ctx.strokeStyle = l.col;
-          ctx.lineWidth = isSelected ? 4.0 : 1.8;
+          ctx.strokeStyle = l.col; ctx.lineWidth = isSelected ? 4.0 : 1.8;
           ctx.beginPath(); ctx.moveTo(lx, specY); ctx.lineTo(lx, specY + specH); ctx.stroke();
-
           if (isSelected) {
             ctx.fillStyle = l.col; ctx.font = "bold 10px sans-serif";
-            ctx.fillText(l.lam + " nm", lx - 18, specY + specH + 16);
+            ctx.fillText(l.lam + " nm", lx - 18, specY + specH + 15);
           }
         });
       } else {
-        // Draw single line indicator
         const lx = specX + specW / 2;
         ctx.strokeStyle = info.color; ctx.lineWidth = 3.5;
         ctx.beginPath(); ctx.moveTo(lx, specY); ctx.lineTo(lx, specY + specH); ctx.stroke();
         ctx.fillStyle = info.color; ctx.font = "bold 10px sans-serif";
-        ctx.fillText(info.lam >= 1000 ? (info.lam/1000).toFixed(2) + " µm" : info.lam.toFixed(1) + " nm", lx - 20, specY + specH + 16);
+        ctx.fillText(info.lam >= 1000 ? (info.lam/1000).toFixed(2) + " µm" : info.lam.toFixed(1) + " nm", lx - 20, specY + specH + 15);
       }
 
-      // Rydberg Formula Summary Box (Bottom Right)
-      ctx.fillStyle = "rgba(15, 23, 42, 0.8)";
-      ctx.strokeStyle = "#334155";
-      ctx.fillRect(specX, 160, specW, 65);
-      ctx.strokeRect(specX, 160, specW, 65);
+      // Summary
+      ctx.fillStyle = "rgba(15, 23, 42, 0.8)"; ctx.strokeStyle = "#334155";
+      ctx.fillRect(specX, 150, specW, 60); ctx.strokeRect(specX, 150, specW, 60);
       ctx.fillStyle = "#00f0ff"; ctx.font = "11px 'JetBrains Mono', monospace";
-      ctx.fillText("1/λ = R_H (1/n₁² - 1/n₂²)", specX + 15, 185);
+      ctx.fillText("1/λ = R_H (1/n₁² - 1/n₂²)", specX + 15, 172);
       ctx.fillStyle = "#94a3b8"; ctx.font = "10px sans-serif";
-      ctx.fillText("R_H = 1.097373 × 10⁷ m⁻¹", specX + 15, 205);
+      ctx.fillText("R_H = 1.097373 × 10⁷ m⁻¹", specX + 15, 192);
 
       tick++;
       requestAnimationFrame(animate);
     }
     animate();
+
   </script>
 </body>
 </html>

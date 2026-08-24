@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 1.1 ข้อจำกัดของฟิสิกส์ดั้งเดิม & หายนะอัลตราไวโอเลต</title>
+  <title>1.1 ข้อจำกัดของฟิสิกส์ดั้งเดิม</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,32 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+      margin: 0;
+      padding: 6px;
+      overflow-x: hidden;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -47,32 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -86,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -99,14 +96,14 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
       width: 100%;
-      height: 240px;
+      height: 230px;
     }
     .readout-grid {
       display: grid;
@@ -114,35 +111,55 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 1.1 ข้อจำกัดของฟิสิกส์ดั้งเดิม: ปริศนาหายนะอัลตราไวโอเลต
-      </div>
+      <div class="sim-title"><span>🔬</span> 1.1 ข้อจำกัดของฟิสิกส์ดั้งเดิม: ปริศนาหายนะอัลตราไวโอเลต</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
     <div class="control-grid">
       <div class="ctrl-box">
         <label>อุณหภูมิโพรงวัตถุดำ (T): <span id="val_temp" class="val-display">5000</span> K</label>
@@ -157,9 +174,7 @@
         </select>
       </div>
     </div>
-
-    <div class="canvas-box"><canvas id="simCanvas" width="640" height="240"></canvas></div>
-
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
     <div class="readout-grid">
       <div class="readout-card"><div class="readout-val" id="val_rj" style="color:#f43f5e;">ลู่ออกสู่อนันต์ (∞)</div><div class="readout-lbl">Rayleigh-Jeans (Classical)</div></div>
       <div class="readout-card"><div class="readout-val" id="val_planck" style="color:#00f0ff;">จุดยอด 580 nm</div><div class="readout-lbl">Planck Quantum Peak (λ_max)</div></div>
@@ -168,13 +183,13 @@
   </div>
 
   <script>
+
     const cv = document.getElementById("simCanvas");
     const ctx = cv.getContext("2d");
     const sliderTemp = document.getElementById("slider_temp");
     const selTheory = document.getElementById("sel_theory");
     let tick = 0;
 
-    // Thermal cavity photon particles
     let particles = [];
     for(let i=0; 35 > i; i++) {
       particles.push({
@@ -196,150 +211,95 @@
 
       ctx.clearRect(0, 0, cv.width, cv.height);
 
-      // -------------------------------------------------------------
-      // 1. Draw Left Panel: Cross-section of Isothermal Blackbody Cavity
-      // -------------------------------------------------------------
-      ctx.fillStyle = "#0f172a";
-      ctx.strokeStyle = "#334155";
-      ctx.lineWidth = 1.5;
-      ctx.fillRect(20, 25, 120, 190);
-      ctx.strokeRect(20, 25, 120, 190);
+      // Left Panel: Blackbody Cavity
+      ctx.fillStyle = "#0f172a"; ctx.strokeStyle = "#334155"; ctx.lineWidth = 1.5;
+      ctx.fillRect(20, 20, 115, 185); ctx.strokeRect(20, 20, 115, 185);
+      ctx.clearRect(133, 95, 5, 30); // Pinhole
 
-      // Cavity Aperture (รูเปิดเล็กๆ ที่ผนัง)
-      ctx.clearRect(138, 105, 5, 30);
-
-      // Heat glow inside cavity
-      const heatGrad = ctx.createRadialGradient(80, 120, 10, 80, 120, 80);
+      const heatGrad = ctx.createRadialGradient(77, 112, 10, 77, 112, 75);
       heatGrad.addColorStop(0, "rgba(245, 158, 11, 0.45)");
       heatGrad.addColorStop(0.6, "rgba(239, 68, 68, 0.2)");
       heatGrad.addColorStop(1, "transparent");
-      ctx.fillStyle = heatGrad;
-      ctx.fillRect(21, 26, 118, 188);
+      ctx.fillStyle = heatGrad; ctx.fillRect(21, 21, 113, 183);
 
-      // Animate thermal bouncing standing modes
       particles.forEach(p => {
-        ctx.fillStyle = p.color;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 2.8, 0, Math.PI*2);
-        ctx.fill();
-        p.x += p.vx * (T / 4000);
-        p.y += p.vy * (T / 4000);
-        if (25 > p.x || p.x > 135) p.vx *= -1;
-        if (30 > p.y || p.y > 210) p.vy *= -1;
+        ctx.fillStyle = p.color; ctx.beginPath(); ctx.arc(p.x, p.y, 2.5, 0, Math.PI*2); ctx.fill();
+        p.x += p.vx * (T / 4000); p.y += p.vy * (T / 4000);
+        if (24 > p.x || p.x > 130) p.vx *= -1;
+        if (25 > p.y || p.y > 200) p.vy *= -1;
       });
 
-      // Escaping radiation beam from pinhole
-      ctx.strokeStyle = "rgba(0, 240, 255, 0.7)";
-      ctx.lineWidth = 2;
+      ctx.strokeStyle = "rgba(0, 240, 255, 0.7)"; ctx.lineWidth = 2;
       for(let k=0; 3 > k; k++) {
-        const beamX = 140 + ((tick*3 + k*40) % 50);
-        const beamY = 120 + (k-1)*8;
-        ctx.beginPath();
-        ctx.moveTo(140, 120);
-        ctx.lineTo(beamX, beamY);
-        ctx.stroke();
+        const beamX = 135 + ((tick*3 + k*40) % 45);
+        ctx.beginPath(); ctx.moveTo(135, 110 + (k-1)*8); ctx.lineTo(beamX, 110 + (k-1)*8); ctx.stroke();
       }
 
       ctx.fillStyle = "#94a3b8"; ctx.font = "10px sans-serif";
-      ctx.fillText("โพรงวัตถุดำ", 50, 42);
-      ctx.fillText("(T = " + T + " K)", 52, 56);
-      ctx.fillStyle = "#00f0ff";
-      ctx.fillText("รูเปิด →", 100, 124);
+      ctx.fillText("โพรงวัตถุดำ", 45, 36); ctx.fillText("(T = " + T + " K)", 48, 50);
+      ctx.fillStyle = "#00f0ff"; ctx.fillText("รูเปิด →", 95, 114);
 
-      // -------------------------------------------------------------
-      // 2. Draw Right Panel: Spectral Radiance Spectrum & UV Catastrophe
-      // -------------------------------------------------------------
-      const originX = 200, originY = 210;
-      const graphW = 410, graphH = 180;
+      // Right Panel: Spectrum
+      const originX = 190, originY = 205, graphW = 425, graphH = 175;
 
-      // Spectrum background bands (UV, Visible Rainbow, IR)
-      // UV Region (200 nm - 400 nm) -> X: 200 to 270
-      ctx.fillStyle = "rgba(168, 85, 247, 0.18)";
-      ctx.fillRect(originX, 30, 70, graphH);
-      ctx.fillStyle = "#a855f7"; ctx.font = "10px sans-serif";
-      ctx.fillText("UV", originX + 25, 45);
+      ctx.fillStyle = "rgba(168, 85, 247, 0.15)"; ctx.fillRect(originX, 30, 65, graphH);
+      ctx.fillStyle = "#a855f7"; ctx.font = "10px sans-serif"; ctx.fillText("UV", originX + 22, 44);
 
-      // Visible Rainbow (400 nm - 750 nm) -> X: 270 to 360
-      const visGrad = ctx.createLinearGradient(originX + 70, 0, originX + 160, 0);
-      visGrad.addColorStop(0, "rgba(59, 130, 246, 0.25)");
-      visGrad.addColorStop(0.3, "rgba(34, 197, 94, 0.25)");
-      visGrad.addColorStop(0.7, "rgba(234, 179, 8, 0.25)");
-      visGrad.addColorStop(1, "rgba(239, 68, 68, 0.25)");
-      ctx.fillStyle = visGrad;
-      ctx.fillRect(originX + 70, 30, 90, graphH);
-      ctx.fillStyle = "#10b981";
-      ctx.fillText("แสงขาว (Visible)", originX + 78, 45);
+      const visGrad = ctx.createLinearGradient(originX + 65, 0, originX + 155, 0);
+      visGrad.addColorStop(0, "rgba(59, 130, 246, 0.25)"); visGrad.addColorStop(0.5, "rgba(34, 197, 94, 0.25)"); visGrad.addColorStop(1, "rgba(239, 68, 68, 0.25)");
+      ctx.fillStyle = visGrad; ctx.fillRect(originX + 65, 30, 90, graphH);
+      ctx.fillStyle = "#10b981"; ctx.fillText("Visible", originX + 85, 44);
 
-      // Infrared (750 nm +) -> X: 360 to 610
-      ctx.fillStyle = "rgba(239, 68, 68, 0.12)";
-      ctx.fillRect(originX + 160, 30, 250, graphH);
-      ctx.fillStyle = "#ef4444";
-      ctx.fillText("อินฟราเรด (IR)", originX + 240, 45);
+      ctx.fillStyle = "rgba(239, 68, 68, 0.10)"; ctx.fillRect(originX + 155, 30, 270, graphH);
+      ctx.fillStyle = "#ef4444"; ctx.fillText("Infrared (IR)", originX + 240, 44);
 
-      // Coordinate Grid Lines
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
-      ctx.lineWidth = 1;
-      for(let x = originX + 50; originX + graphW > x; x += 50) {
-        ctx.beginPath(); ctx.moveTo(x, 30); ctx.lineTo(x, originY); ctx.stroke();
-      }
-
-      // Rayleigh-Jeans Classical Curve (Diverging towards UV / Lambda -> 0)
+      // Curves
       if (mode === "both" || mode === "classical") {
         ctx.strokeStyle = "#f43f5e"; ctx.lineWidth = 2.5; ctx.setLineDash([4, 3]);
         ctx.beginPath();
         for(let px = originX + 5; originX + graphW >= px; px += 2) {
           const lam_nm = (px - originX) * 4.5;
-          // Classical: I ~ T / lam^4
           const y_rj = originY - (2.5e11 * (T / 5000)) / Math.pow(lam_nm + 15, 3.2);
-          if (px === originX + 5) ctx.moveTo(px, Math.max(30, y_rj));
-          else ctx.lineTo(px, Math.max(30, y_rj));
+          if (px === originX + 5) ctx.moveTo(px, Math.max(30, y_rj)); else ctx.lineTo(px, Math.max(30, y_rj));
         }
-        ctx.stroke();
-        ctx.setLineDash([]);
+        ctx.stroke(); ctx.setLineDash([]);
       }
 
-      // Planck Quantum Law Curve (Finite Peak)
       if (mode === "both" || mode === "planck") {
         ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 3;
         ctx.beginPath();
         for(let px = originX + 5; originX + graphW >= px; px += 2) {
           const lam_nm = (px - originX) * 4.5;
           const p = Math.pow(T / 1000, 3) * Math.pow(lam_nm / peakLam, 5) / (Math.exp((lam_nm ? peakLam / lam_nm : 10) * 2.2) - 1 + 0.05);
-          const y = originY - Math.min(170, p * 5.8);
-          if (px === originX + 5) ctx.moveTo(px, y);
-          else ctx.lineTo(px, y);
+          const y = originY - Math.min(165, p * 5.5);
+          if (px === originX + 5) ctx.moveTo(px, y); else ctx.lineTo(px, y);
         }
         ctx.stroke();
 
-        // Highlight Planck Peak Marker
         const peakX = originX + (peakLam / 4.5);
         if (peakX >= originX && originX + graphW >= peakX) {
           ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.8; ctx.setLineDash([3, 3]);
           ctx.beginPath(); ctx.moveTo(peakX, 30); ctx.lineTo(peakX, originY); ctx.stroke();
           ctx.setLineDash([]);
           ctx.fillStyle = "#f59e0b"; ctx.font = "11px sans-serif";
-          ctx.fillText("λ_max = " + peakLam + " nm", peakX + 5, 65);
+          ctx.fillText("λ_max = " + peakLam + " nm", peakX + 5, 62);
         }
       }
 
-      // Graph Axes & Labels
       ctx.strokeStyle = "#94a3b8"; ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.moveTo(originX, 30); ctx.lineTo(originX, originY); ctx.lineTo(originX + graphW, originY);
-      ctx.stroke();
-
+      ctx.beginPath(); ctx.moveTo(originX, 30); ctx.lineTo(originX, originY); ctx.lineTo(originX + graphW, originY); ctx.stroke();
       ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
-      ctx.fillText("ความยาวคลื่น λ (nm) →", originX + graphW - 120, originY + 18);
+      ctx.fillText("ความยาวคลื่น λ (nm) →", originX + graphW - 120, originY + 16);
       ctx.fillText("ความเข้ม I(λ)", originX - 10, 22);
 
-      // Legend
-      ctx.fillStyle = "#f43f5e"; ctx.fillText("-- Classical (Rayleigh-Jeans: Diverges)", originX + 80, 85);
-      ctx.fillStyle = "#00f0ff"; ctx.fillText("— Quantum (Planck: Finite Energy)", originX + 80, 102);
+      ctx.fillStyle = "#f43f5e"; ctx.fillText("-- Classical (Rayleigh-Jeans)", originX + 70, 80);
+      ctx.fillStyle = "#00f0ff"; ctx.fillText("— Quantum (Planck)", originX + 70, 96);
 
       tick++;
       requestAnimationFrame(animate);
     }
     animate();
+
   </script>
 </body>
 </html>

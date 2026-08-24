@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 1.3 ปรากฏการณ์โฟโตอิเล็กทริก & สมการไอน์สไตน์</title>
+  <title>1.3 ปรากฏการณ์โฟโตอิเล็กทริก</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,32 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+      margin: 0;
+      padding: 6px;
+      overflow-x: hidden;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -47,32 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
     }
     .control-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
-    @media (max-width: 580px) {
+    @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 10px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.78rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -86,10 +83,10 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
       font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
@@ -99,28 +96,25 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
       width: 100%;
-      height: 250px;
+      height: 230px;
     }
     .readout-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 6px;
-    }
-    @media (max-width: 540px) {
-      .readout-grid { grid-template-columns: 1fr 1fr; }
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
@@ -128,25 +122,45 @@
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
       font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 1.3 ปรากฏการณ์โฟโตอิเล็กทริก: หลอดสุญญากาศ & ศักย์หยุดยั้ง
-      </div>
+      <div class="sim-title"><span>🔬</span> 1.3 ปรากฏการณ์โฟโตอิเล็กทริก: หลอดสุญญากาศ & ศักย์หยุดยั้ง</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
-    <div class="control-grid">
+    <div class="control-grid" style="grid-template-columns: repeat(3, 1fr);">
       <div class="ctrl-box">
         <label>โลหะเป้าหมาย (φ):</label>
         <select id="sel_metal">
@@ -166,18 +180,17 @@
         <input type="range" id="slider_v" min="-3.5" max="3.5" step="0.05" value="0.0">
       </div>
     </div>
-
-    <div class="canvas-box"><canvas id="simCanvas" width="640" height="250"></canvas></div>
-
-    <div class="readout-grid">
-      <div class="readout-card"><div class="readout-val" id="val_ephoton">4.13 eV</div><div class="readout-lbl">พลังงานโฟตอน (E = hf)</div></div>
-      <div class="readout-card"><div class="readout-val" id="val_kmax">1.83 eV</div><div class="readout-lbl">พลังงานจลน์สูงสุด (K_max)</div></div>
-      <div class="readout-card"><div class="readout-val" id="val_vs">1.83 V</div><div class="readout-lbl">ความต่างศักย์หยุดยั้ง (V_s)</div></div>
-      <div class="readout-card"><div class="readout-val" id="val_current" style="color:#10b981;">18.4 µA</div><div class="readout-lbl">กระแสโฟโตอิเล็กทริก (I)</div></div>
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="235"></canvas></div>
+    <div class="readout-grid" style="grid-template-columns: repeat(4, 1fr);">
+      <div class="readout-card"><div class="readout-val" id="val_ephoton">4.13 eV</div><div class="readout-lbl">พลังงานโฟตอน (E=hf)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_kmax">1.83 eV</div><div class="readout-lbl">พลังงานจลน์ (K_max)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_vs">1.83 V</div><div class="readout-lbl">ศักย์หยุดยั้ง (V_s)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_current" style="color:#10b981;">18.4 µA</div><div class="readout-lbl">กระแสไฟฟ้า (I)</div></div>
     </div>
   </div>
 
   <script>
+
     const cv = document.getElementById("simCanvas");
     const ctx = cv.getContext("2d");
     const selMetal = document.getElementById("sel_metal");
@@ -189,10 +202,9 @@
     for(let i=0; 30 > i; i++) {
       electrons.push({
         x: 110 + Math.random()*15,
-        y: 45 + Math.random()*130,
+        y: 40 + Math.random()*120,
         vx: 1.5 + Math.random()*3.0,
-        vy: (Math.random()-0.5)*1.2,
-        active: true
+        vy: (Math.random()-0.5)*1.2
       });
     }
 
@@ -204,7 +216,6 @@
       document.getElementById("val_lam").textContent = lam;
       document.getElementById("val_v").textContent = (V_ext >= 0 ? "+" : "") + V_ext.toFixed(2);
 
-      // Ephoton = 1240 / lambda (eV)
       const Ephoton = 1240 / lam;
       document.getElementById("val_ephoton").textContent = Ephoton.toFixed(2) + " eV";
 
@@ -216,129 +227,85 @@
       const curEl = document.getElementById("val_current");
 
       let current_uA = 0;
-
       if (Kmax > 0) {
         kmEl.textContent = Kmax.toFixed(2) + " eV";
         vsEl.textContent = Vs.toFixed(2) + " V";
-
-        // Current flows if V_ext > -Vs
         if (V_ext > -Vs) {
           const saturationFactor = Math.min(1.0, 0.6 + 0.4 * (V_ext + Vs) / (1.5 + Vs));
           current_uA = (25.0 * saturationFactor).toFixed(1);
           curEl.textContent = current_uA + " µA";
           curEl.style.color = "#10b981";
         } else {
-          curEl.textContent = "0.00 µA (หยุดยั้งสมบูรณ์)";
+          curEl.textContent = "0.00 µA (หยุดยั้ง)";
           curEl.style.color = "#f43f5e";
         }
       } else {
-        kmEl.textContent = "0.00 (ไม่เกิดผล)";
+        kmEl.textContent = "0.00 (ไม่หลุด)";
         vsEl.textContent = "0.00 V";
-        curEl.textContent = "0.00 µA (hf < φ)";
+        curEl.textContent = "0.00 µA";
         curEl.style.color = "#64748b";
       }
 
       ctx.clearRect(0, 0, cv.width, cv.height);
 
-      // -------------------------------------------------------------
-      // 1. Draw Evacuated Quartz Glass Tube
-      // -------------------------------------------------------------
-      ctx.strokeStyle = "rgba(148, 163, 184, 0.4)";
-      ctx.lineWidth = 2;
+      // Tube
+      ctx.strokeStyle = "rgba(148, 163, 184, 0.4)"; ctx.lineWidth = 2;
       ctx.fillStyle = "rgba(15, 23, 42, 0.7)";
-      ctx.beginPath();
-      ctx.roundRect(80, 25, 480, 170, 20);
-      ctx.fill(); ctx.stroke();
+      ctx.beginPath(); ctx.roundRect(80, 20, 480, 160, 16); ctx.fill(); ctx.stroke();
 
-      // Quartz Light Window (Top Left)
-      ctx.strokeStyle = "#38bdf8";
-      ctx.lineWidth = 3;
-      ctx.beginPath(); ctx.moveTo(95, 25); ctx.lineTo(155, 25); ctx.stroke();
-      ctx.fillStyle = "#38bdf8"; ctx.font = "10px sans-serif";
-      ctx.fillText("หน้าต่างควอตซ์ (Quartz)", 75, 18);
+      // Window
+      ctx.strokeStyle = "#38bdf8"; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(95, 20); ctx.lineTo(155, 20); ctx.stroke();
 
-      // Cathode Emitter Plate (Left)
-      ctx.fillStyle = "#64748b";
-      ctx.fillRect(100, 45, 14, 130);
-      ctx.fillStyle = "#00f0ff"; ctx.font = "11px sans-serif";
-      ctx.fillText("ขั้วแคโทด Emitter (φ = " + phi + " eV)", 30, 215);
+      // Plates
+      ctx.fillStyle = "#64748b"; ctx.fillRect(100, 35, 14, 130);
+      ctx.fillStyle = "#00f0ff"; ctx.font = "10px sans-serif";
+      ctx.fillText("Emitter (φ=" + phi + "eV)", 35, 198);
 
-      // Anode Collector Plate (Right)
-      ctx.fillStyle = "#475569";
-      ctx.fillRect(525, 45, 14, 130);
+      ctx.fillStyle = "#475569"; ctx.fillRect(525, 35, 14, 130);
       ctx.fillStyle = "#94a3b8";
-      ctx.fillText("ขั้วแอโนด Collector (V = " + (V_ext >= 0 ? "+" : "") + V_ext.toFixed(2) + "V)", 420, 215);
+      ctx.fillText("Collector (V=" + (V_ext >= 0 ? "+" : "") + V_ext.toFixed(2) + "V)", 440, 198);
 
-      // -------------------------------------------------------------
-      // 2. Incoming Monochromatic Photon Pulses
-      // -------------------------------------------------------------
-      let photonColor = "#ef4444";
-      if (400 > lam) photonColor = "#a855f7"; // UV
-      else if (500 > lam) photonColor = "#00f0ff"; // Cyan/Blue
-      else if (600 > lam) photonColor = "#10b981"; // Green
-      else photonColor = "#f59e0b"; // Yellow/Red
-
+      // Photons
+      let photonColor = 400 > lam ? "#a855f7" : (500 > lam ? "#00f0ff" : (600 > lam ? "#10b981" : "#ef4444"));
       ctx.strokeStyle = photonColor; ctx.lineWidth = 2.5;
       for(let p=0; 5 > p; p++) {
-        const prog = ((tick*3.5 + p*50) % 120) / 120;
+        const prog = ((tick*3.5 + p*50) % 110) / 110;
         const px = 20 + prog * 85;
-        const py = 15 + prog * 65 + (p-2)*18;
-        ctx.beginPath();
-        ctx.moveTo(px - 14, py - 10);
-        ctx.lineTo(px, py);
-        ctx.stroke();
+        const py = 15 + prog * 55 + (p-2)*16;
+        ctx.beginPath(); ctx.moveTo(px - 14, py - 10); ctx.lineTo(px, py); ctx.stroke();
       }
 
-      // -------------------------------------------------------------
-      // 3. Ejected Photoelectrons & Electric Field Deceleration/Acceleration
-      // -------------------------------------------------------------
+      // Electrons
       if (Kmax > 0) {
-        // E-field force: acc = V_ext / distance
         const eAcc = (V_ext / 3.0) * 0.08;
         ctx.fillStyle = "#10b981";
-
         electrons.forEach(el => {
-          ctx.beginPath();
-          ctx.arc(el.x, el.y, 4, 0, Math.PI*2);
-          ctx.fill();
-
-          el.x += el.vx;
-          el.y += el.vy;
-          el.vx += eAcc; // Electric field acts on electron
-
-          // If electron hits anode
-          if (el.x >= 525) {
-            el.x = 116;
-            el.y = 50 + Math.random()*120;
-            el.vx = Math.sqrt(Kmax)*1.8 + Math.random()*1.0;
-          }
-          // If retarding potential stops and turns electron back
-          else if (110 > el.x && 0 > el.vx) {
-            el.x = 116;
-            el.y = 50 + Math.random()*120;
-            el.vx = Math.sqrt(Kmax)*1.8 + Math.random()*1.0;
+          ctx.beginPath(); ctx.arc(el.x, el.y, 3.8, 0, Math.PI*2); ctx.fill();
+          el.x += el.vx; el.y += el.vy; el.vx += eAcc;
+          if (el.x >= 525 || (110 > el.x && 0 > el.vx)) {
+            el.x = 116; el.y = 45 + Math.random()*110; el.vx = Math.sqrt(Kmax)*1.8 + Math.random()*1.0;
           }
         });
       }
 
-      // External Circuit Wires & Ammeter / Voltmeter Display
-      ctx.strokeStyle = "#334155"; ctx.lineWidth = 2;
+      // Circuit
+      ctx.strokeStyle = "#334155"; ctx.lineWidth = 1.5;
       ctx.beginPath();
-      ctx.moveTo(107, 175); ctx.lineTo(107, 235); ctx.lineTo(260, 235);
-      ctx.moveTo(532, 175); ctx.lineTo(532, 235); ctx.lineTo(380, 235);
+      ctx.moveTo(107, 165); ctx.lineTo(107, 218); ctx.lineTo(260, 218);
+      ctx.moveTo(532, 165); ctx.lineTo(532, 218); ctx.lineTo(380, 218);
       ctx.stroke();
 
-      // Microammeter Box (Bottom Center)
       ctx.fillStyle = "#0f172a"; ctx.strokeStyle = "#00f0ff";
-      ctx.fillRect(260, 222, 120, 24);
-      ctx.strokeRect(260, 222, 120, 24);
+      ctx.fillRect(260, 206, 120, 22); ctx.strokeRect(260, 206, 120, 22);
       ctx.fillStyle = current_uA > 0 ? "#10b981" : "#f43f5e"; ctx.font = "bold 11px 'JetBrains Mono', monospace";
-      ctx.fillText("µA: " + current_uA + " µA", 280, 238);
+      ctx.fillText("µA: " + current_uA + " µA", 280, 222);
 
       tick++;
       requestAnimationFrame(animate);
     }
     animate();
+
   </script>
 </body>
 </html>

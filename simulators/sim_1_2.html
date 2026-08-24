@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 1.2 การแผ่รังสีของวัตถุดำ & กฎการกระจัดของวีน</title>
+  <title>1.2 การแผ่รังสีของวัตถุดำ & กฎของวีน</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,32 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+      margin: 0;
+      padding: 6px;
+      overflow-x: hidden;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -47,32 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -86,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -99,14 +96,14 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
       width: 100%;
-      height: 240px;
+      height: 230px;
     }
     .readout-grid {
       display: grid;
@@ -114,35 +111,55 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 1.2 การแผ่รังสีของวัตถุดำ & กฎของวีนและสเตฟาน-โบลทซ์มานน์
-      </div>
+      <div class="sim-title"><span>🔬</span> 1.2 การแผ่รังสีของวัตถุดำ & กฎของวีนและสเตฟาน-โบลทซ์มานน์</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
     <div class="control-grid">
       <div class="ctrl-box">
         <label>อุณหภูมิผิวของวัตถุ (T): <span id="val_temp" class="val-display">5800</span> K</label>
@@ -159,9 +176,7 @@
         </select>
       </div>
     </div>
-
-    <div class="canvas-box"><canvas id="simCanvas" width="640" height="240"></canvas></div>
-
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
     <div class="readout-grid">
       <div class="readout-card"><div class="readout-val" id="val_peak">500 nm</div><div class="readout-lbl">ความยาวคลื่นสูงสุด (λ_max = b/T)</div></div>
       <div class="readout-card"><div class="readout-val" id="val_color">ขาว-เหลือง</div><div class="readout-lbl">สีของรังสีความร้อนที่ปรากฏ</div></div>
@@ -170,6 +185,7 @@
   </div>
 
   <script>
+
     const cv = document.getElementById("simCanvas");
     const ctx = cv.getContext("2d");
     const sliderTemp = document.getElementById("slider_temp");
@@ -181,7 +197,6 @@
     });
 
     function getBlackbodyRGB(T) {
-      // Color temperature mapping approximation
       let r, g, b;
       if (4000 >= T) {
         r = 255;
@@ -203,11 +218,9 @@
       const T = +sliderTemp.value;
       document.getElementById("val_temp").textContent = T;
 
-      // Wien's Displacement Law: lambda_max = 2.898e-3 / T (in nm)
       const peakLam = Math.round(2898000 / T);
       document.getElementById("val_peak").textContent = peakLam >= 1000 ? (peakLam/1000).toFixed(2) + " µm (IR)" : peakLam + " nm";
 
-      // Stefan-Boltzmann Law: I = sigma * T^4
       const sigma = 5.670374e-8;
       const power = sigma * Math.pow(T, 4);
       document.getElementById("val_power").textContent = power >= 1e6 ? (power / 1e6).toFixed(2) + " MW/m²" : power.toFixed(0) + " W/m²";
@@ -222,20 +235,15 @@
 
       ctx.clearRect(0, 0, cv.width, cv.height);
 
-      // -------------------------------------------------------------
-      // 1. Left Panel: Shaded Glowing Thermal Sphere / Stellar Object
-      // -------------------------------------------------------------
-      const starX = 85, starY = 120, starR = 55;
-      
-      // Corona flare ripples
+      // Star Glow
+      const starX = 80, starY = 115, starR = 50;
       for(let f=0; 3 > f; f++) {
         const flareR = starR + 8 + Math.sin(tick*0.06 + f)*4;
         ctx.fillStyle = "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + "," + (0.15 - f*0.04) + ")";
         ctx.beginPath(); ctx.arc(starX, starY, flareR, 0, Math.PI*2); ctx.fill();
       }
 
-      // Star Body Gradient
-      const starGrad = ctx.createRadialGradient(starX - 18, starY - 18, 4, starX, starY, starR);
+      const starGrad = ctx.createRadialGradient(starX - 15, starY - 15, 4, starX, starY, starR);
       starGrad.addColorStop(0, "#ffffff");
       starGrad.addColorStop(0.35, "rgb(" + rgb.r + "," + rgb.g + "," + rgb.b + ")");
       starGrad.addColorStop(1, "rgba(" + Math.round(rgb.r*0.4) + "," + Math.round(rgb.g*0.4) + "," + Math.round(rgb.b*0.4) + ", 0.95)");
@@ -243,43 +251,30 @@
       ctx.beginPath(); ctx.arc(starX, starY, starR, 0, Math.PI*2); ctx.fill();
 
       ctx.fillStyle = "#ffffff"; ctx.font = "11px sans-serif";
-      ctx.fillText("วัตถุดำ / ดาวฤกษ์", starX - 42, starY + 75);
+      ctx.fillText("วัตถุดำ / ดาวฤกษ์", starX - 40, starY + 68);
       ctx.fillStyle = "#00f0ff";
-      ctx.fillText("T = " + T + " K", starX - 25, starY + 90);
+      ctx.fillText("T = " + T + " K", starX - 22, starY + 82);
 
-      // -------------------------------------------------------------
-      // 2. Right Panel: Spectral Radiance Curve & Wien Displacement Peak
-      // -------------------------------------------------------------
-      const originX = 180, originY = 210;
-      const graphW = 430, graphH = 180;
+      // Spectrum
+      const originX = 175, originY = 205, graphW = 440, graphH = 175;
 
-      // Visible spectrum background band
       const visStartX = originX + (400 / 3000 * graphW);
       const visEndX = originX + (750 / 3000 * graphW);
       const visGrad = ctx.createLinearGradient(visStartX, 0, visEndX, 0);
-      visGrad.addColorStop(0, "rgba(59, 130, 246, 0.2)");
-      visGrad.addColorStop(0.5, "rgba(34, 197, 94, 0.2)");
-      visGrad.addColorStop(1, "rgba(239, 68, 68, 0.2)");
-      ctx.fillStyle = visGrad;
-      ctx.fillRect(visStartX, 30, visEndX - visStartX, graphH);
+      visGrad.addColorStop(0, "rgba(59, 130, 246, 0.2)"); visGrad.addColorStop(0.5, "rgba(34, 197, 94, 0.2)"); visGrad.addColorStop(1, "rgba(239, 68, 68, 0.2)");
+      ctx.fillStyle = visGrad; ctx.fillRect(visStartX, 30, visEndX - visStartX, graphH);
 
-      ctx.fillStyle = "#10b981"; ctx.font = "10px sans-serif";
-      ctx.fillText("Visible", visStartX + 8, 42);
-
-      // Planck Blackbody Radiation Curve
       ctx.strokeStyle = "rgb(" + rgb.r + "," + rgb.g + "," + rgb.b + ")";
       ctx.lineWidth = 3;
       ctx.beginPath();
       for(let px = originX + 2; originX + graphW >= px; px += 2) {
-        const lam = ((px - originX) / graphW) * 3000; // 0 to 3000 nm
+        const lam = ((px - originX) / graphW) * 3000;
         const p = Math.pow(T / 1000, 3) * Math.pow(lam / peakLam, 5) / (Math.exp((lam ? peakLam / lam : 10) * 2.5) - 1 + 0.05);
-        const y = originY - Math.min(170, p * 5.5);
-        if (px === originX + 2) ctx.moveTo(px, y);
-        else ctx.lineTo(px, y);
+        const y = originY - Math.min(165, p * 5.5);
+        if (px === originX + 2) ctx.moveTo(px, y); else ctx.lineTo(px, y);
       }
       ctx.stroke();
 
-      // Wien's Displacement Peak Indicator
       const peakX = originX + (peakLam / 3000 * graphW);
       if (peakX >= originX && originX + graphW >= peakX) {
         ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2; ctx.setLineDash([4, 4]);
@@ -289,20 +284,17 @@
         ctx.fillText("λ_max = " + (peakLam >= 1000 ? (peakLam/1000).toFixed(2) + " µm" : peakLam + " nm"), peakX + 6, 60);
       }
 
-      // Graph Axes
       ctx.strokeStyle = "#94a3b8"; ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.moveTo(originX, 30); ctx.lineTo(originX, originY); ctx.lineTo(originX + graphW, originY);
-      ctx.stroke();
-
+      ctx.beginPath(); ctx.moveTo(originX, 30); ctx.lineTo(originX, originY); ctx.lineTo(originX + graphW, originY); ctx.stroke();
       ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
-      ctx.fillText("ความยาวคลื่น λ (nm) →", originX + graphW - 120, originY + 18);
-      ctx.fillText("ความเข้มพลังงาน I(λ, T)", originX - 10, 22);
+      ctx.fillText("ความยาวคลื่น λ (nm) →", originX + graphW - 120, originY + 16);
+      ctx.fillText("ความเข้ม I(λ)", originX - 10, 22);
 
       tick++;
       requestAnimationFrame(animate);
     }
     animate();
+
   </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 1.5 ปฏิบัติการควอนตัมจำลอง & การประยุกต์ใช้</title>
+  <title>1.5 ปฏิบัติการควอนตัมจำลอง</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,32 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+      margin: 0;
+      padding: 6px;
+      overflow-x: hidden;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -47,55 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-    }
-    .tab-bar {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-    .tab-btn {
-      flex: 1;
-      background: #090e1a;
-      border: 1px solid #1e293b;
-      color: #94a3b8;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: 'Sarabun', sans-serif;
-      transition: all 0.2s;
-    }
-    .tab-btn.active {
-      background: rgba(0, 240, 255, 0.15);
-      border-color: #00f0ff;
-      color: #00f0ff;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -109,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -122,14 +96,14 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
       width: 100%;
-      height: 250px;
+      height: 230px;
     }
     .readout-grid {
       display: grid;
@@ -137,40 +111,59 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 1.5 ปฏิบัติการควอนตัม: เซลล์แสงอาทิตย์ (Bandgap) & การกระเจิงคอมป์ตัน
-      </div>
+      <div class="sim-title"><span>🔬</span> 1.5 ปฏิบัติการควอนตัม: เซลล์แสงอาทิตย์ (Bandgap) & การกระเจิงคอมป์ตัน</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
     <div class="tab-bar">
       <button class="tab-btn active" id="tabSolar" onclick="setMode('solar')">☀️ เซลล์แสงอาทิตย์ & Bandgap</button>
       <button class="tab-btn" id="tabCompton" onclick="setMode('compton')">💥 การกระเจิงคอมป์ตัน (Compton)</button>
     </div>
-
     <div id="controlsSolar" class="control-grid">
       <div class="ctrl-box">
         <label>สารกึ่งตัวนำเซลล์แสงอาทิตย์:</label>
@@ -185,10 +178,9 @@
         <input type="range" id="slider_solar_lam" min="300" max="1300" value="600">
       </div>
     </div>
-
     <div id="controlsCompton" class="control-grid" style="display:none;">
       <div class="ctrl-box">
-        <label>ความยาวคลื่นโฟตอนรังสีเอกซ์ (λ): <span id="val_compton_lam" class="val-display">0.020</span> nm</label>
+        <label>ความยาวคลื่นโฟตอนเอกซเรย์ (λ): <span id="val_compton_lam" class="val-display">0.020</span> nm</label>
         <input type="range" id="slider_compton_lam" min="0.005" max="0.050" step="0.001" value="0.020">
       </div>
       <div class="ctrl-box">
@@ -196,23 +188,21 @@
         <input type="range" id="slider_theta" min="0" max="180" step="1" value="90">
       </div>
     </div>
-
-    <div class="canvas-box"><canvas id="simCanvas" width="640" height="250"></canvas></div>
-
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="235"></canvas></div>
     <div class="readout-grid" id="readoutsSolar">
       <div class="readout-card"><div class="readout-val" id="val_eph">2.07 eV</div><div class="readout-lbl">พลังงานโฟตอน (E = hc/λ)</div></div>
-      <div class="readout-card"><div class="readout-val" id="val_cutoff">1,107 nm</div><div class="readout-lbl">ความยาวคลื่นคัตออฟสูงสุด (λ_g)</div></div>
-      <div class="readout-card"><div class="readout-val" id="val_status" style="color:#10b981;">ดูดกลืน & เกิดกระแสไฟฟ้า</div><div class="readout-lbl">สถานะการทำงานของเซลล์</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_cutoff">1,107 nm</div><div class="readout-lbl">ความยาวคลื่นคัตออฟ (λ_g)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_status" style="color:#10b981;">ดูดกลืน & เกิดกระแสไฟฟ้า</div><div class="readout-lbl">สถานะการทำงานเซลล์</div></div>
     </div>
-
     <div class="readout-grid" id="readoutsCompton" style="display:none;">
-      <div class="readout-card"><div class="readout-val" id="val_dlam">+0.00243 nm</div><div class="readout-lbl">ความยาวคลื่นที่เพิ่มขึ้น (Δλ)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_dlam">+0.00243 nm</div><div class="readout-lbl">ความยาวคลื่นเพิ่มขึ้น (Δλ)</div></div>
       <div class="readout-card"><div class="readout-val" id="val_lamp">0.02243 nm</div><div class="readout-lbl">ความยาวคลื่นกระเจิง (λ')</div></div>
       <div class="readout-card"><div class="readout-val" id="val_ke">6.72 keV</div><div class="readout-lbl">พลังงานจลน์อิเล็กตรอนดีดกลับ</div></div>
     </div>
   </div>
 
   <script>
+
     const cv = document.getElementById("simCanvas");
     const ctx = cv.getContext("2d");
     let currentMode = "solar";
@@ -228,12 +218,11 @@
       document.getElementById("readoutsCompton").style.display = mode === "compton" ? "grid" : "none";
     }
 
-    // Solar electron-hole pairs
     let pairs = [];
     for(let i=0; 20 > i; i++) {
       pairs.push({
-        x: 100 + Math.random()*160,
-        y: 80 + Math.random()*80,
+        x: 90 + Math.random()*150,
+        y: 70 + Math.random()*70,
         vy_e: -1.2,
         vy_h: 1.2
       });
@@ -255,66 +244,54 @@
         const isAbsorbed = Eph >= Eg;
         const statEl = document.getElementById("val_status");
         if (isAbsorbed) {
-          statEl.textContent = "ดูดกลืน & เกิดกระแสไฟฟ้า";
-          statEl.style.color = "#10b981";
+          statEl.textContent = "ดูดกลืน & เกิดกระแสไฟฟ้า"; statEl.style.color = "#10b981";
         } else {
-          statEl.textContent = "ทะลุผ่าน (E < Eg ไม่เกิดกระแส)";
-          statEl.style.color = "#f43f5e";
+          statEl.textContent = "ทะลุผ่าน (E < Eg ไม่เกิดกระแส)"; statEl.style.color = "#f43f5e";
         }
 
-        // Left Panel: Semiconductor p-n junction diagram
-        ctx.fillStyle = "#1e293b"; ctx.fillRect(80, 50, 200, 150);
-        ctx.fillStyle = "rgba(59, 130, 246, 0.3)"; ctx.fillRect(80, 50, 200, 75); // n-type
-        ctx.fillStyle = "rgba(239, 68, 68, 0.3)"; ctx.fillRect(80, 125, 200, 75); // p-type
-        ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 1.5; ctx.strokeRect(80, 50, 200, 150);
+        // p-n junction
+        ctx.fillStyle = "#1e293b"; ctx.fillRect(70, 40, 190, 140);
+        ctx.fillStyle = "rgba(59, 130, 246, 0.3)"; ctx.fillRect(70, 40, 190, 70);
+        ctx.fillStyle = "rgba(239, 68, 68, 0.3)"; ctx.fillRect(70, 110, 190, 70);
+        ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 1.5; ctx.strokeRect(70, 40, 190, 140);
 
-        ctx.fillStyle = "#60a5fa"; ctx.font = "11px sans-serif"; ctx.fillText("n-type Silicon", 90, 70);
-        ctx.fillStyle = "#f87171"; ctx.fillText("p-type Silicon", 90, 190);
+        ctx.fillStyle = "#60a5fa"; ctx.font = "11px sans-serif"; ctx.fillText("n-type Silicon", 80, 58);
+        ctx.fillStyle = "#f87171"; ctx.fillText("p-type Silicon", 80, 172);
         ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1; ctx.setLineDash([3,3]);
-        ctx.beginPath(); ctx.moveTo(80, 125); ctx.lineTo(280, 125); ctx.stroke();
-        ctx.setLineDash([]);
-        ctx.fillStyle = "#f59e0b"; ctx.fillText("รอยต่อ p-n Junction", 175, 122);
+        ctx.beginPath(); ctx.moveTo(70, 110); ctx.lineTo(260, 110); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = "#f59e0b"; ctx.fillText("p-n Junction", 165, 107);
 
-        // Incoming sunlight photon ray
         let rayCol = 400 > lam ? "#a855f7" : (700 > lam ? "#10b981" : "#ef4444");
         ctx.strokeStyle = rayCol; ctx.lineWidth = 2.5;
         for(let r=0; 3 > r; r++) {
-          const prog = ((tick*3 + r*40) % 100) / 100;
-          const rx = 30 + prog*50;
-          const ry = 40 + prog*50 + r*20;
-          ctx.beginPath(); ctx.moveTo(rx-15, ry-15); ctx.lineTo(rx, ry); ctx.stroke();
+          const prog = ((tick*3 + r*40) % 90) / 90;
+          const rx = 25 + prog*45, ry = 35 + prog*45 + r*18;
+          ctx.beginPath(); ctx.moveTo(rx-14, ry-14); ctx.lineTo(rx, ry); ctx.stroke();
         }
 
-        // Electron-Hole separation animation
         if (isAbsorbed) {
           pairs.forEach(p => {
-            // Electron (blue) moves up to n-layer
-            ctx.fillStyle = "#38bdf8"; ctx.beginPath(); ctx.arc(p.x, p.y + p.vy_e * (tick%30), 3.5, 0, Math.PI*2); ctx.fill();
-            // Hole (red) moves down to p-layer
-            ctx.fillStyle = "#f43f5e"; ctx.beginPath(); ctx.arc(p.x, p.y + p.vy_h * (tick%30), 3.5, 0, Math.PI*2); ctx.fill();
+            ctx.fillStyle = "#38bdf8"; ctx.beginPath(); ctx.arc(p.x, p.y + p.vy_e * (tick%28), 3.5, 0, Math.PI*2); ctx.fill();
+            ctx.fillStyle = "#f43f5e"; ctx.beginPath(); ctx.arc(p.x, p.y + p.vy_h * (tick%28), 3.5, 0, Math.PI*2); ctx.fill();
           });
         }
 
-        // Right Panel: Bandgap Energy Diagram
+        // Bandgap Diagram
         ctx.fillStyle = "#0f172a"; ctx.strokeStyle = "#334155";
-        ctx.fillRect(340, 50, 240, 150); ctx.strokeRect(340, 50, 240, 150);
+        ctx.fillRect(320, 40, 260, 140); ctx.strokeRect(320, 40, 260, 140);
 
-        // Conduction Band (Top)
-        ctx.fillStyle = "rgba(56, 189, 248, 0.4)"; ctx.fillRect(355, 60, 210, 28);
-        ctx.fillStyle = "#38bdf8"; ctx.fillText("Conduction Band (แถบนำไฟฟ้า)", 365, 78);
+        ctx.fillStyle = "rgba(56, 189, 248, 0.4)"; ctx.fillRect(335, 50, 230, 26);
+        ctx.fillStyle = "#38bdf8"; ctx.fillText("Conduction Band (แถบนำไฟฟ้า)", 345, 67);
 
-        // Valence Band (Bottom)
-        ctx.fillStyle = "rgba(239, 68, 68, 0.4)"; ctx.fillRect(355, 155, 210, 28);
-        ctx.fillStyle = "#f87171"; ctx.fillText("Valence Band (แถบเวเลนซ์)", 365, 173);
+        ctx.fillStyle = "rgba(239, 68, 68, 0.4)"; ctx.fillRect(335, 142, 230, 26);
+        ctx.fillStyle = "#f87171"; ctx.fillText("Valence Band (แถบเวเลนซ์)", 345, 159);
 
-        // Bandgap Arrow
         ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.moveTo(460, 155); ctx.lineTo(460, 88); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(450, 142); ctx.lineTo(450, 78); ctx.stroke();
         ctx.fillStyle = "#f59e0b"; ctx.font = "bold 11px sans-serif";
-        ctx.fillText("Bandgap Eg = " + Eg + " eV", 370, 122);
+        ctx.fillText("Bandgap Eg = " + Eg + " eV", 360, 114);
       }
       else {
-        // Compton Scattering Simulation
         const lam = +document.getElementById("slider_compton_lam").value;
         const theta_deg = +document.getElementById("slider_theta").value;
         const theta_rad = theta_deg * Math.PI / 180;
@@ -322,12 +299,10 @@
         document.getElementById("val_compton_lam").textContent = lam.toFixed(3);
         document.getElementById("val_theta").textContent = theta_deg;
 
-        // Compton formula: delta_lambda = (h / m_e c) * (1 - cos(theta)) = 0.002426 nm * (1 - cos theta)
-        const lambda_c = 0.0024263; // nm
+        const lambda_c = 0.0024263;
         const delta_lambda = lambda_c * (1 - Math.cos(theta_rad));
         const lambda_prime = lam + delta_lambda;
 
-        // Photon Energy E = 1.2398 / lam_nm (in keV)
         const E_init_keV = 1.23984 / lam;
         const E_scattered_keV = 1.23984 / lambda_prime;
         const KE_electron_keV = E_init_keV - E_scattered_keV;
@@ -336,9 +311,8 @@
         document.getElementById("val_lamp").textContent = lambda_prime.toFixed(5) + " nm";
         document.getElementById("val_ke").textContent = KE_electron_keV.toFixed(2) + " keV";
 
-        const cx = 260, cy = 125;
+        const cx = 250, cy = 115;
 
-        // Incident Photon Ray from Left
         ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
         ctx.beginPath();
         for(let x=40; cx >= x; x+=2) {
@@ -347,22 +321,20 @@
         }
         ctx.stroke();
         ctx.fillStyle = "#00f0ff"; ctx.font = "11px sans-serif";
-        ctx.fillText("โฟตอนตกกระทบ (λ = " + lam.toFixed(3) + " nm)", 60, cy - 20);
+        ctx.fillText("โฟตอนตกกระทบ (λ = " + lam.toFixed(3) + " nm)", 55, cy - 18);
 
-        // Stationary Target Electron at origin
         ctx.fillStyle = "#10b981";
         ctx.beginPath(); ctx.arc(cx, cy, 7, 0, Math.PI*2); ctx.fill();
         ctx.fillStyle = "#ffffff"; ctx.font = "10px sans-serif"; ctx.fillText("e⁻", cx - 4, cy + 3);
 
-        // Scattered Photon Angle (theta)
-        const scX = cx + 180 * Math.cos(theta_rad);
-        const scY = cy - 180 * Math.sin(theta_rad);
+        const scX = cx + 170 * Math.cos(theta_rad);
+        const scY = cy - 170 * Math.sin(theta_rad);
         ctx.strokeStyle = "#f43f5e"; ctx.lineWidth = 2.5;
         ctx.beginPath();
-        for(let s=0; 180 >= s; s+=2) {
+        for(let s=0; 170 >= s; s+=2) {
           const px = cx + s * Math.cos(theta_rad);
           const py = cy - s * Math.sin(theta_rad);
-          const wave = 14 * Math.sin(s * 0.18); // Longer wavelength (Compton shift)
+          const wave = 13 * Math.sin(s * 0.18);
           const perpX = px - wave * Math.sin(theta_rad);
           const perpY = py - wave * Math.cos(theta_rad);
           if (s===0) ctx.moveTo(perpX, perpY); else ctx.lineTo(perpX, perpY);
@@ -370,21 +342,21 @@
         ctx.stroke();
         ctx.fillStyle = "#f43f5e"; ctx.fillText("โฟตอนกระเจิง λ' (θ=" + theta_deg + "°)", scX - 20, scY - 10);
 
-        // Recoil Electron Angle (phi)
         const phi_rad = Math.atan2(Math.sin(theta_rad), (E_init_keV / 511 + 1)*(1 - Math.cos(theta_rad)));
-        const elX = cx + 120 * Math.cos(phi_rad);
-        const elY = cy + 120 * Math.sin(phi_rad);
+        const elX = cx + 115 * Math.cos(phi_rad);
+        const elY = cy + 115 * Math.sin(phi_rad);
         ctx.strokeStyle = "#10b981"; ctx.lineWidth = 2; ctx.setLineDash([4,4]);
         ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(elX, elY); ctx.stroke();
         ctx.setLineDash([]);
         ctx.fillStyle = "#10b981"; ctx.beginPath(); ctx.arc(elX, elY, 5, 0, Math.PI*2); ctx.fill();
-        ctx.fillText("อิเล็กตรอนดีดกลับ (KE = " + KE_electron_keV.toFixed(2) + " keV)", elX + 10, elY + 5);
+        ctx.fillText("อิเล็กตรอนดีดกลับ (KE = " + KE_electron_keV.toFixed(2) + " keV)", elX + 8, elY + 4);
       }
 
       tick++;
       requestAnimationFrame(animate);
     }
     animate();
+
   </script>
 </body>
 </html>
