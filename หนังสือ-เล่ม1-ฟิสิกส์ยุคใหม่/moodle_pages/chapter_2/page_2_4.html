@@ -170,7 +170,7 @@
             <label>ความเร็วอนุภาค (v): <span id="sim_2_4_val_v" class="readout-val">0.85</span> c (อิเล็กตรอน m₀ = 0.511 MeV/c²)</label>
             <input type="range" class="sim-slider" id="sim_2_4_slider_v" min="0" max="0.99" step="0.01" value="0.85">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_2_4_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_2_4_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_2_4_val_e0">0.511 MeV</div><div class="readout-lbl">พลังงานนิ่ง (E₀ = m₀c²)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_2_4_val_k">0.459 MeV</div><div class="readout-lbl">พลังงานจลน์ (K = (γ-1)m₀c²)</div></div>
@@ -200,7 +200,7 @@
               const etEl = document.getElementById("sim_2_4_val_etot");
               if (etEl) etEl.textContent = Etot.toFixed(3) + " MeV";
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               // Energy Bar Chart
               ctx.fillStyle = "#3b82f6";
               ctx.fillRect(80, 60, 200, 35);
@@ -225,11 +225,11 @@
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         

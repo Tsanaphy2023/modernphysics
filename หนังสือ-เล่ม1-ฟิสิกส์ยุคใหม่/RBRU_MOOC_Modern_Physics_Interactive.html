@@ -1674,7 +1674,7 @@ body {
             <label>อุณหภูมิวัตถุร้อน (T): <span id="sim_1_1_val_temp" class="readout-val">5000</span> K</label>
             <input type="range" class="sim-slider" id="sim_1_1_slider_temp" min="2000" max="10000" step="100" value="5000">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_1_1_canvas" width="640" height="230"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_1_1_canvas" width="640" height="230" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_1_1_val_rj" style="color:#f43f5e;">ลู่ออกสู่อนันต์ (∞)</div><div class="readout-lbl">ทฤษฎีดั้งเดิม (Rayleigh-Jeans)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_1_1_val_planck" style="color:#00f0ff;">จุดยอด 580 nm</div><div class="readout-lbl">ทฤษฎีควอนตัม (Planck)</div></div>
@@ -1697,18 +1697,18 @@ body {
               const pEl = document.getElementById("sim_1_1_val_planck");
               if (pEl) pEl.textContent = "จุดยอด " + peak + " nm";
               
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               ctx.strokeStyle = "rgba(255,255,255,0.06)";
               ctx.lineWidth = 1;
-              for(let x=50; x<600; x+=50) { ctx.beginPath(); ctx.moveTo(x, 20); ctx.lineTo(x, 190); ctx.stroke(); }
+              for(let x=50; 600 > x; x+=50) { ctx.beginPath(); ctx.moveTo(x, 20); ctx.lineTo(x, 190); ctx.stroke(); }
               
               // Rayleigh-Jeans (Red Curve diverging)
               ctx.strokeStyle = "#f43f5e"; ctx.lineWidth = 2.5; ctx.setLineDash([4,4]);
               ctx.beginPath(); ctx.moveTo(50, 190);
-              for(let x=50; x<600; x+=2) {
+              for(let x=50; 600 > x; x+=2) {
                 const lam = (x - 40)*3;
                 const y_rj = 190 - (800000000 * (T/5000)) / (lam*lam*0.08 + 10);
-                if (x===50) ctx.moveTo(x, Math.max(20, y_rj)); else ctx.lineTo(x, Math.max(20, y_rj));
+                if (x === 50) ctx.moveTo(x, Math.max(20, y_rj)); else ctx.lineTo(x, Math.max(20, y_rj));
               }
               ctx.stroke();
               ctx.setLineDash([]);
@@ -1716,11 +1716,11 @@ body {
               // Planck Curve (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 3;
               ctx.beginPath();
-              for(let x=50; x<600; x+=2) {
+              for(let x=50; 600 > x; x+=2) {
                 const lam = (x - 40)*3;
-                const p = Math.pow(T/1000, 3) * Math.pow(lam/peak, 5) / (Math.exp((lam?peak/lam:10)*2) - 1 + 0.05);
+                const p = Math.pow(T/1000, 3) * Math.pow(lam/peak, 5) / (Math.exp((lam ? peak/lam : 10)*2) - 1 + 0.05);
                 const y = 190 - Math.min(160, p*5.5);
-                if (x===50) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 50) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -1737,11 +1737,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -1836,7 +1836,7 @@ body {
             <label>อุณหภูมิสัมบูรณ์ (T): <span id="sim_1_2_val_temp" class="readout-val">5800</span> K (ดวงอาทิตย์)</label>
             <input type="range" class="sim-slider" id="sim_1_2_slider_temp" min="1000" max="12000" step="100" value="5800">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_1_2_canvas" width="640" height="230"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_1_2_canvas" width="640" height="230" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_1_2_val_peak">500 nm</div><div class="readout-lbl">ความยาวคลื่นสูงสุด (λ_max)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_1_2_val_color">ขาว-เหลือง</div><div class="readout-lbl">สีของรังสีความร้อน</div></div>
@@ -1864,14 +1864,14 @@ body {
               if (pwEl) pwEl.textContent = power + " W/m²";
               
               let col = "แดง";
-              if (T > 3500 && T <= 5000) col = "ส้ม-เหลือง";
-              else if (T > 5000 && T <= 7500) col = "ขาวนวล (Yellow-White)";
-              else if (T > 7500 && T <= 10000) col = "ขาวอมฟ้า (Blue-White)";
+              if (T > 3500 && 5000 >= T) col = "ส้ม-เหลือง";
+              else if (T > 5000 && 7500 >= T) col = "ขาวนวล (Yellow-White)";
+              else if (T > 7500 && 10000 >= T) col = "ขาวอมฟ้า (Blue-White)";
               else if (T > 10000) col = "ฟ้าเข้ม (Deep Blue)";
               const cEl = document.getElementById("sim_1_2_val_color");
               if (cEl) cEl.textContent = col;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               // Visible spectrum band
               const grad = ctx.createLinearGradient(120, 0, 480, 0);
               grad.addColorStop(0, "rgba(168, 85, 247, 0.2)");
@@ -1884,16 +1884,16 @@ body {
 
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 3;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const lam = (x - 30)*3;
-                const p = Math.pow(T/1000, 3) * Math.pow(lam/peak, 5) / (Math.exp((lam?peak/lam:10)*2) - 1 + 0.05);
+                const p = Math.pow(T/1000, 3) * Math.pow(lam/peak, 5) / (Math.exp((lam ? peak/lam : 10)*2) - 1 + 0.05);
                 const y = 190 - Math.min(160, p*5.5);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               const peakX = 30 + (peak / 3);
-              if (peakX >= 40 && peakX <= 600) {
+              if (peakX >= 40 && 600 >= peakX) {
                 ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2; ctx.setLineDash([3,3]);
                 ctx.beginPath(); ctx.moveTo(peakX, 20); ctx.lineTo(peakX, 190); ctx.stroke();
                 ctx.setLineDash([]);
@@ -1910,11 +1910,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -2024,7 +2024,7 @@ body {
               <input type="range" class="sim-slider" id="sim_1_3_slider_lam" min="150" max="750" value="300">
             </div>
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_1_3_canvas" width="640" height="200"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_1_3_canvas" width="640" height="200" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_1_3_val_ephoton">4.13 eV</div><div class="readout-lbl">พลังงานโฟตอน (E = hf)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_1_3_val_kmax">1.83 eV</div><div class="readout-lbl">พลังงานจลน์สูงสุด (K_max)</div></div>
@@ -2041,7 +2041,7 @@ body {
             const slider = document.getElementById("sim_1_3_slider_lam");
             if (!sel || !slider) return false;
             let particles = [];
-            for(let i=0; i<20; i++) particles.push({ x: 120 + Math.random()*20, y: 40 + Math.random()*120, vx: 2 + Math.random()*3 });
+            for(let i=0; 20 > i; i++) particles.push({ x: 120 + Math.random()*20, y: 40 + Math.random()*120, vx: 2 + Math.random()*3 });
 
             function calc() {
               const phi = +sel.value;
@@ -2064,7 +2064,7 @@ body {
             }
 
             function render() {
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               // Cathode Emitter
               ctx.fillStyle = "#475569";
               ctx.fillRect(80, 30, 24, 140);
@@ -2083,9 +2083,9 @@ body {
               const hasElectrons = Ephoton > phi;
               
               // Incoming Photons
-              ctx.strokeStyle = lam < 400 ? "#a855f7" : (lam < 550 ? "#00f0ff" : "#ef4444");
+              ctx.strokeStyle = 400 > lam ? "#a855f7" : (550 > lam ? "#00f0ff" : "#ef4444");
               ctx.lineWidth = 2.5;
-              for(let i=0; i<3; i++) {
+              for(let i=0; 3 > i; i++) {
                 ctx.beginPath();
                 ctx.moveTo(10, 40 + i*40);
                 ctx.lineTo(80, 60 + i*40);
@@ -2111,11 +2111,11 @@ body {
             render();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -2224,7 +2224,7 @@ body {
               <input type="range" class="sim-slider" id="sim_1_4_slider_n2" min="2" max="7" value="3">
             </div>
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_1_4_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_1_4_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_1_4_val_lam">656.3 nm</div><div class="readout-lbl">ความยาวคลื่นโฟตอน (λ)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_1_4_val_de">1.89 eV</div><div class="readout-lbl">พลังงานที่ปลดปล่อย (ΔE)</div></div>
@@ -2244,7 +2244,7 @@ body {
             function draw() {
               const n1 = +sel.value;
               slider.min = n1 + 1;
-              if (+slider.value <= n1) slider.value = n1 + 1;
+              if (n1 >= +slider.value) slider.value = n1 + 1;
               const n2 = +slider.value;
               const n2El = document.getElementById("sim_1_4_val_n2");
               if (n2El) n2El.textContent = n2;
@@ -2262,18 +2262,18 @@ body {
               let color = "#00f0ff";
               if (n1 === 1) { lineName = "Lyman (" + n2 + "→1 UV)"; color = "#a855f7"; }
               else if (n1 === 2) {
-                if (n2===3) { lineName = "H-alpha (สีแดง 656.3 nm)"; color = "#ef4444"; }
-                else if (n2===4) { lineName = "H-beta (สีฟ้าคราม 486.1 nm)"; color = "#06b6d4"; }
-                else if (n2===5) { lineName = "H-gamma (สีน้ำเงิน 434.0 nm)"; color = "#3b82f6"; }
+                if (n2 === 3) { lineName = "H-alpha (สีแดง 656.3 nm)"; color = "#ef4444"; }
+                else if (n2 === 4) { lineName = "H-beta (สีฟ้าคราม 486.1 nm)"; color = "#06b6d4"; }
+                else if (n2 === 5) { lineName = "H-gamma (สีน้ำเงิน 434.0 nm)"; color = "#3b82f6"; }
                 else { lineName = "H-delta (สีม่วง 410.2 nm)"; color = "#8b5cf6"; }
               } else if (n1 === 3) { lineName = "Paschen (" + n2 + "→3 IR)"; color = "#f97316"; }
               else { lineName = "Brackett (" + n2 + "→4 Far-IR)"; color = "#e11d48"; }
               const lnEl = document.getElementById("sim_1_4_val_line");
               if (lnEl) lnEl.textContent = lineName;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               // Draw Energy Levels
-              for(let n=1; n<=6; n++) {
+              for(let n=1; 7 > n; n++) {
                 const y = 190 - 160 * (1 - 1/(n*n));
                 ctx.strokeStyle = n === n1 ? "#00f0ff" : "#475569";
                 ctx.lineWidth = n === n1 ? 2.5 : 1;
@@ -2295,9 +2295,9 @@ body {
               // Emission Photon Wave packet
               ctx.strokeStyle = color; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=220; x<580; x+=2) {
+              for(let x=220; 580 > x; x+=2) {
                 const waveY = (yStart + yEnd)/2 + 12 * Math.sin((x-220)*0.15);
-                if (x===220) ctx.moveTo(x, waveY); else ctx.lineTo(x, waveY);
+                if (x === 220) ctx.moveTo(x, waveY); else ctx.lineTo(x, waveY);
               }
               ctx.stroke();
               ctx.fillStyle = color; ctx.fillText("Photon hf (λ = " + lam_nm.toFixed(1) + " nm)", 420, (yStart + yEnd)/2 - 10);
@@ -2307,11 +2307,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -2409,7 +2409,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_1_5_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_1_5_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_1_5_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_1_5_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_1_5_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_1_5_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -2434,25 +2434,25 @@ body {
               const mEl = document.getElementById("sim_1_5_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -2466,11 +2466,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -2568,7 +2568,7 @@ body {
             <label>ความเร็วสัมพัทธ์ของยาน (v): <span id="sim_2_1_val_v" class="readout-val">0.60</span> c</label>
             <input type="range" class="sim-slider" id="sim_2_1_slider_v" min="0" max="0.99" step="0.01" value="0.60">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_2_1_canvas" width="640" height="220"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_2_1_canvas" width="640" height="220" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_2_1_val_gamma">1.250</div><div class="readout-lbl">Lorentz Factor (γ)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_2_1_val_t">1.250 s</div><div class="readout-lbl">เวลาที่สังเกตจากภายนอก (Δt)</div></div>
@@ -2595,7 +2595,7 @@ body {
               const tEl = document.getElementById("sim_2_1_val_t");
               if (tEl) tEl.textContent = gamma.toFixed(3) + " s";
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
 
               // Left Frame: Rest Clock (S')
               ctx.strokeStyle = "#475569"; ctx.lineWidth = 1;
@@ -2634,11 +2634,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -2742,7 +2742,7 @@ body {
               <input type="range" class="sim-slider" id="sim_2_2_slider_x" min="0" max="100" value="10">
             </div>
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_2_2_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_2_2_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_2_2_val_gamma">1.667</div><div class="readout-lbl">Lorentz Factor (γ)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_2_2_val_xp">16.67 m</div><div class="readout-lbl">พิกัดตำแหน่งในกรอบ S' (x')</div></div>
@@ -2778,7 +2778,7 @@ body {
               const tpEl = document.getElementById("sim_2_2_val_tp");
               if (tpEl) tpEl.textContent = tp.toExponential(2) + " s";
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               // Spacetime Minkowski light cone schematic
               ctx.strokeStyle = "#475569"; ctx.lineWidth = 1;
               ctx.beginPath(); ctx.moveTo(320, 20); ctx.lineTo(320, 190); ctx.stroke(); // ct axis
@@ -2806,11 +2806,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -2908,7 +2908,7 @@ body {
             <label>ความเร็วการเดินทาง (v): <span id="sim_2_3_val_v" class="readout-val">0.90</span> c</label>
             <input type="range" class="sim-slider" id="sim_2_3_slider_v" min="0" max="0.99" step="0.01" value="0.90">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_2_3_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_2_3_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_2_3_val_gamma">2.294</div><div class="readout-lbl">Lorentz Factor (γ)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_2_3_val_len">43.6%</div><div class="readout-lbl">ความยาวหดสั้น (L = L₀/γ)</div></div>
@@ -2937,7 +2937,7 @@ body {
               const lfEl = document.getElementById("sim_2_3_val_life");
               if (lfEl) lfEl.textContent = gamma.toFixed(3) + " เท่า";
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               // Proper Length Spaceship (Rest S')
               ctx.fillStyle = "#334155";
               ctx.fillRect(80, 40, 240, 40);
@@ -2959,11 +2959,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -3061,7 +3061,7 @@ body {
             <label>ความเร็วอนุภาค (v): <span id="sim_2_4_val_v" class="readout-val">0.85</span> c (อิเล็กตรอน m₀ = 0.511 MeV/c²)</label>
             <input type="range" class="sim-slider" id="sim_2_4_slider_v" min="0" max="0.99" step="0.01" value="0.85">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_2_4_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_2_4_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_2_4_val_e0">0.511 MeV</div><div class="readout-lbl">พลังงานนิ่ง (E₀ = m₀c²)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_2_4_val_k">0.459 MeV</div><div class="readout-lbl">พลังงานจลน์ (K = (γ-1)m₀c²)</div></div>
@@ -3091,7 +3091,7 @@ body {
               const etEl = document.getElementById("sim_2_4_val_etot");
               if (etEl) etEl.textContent = Etot.toFixed(3) + " MeV";
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               // Energy Bar Chart
               ctx.fillStyle = "#3b82f6";
               ctx.fillRect(80, 60, 200, 35);
@@ -3116,11 +3116,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -3218,7 +3218,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_2_5_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_2_5_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_2_5_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_2_5_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_2_5_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_2_5_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -3243,25 +3243,25 @@ body {
               const mEl = document.getElementById("sim_2_5_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -3275,11 +3275,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -3387,7 +3387,7 @@ body {
               <input type="range" class="sim-slider" id="sim_3_1_slider_v" min="10" max="5000" step="10" value="100">
             </div>
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_3_1_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_3_1_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_3_1_val_lam">0.123 nm</div><div class="readout-lbl">ความยาวคลื่นเดอบรอยล์ (λ)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_3_1_val_scale">ขนาดอะตอมผลึก</div><div class="readout-lbl">ระดับสเกลทางฟิสิกส์</div></div>
@@ -3410,7 +3410,6 @@ body {
               const vEl = document.getElementById("sim_3_1_val_v");
               if (vEl) vEl.textContent = V;
 
-              // De Broglie wavelength lambda = h / sqrt(2m q V)
               const h = 6.626e-34;
               const q = 1.602e-19;
               const p = Math.sqrt(2 * m * q * V);
@@ -3421,15 +3420,15 @@ body {
               const lEl = document.getElementById("sim_3_1_val_lam");
               if (lEl) lEl.textContent = lam_nm >= 0.01 ? lam_nm.toFixed(3) + " nm" : lam_pm.toFixed(1) + " pm";
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               // Matter Wave packet animation/display
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 3;
               ctx.beginPath();
               const freq = Math.max(0.04, Math.min(0.4, 0.05 / Math.max(0.01, lam_nm)));
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const env = Math.exp(-Math.pow((x-320)/120, 2));
                 const y = 105 + 65 * env * Math.sin((x-40)*freq);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -3441,11 +3440,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -3543,7 +3542,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_3_2_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_3_2_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_3_2_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_3_2_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_3_2_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_3_2_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -3568,25 +3567,25 @@ body {
               const mEl = document.getElementById("sim_3_2_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -3600,11 +3599,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -3702,7 +3701,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_3_3_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_3_3_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_3_3_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_3_3_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_3_3_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_3_3_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -3727,25 +3726,25 @@ body {
               const mEl = document.getElementById("sim_3_3_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -3759,11 +3758,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -3861,7 +3860,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_3_4_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_3_4_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_3_4_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_3_4_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_3_4_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_3_4_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -3886,25 +3885,25 @@ body {
               const mEl = document.getElementById("sim_3_4_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -3918,11 +3917,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -4020,7 +4019,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_3_5_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_3_5_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_3_5_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_3_5_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_3_5_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_3_5_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -4045,25 +4044,25 @@ body {
               const mEl = document.getElementById("sim_3_5_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -4077,11 +4076,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -4179,7 +4178,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_4_1_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_4_1_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_4_1_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_4_1_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_4_1_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_4_1_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -4204,25 +4203,25 @@ body {
               const mEl = document.getElementById("sim_4_1_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -4236,11 +4235,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -4344,7 +4343,7 @@ body {
               <input type="range" class="sim-slider" id="sim_4_2_slider_l" min="0.5" max="3.0" step="0.1" value="1.0">
             </div>
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_4_2_canvas" width="640" height="220"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_4_2_canvas" width="640" height="220" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_4_2_val_en">0.376 eV</div><div class="readout-lbl">ระดับพลังงาน (E_n)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_4_2_val_nodes">0 โหนด</div><div class="readout-lbl">จำนวนบัพภายใน (Nodes)</div></div>
@@ -4369,7 +4368,6 @@ body {
               const lEl = document.getElementById("sim_4_2_val_l");
               if (lEl) lEl.textContent = L.toFixed(1);
 
-              // En = n^2 h^2 / (8 m L^2)
               const E1 = 0.376 / (L*L);
               const En = n * n * E1;
 
@@ -4378,7 +4376,7 @@ body {
               const ndEl = document.getElementById("sim_4_2_val_nodes");
               if (ndEl) ndEl.textContent = (n - 1) + " โหนด";
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               // Potential Walls (x = 100, x = 540)
               ctx.fillStyle = "#334155";
               ctx.fillRect(80, 20, 20, 170);
@@ -4389,11 +4387,11 @@ body {
               // Wavefunction psi(x) (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=100; x<=540; x+=2) {
+              for(let x=100; 540 >= x; x+=2) {
                 const norm = (x - 100) / 440;
                 const psi = Math.sin(n * Math.PI * norm);
                 const y = 105 - 60 * psi;
-                if (x===100) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 100) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -4402,7 +4400,7 @@ body {
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2;
               ctx.beginPath();
               ctx.moveTo(100, 185);
-              for(let x=100; x<=540; x+=2) {
+              for(let x=100; 540 >= x; x+=2) {
                 const norm = (x - 100) / 440;
                 const prob = Math.pow(Math.sin(n * Math.PI * norm), 2);
                 const y = 185 - 75 * prob;
@@ -4419,11 +4417,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -4521,7 +4519,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_4_3_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_4_3_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_4_3_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_4_3_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_4_3_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_4_3_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -4546,25 +4544,25 @@ body {
               const mEl = document.getElementById("sim_4_3_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -4578,11 +4576,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -4686,7 +4684,7 @@ body {
               <input type="range" class="sim-slider" id="sim_4_4_slider_a" min="0.1" max="1.5" step="0.05" value="0.5">
             </div>
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_4_4_canvas" width="640" height="220"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_4_4_canvas" width="640" height="220" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_4_4_val_tprob">2.41 %</div><div class="readout-lbl">ความน่าจะเป็นทะลุผ่าน (T)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_4_4_val_rprob">97.59 %</div><div class="readout-lbl">ความน่าจะเป็นสะท้อนกลับ (R)</div></div>
@@ -4713,7 +4711,7 @@ body {
               if (aEl) aEl.textContent = a.toFixed(2);
 
               let T = 0;
-              if (E < V0) {
+              if (V0 > E) {
                 const kappa = 5.12 * Math.sqrt(V0 - E);
                 T = 1 / (1 + (V0*V0 / (4*E*(V0-E))) * Math.pow(Math.sinh(kappa * a), 2));
               } else {
@@ -4726,7 +4724,7 @@ body {
               const rpEl = document.getElementById("sim_4_4_val_rprob");
               if (rpEl) rpEl.textContent = (R * 100).toFixed(2) + " %";
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               // Barrier box
               const barW = Math.max(20, a * 120);
               ctx.fillStyle = "rgba(244, 63, 94, 0.25)";
@@ -4740,20 +4738,20 @@ body {
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
               // Region I (Left)
-              for(let x=40; x<=280; x+=2) {
+              for(let x=40; 280 >= x; x+=2) {
                 const y = 110 + 40 * Math.sin((x-40)*0.15) + (R * 20) * Math.sin((x-40)*0.15);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               // Region II (Inside Barrier - Exponential Decay)
               const yStart = 110 + 40 * Math.sin(240*0.15);
-              for(let x=280; x<=280+barW; x+=2) {
+              for(let x=280; 280+barW >= x; x+=2) {
                 const norm = (x - 280) / barW;
                 const y = 110 + (yStart - 110) * Math.exp(-norm * 2.5);
                 ctx.lineTo(x, y);
               }
               // Region III (Transmitted Wave - Smaller Amplitude)
               const transAmp = Math.max(2, 40 * Math.sqrt(T));
-              for(let x=280+barW; x<=600; x+=2) {
+              for(let x=280+barW; 600 >= x; x+=2) {
                 const y = 110 + transAmp * Math.sin((x - 280 - barW)*0.15);
                 ctx.lineTo(x, y);
               }
@@ -4767,11 +4765,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -4869,7 +4867,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_4_5_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_4_5_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_4_5_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_4_5_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_4_5_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_4_5_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -4894,25 +4892,25 @@ body {
               const mEl = document.getElementById("sim_4_5_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -4926,11 +4924,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -5028,7 +5026,7 @@ body {
             <label>วงโคจรระดับควอนตัม (Bohr Orbit n): <span id="sim_5_1_val_n" class="readout-val">2</span></label>
             <input type="range" class="sim-slider" id="sim_5_1_slider_n" min="1" max="5" value="2">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_5_1_canvas" width="640" height="230"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_5_1_canvas" width="640" height="230" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_5_1_val_rad">0.212 nm</div><div class="readout-lbl">รัศมีวงโคจร (r_n = n² a₀)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_5_1_val_en">-3.40 eV</div><div class="readout-lbl">ระดับพลังงาน (E_n = -13.6/n²)</div></div>
@@ -5060,7 +5058,7 @@ body {
               const lEl = document.getElementById("sim_5_1_val_l");
               if (lEl) lEl.textContent = n + " ℏ";
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               const cx = 320, cy = 115;
 
               // Nucleus (Proton)
@@ -5070,7 +5068,7 @@ body {
               ctx.fillText("+e", cx - 6, cy + 3);
 
               // Draw All Orbits up to 5
-              for(let i=1; i<=5; i++) {
+              for(let i=1; 6 > i; i++) {
                 const r = 20 + i*i * 3.5;
                 ctx.strokeStyle = i === n ? "#00f0ff" : "rgba(255,255,255,0.12)";
                 ctx.lineWidth = i === n ? 2.5 : 1;
@@ -5093,11 +5091,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -5195,7 +5193,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_5_2_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_5_2_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_5_2_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_5_2_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_5_2_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_5_2_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -5220,25 +5218,25 @@ body {
               const mEl = document.getElementById("sim_5_2_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -5252,11 +5250,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -5354,7 +5352,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_5_3_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_5_3_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_5_3_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_5_3_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_5_3_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_5_3_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -5379,25 +5377,25 @@ body {
               const mEl = document.getElementById("sim_5_3_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -5411,11 +5409,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -5513,7 +5511,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_5_4_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_5_4_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_5_4_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_5_4_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_5_4_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_5_4_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -5538,25 +5536,25 @@ body {
               const mEl = document.getElementById("sim_5_4_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -5570,11 +5568,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -5672,7 +5670,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_5_5_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_5_5_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_5_5_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_5_5_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_5_5_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_5_5_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -5697,25 +5695,25 @@ body {
               const mEl = document.getElementById("sim_5_5_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -5729,11 +5727,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -5831,7 +5829,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_6_1_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_6_1_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_6_1_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_6_1_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_6_1_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_6_1_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -5856,25 +5854,25 @@ body {
               const mEl = document.getElementById("sim_6_1_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -5888,11 +5886,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -6001,7 +5999,7 @@ body {
               </select>
             </div>
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_6_2_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_6_2_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_6_2_val_rem">50.0 %</div><div class="readout-lbl">สัดส่วนนิวเคลียสที่เหลือ (N/N₀)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_6_2_val_dec">50.0 %</div><div class="readout-lbl">นิวเคลียสที่สลายตัวไปแล้ว</div></div>
@@ -6034,14 +6032,14 @@ body {
               const aEl = document.getElementById("sim_6_2_val_act");
               if (aEl) aEl.textContent = remFraction.toFixed(3) + " A₀";
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               // Decay Curve N(t) = N0 e^(-lambda t)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 3;
               ctx.beginPath();
-              for(let x=60; x<=580; x+=2) {
+              for(let x=60; 580 >= x; x+=2) {
                 const normT = (x - 60) / 100; // 0 to 5.2 half-lives
                 const y = 180 - 150 * Math.pow(0.5, normT);
-                if (x===60) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 60) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -6068,11 +6066,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -6170,7 +6168,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_6_3_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_6_3_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_6_3_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_6_3_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_6_3_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_6_3_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -6195,25 +6193,25 @@ body {
               const mEl = document.getElementById("sim_6_3_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -6227,11 +6225,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -6329,7 +6327,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_6_4_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_6_4_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_6_4_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_6_4_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_6_4_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_6_4_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -6354,25 +6352,25 @@ body {
               const mEl = document.getElementById("sim_6_4_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -6386,11 +6384,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -6488,7 +6486,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_6_5_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_6_5_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_6_5_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_6_5_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_6_5_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_6_5_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -6513,25 +6511,25 @@ body {
               const mEl = document.getElementById("sim_6_5_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -6545,11 +6543,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -6658,7 +6656,7 @@ body {
               </select>
             </div>
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_7_1_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_7_1_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_7_1_val_r">3.8 cm</div><div class="readout-lbl">รัศมีความโค้งรอยทาง (r = p/qB)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_7_1_val_dir">เบนตามเข็มนาฬิกา</div><div class="readout-lbl">ทิศทางการเบนตามกฎมือขวา</div></div>
@@ -6693,11 +6691,11 @@ body {
               const dEl = document.getElementById("sim_7_1_val_dir");
               if (dEl) dEl.textContent = q > 0 ? "เบนทวนเข็มนาฬิกา (+)" : "เบนตามเข็มนาฬิกา (-)";
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               // B-field dots (out of page)
               ctx.fillStyle = "rgba(255,255,255,0.15)";
-              for(let x=40; x<600; x+=40) {
-                for(let y=30; y<190; y+=30) {
+              for(let x=40; 600 > x; x+=40) {
+                for(let y=30; 190 > y; y+=30) {
                   ctx.beginPath(); ctx.arc(x, y, 1.5, 0, Math.PI*2); ctx.fill();
                 }
               }
@@ -6709,7 +6707,7 @@ body {
               ctx.beginPath();
               ctx.moveTo(60, 105);
               const curveFactor = (q * B * 0.008) / Math.sqrt(m);
-              for(let s=0; s<180; s+=2) {
+              for(let s=0; 180 > s; s+=2) {
                 const x = 60 + s * 2.8;
                 const y = 105 + curveFactor * s * s * 0.35;
                 ctx.lineTo(x, y);
@@ -6724,11 +6722,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -6826,7 +6824,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_7_2_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_7_2_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_7_2_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_7_2_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_7_2_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_7_2_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -6851,25 +6849,25 @@ body {
               const mEl = document.getElementById("sim_7_2_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -6883,11 +6881,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -6985,7 +6983,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_7_3_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_7_3_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_7_3_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_7_3_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_7_3_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_7_3_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -7010,25 +7008,25 @@ body {
               const mEl = document.getElementById("sim_7_3_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -7042,11 +7040,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -7144,7 +7142,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_7_4_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_7_4_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_7_4_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_7_4_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_7_4_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_7_4_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -7169,25 +7167,25 @@ body {
               const mEl = document.getElementById("sim_7_4_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -7201,11 +7199,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -7303,7 +7301,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_7_5_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_7_5_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_7_5_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_7_5_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_7_5_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_7_5_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -7328,25 +7326,25 @@ body {
               const mEl = document.getElementById("sim_7_5_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -7360,11 +7358,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -7462,7 +7460,7 @@ body {
             <label>ระยะห่างกาแล็กซี (Distance d): <span id="sim_8_1_val_d" class="readout-val">100</span> ล้านปีแสง (Mpc)</label>
             <input type="range" class="sim-slider" id="sim_8_1_slider_d" min="10" max="500" step="5" value="100">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_8_1_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_8_1_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_8_1_val_v">7,000 km/s</div><div class="readout-lbl">ความเร็วการถอยห่าง (v = H₀ d)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_8_1_val_z">0.023</div><div class="readout-lbl">ค่าการเลื่อนทางแดง (Redshift z)</div></div>
@@ -7492,7 +7490,7 @@ body {
               const zEl = document.getElementById("sim_8_1_val_z");
               if (zEl) zEl.textContent = z.toFixed(4);
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               // Milky Way Observer (Left)
               ctx.fillStyle = "#00f0ff";
               ctx.beginPath(); ctx.arc(80, 105, 12, 0, Math.PI*2); ctx.fill();
@@ -7510,7 +7508,7 @@ body {
               ctx.strokeStyle = "#ef4444"; ctx.lineWidth = 2.5;
               ctx.beginPath();
               const waveLam = 12 + z * 80;
-              for(let x=80; x<=galX; x+=2) {
+              for(let x=80; galX >= x; x+=2) {
                 const y = 105 + 20 * Math.sin((x-80) * (Math.PI*2 / waveLam));
                 ctx.lineTo(x, y);
               }
@@ -7523,11 +7521,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -7625,7 +7623,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_8_2_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_8_2_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_8_2_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_8_2_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_8_2_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_8_2_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -7650,25 +7648,25 @@ body {
               const mEl = document.getElementById("sim_8_2_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -7682,11 +7680,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -7784,7 +7782,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_8_3_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_8_3_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_8_3_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_8_3_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_8_3_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_8_3_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -7809,25 +7807,25 @@ body {
               const mEl = document.getElementById("sim_8_3_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -7841,11 +7839,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -7943,7 +7941,7 @@ body {
             <label>มวลของหลุมดำ (M): <span id="sim_8_4_val_m" class="readout-val">10</span> เท่ามวลดวงอาทิตย์ (M_☉)</label>
             <input type="range" class="sim-slider" id="sim_8_4_slider_m" min="3" max="100" value="10">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_8_4_canvas" width="640" height="220"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_8_4_canvas" width="640" height="220" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_8_4_val_rs">29.5 km</div><div class="readout-lbl">รัศมีชวาร์ซชิลด์ (R_s = 2GM/c²)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_8_4_val_photon">44.3 km</div><div class="readout-lbl">วงแหวนโฟตอน (Photon Sphere 1.5 R_s)</div></div>
@@ -7964,7 +7962,6 @@ body {
               const mEl = document.getElementById("sim_8_4_val_m");
               if (mEl) mEl.textContent = M;
 
-              // Rs = 2.95 km * M
               const Rs_km = M * 2.95;
               const photon_km = Rs_km * 1.5;
               const isco_km = Rs_km * 3.0;
@@ -7976,7 +7973,7 @@ body {
               const isEl = document.getElementById("sim_8_4_val_isco");
               if (isEl) isEl.textContent = isco_km.toFixed(1) + " km";
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               const cx = 320, cy = 110;
 
               // Accretion Disk Glow
@@ -7990,7 +7987,7 @@ body {
 
               // Gravitational Lensing Beams
               ctx.strokeStyle = "rgba(0, 240, 255, 0.5)"; ctx.lineWidth = 1.5;
-              for(let i=0; i<6; i++) {
+              for(let i=0; 6 > i; i++) {
                 ctx.beginPath();
                 ctx.arc(cx, cy, 35 + i*16, 0, Math.PI*2);
                 ctx.stroke();
@@ -8013,11 +8010,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -8115,7 +8112,7 @@ body {
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_8_5_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_8_5_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_8_5_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_8_5_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_8_5_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_8_5_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -8140,25 +8137,25 @@ body {
               const mEl = document.getElementById("sim_8_5_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -8172,11 +8169,11 @@ body {
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
@@ -8457,7 +8454,7 @@ function navigateToPage(pageId) {
   }
 
   // Close sidebar on mobile
-  if (window.innerWidth <= 900) {
+  if (900 >= window.innerWidth) {
     document.getElementById("appSidebar").classList.remove("open");
   }
 }

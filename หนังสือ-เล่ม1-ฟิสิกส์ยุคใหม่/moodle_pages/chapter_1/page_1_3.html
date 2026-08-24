@@ -182,7 +182,7 @@
               <input type="range" class="sim-slider" id="sim_1_3_slider_lam" min="150" max="750" value="300">
             </div>
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_1_3_canvas" width="640" height="200"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_1_3_canvas" width="640" height="200" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_1_3_val_ephoton">4.13 eV</div><div class="readout-lbl">พลังงานโฟตอน (E = hf)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_1_3_val_kmax">1.83 eV</div><div class="readout-lbl">พลังงานจลน์สูงสุด (K_max)</div></div>
@@ -199,7 +199,7 @@
             const slider = document.getElementById("sim_1_3_slider_lam");
             if (!sel || !slider) return false;
             let particles = [];
-            for(let i=0; i<20; i++) particles.push({ x: 120 + Math.random()*20, y: 40 + Math.random()*120, vx: 2 + Math.random()*3 });
+            for(let i=0; 20 > i; i++) particles.push({ x: 120 + Math.random()*20, y: 40 + Math.random()*120, vx: 2 + Math.random()*3 });
 
             function calc() {
               const phi = +sel.value;
@@ -222,7 +222,7 @@
             }
 
             function render() {
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               // Cathode Emitter
               ctx.fillStyle = "#475569";
               ctx.fillRect(80, 30, 24, 140);
@@ -241,9 +241,9 @@
               const hasElectrons = Ephoton > phi;
               
               // Incoming Photons
-              ctx.strokeStyle = lam < 400 ? "#a855f7" : (lam < 550 ? "#00f0ff" : "#ef4444");
+              ctx.strokeStyle = 400 > lam ? "#a855f7" : (550 > lam ? "#00f0ff" : "#ef4444");
               ctx.lineWidth = 2.5;
-              for(let i=0; i<3; i++) {
+              for(let i=0; 3 > i; i++) {
                 ctx.beginPath();
                 ctx.moveTo(10, 40 + i*40);
                 ctx.lineTo(80, 60 + i*40);
@@ -269,11 +269,11 @@
             render();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         

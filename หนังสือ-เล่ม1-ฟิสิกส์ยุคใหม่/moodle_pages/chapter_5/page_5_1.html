@@ -170,7 +170,7 @@
             <label>วงโคจรระดับควอนตัม (Bohr Orbit n): <span id="sim_5_1_val_n" class="readout-val">2</span></label>
             <input type="range" class="sim-slider" id="sim_5_1_slider_n" min="1" max="5" value="2">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_5_1_canvas" width="640" height="230"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_5_1_canvas" width="640" height="230" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_5_1_val_rad">0.212 nm</div><div class="readout-lbl">รัศมีวงโคจร (r_n = n² a₀)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_5_1_val_en">-3.40 eV</div><div class="readout-lbl">ระดับพลังงาน (E_n = -13.6/n²)</div></div>
@@ -202,7 +202,7 @@
               const lEl = document.getElementById("sim_5_1_val_l");
               if (lEl) lEl.textContent = n + " ℏ";
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               const cx = 320, cy = 115;
 
               // Nucleus (Proton)
@@ -212,7 +212,7 @@
               ctx.fillText("+e", cx - 6, cy + 3);
 
               // Draw All Orbits up to 5
-              for(let i=1; i<=5; i++) {
+              for(let i=1; 6 > i; i++) {
                 const r = 20 + i*i * 3.5;
                 ctx.strokeStyle = i === n ? "#00f0ff" : "rgba(255,255,255,0.12)";
                 ctx.lineWidth = i === n ? 2.5 : 1;
@@ -235,11 +235,11 @@
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         

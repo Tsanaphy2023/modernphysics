@@ -181,7 +181,7 @@
               <input type="range" class="sim-slider" id="sim_1_4_slider_n2" min="2" max="7" value="3">
             </div>
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_1_4_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_1_4_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_1_4_val_lam">656.3 nm</div><div class="readout-lbl">ความยาวคลื่นโฟตอน (λ)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_1_4_val_de">1.89 eV</div><div class="readout-lbl">พลังงานที่ปลดปล่อย (ΔE)</div></div>
@@ -201,7 +201,7 @@
             function draw() {
               const n1 = +sel.value;
               slider.min = n1 + 1;
-              if (+slider.value <= n1) slider.value = n1 + 1;
+              if (n1 >= +slider.value) slider.value = n1 + 1;
               const n2 = +slider.value;
               const n2El = document.getElementById("sim_1_4_val_n2");
               if (n2El) n2El.textContent = n2;
@@ -219,18 +219,18 @@
               let color = "#00f0ff";
               if (n1 === 1) { lineName = "Lyman (" + n2 + "→1 UV)"; color = "#a855f7"; }
               else if (n1 === 2) {
-                if (n2===3) { lineName = "H-alpha (สีแดง 656.3 nm)"; color = "#ef4444"; }
-                else if (n2===4) { lineName = "H-beta (สีฟ้าคราม 486.1 nm)"; color = "#06b6d4"; }
-                else if (n2===5) { lineName = "H-gamma (สีน้ำเงิน 434.0 nm)"; color = "#3b82f6"; }
+                if (n2 === 3) { lineName = "H-alpha (สีแดง 656.3 nm)"; color = "#ef4444"; }
+                else if (n2 === 4) { lineName = "H-beta (สีฟ้าคราม 486.1 nm)"; color = "#06b6d4"; }
+                else if (n2 === 5) { lineName = "H-gamma (สีน้ำเงิน 434.0 nm)"; color = "#3b82f6"; }
                 else { lineName = "H-delta (สีม่วง 410.2 nm)"; color = "#8b5cf6"; }
               } else if (n1 === 3) { lineName = "Paschen (" + n2 + "→3 IR)"; color = "#f97316"; }
               else { lineName = "Brackett (" + n2 + "→4 Far-IR)"; color = "#e11d48"; }
               const lnEl = document.getElementById("sim_1_4_val_line");
               if (lnEl) lnEl.textContent = lineName;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               // Draw Energy Levels
-              for(let n=1; n<=6; n++) {
+              for(let n=1; 7 > n; n++) {
                 const y = 190 - 160 * (1 - 1/(n*n));
                 ctx.strokeStyle = n === n1 ? "#00f0ff" : "#475569";
                 ctx.lineWidth = n === n1 ? 2.5 : 1;
@@ -252,9 +252,9 @@
               // Emission Photon Wave packet
               ctx.strokeStyle = color; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=220; x<580; x+=2) {
+              for(let x=220; 580 > x; x+=2) {
                 const waveY = (yStart + yEnd)/2 + 12 * Math.sin((x-220)*0.15);
-                if (x===220) ctx.moveTo(x, waveY); else ctx.lineTo(x, waveY);
+                if (x === 220) ctx.moveTo(x, waveY); else ctx.lineTo(x, waveY);
               }
               ctx.stroke();
               ctx.fillStyle = color; ctx.fillText("Photon hf (λ = " + lam_nm.toFixed(1) + " nm)", 420, (yStart + yEnd)/2 - 10);
@@ -264,11 +264,11 @@
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         

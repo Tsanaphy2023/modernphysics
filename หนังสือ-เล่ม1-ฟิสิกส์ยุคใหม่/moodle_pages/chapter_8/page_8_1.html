@@ -170,7 +170,7 @@
             <label>ระยะห่างกาแล็กซี (Distance d): <span id="sim_8_1_val_d" class="readout-val">100</span> ล้านปีแสง (Mpc)</label>
             <input type="range" class="sim-slider" id="sim_8_1_slider_d" min="10" max="500" step="5" value="100">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_8_1_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_8_1_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_8_1_val_v">7,000 km/s</div><div class="readout-lbl">ความเร็วการถอยห่าง (v = H₀ d)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_8_1_val_z">0.023</div><div class="readout-lbl">ค่าการเลื่อนทางแดง (Redshift z)</div></div>
@@ -200,7 +200,7 @@
               const zEl = document.getElementById("sim_8_1_val_z");
               if (zEl) zEl.textContent = z.toFixed(4);
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               // Milky Way Observer (Left)
               ctx.fillStyle = "#00f0ff";
               ctx.beginPath(); ctx.arc(80, 105, 12, 0, Math.PI*2); ctx.fill();
@@ -218,7 +218,7 @@
               ctx.strokeStyle = "#ef4444"; ctx.lineWidth = 2.5;
               ctx.beginPath();
               const waveLam = 12 + z * 80;
-              for(let x=80; x<=galX; x+=2) {
+              for(let x=80; galX >= x; x+=2) {
                 const y = 105 + 20 * Math.sin((x-80) * (Math.PI*2 / waveLam));
                 ctx.lineTo(x, y);
               }
@@ -231,11 +231,11 @@
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         

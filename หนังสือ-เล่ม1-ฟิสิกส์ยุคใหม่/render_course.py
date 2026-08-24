@@ -2103,7 +2103,7 @@ function navigateToPage(pageId) {{
   }}
 
   // Close sidebar on mobile
-  if (window.innerWidth <= 900) {{
+  if (900 >= window.innerWidth) {{
     document.getElementById("appSidebar").classList.remove("open");
   }}
 }}

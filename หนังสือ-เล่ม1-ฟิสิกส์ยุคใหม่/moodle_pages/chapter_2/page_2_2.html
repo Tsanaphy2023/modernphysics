@@ -176,7 +176,7 @@
               <input type="range" class="sim-slider" id="sim_2_2_slider_x" min="0" max="100" value="10">
             </div>
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_2_2_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_2_2_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_2_2_val_gamma">1.667</div><div class="readout-lbl">Lorentz Factor (γ)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_2_2_val_xp">16.67 m</div><div class="readout-lbl">พิกัดตำแหน่งในกรอบ S' (x')</div></div>
@@ -212,7 +212,7 @@
               const tpEl = document.getElementById("sim_2_2_val_tp");
               if (tpEl) tpEl.textContent = tp.toExponential(2) + " s";
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               // Spacetime Minkowski light cone schematic
               ctx.strokeStyle = "#475569"; ctx.lineWidth = 1;
               ctx.beginPath(); ctx.moveTo(320, 20); ctx.lineTo(320, 190); ctx.stroke(); // ct axis
@@ -240,11 +240,11 @@
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         

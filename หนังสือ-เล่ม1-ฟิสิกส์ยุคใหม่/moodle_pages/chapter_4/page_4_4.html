@@ -176,7 +176,7 @@
               <input type="range" class="sim-slider" id="sim_4_4_slider_a" min="0.1" max="1.5" step="0.05" value="0.5">
             </div>
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_4_4_canvas" width="640" height="220"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_4_4_canvas" width="640" height="220" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_4_4_val_tprob">2.41 %</div><div class="readout-lbl">ความน่าจะเป็นทะลุผ่าน (T)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_4_4_val_rprob">97.59 %</div><div class="readout-lbl">ความน่าจะเป็นสะท้อนกลับ (R)</div></div>
@@ -203,7 +203,7 @@
               if (aEl) aEl.textContent = a.toFixed(2);
 
               let T = 0;
-              if (E < V0) {
+              if (V0 > E) {
                 const kappa = 5.12 * Math.sqrt(V0 - E);
                 T = 1 / (1 + (V0*V0 / (4*E*(V0-E))) * Math.pow(Math.sinh(kappa * a), 2));
               } else {
@@ -216,7 +216,7 @@
               const rpEl = document.getElementById("sim_4_4_val_rprob");
               if (rpEl) rpEl.textContent = (R * 100).toFixed(2) + " %";
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               // Barrier box
               const barW = Math.max(20, a * 120);
               ctx.fillStyle = "rgba(244, 63, 94, 0.25)";
@@ -230,20 +230,20 @@
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
               // Region I (Left)
-              for(let x=40; x<=280; x+=2) {
+              for(let x=40; 280 >= x; x+=2) {
                 const y = 110 + 40 * Math.sin((x-40)*0.15) + (R * 20) * Math.sin((x-40)*0.15);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               // Region II (Inside Barrier - Exponential Decay)
               const yStart = 110 + 40 * Math.sin(240*0.15);
-              for(let x=280; x<=280+barW; x+=2) {
+              for(let x=280; 280+barW >= x; x+=2) {
                 const norm = (x - 280) / barW;
                 const y = 110 + (yStart - 110) * Math.exp(-norm * 2.5);
                 ctx.lineTo(x, y);
               }
               // Region III (Transmitted Wave - Smaller Amplitude)
               const transAmp = Math.max(2, 40 * Math.sqrt(T));
-              for(let x=280+barW; x<=600; x+=2) {
+              for(let x=280+barW; 600 >= x; x+=2) {
                 const y = 110 + transAmp * Math.sin((x - 280 - barW)*0.15);
                 ctx.lineTo(x, y);
               }
@@ -257,11 +257,11 @@
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         

@@ -180,7 +180,7 @@
               <input type="range" class="sim-slider" id="sim_3_1_slider_v" min="10" max="5000" step="10" value="100">
             </div>
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_3_1_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_3_1_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_3_1_val_lam">0.123 nm</div><div class="readout-lbl">ความยาวคลื่นเดอบรอยล์ (λ)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_3_1_val_scale">ขนาดอะตอมผลึก</div><div class="readout-lbl">ระดับสเกลทางฟิสิกส์</div></div>
@@ -203,7 +203,6 @@
               const vEl = document.getElementById("sim_3_1_val_v");
               if (vEl) vEl.textContent = V;
 
-              // De Broglie wavelength lambda = h / sqrt(2m q V)
               const h = 6.626e-34;
               const q = 1.602e-19;
               const p = Math.sqrt(2 * m * q * V);
@@ -214,15 +213,15 @@
               const lEl = document.getElementById("sim_3_1_val_lam");
               if (lEl) lEl.textContent = lam_nm >= 0.01 ? lam_nm.toFixed(3) + " nm" : lam_pm.toFixed(1) + " pm";
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               // Matter Wave packet animation/display
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 3;
               ctx.beginPath();
               const freq = Math.max(0.04, Math.min(0.4, 0.05 / Math.max(0.01, lam_nm)));
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const env = Math.exp(-Math.pow((x-320)/120, 2));
                 const y = 105 + 65 * env * Math.sin((x-40)*freq);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -234,11 +233,11 @@
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         

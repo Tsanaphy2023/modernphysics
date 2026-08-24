@@ -181,7 +181,7 @@
               </select>
             </div>
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_6_2_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_6_2_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_6_2_val_rem">50.0 %</div><div class="readout-lbl">สัดส่วนนิวเคลียสที่เหลือ (N/N₀)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_6_2_val_dec">50.0 %</div><div class="readout-lbl">นิวเคลียสที่สลายตัวไปแล้ว</div></div>
@@ -214,14 +214,14 @@
               const aEl = document.getElementById("sim_6_2_val_act");
               if (aEl) aEl.textContent = remFraction.toFixed(3) + " A₀";
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               // Decay Curve N(t) = N0 e^(-lambda t)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 3;
               ctx.beginPath();
-              for(let x=60; x<=580; x+=2) {
+              for(let x=60; 580 >= x; x+=2) {
                 const normT = (x - 60) / 100; // 0 to 5.2 half-lives
                 const y = 180 - 150 * Math.pow(0.5, normT);
-                if (x===60) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 60) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -248,11 +248,11 @@
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         

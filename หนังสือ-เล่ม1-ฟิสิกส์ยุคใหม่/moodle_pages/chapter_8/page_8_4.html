@@ -170,7 +170,7 @@
             <label>มวลของหลุมดำ (M): <span id="sim_8_4_val_m" class="readout-val">10</span> เท่ามวลดวงอาทิตย์ (M_☉)</label>
             <input type="range" class="sim-slider" id="sim_8_4_slider_m" min="3" max="100" value="10">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_8_4_canvas" width="640" height="220"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_8_4_canvas" width="640" height="220" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_8_4_val_rs">29.5 km</div><div class="readout-lbl">รัศมีชวาร์ซชิลด์ (R_s = 2GM/c²)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_8_4_val_photon">44.3 km</div><div class="readout-lbl">วงแหวนโฟตอน (Photon Sphere 1.5 R_s)</div></div>
@@ -191,7 +191,6 @@
               const mEl = document.getElementById("sim_8_4_val_m");
               if (mEl) mEl.textContent = M;
 
-              // Rs = 2.95 km * M
               const Rs_km = M * 2.95;
               const photon_km = Rs_km * 1.5;
               const isco_km = Rs_km * 3.0;
@@ -203,7 +202,7 @@
               const isEl = document.getElementById("sim_8_4_val_isco");
               if (isEl) isEl.textContent = isco_km.toFixed(1) + " km";
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               const cx = 320, cy = 110;
 
               // Accretion Disk Glow
@@ -217,7 +216,7 @@
 
               // Gravitational Lensing Beams
               ctx.strokeStyle = "rgba(0, 240, 255, 0.5)"; ctx.lineWidth = 1.5;
-              for(let i=0; i<6; i++) {
+              for(let i=0; 6 > i; i++) {
                 ctx.beginPath();
                 ctx.arc(cx, cy, 35 + i*16, 0, Math.PI*2);
                 ctx.stroke();
@@ -240,11 +239,11 @@
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         

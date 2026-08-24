@@ -170,7 +170,7 @@
             <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_3_4_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_3_4_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_3_4_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_3_4_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_3_4_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_3_4_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -195,25 +195,25 @@
               const mEl = document.getElementById("sim_3_4_val_metric");
               if (mEl) mEl.textContent = coeff;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               
               // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const norm = (x-40)/560;
                 const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
-              for(let x=40; x<600; x+=4) {
+              for(let x=40; 600 > x; x+=4) {
                 const norm = (x-40)/560;
                 const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
@@ -227,11 +227,11 @@
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         

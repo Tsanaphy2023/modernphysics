@@ -170,7 +170,7 @@
             <label>อุณหภูมิสัมบูรณ์ (T): <span id="sim_1_2_val_temp" class="readout-val">5800</span> K (ดวงอาทิตย์)</label>
             <input type="range" class="sim-slider" id="sim_1_2_slider_temp" min="1000" max="12000" step="100" value="5800">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_1_2_canvas" width="640" height="230"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_1_2_canvas" width="640" height="230" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_1_2_val_peak">500 nm</div><div class="readout-lbl">ความยาวคลื่นสูงสุด (λ_max)</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_1_2_val_color">ขาว-เหลือง</div><div class="readout-lbl">สีของรังสีความร้อน</div></div>
@@ -198,14 +198,14 @@
               if (pwEl) pwEl.textContent = power + " W/m²";
               
               let col = "แดง";
-              if (T > 3500 && T <= 5000) col = "ส้ม-เหลือง";
-              else if (T > 5000 && T <= 7500) col = "ขาวนวล (Yellow-White)";
-              else if (T > 7500 && T <= 10000) col = "ขาวอมฟ้า (Blue-White)";
+              if (T > 3500 && 5000 >= T) col = "ส้ม-เหลือง";
+              else if (T > 5000 && 7500 >= T) col = "ขาวนวล (Yellow-White)";
+              else if (T > 7500 && 10000 >= T) col = "ขาวอมฟ้า (Blue-White)";
               else if (T > 10000) col = "ฟ้าเข้ม (Deep Blue)";
               const cEl = document.getElementById("sim_1_2_val_color");
               if (cEl) cEl.textContent = col;
 
-              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.clearRect(0, 0, cv.width, cv.height);
               // Visible spectrum band
               const grad = ctx.createLinearGradient(120, 0, 480, 0);
               grad.addColorStop(0, "rgba(168, 85, 247, 0.2)");
@@ -218,16 +218,16 @@
 
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 3;
               ctx.beginPath();
-              for(let x=40; x<600; x+=2) {
+              for(let x=40; 600 > x; x+=2) {
                 const lam = (x - 30)*3;
-                const p = Math.pow(T/1000, 3) * Math.pow(lam/peak, 5) / (Math.exp((lam?peak/lam:10)*2) - 1 + 0.05);
+                const p = Math.pow(T/1000, 3) * Math.pow(lam/peak, 5) / (Math.exp((lam ? peak/lam : 10)*2) - 1 + 0.05);
                 const y = 190 - Math.min(160, p*5.5);
-                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
               const peakX = 30 + (peak / 3);
-              if (peakX >= 40 && peakX <= 600) {
+              if (peakX >= 40 && 600 >= peakX) {
                 ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2; ctx.setLineDash([3,3]);
                 ctx.beginPath(); ctx.moveTo(peakX, 20); ctx.lineTo(peakX, 190); ctx.stroke();
                 ctx.setLineDash([]);
@@ -244,11 +244,11 @@
             draw();
             return true;
           }
-          function run() { if (!initSim()) setTimeout(run, 100); }
+          function run() { if (!initSim()) setTimeout(run, 80); }
           if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
           else run();
-          setTimeout(run, 250);
-          setTimeout(run, 700);
+          setTimeout(run, 150);
+          setTimeout(run, 500);
         })();
         </script>
         
