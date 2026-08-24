@@ -1,0 +1,1178 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Develops Chapter 4 for Nanotechnological Physics (Course 263):
+- Generates 5 Tailored 60 FPS Simulators with AR MediaPipe Integration:
+  4.1: HR-TEM & FE-SEM Relativistic Electron Beam & Lattice Resolution
+  4.2: AFM Tapping Mode & STM Atomic Tunneling Profiler
+  4.3: XRD Goniometer Diffractometer & Scherrer Crystallite Solver
+  4.4: DLS Hydrodynamic Size & Zeta Potential Mobility Analyzer
+  4.5: Master Nanometrology & EELS/EDS Elemental Mapping Studio
+- Updates Moodle Standalone Pages with Handcrafted Masterclass Formula Cards
+- Syncs to GitHub Pages CDN and Deploys to Moodle Course 263
+"""
+
+import os
+import re
+import json
+import requests
+import subprocess
+import shutil
+
+BASE_DIR = "/Users/chewathassana/Downloads/manus_backup2026/ModernPhysics"
+NANO_DIR = os.path.join(BASE_DIR, "nanotechnology/course_nanophysics_263")
+NANO_SIMS_DIR = os.path.join(NANO_DIR, "simulators")
+ROOT_SIMS_DIR = os.path.join(BASE_DIR, "simulators")
+MOODLE_PAGES_DIR = os.path.join(NANO_DIR, "moodle_pages")
+CATALOG_FILE = os.path.join(NANO_DIR, "moodle_catalog_263.json")
+COURSE_DATA_FILE = os.path.join(NANO_DIR, "course_data.json")
+
+CDN_BASE = "https://tsanaphy2023.github.io/modernphysics"
+
+# ==============================================================================
+# 4.1: HR-TEM & FE-SEM Relativistic Electron Beam Simulator
+# ==============================================================================
+SIM_4_1_HTML = """<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 4.1: HR-TEM & Relativistic Electron Optics</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #020617;
+      --panel: #090e1a;
+      --cyan: #00f0ff;
+      --amber: #facc15;
+      --emerald: #10b981;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: #f8fafc; font-family: 'Sarabun', sans-serif; padding: 12px; }
+    .sim-card { background: var(--panel); border: 1px solid #1e293b; border-radius: 14px; padding: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
+    .sim-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 10px; margin-bottom: 12px; }
+    .sim-title { font-size: 1.1rem; font-weight: 700; color: var(--cyan); display: flex; align-items: center; gap: 8px; }
+    .badge { background: rgba(0,240,255,0.15); border: 1px solid var(--cyan); color: var(--cyan); padding: 3px 10px; border-radius: 9999px; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; }
+    .canvas-box { position: relative; width: 100%; height: 320px; background: #000; border: 1px solid #334155; border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
+    canvas { width: 100%; height: 100%; display: block; }
+    .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; background: #0f172a; padding: 12px 16px; border-radius: 10px; border: 1px solid #1e293b; margin-bottom: 12px; }
+    .ctrl-group { display: flex; flex-direction: column; gap: 6px; }
+    .ctrl-lbl { font-size: 0.8rem; color: #94a3b8; display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; }
+    input[type=range] { width: 100%; accent-color: var(--cyan); cursor: pointer; }
+    .hud { display: flex; justify-content: space-between; align-items: center; background: #020617; border: 1px solid #334155; border-radius: 8px; padding: 10px 16px; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; flex-wrap: wrap; gap: 10px; }
+    .hud-val { color: var(--amber); font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="sim-card">
+    <div class="sim-header">
+      <div class="sim-title">
+        <span>🔬</span>
+        <span>แล็บ 4.1: ทัศนศาสตร์อิเล็กตรอนเชิงสัมพัทธภาพ HR-TEM (Relativistic Electron Metrology)</span>
+      </div>
+      <div class="badge">● SUB-ANGSTROM ATOMIC RESOLUTION</div>
+    </div>
+
+    <div class="canvas-box">
+      <canvas id="temCanvas"></canvas>
+    </div>
+
+    <div class="controls">
+      <div class="ctrl-group">
+        <div class="ctrl-lbl">
+          <span>ความต่างศักย์เร่งลำอิเล็กตรอน (Accelerating Voltage: \\(V\\))</span>
+          <span id="txtV">V = 200 kV</span>
+        </div>
+        <input type="range" id="sliderV" min="20" max="300" step="10" value="200">
+      </div>
+      <div class="ctrl-group">
+        <div class="ctrl-lbl">
+          <span>ระบบแก้ไขความคลาดทางทัศนศาสตร์ (Aberration Corrector: \\(C_s\\))</span>
+          <span id="txtCs">Cs-Corrected (0.05 nm Limit)</span>
+        </div>
+        <select id="selCs" style="background:#020617; color:#f8fafc; border:1px solid #334155; padding:6px; border-radius:6px; font-family:inherit; font-size:0.85rem;">
+          <option value="on" selected>เปิดระบบแก้ไขความคลาดทรงกลม (Cs-Corrected HR-TEM)</option>
+          <option value="off">ปิดระบบ (Standard TEM: 0.20 nm Scherzer Limit)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="hud">
+      <div>ความยาวคลื่นอิเล็กตรอน: <span class="hud-val" id="hudLambda">2.51 pm (0.0251 Å)</span> | กำลังแยกขยาย: <span class="hud-val" id="hudRes">0.05 nm (Atomic)</span></div>
+      <div>ระยะห่างระนาบผลึก (\\(d_{111}\\)): <span class="hud-val" id="hudLattice">0.235 nm (Gold Lattice Fringes)</span></div>
+      <button type="button" onclick="toggleFFT()" style="background:#00f0ff; color:#020617; border:none; padding:6px 14px; border-radius:6px; font-weight:700; cursor:pointer;">⚡ สลับโหมดการเลี้ยวเบนอิเล็กตรอน (FFT Diffraction)</button>
+    </div>
+  </div>
+
+  <script src="ar_mediapipe_controller.js"></script>
+  <script>
+    const canvas = document.getElementById("temCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function resize() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    let V_kV = 200;
+    let isCs = true;
+    let showFFT = false;
+    let animTime = 0;
+
+    const sliderV = document.getElementById("sliderV");
+    const selCs = document.getElementById("selCs");
+    const txtV = document.getElementById("txtV");
+    const txtCs = document.getElementById("txtCs");
+    const hudLambda = document.getElementById("hudLambda");
+    const hudRes = document.getElementById("hudRes");
+
+    sliderV.addEventListener("input", (e) => {
+      V_kV = parseFloat(e.target.value);
+      updateTEM();
+    });
+
+    selCs.addEventListener("change", (e) => {
+      isCs = e.target.value === "on";
+      updateTEM();
+    });
+
+    function toggleFFT() {
+      showFFT = !showFFT;
+    }
+
+    function calculateLambdaRelativistic(v_kV) {
+      // Relativistic de Broglie: lambda = h / sqrt(2 m0 e V (1 + e V / (2 m0 c^2)))
+      const V_volts = v_kV * 1000;
+      const h = 6.62607015e-34;
+      const m0 = 9.1093837e-31;
+      const e = 1.602176634e-19;
+      const c = 2.99792458e8;
+
+      const factor = 1 + (e * V_volts) / (2 * m0 * c * c);
+      const p = Math.sqrt(2 * m0 * e * V_volts * factor);
+      const lambda_m = h / p;
+      return lambda_m * 1e12; // pm
+    }
+
+    function updateTEM() {
+      txtV.textContent = "V = " + V_kV + " kV";
+      const lambda_pm = calculateLambdaRelativistic(V_kV);
+      hudLambda.textContent = lambda_pm.toFixed(2) + " pm (" + (lambda_pm / 100).toFixed(4) + " Å)";
+      const res_nm = isCs ? 0.05 : 0.20 * Math.sqrt(100 / V_kV);
+      hudRes.textContent = res_nm.toFixed(2) + " nm (" + (isCs ? "Cs-Corrected" : "Scherzer") + ")";
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const w = canvas.width;
+      const h = canvas.height;
+      animTime += 0.03;
+
+      const simW = w * 0.65;
+      const cx = simW * 0.5;
+      const cy = h * 0.5;
+
+      // Microscope Column Viewport
+      ctx.fillStyle = "#020617";
+      ctx.strokeStyle = "#334155";
+      ctx.lineWidth = 2;
+      ctx.fillRect(15, 15, simW - 15, h - 30);
+      ctx.strokeRect(15, 15, simW - 15, h - 30);
+
+      if (!showFFT) {
+        // Real-Space Atomic Lattice Fringes of Nanoparticle
+        ctx.fillStyle = "#38bdf8";
+        ctx.font = "12px 'JetBrains Mono', monospace";
+        ctx.fillText("ภาพถ่ายอะตอมจริงกำลังขยายสูง HR-TEM (Atomic Columns)", 25, 35);
+
+        // Draw Atomic Lattice Grid
+        const latticeSpacing = 16;
+        const blur = isCs ? 0 : 3;
+        ctx.filter = `blur(${blur}px)`;
+
+        for (let x = 40; x < simW - 40; x += latticeSpacing) {
+          for (let y = 50; y < h - 40; y += latticeSpacing) {
+            const dist = Math.hypot(x - cx, y - cy);
+            if (dist < 100) {
+              const grad = ctx.createRadialGradient(x, y, 1, x, y, 6);
+              grad.addColorStop(0, "#ffffff");
+              grad.addColorStop(0.6, "#facc15");
+              grad.addColorStop(1, "transparent");
+              ctx.fillStyle = grad;
+              ctx.beginPath();
+              ctx.arc(x, y, 6, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+        }
+        ctx.filter = "none";
+
+        // Nanocrystal Boundary Ring
+        ctx.strokeStyle = "rgba(0, 240, 255, 0.4)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(cx, cy, 105, 0, Math.PI * 2);
+        ctx.stroke();
+      } else {
+        // Reciprocal-Space Electron Diffraction Spot Pattern
+        ctx.fillStyle = "#00f0ff";
+        ctx.font = "12px 'JetBrains Mono', monospace";
+        ctx.fillText("รูปแบบการเลี้ยวเบนอิเล็กตรอน (Selected Area Electron Diffraction - SAED)", 25, 35);
+
+        // Central beam spot
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath(); ctx.arc(cx, cy, 8, 0, Math.PI * 2); ctx.fill();
+
+        // Diffraction spots for FCC lattice
+        const rings = [45, 65, 90, 110];
+        const ringNames = ["(111)", "(200)", "(220)", "(311)"];
+        rings.forEach((r, idx) => {
+          ctx.strokeStyle = "rgba(148, 163, 184, 0.3)";
+          ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
+
+          for (let s = 0; s < 6; s++) {
+            const ang = (s / 6) * Math.PI * 2 + idx * 0.2;
+            const sx = cx + Math.cos(ang) * r;
+            const sy = cy + Math.sin(ang) * r;
+            ctx.fillStyle = "#38bdf8";
+            ctx.beginPath(); ctx.arc(sx, sy, 4, 0, Math.PI * 2); ctx.fill();
+          }
+
+          ctx.fillStyle = "#facc15";
+          ctx.font = "10px 'JetBrains Mono', monospace";
+          ctx.fillText(ringNames[idx], cx + r + 4, cy - 4);
+        });
+      }
+
+      // Right Side: Electron Wavelength vs Accelerating Voltage
+      const gx = w * 0.68;
+      const gy = 25;
+      const gw = w * 0.29;
+      const gh = h - 50;
+
+      ctx.fillStyle = "rgba(15, 23, 42, 0.9)";
+      ctx.strokeStyle = "#334155";
+      ctx.fillRect(gx, gy, gw, gh);
+      ctx.strokeRect(gx, gy, gw, gh);
+
+      ctx.fillStyle = "#00f0ff";
+      ctx.font = "11px 'JetBrains Mono', monospace";
+      ctx.fillText("λ_e vs Voltage (kV)", gx + 10, gy + 18);
+
+      ctx.strokeStyle = "#facc15";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      for (let px = 0; px < gw - 25; px += 2) {
+        const plotV = 20 + (px / (gw - 25)) * 280;
+        const lambda = calculateLambdaRelativistic(plotV);
+        const py = gy + gh - 15 - (lambda / 9.0) * (gh - 45);
+        if (px === 0) ctx.moveTo(gx + 12 + px, py);
+        else ctx.lineTo(gx + 12 + px, py);
+      }
+      ctx.stroke();
+
+      requestAnimationFrame(draw);
+    }
+    draw();
+    updateTEM();
+  </script>
+</body>
+</html>
+"""
+
+# ==============================================================================
+# 4.2: AFM & STM Scanning Probe Metrology Simulator
+# ==============================================================================
+SIM_4_2_HTML = """<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 4.2: AFM & STM Scanning Probe Metrology</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #020617;
+      --panel: #090e1a;
+      --cyan: #00f0ff;
+      --amber: #facc15;
+      --purple: #c084fc;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: #f8fafc; font-family: 'Sarabun', sans-serif; padding: 12px; }
+    .sim-card { background: var(--panel); border: 1px solid #1e293b; border-radius: 14px; padding: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
+    .sim-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 10px; margin-bottom: 12px; }
+    .sim-title { font-size: 1.1rem; font-weight: 700; color: var(--purple); display: flex; align-items: center; gap: 8px; }
+    .badge { background: rgba(192,132,252,0.15); border: 1px solid var(--purple); color: var(--purple); padding: 3px 10px; border-radius: 9999px; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; }
+    .canvas-box { position: relative; width: 100%; height: 320px; background: #000; border: 1px solid #334155; border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
+    canvas { width: 100%; height: 100%; display: block; }
+    .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; background: #0f172a; padding: 12px 16px; border-radius: 10px; border: 1px solid #1e293b; margin-bottom: 12px; }
+    .ctrl-group { display: flex; flex-direction: column; gap: 6px; }
+    .ctrl-lbl { font-size: 0.8rem; color: #94a3b8; display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; }
+    input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
+    .hud { display: flex; justify-content: space-between; align-items: center; background: #020617; border: 1px solid #334155; border-radius: 8px; padding: 10px 16px; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; flex-wrap: wrap; gap: 10px; }
+    .hud-val { color: var(--cyan); font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="sim-card">
+    <div class="sim-header">
+      <div class="sim-title">
+        <span>📍</span>
+        <span>แล็บ 4.2: กล้องจุลทรรศน์หัวอ่านส่องกราด AFM/STM (Scanning Probe Profiler)</span>
+      </div>
+      <div class="badge">● ATOMIC FORCE & QUANTUM TUNNELING</div>
+    </div>
+
+    <div class="canvas-box">
+      <canvas id="spmCanvas"></canvas>
+    </div>
+
+    <div class="controls">
+      <div class="ctrl-group">
+        <div class="ctrl-lbl">
+          <span>โหมดการทำงานของหัวอ่าน (Probe Operating Mode)</span>
+          <span id="txtMode">AFM Tapping Mode (Non-Contact)</span>
+        </div>
+        <select id="selMode" style="background:#020617; color:#f8fafc; border:1px solid #334155; padding:6px; border-radius:6px; font-family:inherit; font-size:0.85rem;">
+          <option value="afm_tap" selected>1. AFM Tapping Mode (การสั่นคานสะท้อนเลเซอร์)</option>
+          <option value="stm_tunnel">2. STM Quantum Tunneling (กระแสควอนตัมอุโมงค์)</option>
+        </select>
+      </div>
+      <div class="ctrl-group">
+        <div class="ctrl-lbl">
+          <span>ระยะยกหัวอ่านเหนือพื้นผิว (Tip-to-Sample Distance: \\(d\\))</span>
+          <span id="txtDist">d = 0.50 nm</span>
+        </div>
+        <input type="range" id="sliderDist" min="0.2" max="2.0" step="0.05" value="0.5">
+      </div>
+    </div>
+
+    <div class="hud">
+      <div>กระแสอุโมงค์ / แอมพลิจูด: <span class="hud-val" id="hudSignal">1.85 nA (Tunneling)</span> | ความสูงสเต็ปอะตอม: <span class="hud-val" id="hudZ">0.314 nm (Si 111 Step)</span></div>
+      <div>ความละเอียดแนวระนาบ: <span class="hud-val" id="hudRes">0.1 nm (Sub-atomic)</span></div>
+      <button type="button" onclick="reverseScan()" style="background:#c084fc; color:#020617; border:none; padding:6px 14px; border-radius:6px; font-weight:700; cursor:pointer;">🔄 กลับทิศการสแกนเส้นโครงร่าง (Line Scan)</button>
+    </div>
+  </div>
+
+  <script src="ar_mediapipe_controller.js"></script>
+  <script>
+    const canvas = document.getElementById("spmCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function resize() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    let mode = "afm_tap";
+    let dist_nm = 0.5;
+    let tipX = 40;
+    let tipDir = 1;
+    let animTime = 0;
+
+    const selMode = document.getElementById("selMode");
+    const sliderDist = document.getElementById("sliderDist");
+    const txtMode = document.getElementById("txtMode");
+    const txtDist = document.getElementById("txtDist");
+    const hudSignal = document.getElementById("hudSignal");
+
+    selMode.addEventListener("change", (e) => {
+      mode = e.target.value;
+      updateSPM();
+    });
+
+    sliderDist.addEventListener("input", (e) => {
+      dist_nm = parseFloat(e.target.value);
+      updateSPM();
+    });
+
+    function reverseScan() {
+      tipDir *= -1;
+    }
+
+    function calculateTunnelCurrent(d) {
+      const kappa = 1.1; // decay constant ~1/A
+      const d_angstrom = d * 10;
+      return 10.0 * Math.exp(-2 * kappa * (d_angstrom - 3));
+    }
+
+    function updateSPM() {
+      txtDist.textContent = "d = " + dist_nm.toFixed(2) + " nm";
+      if (mode === "stm_tunnel") {
+        const I_nA = calculateTunnelCurrent(dist_nm);
+        hudSignal.textContent = I_nA.toFixed(2) + " nA (Quantum Tunneling)";
+      } else {
+        hudSignal.textContent = (35.0 / dist_nm).toFixed(1) + " mV (Cantilever Oscillation)";
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const w = canvas.width;
+      const h = canvas.height;
+      animTime += 0.04;
+
+      const simW = w * 0.65;
+      const subY = h - 70;
+
+      // Scan tip motion
+      tipX += tipDir * 2.0;
+      if (tipX < 40 || tipX > simW - 50) tipDir *= -1;
+
+      // Viewport
+      ctx.fillStyle = "#020617";
+      ctx.strokeStyle = "#334155";
+      ctx.lineWidth = 2;
+      ctx.fillRect(15, 15, simW - 15, h - 30);
+      ctx.strokeRect(15, 15, simW - 15, h - 30);
+
+      // Sample Surface with Atomic Steps & Nanodots
+      ctx.fillStyle = "#1e293b";
+      ctx.fillRect(20, subY, simW - 20, 50);
+
+      // Draw Atomic step terrace
+      ctx.fillStyle = "#334155";
+      ctx.fillRect(simW * 0.45, subY - 20, simW * 0.55 - 20, 20);
+
+      // Surface Atoms
+      for (let x = 30; x < simW - 30; x += 14) {
+        const atomY = x > simW * 0.45 ? subY - 20 : subY;
+        ctx.fillStyle = "#facc15";
+        ctx.beginPath();
+        ctx.arc(x, atomY, 5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Scanning Probe Tip & Cantilever
+      const currentSurfY = tipX > simW * 0.45 ? subY - 20 : subY;
+      const tipY = currentSurfY - dist_nm * 40 - (mode === "afm_tap" ? Math.sin(animTime * 15) * 8 : 0);
+
+      // Cantilever beam
+      ctx.strokeStyle = "#94a3b8";
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(20, tipY - 30);
+      ctx.lineTo(tipX, tipY - 15);
+      ctx.stroke();
+
+      // Sharp Tip
+      ctx.fillStyle = "#c084fc";
+      ctx.beginPath();
+      ctx.moveTo(tipX - 10, tipY - 15);
+      ctx.lineTo(tipX + 10, tipY - 15);
+      ctx.lineTo(tipX, tipY);
+      ctx.closePath();
+      ctx.fill();
+
+      // Optical Laser Reflection (AFM) or Tunneling Arc (STM)
+      if (mode === "afm_tap") {
+        ctx.strokeStyle = "rgba(244, 63, 94, 0.7)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(tipX - 40, 30);
+        ctx.lineTo(tipX, tipY - 15);
+        ctx.lineTo(tipX + 50, 30);
+        ctx.stroke();
+      } else {
+        // Quantum Tunneling Spark Arc
+        ctx.strokeStyle = "rgba(0, 240, 255, 0.8)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(tipX, tipY);
+        ctx.lineTo(tipX, currentSurfY - 5);
+        ctx.stroke();
+      }
+
+      // Right Side: Topography Scan Line Graph
+      const gx = w * 0.68;
+      const gy = 25;
+      const gw = w * 0.29;
+      const gh = h - 50;
+
+      ctx.fillStyle = "rgba(15, 23, 42, 0.9)";
+      ctx.strokeStyle = "#334155";
+      ctx.fillRect(gx, gy, gw, gh);
+      ctx.strokeRect(gx, gy, gw, gh);
+
+      ctx.fillStyle = "#c084fc";
+      ctx.font = "11px 'JetBrains Mono', monospace";
+      ctx.fillText("Topography Profile z(x)", gx + 10, gy + 18);
+
+      // Plot profile
+      ctx.strokeStyle = "#00f0ff";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      for (let px = 0; px < gw - 25; px += 2) {
+        const xRatio = px / (gw - 25);
+        const z = xRatio > 0.45 ? 0.6 : 0.3;
+        const py = gy + gh - 15 - z * (gh - 45);
+        if (px === 0) ctx.moveTo(gx + 12 + px, py);
+        else ctx.lineTo(gx + 12 + px, py);
+      }
+      ctx.stroke();
+
+      requestAnimationFrame(draw);
+    }
+    draw();
+    updateSPM();
+  </script>
+</body>
+</html>
+"""
+
+# ==============================================================================
+# 4.3: XRD Goniometer & Scherrer Crystallite Solver Simulator
+# ==============================================================================
+SIM_4_3_HTML = """<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 4.3: XRD Goniometer & Scherrer Solver</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #020617;
+      --panel: #090e1a;
+      --cyan: #00f0ff;
+      --amber: #facc15;
+      --emerald: #10b981;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: #f8fafc; font-family: 'Sarabun', sans-serif; padding: 12px; }
+    .sim-card { background: var(--panel); border: 1px solid #1e293b; border-radius: 14px; padding: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
+    .sim-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 10px; margin-bottom: 12px; }
+    .sim-title { font-size: 1.1rem; font-weight: 700; color: var(--emerald); display: flex; align-items: center; gap: 8px; }
+    .badge { background: rgba(16,185,129,0.15); border: 1px solid var(--emerald); color: var(--emerald); padding: 3px 10px; border-radius: 9999px; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; }
+    .canvas-box { position: relative; width: 100%; height: 320px; background: #000; border: 1px solid #334155; border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
+    canvas { width: 100%; height: 100%; display: block; }
+    .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; background: #0f172a; padding: 12px 16px; border-radius: 10px; border: 1px solid #1e293b; margin-bottom: 12px; }
+    .ctrl-group { display: flex; flex-direction: column; gap: 6px; }
+    .ctrl-lbl { font-size: 0.8rem; color: #94a3b8; display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; }
+    input[type=range] { width: 100%; accent-color: var(--emerald); cursor: pointer; }
+    .hud { display: flex; justify-content: space-between; align-items: center; background: #020617; border: 1px solid #334155; border-radius: 8px; padding: 10px 16px; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; flex-wrap: wrap; gap: 10px; }
+    .hud-val { color: var(--cyan); font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="sim-card">
+    <div class="sim-header">
+      <div class="sim-title">
+        <span>📊</span>
+        <span>แล็บ 4.3: การเลี้ยวเบนรังสีเอกซ์และสมการ Scherrer (XRD Diffractometer & Crystallite Size)</span>
+      </div>
+      <div class="badge">● D = K λ / (β cos θ) SOLVER</div>
+    </div>
+
+    <div class="canvas-box">
+      <canvas id="xrdCanvas"></canvas>
+    </div>
+
+    <div class="controls">
+      <div class="ctrl-group">
+        <div class="ctrl-lbl">
+          <span>ขนาดผลึกเฉลี่ย (Crystallite Domain Size: \\(D\\))</span>
+          <span id="txtD">D = 12.0 nm</span>
+        </div>
+        <input type="range" id="sliderD" min="3.0" max="60.0" step="1.0" value="12.0">
+      </div>
+      <div class="ctrl-group">
+        <div class="ctrl-lbl">
+          <span>ความยาวคลื่นหลอดรังสีเอกซ์ (X-Ray Tube Target)</span>
+          <span id="txtTarget">Cu Kα (λ = 0.15406 nm)</span>
+        </div>
+        <select id="selTarget" style="background:#020617; color:#f8fafc; border:1px solid #334155; padding:6px; border-radius:6px; font-family:inherit; font-size:0.85rem;">
+          <option value="0.15406" selected>ทองแดง Cu Kα (λ = 0.15406 nm)</option>
+          <option value="0.07107">โมลิบดีนัม Mo Kα (λ = 0.07107 nm)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="hud">
+      <div>ความกว้างครึ่งค่าสูงสุด FWHM (\\(\\beta\\)): <span class="hud-val" id="hudFWHM">0.72° (Peak Broadening)</span></div>
+      <div>โครงผลึก: <span class="hud-val" id="hudStructure">FCC Nanocrystal (111), (200), (220)</span></div>
+      <button type="button" onclick="startThetaScan()" style="background:#10b981; color:#020617; border:none; padding:6px 14px; border-radius:6px; font-weight:700; cursor:pointer;">⚡ หมุนแขนสแกน Goniometer θ-2θ</button>
+    </div>
+  </div>
+
+  <script src="ar_mediapipe_controller.js"></script>
+  <script>
+    const canvas = document.getElementById("xrdCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function resize() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    let D_nm = 12.0;
+    let lambda_xrd = 0.15406;
+    let thetaScan = 38.2;
+    let animTime = 0;
+
+    const sliderD = document.getElementById("sliderD");
+    const txtD = document.getElementById("txtD");
+    const hudFWHM = document.getElementById("hudFWHM");
+
+    sliderD.addEventListener("input", (e) => {
+      D_nm = parseFloat(e.target.value);
+      updateXRD();
+    });
+
+    function startThetaScan() {
+      thetaScan = 20.0;
+    }
+
+    function calculateBetaRad(d_val) {
+      // Scherrer: beta = K * lambda / (D * cos(theta))
+      const K = 0.94;
+      const theta_rad = (38.2 / 2) * (Math.PI / 180);
+      return (K * lambda_xrd) / (d_val * Math.cos(theta_rad));
+    }
+
+    function updateXRD() {
+      txtD.textContent = "D = " + D_nm.toFixed(1) + " nm";
+      const beta_rad = calculateBetaRad(D_nm);
+      const beta_deg = beta_rad * (180 / Math.PI);
+      hudFWHM.textContent = beta_deg.toFixed(3) + "° (" + (beta_deg * 60).toFixed(1) + " arcmin)";
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const w = canvas.width;
+      const h = canvas.height;
+      animTime += 0.03;
+
+      if (thetaScan < 80.0) thetaScan += 0.4;
+
+      const simW = w * 0.45;
+      const cx = simW * 0.5;
+      const cy = h * 0.55;
+
+      // XRD Goniometer Instrument View
+      ctx.fillStyle = "#020617";
+      ctx.strokeStyle = "#334155";
+      ctx.lineWidth = 2;
+      ctx.fillRect(15, 15, simW - 15, h - 30);
+      ctx.strokeRect(15, 15, simW - 15, h - 30);
+
+      // Sample Stage
+      ctx.fillStyle = "#475569";
+      ctx.fillRect(cx - 30, cy, 60, 15);
+
+      // X-Ray Tube Arm (Source)
+      const sourceAng = (thetaScan * 0.5) * (Math.PI / 180);
+      const srcX = cx - Math.cos(sourceAng) * 90;
+      const srcY = cy - Math.sin(sourceAng) * 90;
+
+      ctx.strokeStyle = "#3b82f6";
+      ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.moveTo(srcX, srcY); ctx.lineTo(cx, cy); ctx.stroke();
+
+      // Scintillation Detector Arm
+      const detX = cx + Math.cos(sourceAng) * 90;
+      const detY = cy - Math.sin(sourceAng) * 90;
+      ctx.strokeStyle = "#10b981";
+      ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(detX, detY); ctx.stroke();
+
+      ctx.fillStyle = "#facc15";
+      ctx.font = "11px 'JetBrains Mono', monospace";
+      ctx.fillText("2θ = " + thetaScan.toFixed(1) + "°", cx - 25, cy + 35);
+
+      // Right Side: Diffractogram 2θ Spectrum
+      const gx = w * 0.48;
+      const gy = 25;
+      const gw = w * 0.49;
+      const gh = h - 50;
+
+      ctx.fillStyle = "rgba(15, 23, 42, 0.9)";
+      ctx.strokeStyle = "#334155";
+      ctx.fillRect(gx, gy, gw, gh);
+      ctx.strokeRect(gx, gy, gw, gh);
+
+      ctx.fillStyle = "#10b981";
+      ctx.font = "11px 'JetBrains Mono', monospace";
+      ctx.fillText("XRD Diffractogram Intensity vs 2θ (°)", gx + 10, gy + 18);
+
+      // Plot 3 FCC Peaks: (111) at 38.2°, (200) at 44.4°, (220) at 64.6°
+      const peaks = [
+        { t: 38.2, amp: 1.0, hkl: "(111)" },
+        { t: 44.4, amp: 0.5, hkl: "(200)" },
+        { t: 64.6, amp: 0.35, hkl: "(220)" }
+      ];
+
+      const beta_deg = calculateBetaRad(D_nm) * (180 / Math.PI);
+      const sigma = beta_deg / 2.355;
+
+      ctx.strokeStyle = "#00f0ff";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+
+      for (let px = 0; px < gw - 25; px += 2) {
+        const cur2T = 20.0 + (px / (gw - 25)) * 60.0;
+        let intSum = 0;
+        peaks.forEach(pk => {
+          const diff = cur2T - pk.t;
+          intSum += pk.amp * Math.exp(-(diff * diff) / (2 * sigma * sigma));
+        });
+
+        const py = gy + gh - 20 - intSum * (gh - 55);
+        if (px === 0) ctx.moveTo(gx + 12 + px, py);
+        else ctx.lineTo(gx + 12 + px, py);
+      }
+      ctx.stroke();
+
+      // Peak Labels
+      peaks.forEach(pk => {
+        const px = ((pk.t - 20.0) / 60.0) * (gw - 25);
+        ctx.fillStyle = "#facc15";
+        ctx.font = "10px 'JetBrains Mono', monospace";
+        ctx.fillText(pk.hkl, gx + 8 + px, gy + gh - 20 - pk.amp * (gh - 55) - 6);
+      });
+
+      requestAnimationFrame(draw);
+    }
+    draw();
+    updateXRD();
+  </script>
+</body>
+</html>
+"""
+
+# ==============================================================================
+# 4.4: DLS & Zeta Potential Colloidal Metrology Simulator
+# ==============================================================================
+SIM_4_4_HTML = """<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 4.4: DLS & Zeta Potential Analyzer</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #020617;
+      --panel: #090e1a;
+      --cyan: #00f0ff;
+      --amber: #facc15;
+      --rose: #f43f5e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: #f8fafc; font-family: 'Sarabun', sans-serif; padding: 12px; }
+    .sim-card { background: var(--panel); border: 1px solid #1e293b; border-radius: 14px; padding: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
+    .sim-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 10px; margin-bottom: 12px; }
+    .sim-title { font-size: 1.1rem; font-weight: 700; color: var(--rose); display: flex; align-items: center; gap: 8px; }
+    .badge { background: rgba(244,63,94,0.15); border: 1px solid var(--rose); color: var(--rose); padding: 3px 10px; border-radius: 9999px; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; }
+    .canvas-box { position: relative; width: 100%; height: 320px; background: #000; border: 1px solid #334155; border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
+    canvas { width: 100%; height: 100%; display: block; }
+    .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; background: #0f172a; padding: 12px 16px; border-radius: 10px; border: 1px solid #1e293b; margin-bottom: 12px; }
+    .ctrl-group { display: flex; flex-direction: column; gap: 6px; }
+    .ctrl-lbl { font-size: 0.8rem; color: #94a3b8; display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; }
+    input[type=range] { width: 100%; accent-color: var(--rose); cursor: pointer; }
+    .hud { display: flex; justify-content: space-between; align-items: center; background: #020617; border: 1px solid #334155; border-radius: 8px; padding: 10px 16px; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; flex-wrap: wrap; gap: 10px; }
+    .hud-val { color: var(--cyan); font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="sim-card">
+    <div class="sim-header">
+      <div class="sim-title">
+        <span>⚡</span>
+        <span>แล็บ 4.4: การกระเจิงแสงพลวัตและศักย์ไฟฟ้าซีตา (DLS & Zeta Potential Metrology)</span>
+      </div>
+      <div class="badge">● STOKES-EINSTEIN & HENRY SOLVER</div>
+    </div>
+
+    <div class="canvas-box">
+      <canvas id="dlsCanvas"></canvas>
+    </div>
+
+    <div class="controls">
+      <div class="ctrl-group">
+        <div class="ctrl-lbl">
+          <span>ขนาดไฮโดรไดนามิก (Hydrodynamic Diameter: \\(D_H\\))</span>
+          <span id="txtDH">DH = 45.0 nm</span>
+        </div>
+        <input type="range" id="sliderDH" min="10.0" max="150.0" step="5.0" value="45.0">
+      </div>
+      <div class="ctrl-group">
+        <div class="ctrl-lbl">
+          <span>ศักย์ไฟฟ้าซีตาของอนุภาค (Zeta Potential: \\(\\zeta\\))</span>
+          <span id="txtZeta">ζ = -38.5 mV (Highly Stable)</span>
+        </div>
+        <input type="range" id="sliderZeta" min="-60" max="60" step="2" value="-38">
+      </div>
+    </div>
+
+    <div class="hud">
+      <div>สัมประสิทธิ์การแพร่ (\\(D_t\\)): <span class="hud-val" id="hudDt">9.78 × 10⁻¹² m²/s</span> | ดัชนี PDI: <span class="hud-val" id="hudPDI">0.065</span></div>
+      <div>เสถียรภาพคอลลอยด์: <span class="hud-val" id="hudStability">🟩 เสถียรภาพสูงมาก (|ζ| > 30 mV)</span></div>
+      <button type="button" onclick="reverseEField()" style="background:#f43f5e; color:#ffffff; border:none; padding:6px 14px; border-radius:6px; font-weight:700; cursor:pointer;">⚡ กลับทิศสนามไฟฟ้าอิเล็กโทรโฟเรซิส</button>
+    </div>
+  </div>
+
+  <script src="ar_mediapipe_controller.js"></script>
+  <script>
+    const canvas = document.getElementById("dlsCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function resize() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    let DH_nm = 45.0;
+    let zeta_mV = -38.0;
+    let eFieldDir = 1;
+    let animTime = 0;
+
+    const sliderDH = document.getElementById("sliderDH");
+    const sliderZeta = document.getElementById("sliderZeta");
+    const txtDH = document.getElementById("txtDH");
+    const txtZeta = document.getElementById("txtZeta");
+    const hudDt = document.getElementById("hudDt");
+    const hudStability = document.getElementById("hudStability");
+
+    sliderDH.addEventListener("input", (e) => {
+      DH_nm = parseFloat(e.target.value);
+      updateDLS();
+    });
+
+    sliderZeta.addEventListener("input", (e) => {
+      zeta_mV = parseFloat(e.target.value);
+      updateDLS();
+    });
+
+    function reverseEField() {
+      eFieldDir *= -1;
+    }
+
+    function calculateDt(dh) {
+      // Stokes-Einstein: Dt = kB * T / (3 pi eta DH)
+      const kB = 1.380649e-23;
+      const T = 298.15; // 25 C
+      const eta = 0.89e-3; // Water Pa.s
+      const r_m = (dh * 1e-9) / 2;
+      return (kB * T) / (6 * Math.PI * eta * r_m);
+    }
+
+    function updateDLS() {
+      txtDH.textContent = "DH = " + DH_nm.toFixed(1) + " nm";
+      const dt = calculateDt(DH_nm);
+      hudDt.textContent = (dt * 1e12).toFixed(2) + " × 10⁻¹² m²/s";
+
+      const absZ = Math.abs(zeta_mV);
+      if (absZ >= 30) {
+        txtZeta.textContent = "ζ = " + zeta_mV.toFixed(1) + " mV (Highly Stable)";
+        hudStability.textContent = "🟩 เสถียรภาพสูงมาก ไร้การรวมกลุ่ม (|ζ| > 30 mV)";
+      } else if (absZ >= 15) {
+        txtZeta.textContent = "ζ = " + zeta_mV.toFixed(1) + " mV (Incipient Stability)";
+        hudStability.textContent = "🟨 เริ่มมีความไม่เสถียร (Incipient)";
+      } else {
+        txtZeta.textContent = "ζ = " + zeta_mV.toFixed(1) + " mV (Rapid Coagulation)";
+        hudStability.textContent = "🟥 ไม่เสถียร เกิดการเกาะกลุ่มตกตะกอนทันที";
+      }
+    }
+
+    // Brownian particles
+    const particles = [];
+    for (let i = 0; i < 40; i++) {
+      particles.push({
+        x: Math.random() * 250 + 30,
+        y: Math.random() * 200 + 40,
+        vx: 0,
+        vy: 0
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const w = canvas.width;
+      const h = canvas.height;
+      animTime += 0.03;
+
+      const simW = w * 0.48;
+
+      // Cuvette cell
+      ctx.fillStyle = "#020617";
+      ctx.strokeStyle = "#334155";
+      ctx.lineWidth = 2;
+      ctx.fillRect(15, 15, simW - 15, h - 30);
+      ctx.strokeRect(15, 15, simW - 15, h - 30);
+
+      // Laser beam path (He-Ne 633 nm red laser)
+      ctx.strokeStyle = "rgba(239, 68, 68, 0.4)";
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.moveTo(15, h * 0.5);
+      ctx.lineTo(simW, h * 0.5);
+      ctx.stroke();
+
+      // Electrophoretic drift velocity: v = mu_e * E
+      const driftVx = (zeta_mV / 30.0) * eFieldDir * 1.5;
+      const brownianIntensity = Math.sqrt(60.0 / DH_nm);
+
+      particles.forEach(p => {
+        p.vx = (Math.random() - 0.5) * brownianIntensity * 2.5 + driftVx;
+        p.vy = (Math.random() - 0.5) * brownianIntensity * 2.5;
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 25) p.x = simW - 25;
+        if (p.x > simW - 25) p.x = 25;
+        if (p.y < 30) p.y = h - 30;
+        if (p.y > h - 30) p.y = 30;
+
+        // Particle core
+        const drawR = Math.max(3, DH_nm * 0.12);
+        ctx.fillStyle = zeta_mV < 0 ? "#38bdf8" : "#f43f5e";
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, drawR, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Right Side: Autocorrelation Function g2(tau) & Size Distribution
+      const gx = w * 0.50;
+      const gy = 25;
+      const gw = w * 0.47;
+      const gh = h - 50;
+
+      ctx.fillStyle = "rgba(15, 23, 42, 0.9)";
+      ctx.strokeStyle = "#334155";
+      ctx.fillRect(gx, gy, gw, gh);
+      ctx.strokeRect(gx, gy, gw, gh);
+
+      ctx.fillStyle = "#f43f5e";
+      ctx.font = "11px 'JetBrains Mono', monospace";
+      ctx.fillText("DLS Size Distribution Histogram", gx + 10, gy + 18);
+
+      // Plot Lognormal Hydrodynamic Size Distribution
+      const sigma = 0.25;
+      ctx.strokeStyle = "#00f0ff";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+
+      for (let px = 0; px < gw - 25; px += 2) {
+        const plotD = 5.0 + (px / (gw - 25)) * 180.0;
+        const diff = Math.log(plotD / DH_nm);
+        const curve = Math.exp(-(diff * diff) / (2 * sigma * sigma)) / plotD;
+        const py = gy + gh - 15 - (curve * DH_nm * 0.8) * (gh - 45);
+        if (px === 0) ctx.moveTo(gx + 12 + px, py);
+        else ctx.lineTo(gx + 12 + px, py);
+      }
+      ctx.stroke();
+
+      requestAnimationFrame(draw);
+    }
+    draw();
+    updateDLS();
+  </script>
+</body>
+</html>
+"""
+
+# ==============================================================================
+# 4.5: Master Nanometrology & EELS/EDS Elemental Mapping Studio Hub
+# ==============================================================================
+SIM_4_5_HTML = """<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 4.5: Master Nanometrology & Spectroscopy Studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #020617;
+      --panel: #090e1a;
+      --cyan: #00f0ff;
+      --amber: #facc15;
+      --emerald: #10b981;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: #f8fafc; font-family: 'Sarabun', sans-serif; padding: 12px; }
+    .sim-card { background: var(--panel); border: 1px solid #1e293b; border-radius: 14px; padding: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
+    .sim-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 10px; margin-bottom: 12px; }
+    .sim-title { font-size: 1.1rem; font-weight: 700; color: var(--emerald); display: flex; align-items: center; gap: 8px; }
+    .badge { background: rgba(16,185,129,0.15); border: 1px solid var(--emerald); color: var(--emerald); padding: 3px 10px; border-radius: 9999px; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; }
+    .canvas-box { position: relative; width: 100%; height: 320px; background: #000; border: 1px solid #334155; border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
+    canvas { width: 100%; height: 100%; display: block; }
+    .hud { display: flex; justify-content: space-between; align-items: center; background: #020617; border: 1px solid #334155; border-radius: 8px; padding: 10px 16px; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; flex-wrap: wrap; gap: 10px; }
+    .hud-val { color: var(--cyan); font-weight: 700; }
+    .btn-switch { background: linear-gradient(135deg, #10b981, #059669); color: #ffffff; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="sim-card">
+    <div class="sim-header">
+      <div class="sim-title">
+        <span>🌐</span>
+        <span>แล็บ 4.5: สตูดิโอมาตรวิทยาและสเปกโตรสโกปีระดับนาโน (Master Nanometrology Studio)</span>
+      </div>
+      <div class="badge">● AR HANDS MULTI-MODAL 60 FPS</div>
+    </div>
+
+    <div class="canvas-box">
+      <canvas id="hubCanvas"></canvas>
+    </div>
+
+    <div class="hud">
+      <div>โหมดการวิเคราะห์ 3D: <span class="hud-val" id="hudMode">1. แผนที่ธาตุระดับอะตอม EELS / EDS Mapping</span></div>
+      <div>สถานะกล้อง AR: <span class="hud-val" id="hudAR">Active (60 FPS Tracking)</span></div>
+      <button type="button" class="btn-switch" onclick="switchBay()">🔄 สลับโหมดการทดลอง 3D</button>
+    </div>
+  </div>
+
+  <script src="ar_mediapipe_controller.js"></script>
+  <script>
+    const canvas = document.getElementById("hubCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function resize() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    let bayIndex = 0;
+    const bays = ["1. แผนที่ธาตุระดับอะตอม EELS / EDS Mapping", "2. ภาพถ่าย 3 มิติหัวอ่าน AFM Surface Topography", "3. การเลี้ยวเบนโครงผลึก XRD Goniometer"];
+    const hudMode = document.getElementById("hudMode");
+
+    function switchBay() {
+      bayIndex = (bayIndex + 1) % bays.length;
+      hudMode.textContent = bays[bayIndex];
+    }
+
+    let animTime = 0;
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const w = canvas.width;
+      const h = canvas.height;
+      animTime += 0.03;
+
+      const cx = w * 0.5;
+      const cy = h * 0.5;
+
+      // Perspective Grid
+      ctx.strokeStyle = "rgba(16, 185, 129, 0.2)";
+      ctx.lineWidth = 1;
+      for (let x = 0; x < w; x += 40) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+      }
+      for (let y = 0; y < h; y += 40) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      }
+
+      if (bayIndex === 0) {
+        // Mode 0: Core-Shell Nanoparticle EELS Mapping (Au Core @ Ag Shell)
+        const coreR = 40;
+        const shellR = 70;
+
+        // Ag Shell (Green)
+        ctx.fillStyle = "rgba(16, 185, 129, 0.4)";
+        ctx.beginPath(); ctx.arc(cx, cy, shellR, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = "#10b981"; ctx.stroke();
+
+        // Au Core (Gold)
+        ctx.fillStyle = "rgba(234, 179, 8, 0.8)";
+        ctx.beginPath(); ctx.arc(cx, cy, coreR, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = "#eab308"; ctx.stroke();
+
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "11px 'JetBrains Mono', monospace";
+        ctx.fillText("Au M4,5 Edge (Gold Core)", cx - 65, cy - shellR - 10);
+        ctx.fillText("Ag L2,3 Edge (Silver Shell)", cx - 65, cy + shellR + 20);
+      } else if (bayIndex === 1) {
+        // Mode 1: 3D AFM Surface Waves
+        for (let i = 0; i < 8; i++) {
+          const yOffset = cy - 60 + i * 18;
+          ctx.strokeStyle = `rgba(0, 240, 255, ${0.3 + i * 0.08})`;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          for (let px = 80; px < w - 80; px += 4) {
+            const z = Math.sin(px * 0.03 + animTime + i * 0.5) * 16;
+            if (px === 80) ctx.moveTo(px, yOffset + z);
+            else ctx.lineTo(px, yOffset + z);
+          }
+          ctx.stroke();
+        }
+      } else {
+        // Mode 2: XRD Peak Diffractometer 3D Cones
+        ctx.strokeStyle = "#f43f5e";
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.arc(cx, cy, 50, 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.arc(cx, cy, 90, 0, Math.PI * 2); ctx.stroke();
+      }
+
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+</body>
+</html>
+"""
+
+# 1. Write simulators
+ch4_sims = {
+    "sim_nano_4_1.html": SIM_4_1_HTML,
+    "sim_nano_4_2.html": SIM_4_2_HTML,
+    "sim_nano_4_3.html": SIM_4_3_HTML,
+    "sim_nano_4_4.html": SIM_4_4_HTML,
+    "sim_nano_4_5.html": SIM_4_5_HTML
+}
+
+for fname, content in ch4_sims.items():
+    with open(os.path.join(NANO_SIMS_DIR, fname), "w", encoding="utf-8") as f:
+        f.write(content)
+    with open(os.path.join(ROOT_SIMS_DIR, fname), "w", encoding="utf-8") as f:
+        f.write(content)
+    print(f"✅ Generated Chapter 4 Simulator: {fname}")
+
+# 2. Sync to gh-pages branch
+TMP_GH = "/tmp/clean_gh_pages"
+if os.path.exists(TMP_GH):
+    shutil.rmtree(TMP_GH)
+os.makedirs(TMP_GH, exist_ok=True)
+
+shutil.copytree(ROOT_SIMS_DIR, os.path.join(TMP_GH, "simulators"))
+shutil.copytree(os.path.join(BASE_DIR, "assets"), os.path.join(TMP_GH, "assets"))
+with open(os.path.join(TMP_GH, ".nojekyll"), "w") as f:
+    f.write("")
+if os.path.exists(os.path.join(BASE_DIR, "index.html")):
+    shutil.copy(os.path.join(BASE_DIR, "index.html"), os.path.join(TMP_GH, "index.html"))
+
+subprocess.run(["git", "init"], cwd=TMP_GH, check=True)
+subprocess.run(["git", "checkout", "-b", "gh-pages"], cwd=TMP_GH, check=True)
+subprocess.run(["git", "add", "."], cwd=TMP_GH, check=True)
+subprocess.run(["git", "commit", "-m", "feat(sims): add chapter 4 tailored nanometrology tem afm xrd 60fps simulators"], cwd=TMP_GH, check=True)
+
+remote_url = f"https://{os.environ.get('GH_PAT', '')}@github.com/Tsanaphy2023/modernphysics.git"
+subprocess.run(["git", "push", "--force", remote_url, "gh-pages"], cwd=TMP_GH, check=True)
+print("🎉 Force pushed Chapter 4 Simulators to gh-pages CDN!")
+
+# 3. Re-run deploy_masterclass_formulas_course_263.py to update Moodle
+subprocess.run(["python3", "nanotechnology/course_nanophysics_263/deploy_masterclass_formulas_course_263.py"], cwd=BASE_DIR, check=True)
+
+print("🎉 Successfully developed, synced, and deployed Chapter 4 to Moodle Course 263!")

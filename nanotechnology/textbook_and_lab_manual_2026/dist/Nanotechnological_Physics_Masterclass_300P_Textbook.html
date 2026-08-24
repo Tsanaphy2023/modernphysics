@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>นาโนเทคโนโลยีเชิงฟิสิกส์ (Nanotechnological Physics) - Masterclass Textbook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Sarabun:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+          onload="renderMathInElement(document.body, {
+            delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: false}
+            ]
+          });"></script>
+  <style>
+    
+@page {
+  size: A4 portrait;
+  margin-top: 25.4mm;
+  margin-bottom: 25.4mm;
+}
+
+@page :left {
+  margin-left: 25.4mm;
+  margin-right: 38.1mm; /* Gutter 1.5 in */
+  @top-left {
+    content: "นาโนเทคโนโลยีเชิงฟิสิกส์ (Nanotechnological Physics)";
+    font-family: 'Sarabun', sans-serif;
+    font-size: 8.5pt;
+    color: #64748b;
+  }
+  @top-right {
+    content: counter(page);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9pt;
+    font-weight: 700;
+    color: #0284c7;
+  }
+}
+
+@page :right {
+  margin-left: 38.1mm; /* Gutter 1.5 in */
+  margin-right: 25.4mm;
+  @top-left {
+    content: counter(page);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9pt;
+    font-weight: 700;
+    color: #0284c7;
+  }
+  @top-right {
+    content: string(chapter-title);
+    font-family: 'Sarabun', sans-serif;
+    font-size: 8.5pt;
+    color: #64748b;
+  }
+}
+
+* { box-sizing: border-box; }
+body {
+  font-family: 'Sarabun', -apple-system, sans-serif;
+  font-size: 10pt;
+  line-height: 1.85;
+  color: #1e293b;
+  background: #ffffff;
+  margin: 0;
+  padding: 0;
+}
+
+.chapter-container {
+  break-before: right;
+  page-break-before: right;
+  margin-bottom: 30px;
+}
+
+.chapter-hero {
+  background: linear-gradient(135deg, #091328 0%, #1e293b 100%);
+  border-left: 7px solid #0ea5e9;
+  border-radius: 14px;
+  padding: 28px 32px;
+  color: #ffffff;
+  margin-bottom: 30px;
+  page-break-inside: avoid;
+}
+
+.chapter-badge {
+  display: inline-block;
+  background: rgba(14, 165, 233, 0.2);
+  border: 1px solid #0ea5e9;
+  color: #38bdf8;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8.5pt;
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: 9999px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.chapter-title {
+  font-size: 20pt;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.35;
+  margin: 0 0 10px 0;
+}
+
+.chapter-subtitle {
+  font-size: 11pt;
+  color: #94a3b8;
+  margin: 0;
+}
+
+h2 {
+  font-size: 13.5pt;
+  font-weight: 700;
+  color: #0369a1;
+  border-bottom: 1.5px solid #e2e8f0;
+  padding-bottom: 6px;
+  margin-top: 30px;
+  margin-bottom: 14px;
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+h3 {
+  font-size: 11.5pt;
+  font-weight: 700;
+  color: #0f172a;
+  margin-top: 22px;
+  margin-bottom: 10px;
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+h4 {
+  font-size: 10.5pt;
+  font-weight: 700;
+  color: #334155;
+  margin-top: 18px;
+  margin-bottom: 8px;
+  break-after: avoid;
+}
+
+p {
+  margin: 0 0 14px 0;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.formula-box {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-left: 5px solid #0284c7;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin: 22px 0;
+  page-break-inside: avoid;
+}
+
+.formula-box-title {
+  font-weight: 700;
+  color: #0369a1;
+  font-size: 10pt;
+  margin-bottom: 8px;
+}
+
+.formula-math {
+  text-align: center;
+  font-size: 11.5pt;
+  margin: 12px 0;
+  color: #0f172a;
+}
+
+.example-box {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-left: 5px solid #16a34a;
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin: 24px 0;
+  page-break-inside: avoid;
+}
+
+.example-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  color: #15803d;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #dcfce7;
+  padding-bottom: 6px;
+}
+
+.code-box {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 20px 0;
+  color: #f8fafc;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8.5pt;
+  line-height: 1.6;
+  page-break-inside: avoid;
+}
+
+.code-header {
+  color: #38bdf8;
+  font-weight: 700;
+  font-size: 8.5pt;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+}
+
+.diagram-wrap {
+  text-align: center;
+  margin: 26px 0;
+  page-break-inside: avoid;
+}
+
+.diagram-wrap img {
+  max-width: 92%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  border: 1px solid #e2e8f0;
+}
+
+.caption {
+  font-size: 9pt;
+  color: #64748b;
+  margin-top: 8px;
+  font-style: italic;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 18px 0;
+  font-size: 9pt;
+  page-break-inside: avoid;
+}
+
+th {
+  background: #0f172a;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 9px 11px;
+  text-align: left;
+  border: 1px solid #334155;
+}
+
+td {
+  padding: 8px 11px;
+  border: 1px solid #e2e8f0;
+  vertical-align: top;
+}
+
+tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+.summary-box {
+  background: #fdf4ff;
+  border: 1px solid #f0abfc;
+  border-left: 5px solid #c084fc;
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin: 24px 0;
+  page-break-inside: avoid;
+}
+
+.exercise-box {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-left: 5px solid #f59e0b;
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin: 26px 0;
+  page-break-inside: avoid;
+}
+
+.cover-page {
+  page-break-before: always;
+  page-break-after: always;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px;
+  background: linear-gradient(135deg, #020617 0%, #091328 100%);
+  color: #ffffff;
+}
+
+.toc-page {
+  page-break-before: always;
+  page-break-after: always;
+  padding: 10px 0;
+}
+
+  </style>
+</head>
+<body>
+  
+    <!-- COVER PAGE -->
+    <div class="cover-page">
+      <div style="font-size: 11pt; color: #38bdf8; font-family: 'JetBrains Mono', monospace; font-weight: 700; letter-spacing: 2px; margin-bottom: 20px;">
+        MASTERCLASS ACADEMIC TEXTBOOK SERIES 2026
+      </div>
+      <h1 style="font-size: 32pt; font-weight: 800; color: #ffffff; margin: 0 0 16px 0; line-height: 1.2;">
+        นาโนเทคโนโลยีเชิงฟิสิกส์
+      </h1>
+      <div style="font-size: 18pt; font-weight: 600; color: #94a3b8; margin-bottom: 30px;">
+        Nanotechnological Physics: Theory, Computation &amp; Modern Applications
+      </div>
+      <div style="width: 80px; height: 4px; background: #00f0ff; margin-bottom: 30px;"></div>
+      <div style="font-size: 14pt; font-weight: 700; color: #ffffff; margin-bottom: 6px;">
+        ผู้ช่วยศาสตราจารย์ ดร.ชีวะ ทัศนา (Asst. Prof. Dr. Chewa Thassana)
+      </div>
+      <div style="font-size: 10.5pt; color: #94a3b8; margin-bottom: 20px;">
+        สาขาวิชาฟิสิกส์ คณะวิทยาศาสตร์และเทคโนโลยี มหาวิทยาลัยราชภัฏรำไพพรรณี
+      </div>
+      <div style="font-size: 9pt; color: #64748b; font-family: 'JetBrains Mono', monospace;">
+        ISBN 978-616-XXXX-XX-X • 1st Edition 2026 • 300+ Pages Academic Masterclass
+      </div>
+    </div>
+
+    <!-- HALF TITLE & CIP -->
+    <div class="toc-page">
+      <div style="text-align: center; margin-top: 100px; margin-bottom: 80px;">
+        <h2 style="font-size: 22pt; font-weight: 800; color: #0f172a; border: none; margin: 0;">นาโนเทคโนโลยีเชิงฟิสิกส์</h2>
+        <div style="font-size: 13pt; color: #64748b; margin-top: 8px;">Nanotechnological Physics</div>
+      </div>
+      
+      <div style="border: 1px solid #cbd5e1; border-radius: 8px; padding: 20px 24px; background: #f8fafc; font-size: 9pt; line-height: 1.7; margin-top: 60px;">
+        <div style="font-weight: 700; color: #0f172a; margin-bottom: 8px;">ข้อมูลทางบรรณานุกรมของสำนักหอสมุดแห่งชาติ (CIP Data)</div>
+        ชีวะ ทัศนา.<br>
+        <strong>นาโนเทคโนโลยีเชิงฟิสิกส์ (Nanotechnological Physics)</strong> -- จันทบุรี : คณะวิทยาศาสตร์และเทคโนโลยี มหาวิทยาลัยราชภัฏรำไพพรรณี, 2569.<br>
+        350 หน้า.<br>
+        1. นาโนเทคโนโลยี. 2. ฟิสิกส์ของแข็ง. 3. การกักขังเชิงควอนตัม. 4. วัสดุศาสตร์นาโน. I. ชื่อเรื่อง.<br>
+        <strong>ISBN 978-616-XXXX-XX-X</strong>
+        <div style="border-top: 1px solid #e2e8f0; margin-top: 12px; padding-top: 10px; font-size: 8.5pt; color: #64748b;">
+          สงวนลิขสิทธิ์ตามพระราชบัญญัติลิขสิทธิ์ พ.ศ. 2537 โดย ผู้ช่วยศาสตราจารย์ ดร.ชีวะ ทัศนา<br>
+          ห้ามลอกเลียนแบบ ทำซ้ำ หรือดัดแปลงส่วนหนึ่งส่วนใดของหนังสือเล่มนี้ เว้นแต่จะได้รับอนุญาตเป็นลายลักษณ์อักษร
+        </div>
+      </div>
+    </div>
+
+    <!-- PREFACE -->
+    <div class="toc-page">
+      <h2 style="color: #0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 8px;">คำนำผู้แต่ง (Author's Preface)</h2>
+      <p>
+        วิชานาโนเทคโนโลยีเชิงฟิสิกส์ เป็นหนึ่งในวิทยาการแถวหน้า (Frontier Science) ที่ขับเคลื่อนการปฏิวัติอุตสาหกรรมยุคใหม่ ตั้งแต่การประดิษฐกรรมทรานซิสเตอร์ระดับ 2 นาโนเมตร จอแสดงผลควอนตัมดอทประสิทธิภาพสูง เซลล์แสงอาทิตย์เพอรอฟสไกต์ ไปจนถึงอนุภาคนาโนทางการแพทย์เพื่อการรักษาโรคมะเร็งแบบมุ่งเป้า การทำความเข้าใจพฤติกรรมของสสารในระดับนาโนสเกลจำเป็นต้องอาศัยการผสานองค์ความรู้ข้ามสาขาวิชาอย่างลึกซึ้ง
+      </p>
+      <p>
+        ตำรา <strong>“นาโนเทคโนโลยีเชิงฟิสิกส์ (Nanotechnological Physics)”</strong> เล่มนี้ ได้รับการออกแบบและเรียบเรียงขึ้นตามมาตรฐานการจัดทำตำราวิชาการระดับ Masterclass (Springer / MIT Press Style) โดยมีเป้าหมายเพื่อเป็นแหล่งเรียนรู้ที่สมบูรณ์แบบที่สุด ประกอบด้วยเนื้อหาเชิงทฤษฎีเข้มข้น การพิสูจน์สมการฟิสิกส์บรรทัดต่อบรรทัด แผนภาพเวกเตอร์ SVG คมชัด 100% ตัวอย่างการคำนวณพร้อมแนวคิดเชิงฟิสิกส์ โค้ดคอมพิวเตอร์ภาษาไพทอนสำหรับการจำลองเชิงตัวเลข และแบบฝึกหัดท้ายบท 3 ระดับการเรียนรู้
+      </p>
+      <div style="margin-top: 30px; text-align: right;">
+        <strong>ผู้ช่วยศาสตราจารย์ ดร.ชีวะ ทัศนา</strong><br>
+        สาขาวิชาฟิสิกส์ คณะวิทยาศาสตร์และเทคโนโลยี<br>
+        มหาวิทยาลัยราชภัฏรำไพพรรณี
+      </div>
+    </div>
+
+    <!-- DETAILED TABLE OF CONTENTS -->
+    <div class="toc-page">
+      <h2 style="color: #0369a1; border-bottom: 2px solid #0284c7; padding-bottom: 8px;">สารบัญภาพรวม (Detailed Table of Contents)</h2>
+      
+      <div class="toc-ch-title">บทที่ 1: พื้นฐานนาโนฟิสิกส์และการคิดเชิงมาตราส่วน (Fundamentals &amp; Scaling Laws)</div>
+      <div class="toc-row"><span>1.1 มาตราส่วนความยาวและขอบเขตนาโนเมตร (Length Scales 1-100 nm)</span><span>1</span></div>
+      <div class="toc-row"><span>1.2 พลังงานพื้นผิวและอัตราส่วนพื้นที่ผิวต่อปริมาตร ($A/V = 6/d$)</span><span>7</span></div>
+      <div class="toc-row"><span>1.3 การเคลื่อนที่แบบบราวเนียนและการแพร่ระดับนาโน (Einstein-Stokes Diffusion)</span><span>14</span></div>
+      <div class="toc-row"><span>1.4 อันตรกิริยาและแรงระดับโมเลกุลในระบบนาโน (van der Waals &amp; DLVO Theory)</span><span>22</span></div>
+      <div class="toc-row"><span>1.5 แบบจำลองคอมพิวเตอร์และแบบฝึกหัดท้ายบทที่ 1</span><span>30</span></div>
+
+      <div class="toc-ch-title">บทที่ 2: สมบัติขึ้นกับขนาดและการกักขังเชิงควอนตัม (Quantum Confinement &amp; Optics)</div>
+      <div class="toc-row"><span>2.1 การกักขังเชิงควอนตัมและแบบจำลองบรูส (Brus Quantum Dot Equation)</span><span>38</span></div>
+      <div class="toc-row"><span>2.2 ความหนาแน่นสถานะในมิติต่างๆ 0D, 1D, 2D, 3D (Density of States)</span><span>46</span></div>
+      <div class="toc-row"><span>2.3 พลาสมอนเรโซแนนซ์ระดับผิวเฉพาะที่ (Localized Surface Plasmon Resonance - LSPR)</span><span>55</span></div>
+      <div class="toc-row"><span>2.4 การลดลงของจุดหลอมเหลวในอนุภาคนาโน (Melting Point Depression)</span><span>64</span></div>
+      <div class="toc-row"><span>2.5 แบบจำลองคอมพิวเตอร์และแบบฝึกหัดท้ายบทที่ 2</span><span>73</span></div>
+
+      <div class="toc-ch-title">บทที่ 3: การสังเคราะห์และการเติบโตของวัสดุนาโน (Synthesis &amp; Growth Kinetics)</div>
+      <div class="toc-row"><span>3.1 ยุทธศาสตร์จากบนลงล่าง vs จากล่างขึ้นบน (Top-Down vs Bottom-Up)</span><span>82</span></div>
+      <div class="toc-row"><span>3.2 กระบวนการโซล-เจลและเคมีสารละลายคอลลอยด์ (Sol-Gel &amp; Colloidal Chemistry)</span><span>91</span></div>
+      <div class="toc-row"><span>3.3 การตกสะสมไอเคมีและการเติบโตไอระเหย (CVD, ALD &amp; PVD)</span><span>100</span></div>
+      <div class="toc-row"><span>3.4 จลนพลศาสตร์การเกิดนิวเคลียสและการเติบโตผลึก (LaMer Nucleation &amp; Ripening)</span><span>110</span></div>
+      <div class="toc-row"><span>3.5 แบบจำลองคอมพิวเตอร์และแบบฝึกหัดท้ายบทที่ 3</span><span>120</span></div>
+
+      <div class="toc-ch-title">บทที่ 4: การวิเคราะห์ลักษณะเฉพาะและมาตรวิทยานาโน (Nanometrology Suite)</div>
+      <div class="toc-row"><span>4.1 กล้องจุลทรรศน์อิเล็กตรอนแบบส่องกราด (Field Emission SEM)</span><span>129</span></div>
+      <div class="toc-row"><span>4.2 กล้องจุลทรรศน์อิเล็กตรอนแบบส่องผ่านความละเอียดสูง (HR-TEM &amp; SAED)</span><span>138</span></div>
+      <div class="toc-row"><span>4.3 กล้องจุลทรรศน์แรงอะตอมและหัวเข็มกราดตรวจ (AFM &amp; STM Metrology)</span><span>148</span></div>
+      <div class="toc-row"><span>4.4 การเลี้ยวเบนรังสีเอกซ์และสเปกโทรสโกปีโฟโตอิเล็กตรอน (XRD Scherrer &amp; XPS)</span><span>158</span></div>
+      <div class="toc-row"><span>4.5 แบบจำลองคอมพิวเตอร์และแบบฝึกหัดท้ายบทที่ 4</span><span>169</span></div>
+
+      <div class="toc-ch-title">บทที่ 5: วัสดุคาร์บอนและโครงสร้างนาโนมิติต่ำ (Carbon Allotropes &amp; 2D Materials)</div>
+      <div class="toc-row"><span>5.1 กราฟีนและฟิสิกส์ของไดแร็กเฟอร์มิออน (Graphene Dirac Cones &amp; Klein Tunneling)</span><span>178</span></div>
+      <div class="toc-row"><span>5.2 ท่อคาร์บอนนาโนและดัชนีไคราลิตี้ (CNT Chiral Indices (n,m) &amp; Bands)</span><span>188</span></div>
+      <div class="toc-row"><span>5.3 ลวดควอนตัมและการนำส่งควอนตัม (Landauer Conductance Quantization)</span><span>198</span></div>
+      <div class="toc-row"><span>5.4 สปินทรอนิกส์และความต้านทานแม่เหล็กยักษ์ (Spintronics, GMR &amp; MRAM)</span><span>208</span></div>
+      <div class="toc-row"><span>5.5 แบบจำลองคอมพิวเตอร์และแบบฝึกหัดท้ายบทที่ 5</span><span>219</span></div>
+
+      <div class="toc-ch-title">บทที่ 6: การประยุกต์ใช้นาโนเทคโนโลยี (Nanotechnology Applications)</div>
+      <div class="toc-row"><span>6.1 เซลล์แสงอาทิตย์เพอรอฟสไกต์และควอนตัมดอท (Perovskite &amp; QD Solar Cells)</span><span>228</span></div>
+      <div class="toc-row"><span>6.2 อุปกรณ์กักเก็บพลังงานและซูเปอร์คาปาซิเตอร์ (3D Graphene Supercapacitors)</span><span>238</span></div>
+      <div class="toc-row"><span>6.3 การแพทย์นาโนและการนำส่งยาแบบมุ่งเป้า (EPR Effect &amp; Nanomedicine)</span><span>248</span></div>
+      <div class="toc-row"><span>6.4 สิ่งแวดล้อม การกรองน้ำ และเซนเซอร์ก๊าซ (Nanofiltration &amp; Photocatalysis)</span><span>258</span></div>
+      <div class="toc-row"><span>6.5 แบบจำลองคอมพิวเตอร์และแบบฝึกหัดท้ายบทที่ 6</span><span>269</span></div>
+
+      <div class="toc-ch-title">บทที่ 7: ความปลอดภัย พิษวิทยา และจริยธรรมนาโน (Nanotoxicology &amp; Safety)</div>
+      <div class="toc-row"><span>7.1 ความเป็นพิษของอนุภาคนาโนและกลไก ROS (Cellular ROS &amp; MTT Assay)</span><span>278</span></div>
+      <div class="toc-row"><span>7.2 ความปลอดภัยในห้องปฏิบัติการและมาตรฐานคลีนรูม (ISO 14644-1 Cleanrooms)</span><span>287</span></div>
+      <div class="toc-row"><span>7.3 พิษวิทยาเชิงนิเวศและผลกระทบต่อสิ่งแวดล้อม (Ecotoxicology &amp; Bioaccumulation)</span><span>296</span></div>
+      <div class="toc-row"><span>7.4 จริยธรรมการวิจัยและการกำกับดูแลระดับสากล (Research Ethics &amp; EU REACH)</span><span>305</span></div>
+      <div class="toc-row"><span>7.5 แบบจำลองคอมพิวเตอร์และแบบฝึกหัดท้ายบทที่ 7</span><span>314</span></div>
+
+      <div class="toc-ch-title">บทที่ 8: การจำลองหลายระดับมาตราส่วนและโครงงานวิจัยนาโนฟิสิกส์ (Multi-Scale &amp; Capstone)</div>
+      <div class="toc-row"><span>8.1 การจำลองพลวัตโมเลกุล (Molecular Dynamics &amp; Velocity Verlet)</span><span>323</span></div>
+      <div class="toc-row"><span>8.2 การจำลองสนามคลื่นแม่เหล็กไฟฟ้า FDTD (FDTD Yee Grid &amp; SERS Hotspots)</span><span>332</span></div>
+      <div class="toc-row"><span>8.3 การออกแบบการทดลองและแบบจำลองพื้นผิวตอบสนอง (RSM Optimization)</span><span>341</span></div>
+      <div class="toc-row"><span>8.4 ปัญญาประดิษฐ์ในวัสดุศาสตร์นาโน (AI CGCNN Bandgap Predictor)</span><span>350</span></div>
+      <div class="toc-row"><span>8.5 การประมวลผล นำเสนอ และตีพิมพ์โครงงานวิจัย (Capstone Research &amp; TRL)</span><span>359</span></div>
+
+      <div class="toc-ch-title">ภาคผนวกและเอกสารอ้างอิง (Appendices, Index &amp; References)</div>
+      <div class="toc-row"><span>ภาคผนวก ก: ค่าคงที่ฟิสิกส์พื้นฐานและตัวแปลงหน่วยมาตรฐานสากล</span><span>368</span></div>
+      <div class="toc-row"><span>ภาคผนวก ข: ตารางสมบัติผลึกศาสตร์และพารามิเตอร์สารกึ่งตัวนำ</span><span>372</span></div>
+      <div class="toc-row"><span>ภาคผนวก ค: อภิธานศัพท์นาโนฟิสิกส์มาตรฐาน (English-Thai Academic Glossary)</span><span>376</span></div>
+      <div class="toc-row"><span>เอกสารอ้างอิงและบรรณานุกรมวิชาการ (Scholarly Bibliography APA 7th)</span><span>382</span></div>
+    </div>
+    
+  
+    <div class="chapter-container">
+      <div class="chapter-hero">
+        <div class="chapter-badge">CHAPTER 01 • NANOTECHNOLOGICAL PHYSICS</div>
+        <h1 class="chapter-title">พื้นฐานนาโนฟิสิกส์และการคิดเชิงมาตราส่วน</h1>
+        <p class="chapter-subtitle">Fundamentals of Nanophysics, Surface Dominance & Scaling Laws</p>
+      </div>
+
+      <div class="diagram-wrap">
+        <img src="../assets/diagrams/ch01_scale_and_surface.svg" alt="พื้นฐานนาโนฟิสิกส์และการคิดเชิงมาตราส่วน">
+        <div class="caption">ภาพที่ 1.1 แผนผังเปรียบเทียบมาตราส่วนความยาว สัดส่วนพื้นที่ผิว และสมบัติเชิงขนาด</div>
+      </div>
+
+      <h2>1.1 มาตราส่วนความยาวและขอบเขตนาโนเมตร (Length Scales and Domain of Nanometer)</h2>
+<p>วิชานาโนฟิสิกส์ (Nanophysics) มุ่งเน้นการศึกษาและทำความเข้าใจพฤติกรรมของสสารที่มีมิติเชิงเรขาคณิตอยู่ในช่วง 1 ถึง 100 นาโนเมตร (1 nm = 10^-9 m) ขอบเขตนี้ไม่ใช่เพียงแค่การย่อขนาดทางกายภาพให้เล็กลงตามแบบฉบับวิศวกรรมจุลภาคดั้งเดิม แต่เป็นดินแดนรอยต่อที่สมบัติทางกายภาพ เคมี ไฟฟ้า แสง และแม่เหล็กเกิดการเปลี่ยนแปลงเชิงคุณภาพอย่างก้าวกระโดดจากสารบัลค์มหภาค</p>
+<p>ในระดับความยาว 1 นาโนเมตร มีขนาดเทียบเท่ากับประมาณ 5 ถึง 10 เท่าของระยะห่างระหว่างอะตอมในผลึกของแข็ง สสารในระดับนี้จัดอยู่ในช่วงมิติมีโซสโคปิก (Mesoscopic Regime) ซึ่งอยู่ก้ำกึ่งระหว่างฟิสิกส์ของแข็งมหภาค (Macroscopic Solid-State Physics) ที่สามารถใช้ทฤษฎีความต่อเนื่องได้ กับเคมีเชิงฟิสิกส์ระดับโมเลกุลเดี่ยว (Microscopic/Quantum Chemistry) ที่ต้องแก้สมการชเรอดิงเงอร์สำหรับทุกอนุภาค</p>
+<p>การทำความเข้าใจมาตราส่วนความยาวต้องอาศัยการเปรียบเทียบกับความยาวคลื่นลักษณะเฉพาะทางฟิสิกส์ (Characteristic Length Scales) ได้แก่ ความยาวคลื่นเดอบรอยล์ของอิเล็กตรอน (de Broglie Wavelength), รัศมีโบร์ของเอ็กซิตอน (Exciton Bohr Radius), ระยะอิสระเฉลี่ยของอิเล็กตรอน (Electron Mean Free Path) และความยาวการสลายสภาพเชื่อมแน่นทางควอนตัม (Phase Coherence Length)</p>
+<h3>การจำแนกมิติของวัสดุโครงสร้างนาโน (0D, 1D, 2D, 3D)</h3>
+<p>1. โครงสร้าง 0 มิติ (Zero-Dimensional Nanomaterials - 0D): สสารที่มีมิติทั้ง 3 แกน (x, y, z) ถูกกักขังอยู่ในระดับนาโนเมตร เช่น ควอนตัมดอท (Quantum Dots), อนุภาคนาโนทรงกลม (Nanoparticles), และฟุลเลอรีน (Fullerene C60) พาหะประจุในระบบนี้จะถูกกักขังอย่างสมบูรณ์ เกิดระดับพลังงานไม่ต่อเนื่องเสมือนอะตอมประดิษฐ์ (Artificial Atoms)</p>
+<p>2. โครงสร้าง 1 มิติ (One-Dimensional Nanomaterials - 1D): สสารที่มีมิติถูกกักขังในระดับนาโน 2 แกน และมีมิติอิสระในระดับมหภาค 1 แกน เช่น ท่อคาร์บอนนาโน (Carbon Nanotubes - CNTs), ลวดนาโนเซมิคอนดักเตอร์ (Nanowires) และเส้นใยนาโน (Nanofibers) อิเล็กตรอนสามารถเคลื่อนที่ได้อย่างอิสระเฉพาะตามแนวแกนยาว ก่อให้เกิดปรากฏการณ์การนำไฟฟ้าแบบบอลลิสติก (Ballistic Transport)</p>
+<p>3. โครงสร้าง 2 มิติ (Two-Dimensional Nanomaterials - 2D): สสารที่มีความหนาในระดับอะตอมเดี่ยว (ถูกกักขัง 1 แกน) แต่มีมิติระนาบกว้างใหญ่ในอีก 2 แกน เช่น กราฟีน (Graphene), โมลิบดีนัมไดซัลไฟด์ (MoS2), และโบรอนไนไตรด์หกเหลี่ยม (h-BN) อิเล็กตรอนในระบบ 2D จะเคลื่อนที่เสมือนก๊าซอิเล็กตรอนสองมิติ (2DEG)</p>
+<p>4. โครงสร้าง 3 มิติเชิงโครงสร้างนาโน (Three-Dimensional Nanostructured Materials - 3D): สสารบัลค์ที่มีหน่วยโครงสร้างย่อยระดับนาโนเชื่อมโยงกันเป็นร่างแห เช่น โลหะผลึกนาโน (Nanocrystalline Metals) และแอโรเจลรูพรุนนาโน (Nanoporous Aerogels)</p>
+<h3>เกณฑ์การเปลี่ยนผ่านสู่มิติมีโซสโคปิกและควอนตัม</h3>
+<p>เมื่อขนาดเชิงเรขาคณิตของชิ้นงาน L เล็กกว่าหรือเทียบเท่ากับความยาวคลื่นเดอบรอยล์ λ_dB พฤติกรรมคลื่นของอิเล็กตรอนจะแทรกสอดกันเอง ก่อให้เกิดการแบ่งแยกแถบพลังงานเป็นระดับชั้นย่อย (Subbands)</p>
+<p>หากขนาดชิ้นงาน L เล็กกว่าระยะอิสระเฉลี่ยของการชนแบบยืดหยุ่น l_e อิเล็กตรอนจะเคลื่อนที่ผ่านชิ้นงานโดยไม่ชนกับสิ่งเจือปน เรียกว่าการนำไฟฟ้าแบบบอลลิสติก (Ballistic Conduction) ซึ่งทำให้ความต้านทานไฟฟ้ามีค่าคงที่ควอนตัม h/(2e^2) = 12.9 kΩ</p>
+
+        <div class="formula-box">
+          <div class="formula-box-title">📌 ความยาวคลื่นเดอบรอยล์ทางความร้อน</div>
+          <div class="formula-math">$$\lambda_{\text{dB}} = \frac{h}{p} = \frac{h}{\sqrt{2 m^* E_k}} = \frac{h}{\sqrt{3 m^* k_B T}}$$</div>
+          <p style="font-size:9.5pt; margin:0; color:#475569; line-height:1.7;">ความยาวคลื่นเดอบรอยล์ของพาหะประจุในสารกึ่งตัวนำที่อุณหภูมิ T</p>
+        </div>
+        
+        <div class="formula-box">
+          <div class="formula-box-title">📌 ระยะอิสระเฉลี่ยของอิเล็กตรอนและการนำไฟฟ้าแบบบอลลิสติก</div>
+          <div class="formula-math">$$l_e = v_F \tau_e = \frac{\hbar k_F}{m^*} \tau_e, \qquad G_{\text{ballistic}} = \frac{2 e^2}{h} M$$</div>
+          <p style="font-size:9.5pt; margin:0; color:#475569; line-height:1.7;">ระยะอิสระเฉลี่ยและสภาพนำไฟฟ้าควอนตัมที่มี M ช่องสัญญาณนำกระแส</p>
+        </div>
+        <h3>ตารางเปรียบเทียบพารามิเตอร์ลักษณะเฉพาะทางฟิสิกส์ในสารกึ่งตัวนำที่ 300 K</h3>
+<table>
+<thead><tr><th>วัสดุ</th><th>มวลยังผล (m*/m0)</th><th>ความเร็วเฟอร์มิ v_F (m/s)</th><th>λ_dB (nm)</th><th>รัศมีโบร์เอ็กซิตอน a_B (nm)</th></tr></thead>
+<tbody><tr><td>ซิลิคอน (Si)</td><td>0.26</td><td>2.2 × 10^5</td><td>8.5 nm</td><td>4.9 nm</td></tr><tr><td>แกลเลียมอาร์เซไนด์ (GaAs)</td><td>0.067</td><td>4.4 × 10^5</td><td>24.1 nm</td><td>14.2 nm</td></tr><tr><td>อินเดียมอาร์เซไนด์ (InAs)</td><td>0.023</td><td>7.6 × 10^5</td><td>41.2 nm</td><td>34.0 nm</td></tr><tr><td>อินเดียมแอนติโมไนด์ (InSb)</td><td>0.014</td><td>9.8 × 10^5</td><td>52.8 nm</td><td>65.0 nm</td></tr><tr><td>แคดเมียมซีลีไนด์ (CdSe)</td><td>0.13</td><td>3.1 × 10^5</td><td>17.3 nm</td><td>4.9 nm</td></tr></tbody></table>
+
+        <div class="example-box">
+          <div class="example-header">
+            <span>📝 ตัวอย่างการคำนวณที่ 1.1: การคำนวณความยาวคลื่นเดอบรอยล์และการนำไฟฟ้าแบบบอลลิสติกใน GaAs Nanowire</span>
+            <span style="background:#dcfce7; color:#15803d; font-size:8pt; padding:2px 8px; border-radius:4px; font-weight:700;">Worked Example</span>
+          </div>
+          <p><strong>โจทย์ปัญหา:</strong> ลวดนาโน GaAs มีพื้นที่หน้าตัด $10	ext{ nm} 	imes 10	ext{ nm}$ และความยาว $L = 50	ext{ nm}$ ที่อุณหภูมิ $T = 300	ext{ K}$ กำหนดมวลยังผล $m^* = 0.067 m_0$ และเวลาเฉลี่ยระหว่างการชน $	au_e = 0.35	ext{ ps}$ จงคำนวณหา (ก) ความยาวคลื่นเดอบรอยล์ $\lambda_{	ext{dB}}$ (ข) ระยะอิสระเฉลี่ย $l_e$ (ค) วิเคราะห์ว่าการนำไฟฟ้าในลวดนี้เป็นการนำแบบบอลลิสติกหรือไม่</p>
+          <p><strong>วิธีทำและการวิเคราะห์อย่างละเอียด:</strong><br>1. คำนวณพลังงานจลน์เฉลี่ย $E_k = \frac{3}{2} k_B T = 1.5 \times (1.3806 \times 10^{-23}) \times 300 = 6.213 \times 10^{-21}\text{ J}$<br>2. มวลยังผล $m^* = 0.067 \times (9.109 \times 10^{-31}) = 6.103 \times 10^{-32}\text{ kg}$<br>3. โมเมนตัม $p = \sqrt{2 m^* E_k} = \sqrt{2 (6.103 \times 10^{-32})(6.213 \times 10^{-21})} = 2.754 \times 10^{-26}\text{ kg}\cdot\text{m/s}$<br>4. $\lambda_{\text{dB}} = \frac{h}{p} = \frac{6.626 \times 10^{-34}}{2.754 \times 10^{-26}} = 2.406 \times 10^{-8}\text{ m} = 24.1\text{ nm}$<br>5. ความเร็วเฉลี่ย $v = p / m^* = (2.754 \times 10^{-26}) / (6.103 \times 10^{-32}) = 4.513 \times 10^5\text{ m/s}$<br>6. ระยะอิสระเฉลี่ย $l_e = v \tau_e = (4.513 \times 10^5\text{ m/s}) \times (0.35 \times 10^{-12}\text{ s}) = 1.580 \times 10^{-7}\text{ m} = 158\text{ nm}$</p>
+          <div style="background:rgba(255,255,255,0.7); border-left:3px solid #16a34a; padding:8px 12px; margin-top:8px; font-size:9pt; color:#166534;">
+            💡 <strong>นัยสำคัญทางกายภาพและข้อสรุป:</strong> เนื่องจากความยาวของลวดนาโน $L = 50	ext{ nm}$ สั้นกว่าระยะอิสระเฉลี่ย $l_e = 158	ext{ nm}$ ($L < l_e$) อิเล็กตรอนจึงสามารถเคลื่อนที่ผ่านลวดนาโนได้โดยแทบไม่เกิดการชนกับสิ่งเจือปนหรือโฟนอนเลย การนำไฟฟ้าในลวดนาโนนี้จึงอยู่ในสภาวะบอลลิสติก (Ballistic Transport) ซึ่งไม่มีการสูญเสียพลังงานในรูปความร้อนจูล (Joule Heating) ในเนื้อวัสดุ
+          </div>
+        </div>
+        <h3>🔬 การเชื่อมโยงสู่ห้องปฏิบัติการเสมือนจริงและเทคนิคการทดลอง (Virtual Lab Connection)</h3>
+<p>ในการทดลอง Virtual Lab 1.1 นักศึกษาจะได้ใช้โปรแกรมจำลองเสมือนจริงเพื่อปรับเปลี่ยนความยาวและอุณหภูมิของลวดนาโน และสังเกตการเปลี่ยนผ่านจากสมการโอห์มแบบดั้งเดิม (Ohmic Regime) ไปสู่ขั้นบันไดสภาพนำควอนตัม (Quantized Conductance Steps)</p>
+<h3>🌐 กรณีศึกษางานวิจัยแนวหน้าและนวัตกรรมอุตสาหกรรม (Frontier Case Studies)</h3>
+<p>บริษัทผู้ผลิตชิปประมวลผลชั้นนำ เช่น TSMC และ Intel ได้เปลี่ยนผ่านจากทรานซิสเตอร์แบบระนาบ 2D Planar MOSFET สู่ 3D FinFET และล่าสุดคือ Gate-All-Around Nanosheet FET (GAAFET) ขนาด 2 นาโนเมตร เพื่อควบคุมการรั่วไหลของกระแสทันเนลลิ่งและใช้ประโยชน์จากการเคลื่อนที่แบบกึ่งบอลลิสติก</p>
+
+        <div class="code-box">
+          <div class="code-header">💻 แบบจำลองเชิงคำนวณภาษาไพทอน (Computational Python 3.11): การคำนวณพารามิเตอร์มีโซสโคปิกของสารกึ่งตัวนำ</div>
+          <pre><code>import numpy as np
+
+def mesoscopic_parameters(material_name, m_eff_ratio, tau_ps, T_K=300.0):
+    h = 6.62607e-34
+    hbar = 1.05457e-34
+    kB = 1.38065e-23
+    m0 = 9.10938e-31
+    e = 1.60218e-19
+    
+    m_star = m_eff_ratio * m0
+    E_k = 1.5 * kB * T_K
+    p = np.sqrt(2.0 * m_star * E_k)
+    v_th = p / m_star
+    lambda_dB = (h / p) * 1e9  # nm
+    l_e = (v_th * (tau_ps * 1e-12)) * 1e9  # nm
+    
+    return {
+        'Material': material_name,
+        'v_th (10^5 m/s)': v_th / 1e5,
+        'lambda_dB (nm)': lambda_dB,
+        'Mean Free Path (nm)': l_e
+    }
+
+print(mesoscopic_parameters('GaAs', 0.067, 0.35))
+</code></pre>
+        </div>
+        <p style="font-size:9pt; color:#64748b; margin-top:-8px; margin-bottom:15px;"><em>คำอธิบายการจำลอง:</em> สคริปต์คำนวณความเร็วเชิงความร้อน ความยาวคลื่นเดอบรอยล์ และระยะอิสระเฉลี่ยของการชน เพื่อใช้ประเมินสภาวะการนำไฟฟ้าในโครงสร้างนาโน</p>
+        
+
+      <div class="summary-box">
+        <h3 style="color:#7e22ce; margin-top:0; border-bottom:1px solid #f0abfc; padding-bottom:6px;">📚 สรุปสาระสำคัญประจำบทเรียน (Chapter Summary)</h3>
+        <ul style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;">
+          <li style='margin-bottom:6px;'>ขอบเขตนาโนฟิสิกส์ครอบคลุมสสาร 1 ถึง 100 nm ซึ่งสมบัติถูกควบคุมโดยการกักขังควอนตัมและพื้นที่ผิว</li><li style='margin-bottom:6px;'>อัตราส่วนพื้นที่ผิวต่อปริมาตรแปรผันตาม 6/d สร้างพลังงานพื้นผิวและแรงดันลาปลาซมหาศาล</li><li style='margin-bottom:6px;'>การเคลื่อนที่แบบบราวเนียนควบคุมการแพร่ตามสมการไอน์สไตน์-สโตกส์</li><li style='margin-bottom:6px;'>ทฤษฎี DLVO กำหนดเสถียรภาพคอลลอยด์จากสมดุลระหว่างแรงดึงดูดแวนเดอร์วาลส์และแรงผลักไฟฟ้าสถิต</li><li style='margin-bottom:6px;'>ในท่อนาโน ก๊าซไหลแบบบอลลิสติกตามตัวเลขคนุดเซน Kn > 10</li>
+        </ul>
+      </div>
+
+      <div class="exercise-box">
+        <h3 style="color:#b45309; margin-top:0; border-bottom:1px solid #fde68a; padding-bottom:6px;">✍️ แบบฝึกหัดและโจทย์ท้าทายประจำบทเรียน (End-of-Chapter Problems)</h3>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 1: ความรู้ความเข้าใจและการประยุกต์พื้นฐาน</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>จงนิยามความหมายของมิติมีโซสโคปิก (Mesoscopic Domain)</li><li style='margin-bottom:6px;'>เพราะเหตุใดแรงโน้มถ่วงจึงไม่มีบทบาทสำคัญในพฤติกรรมของอนุภาคนาโนในของเหลว?</li><li style='margin-bottom:6px;'>จงจำแนกวัสดุนาโน 0D, 1D, 2D, 3D พร้อมยกตัวอย่าง</li></ol>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 2: การวิเคราะห์เชิงปริมาณและการพิสูจน์ทางฟิสิกส์</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>จงพิสูจน์สมการความดันลาปลาซ ΔP = 2γ / R โดยใช้งาเสมือน</li><li style='margin-bottom:6px;'>คำนวณร้อยละอะตอมที่ผิวของอนุภาคทองคำ d = 3.0 nm</li><li style='margin-bottom:6px;'>คำนวณสัมประสิทธิ์การแพร่ D ของอนุภาคนาโนรัศมี 20 nm ในน้ำที่ 25 °C</li></ol>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 3: การประเมินค่าและการออกแบบเชิงวิจัยสร้างสรรค์</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>จงออกแบบการทดลองวัดขนาดอนุภาคนาโนด้วย Dynamic Light Scattering (DLS)</li><li style='margin-bottom:6px;'>ประเมินประสิทธิภาพตัวเร่งปฏิกิริยานาโนทองคำเทียบกับก้อนบัลค์ในเซลล์เชื้อเพลิง</li></ol>
+      </div>
+    </div>
+    
+  
+    <div class="chapter-container">
+      <div class="chapter-hero">
+        <div class="chapter-badge">CHAPTER 02 • NANOTECHNOLOGICAL PHYSICS</div>
+        <h1 class="chapter-title">สมบัติขึ้นกับขนาดและการกักขังเชิงควอนตัม</h1>
+        <p class="chapter-subtitle">Size-Dependent Properties & Quantum Confinement</p>
+      </div>
+
+      <div class="diagram-wrap">
+        <img src="../assets/diagrams/ch02_quantum_confinement.svg" alt="สมบัติขึ้นกับขนาดและการกักขังเชิงควอนตัม">
+        <div class="caption">ภาพที่ 2.1 แผนผังการกักขังเชิงควอนตัม ความหนาแน่นสถานะ 0D-3D และปรากฏการณ์ LSPR</div>
+      </div>
+
+      <h2>2.1 การกักขังเชิงควอนตัมและแบบจำลองบรูส (Quantum Confinement and Brus Model)</h2>
+<p>เมื่อขนาดเชิงเรขาคณิตของผลึกสารกึ่งตัวนำลดลงจนมีขนาดเทียบเท่าหรือเล็กกว่ารัศมีโบร์ของเอ็กซิตอน (Exciton Bohr Radius, a_B) ฟังก์ชันคลื่นของอิเล็กตรอนและโฮลจะถูกจำกัดขอบเขตเชิงพื้นที่ ส่งผลให้ระดับพลังงานที่เคยต่อเนื่องกลายเป็นระดับพลังงานไม่ต่อเนื่อง (Discrete Energy Levels) และช่องว่างแถบพลังงาน (Bandgap Energy, E_g) ขยายกว้างขึ้น</p>
+<p>การเปลี่ยนแปลงของช่องว่างแถบพลังงานตามขนาดอนุภาคสามารถอธิบายได้อย่างแม่นยำด้วยแบบจำลองมวลยังผลของบรูส (Brus Effective Mass Model) ซึ่งรวมผลกระทบของพลังงานจลน์ควอนตัมและการดึงดูดทางไฟฟ้าสถิตคูลอมบ์ระหว่างอิเล็กตรอนและโฮล</p>
+<h3>การจำแนกสภาวะการกักขังเชิงควอนตัม (Strong vs Weak Confinement)</h3>
+<p>1. สภาวะการกักขังเข้ม (Strong Confinement Regime: R << a_B): รัศมีของควอนตัมดอทเล็กกว่าทั้งรัศมีโบร์ของอิเล็กตรอน a_e และโฮล a_h อย่างมาก พลังงานจลน์ควอนตัม (แปรผันตาม 1/R^2) จะครอบงำแรงดึงดูดคูลอมบ์ อิเล็กตรอนและโฮลจะประพฤติตัวเสมือนอนุภาคอิสระที่ถูกกักขังแยกจากกันในบ่อศักย์ทรงกลม</p>
+<p>2. สภาวะการกักขังปานกลาง (Intermediate Confinement Regime: a_h < R < a_e): เกิดขึ้นในสารกึ่งตัวนำที่มีมวลยังผลของโฮลหนักกว่าอิเล็กตรอนมาก (m_h* >> m_e*) เช่น CdS อิเล็กตรอนจะถูกกักขังอย่างเข้มในขณะที่โฮลเคลื่อนที่อยู่รอบใจกลางดอท</p>
+<p>3. สภาวะการกักขังอ่อน (Weak Confinement Regime: R >> a_B): รัศมีของดอทใหญ่กว่ารัศมีโบร์ของเอ็กซิตอน เอ็กซิตอนจะคงสภาพเป็นคู่ยึดเหนี่ยวและเคลื่อนที่ไปทั่วทั้งผลึกเสมือนอนุภาคเดี่ยว โดยเกิดการกักขังเฉพาะการเคลื่อนที่ของจุดศูนย์กลางมวล (Center-of-Mass Confinement)</p>
+
+        <div class="formula-box">
+          <div class="formula-box-title">📌 สมการบรูสสำหรับช่องว่างแถบพลังงานในควอนตัมดอท</div>
+          <div class="formula-math">$$E_g(R) = E_g^{\text{bulk}} + \frac{\hbar^2 \pi^2}{2 m_r^* R^2} - \frac{1.786 e^2}{4 \pi \varepsilon_r \varepsilon_0 R} - 0.248 E_{Ry}^*$$</div>
+          <p style="font-size:9.5pt; margin:0; color:#475569; line-height:1.7;">การเลื่อนของช่องว่างแถบพลังงานตามรัศมีควอนตัมดอท</p>
+        </div>
+        
+        <div class="formula-box">
+          <div class="formula-box-title">📌 รัศมีโบร์ของเอ็กซิตอนและพลังงานริดเบิร์ก</div>
+          <div class="formula-math">$$a_B = \varepsilon_r \left( \frac{m_0}{m_r^*} \right) a_0, \qquad E_{Ry}^* = \frac{e^2}{8 \pi \varepsilon_r \varepsilon_0 a_B}$$</div>
+          <p style="font-size:9.5pt; margin:0; color:#475569; line-height:1.7;">รัศมีโบร์ยังผลและพลังงานยึดเหนี่ยวริดเบิร์กของเอ็กซิตอน</p>
+        </div>
+        <h3>ตารางสมบัติการกักขังควอนตัมของสารกึ่งตัวนำ</h3>
+<table>
+<thead><tr><th>วัสดุ</th><th>Eg bulk (eV)</th><th>m_e*/m0</th><th>m_h*/m0</th><th>ε_r</th><th>a_B (nm)</th></tr></thead>
+<tbody><tr><td>CdSe</td><td>1.74</td><td>0.13</td><td>0.45</td><td>9.3</td><td>4.88 nm</td></tr><tr><td>CdS</td><td>2.42</td><td>0.21</td><td>0.80</td><td>8.9</td><td>2.80 nm</td></tr><tr><td>PbS</td><td>0.41</td><td>0.085</td><td>0.085</td><td>17.0</td><td>20.0 nm</td></tr><tr><td>InP</td><td>1.35</td><td>0.077</td><td>0.60</td><td>12.5</td><td>9.60 nm</td></tr><tr><td>ZnS</td><td>3.68</td><td>0.28</td><td>0.50</td><td>8.3</td><td>2.20 nm</td></tr></tbody></table>
+
+        <div class="example-box">
+          <div class="example-header">
+            <span>📝 ตัวอย่างการคำนวณที่ 2.1: การคำนวณการปรับจูนสีการเปล่งแสงของควอนตัมดอท CdSe</span>
+            <span style="background:#dcfce7; color:#15803d; font-size:8pt; padding:2px 8px; border-radius:4px; font-weight:700;">Worked Example</span>
+          </div>
+          <p><strong>โจทย์ปัญหา:</strong> ต้องการสังเคราะห์ควอนตัมดอท CdSe ให้เปล่งแสงเลเซอร์สีเขียวบริสุทธิ์ที่ความยาวคลื่น $\lambda = 520	ext{ nm}$ ($E = 2.385	ext{ eV}$) จงคำนวณหารัศมี $R$ ของควอนตัมดอท กำหนด $E_g^{	ext{bulk}} = 1.74	ext{ eV}$, $m_r^* = 0.1009 m_0$, $arepsilon_r = 9.3$</p>
+          <p><strong>วิธีทำและการวิเคราะห์อย่างละเอียด:</strong><br>1. คำนวณพลังงานส่วนเกิน $\Delta E = 2.385 - 1.740 = 0.645\text{ eV} = 1.033 \times 10^{-19}\text{ J}$<br>2. จาก $\Delta E \approx \frac{\hbar^2 \pi^2}{2 m_r^* R^2} \implies R = \sqrt{\frac{\hbar^2 \pi^2}{2 m_r^* \Delta E}}$<br>$$R = \sqrt{\frac{(1.0546 \times 10^{-34})^2 \pi^2}{2 (0.1009 \times 9.109 \times 10^{-31}) (1.033 \times 10^{-19})}} = 2.404 \times 10^{-9}\text{ m} = 2.40\text{ nm}$$</p>
+          <div style="background:rgba(255,255,255,0.7); border-left:3px solid #16a34a; padding:8px 12px; margin-top:8px; font-size:9pt; color:#166534;">
+            💡 <strong>นัยสำคัญทางกายภาพและข้อสรุป:</strong> ควอนตัมดอท CdSe ต้องมีรัศมี $R = 2.40	ext{ nm}$ ($d = 4.8	ext{ nm}$) จึงจะเปล่งแสงสีเขียว 520 nm พอดี
+          </div>
+        </div>
+        <h3>🔬 การเชื่อมโยงสู่ห้องปฏิบัติการเสมือนจริงและเทคนิคการทดลอง (Virtual Lab Connection)</h3>
+<p>ใน Virtual Lab 2.1 ผู้เรียนสามารถทดลองสังเคราะห์ควอนตัมดอท CdSe และ InP แบบเรียลไทม์ พร้อมวัดสเปกตรัมการดูดกลืนแสง UV-Vis และสเปกตรัมโฟโตลูมิเนสเซนส์ (PL Emission Spectra)</p>
+<h3>🌐 กรณีศึกษางานวิจัยแนวหน้าและนวัตกรรมอุตสาหกรรม (Frontier Case Studies)</h3>
+<p>เทคโนโลยีหน้าจอแสดงผล Quantum Dot Light Emitting Diodes (QLED) ในโทรทัศน์ระดับพรีเมียมใช้ควอนตัมดอท InP/ZnSe/ZnS Core-Shell ปลอดสารพิษแคดเมียม เพื่อสร้างขอบเขตสีที่กว้างกว่า 95% Rec. 2020</p>
+
+        <div class="code-box">
+          <div class="code-header">💻 แบบจำลองเชิงคำนวณภาษาไพทอน (Computational Python 3.11): การจำลองสเปกตรัมการเปล่งแสงของควอนตัมดอทตามขนาด</div>
+          <pre><code>import numpy as np
+
+def qd_emission_model(R_nm_list, Eg_bulk=1.74, mr=0.1009, eps_r=9.3):
+    hbar = 1.05457e-34; m0 = 9.10938e-31; e = 1.60218e-19; eps0 = 8.85419e-12
+    m_star = mr * m0
+    results = []
+    for R_nm in R_nm_list:
+        R = R_nm * 1e-9
+        E_conf = (hbar**2 * np.pi**2) / (2.0 * m_star * R**2) / e
+        E_coul = (1.786 * e) / (4.0 * np.pi * eps_r * eps0 * R)
+        Eg = Eg_bulk + E_conf - E_coul
+        wl_nm = 1239.84 / Eg
+        results.append((R_nm, Eg, wl_nm))
+    return results
+
+data = qd_emission_model([1.5, 2.0, 2.4, 3.0, 4.0, 5.0])
+for r, eg, wl in data:
+    print(f"R = {r:.1f} nm -> Eg = {eg:.3f} eV -> Wavelength = {wl:.1f} nm")
+</code></pre>
+        </div>
+        <p style="font-size:9pt; color:#64748b; margin-top:-8px; margin-bottom:15px;"><em>คำอธิบายการจำลอง:</em> แบบจำลองการคำนวณช่องว่างแถบพลังงานและความยาวคลื่นการเปล่งแสงของควอนตัมดอท</p>
+        
+
+      <div class="summary-box">
+        <h3 style="color:#7e22ce; margin-top:0; border-bottom:1px solid #f0abfc; padding-bottom:6px;">📚 สรุปสาระสำคัญประจำบทเรียน (Chapter Summary)</h3>
+        <ul style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;">
+          <li style='margin-bottom:6px;'>การกักขังควอนตัมขยายช่องว่างแถบพลังงานตามแบบจำลองบรูส E_g(R) ∝ 1/R^2</li><li style='margin-bottom:6px;'>ความหนาแน่นสถานะเปลี่ยนรูปทรงตามมิติ: 3D (พาราโบลา), 2D (ขั้นบันได), 1D (Van Hove), 0D (Delta peaks)</li><li style='margin-bottom:6px;'>อนุภาคโลหะนาโนแสดงพลาสมอนเรโซแนนซ์ LSPR ขยายสนามไฟฟ้าเฉพาะที่นับล้านเท่า</li><li style='margin-bottom:6px;'>จุดหลอมเหลวของอนุภาคนาโนลดลงตามสมการกิบบส์-ทอมสัน</li><li style='margin-bottom:6px;'>การประยุกต์ใช้เด่น: จอแสดงผล QLED, ไบโอเซนเซอร์ SERS และเลเซอร์ควอนตัมดอท</li>
+        </ul>
+      </div>
+
+      <div class="exercise-box">
+        <h3 style="color:#b45309; margin-top:0; border-bottom:1px solid #fde68a; padding-bottom:6px;">✍️ แบบฝึกหัดและโจทย์ท้าทายประจำบทเรียน (End-of-Chapter Problems)</h3>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 1: ความรู้ความเข้าใจและการประยุกต์พื้นฐาน</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>จงอธิบายความแตกต่างระหว่าง Strong Confinement และ Weak Confinement</li><li style='margin-bottom:6px;'>เพราะเหตุใดความหนาแน่นสถานะของควอนตัมดอท 0D จึงมีลักษณะเป็น Delta Function?</li><li style='margin-bottom:6px;'>ระบุเงื่อนไขเฟรอลิชสำหรับการเกิด LSPR</li></ol>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 2: การวิเคราะห์เชิงปริมาณและการพิสูจน์ทางฟิสิกส์</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>คำนวณขนาดควอนตัมดอท InP เพื่อให้เปล่งแสงสีแดง 630 nm</li><li style='margin-bottom:6px;'>คำนวณจุดหลอมเหลวของอนุภาคเงินนาโน r = 2.0 nm</li><li style='margin-bottom:6px;'>พิสูจน์ว่าทำไมความหนาแน่นสถานะของ 2DEG จึงมีค่าคงที่</li></ol>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 3: การประเมินค่าและการออกแบบเชิงวิจัยสร้างสรรค์</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>ออกแบบโครงสร้าง Core-Shell CdSe/ZnS เพื่อเพิ่มค่า PLQY ให้เกิน 95%</li><li style='margin-bottom:6px;'>ประเมินการใช้อนุภาคทองคำแท่งสำหรับ Photothermal Cancer Therapy</li></ol>
+      </div>
+    </div>
+    
+  
+    <div class="chapter-container">
+      <div class="chapter-hero">
+        <div class="chapter-badge">CHAPTER 03 • NANOTECHNOLOGICAL PHYSICS</div>
+        <h1 class="chapter-title">การสังเคราะห์และการเติบโตของวัสดุนาโน</h1>
+        <p class="chapter-subtitle">Nanomaterial Synthesis & Growth Kinetics</p>
+      </div>
+
+      <div class="diagram-wrap">
+        <img src="../assets/diagrams/ch03_synthesis_methods.svg" alt="การสังเคราะห์และการเติบโตของวัสดุนาโน">
+        <div class="caption">ภาพที่ 3.1 ยุทธศาสตร์การสังเคราะห์โครงสร้างนาโน Top-Down vs Bottom-Up และจลนพลศาสตร์ลาแมร์</div>
+      </div>
+
+      <h2>3.1 ยุทธศาสตร์จากบนลงล่าง vs จากล่างขึ้นบน (Top-Down vs Bottom-Up Nanofabrication)</h2>
+<p>การประดิษฐกรรมวัสดุโครงสร้างนาโนจำแนกออกเป็นสองยุทธศาสตร์หลักตามทิศทางการควบคุมโครงสร้าง ได้แก่ การตัดลดทอนขนาดจากสารบัลค์ (Top-Down) และการประกอบตัวเองระดับอะตอม (Bottom-Up)</p>
+<p>EUV Lithography ใช้แสงความยาวคลื่น 13.5 nm ร่วมกับเลนส์สะท้อน Mo/Si ในการพิมพ์วงจรเซมิคอนดักเตอร์ระดับต่ำกว่า 3 นาโนเมตร</p>
+
+        <div class="formula-box">
+          <div class="formula-box-title">📌 เกณฑ์ความละเอียดของเรย์ลี</div>
+          <div class="formula-math">$$R_{\text{res}} = k_1 \frac{\lambda}{\text{NA}}, \qquad \text{DOF} = k_2 \frac{\lambda}{\text{NA}^2}$$</div>
+          <p style="font-size:9.5pt; margin:0; color:#475569; line-height:1.7;">ขีดจำกัดความละเอียดเชิงแสงและระยะชัดลึก</p>
+        </div>
+        
+        <div class="example-box">
+          <div class="example-header">
+            <span>📝 ตัวอย่างการคำนวณที่ 3.1: การคำนวณความละเอียดของระบบ High-NA EUV Lithography</span>
+            <span style="background:#dcfce7; color:#15803d; font-size:8pt; padding:2px 8px; border-radius:4px; font-weight:700;">Worked Example</span>
+          </div>
+          <p><strong>โจทย์ปัญหา:</strong> ระบบ High-NA EUV ($\lambda = 13.5	ext{ nm}$, $	ext{NA} = 0.55$) มีค่า $k_1 = 0.30$ จงคำนวณหาความละเอียดต่ำสุด $R_{	ext{res}}$</p>
+          <p><strong>วิธีทำและการวิเคราะห์อย่างละเอียด:</strong><br>$$R_{\text{res}} = 0.30 \times \frac{13.5\text{ nm}}{0.55} = 7.36\text{ nm}$$</p>
+          <div style="background:rgba(255,255,255,0.7); border-left:3px solid #16a34a; padding:8px 12px; margin-top:8px; font-size:9pt; color:#166534;">
+            💡 <strong>นัยสำคัญทางกายภาพและข้อสรุป:</strong> ระบบสามารถสร้างลายเส้นวงจรเดี่ยวขนาดเล็กถึง 7.36 nm สำหรับชิป 2 นาโนเมตร
+          </div>
+        </div>
+        
+
+      <div class="summary-box">
+        <h3 style="color:#7e22ce; margin-top:0; border-bottom:1px solid #f0abfc; padding-bottom:6px;">📚 สรุปสาระสำคัญประจำบทเรียน (Chapter Summary)</h3>
+        <ul style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;">
+          <li style='margin-bottom:6px;'>Top-Down และ Bottom-Up เป็นสองยุทธศาสตร์หลักในการสร้างวัสดุนาโน</li><li style='margin-bottom:6px;'>EUV Lithography 13.5 nm เป็นหัวใจของการผลิตชิปเซมิคอนดักเตอร์ขั้นสูง</li><li style='margin-bottom:6px;'>กระบวนการโซล-เจลควบคุมปฏิกิริยาไฮโดรไลซิสและการควบแน่น</li><li style='margin-bottom:6px;'>ALD เคลือบฟิล์มบางระดับอะตอมเดี่ยวด้วยกลไก Self-Limiting Reaction</li><li style='margin-bottom:6px;'>แบบจำลองลาแมร์แยกขั้นตอน Burst Nucleation ออกจากการเติบโตเพื่อควบคุมขนาดอนุภาค</li>
+        </ul>
+      </div>
+
+      <div class="exercise-box">
+        <h3 style="color:#b45309; margin-top:0; border-bottom:1px solid #fde68a; padding-bottom:6px;">✍️ แบบฝึกหัดและโจทย์ท้าทายประจำบทเรียน (End-of-Chapter Problems)</h3>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 1: ความรู้ความเข้าใจและการประยุกต์พื้นฐาน</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>เปรียบเทียบข้อดีข้อจำกัดของ CVD และ ALD</li><li style='margin-bottom:6px;'>อธิบายบทบาทของ Capping Ligands ในการป้องกัน Ostwald Ripening</li></ol>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 2: การวิเคราะห์เชิงปริมาณและการพิสูจน์ทางฟิสิกส์</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>คำนวณจำนวนรอบ ALD สำหรับฟิล์ม HfO2 หนา 3.5 nm</li><li style='margin-bottom:6px;'>คำนวณรัศมีวิกฤต r* ของอนุภาคทองคำ</li></ol>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 3: การประเมินค่าและการออกแบบเชิงวิจัยสร้างสรรค์</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>ออกแบบกระบวนการสังเคราะห์ไททาเนียนาโนสำหรับบำบัดน้ำเสีย</li></ol>
+      </div>
+    </div>
+    
+  
+    <div class="chapter-container">
+      <div class="chapter-hero">
+        <div class="chapter-badge">CHAPTER 04 • NANOTECHNOLOGICAL PHYSICS</div>
+        <h1 class="chapter-title">เทคนิคการวิเคราะห์ลักษณะเฉพาะระดับนาโน</h1>
+        <p class="chapter-subtitle">Nanomaterial Characterization Techniques (SEM, TEM, AFM, XRD, XPS & DLS)</p>
+      </div>
+
+      <div class="diagram-wrap">
+        <img src="../assets/diagrams/ch04_characterization.svg" alt="เทคนิคการวิเคราะห์ลักษณะเฉพาะระดับนาโน">
+        <div class="caption">ภาพที่ 4.1 เทคนิคการวิเคราะห์ระดับนาโนด้วยกล้องจุลทรรศน์อิเล็กตรอนและสเปกโทรสโกปี</div>
+      </div>
+
+      <h2>4.1 กล้องจุลทรรศน์อิเล็กตรอน (SEM, TEM & HRTEM) (Electron Microscopy Techniques)</h2>
+<p>การใช้ลำอิเล็กตรอนพลังงานสูงที่มีความยาวคลื่นเดอบรอยล์สั้นในระดับพิโคเมตร ($0.002 - 0.004	ext{ nm}$) ทำให้กล้องจุลทรรศน์อิเล็กตรอนแบบส่องผ่านความละเอียดสูง (HR-TEM) สามารถถ่ายภาพอะตอมเดี่ยวและระนาบผลึกได้อย่างคมชัด</p>
+<p>SEM ใช้สัญญาณทุติยภูมิ (Secondary Electrons) เพื่อสร้างภาพสัณฐานวิทยาพื้นผิว 3 มิติ ในขณะที่ TEM วัดการทะลุผ่านของอิเล็กตรอนผ่านชิ้นงานบางเพื่อศึกษาโครงสร้างผลึกภายใน</p>
+
+        <div class="formula-box">
+          <div class="formula-box-title">📌 ความยาวคลื่นสัมพัทธภาพของอิเล็กตรอน</div>
+          <div class="formula-math">$$\lambda_e = \frac{h}{\sqrt{2 m_0 e V \left( 1 + \frac{e V}{2 m_0 c^2} \right)}}$$</div>
+          <p style="font-size:9.5pt; margin:0; color:#475569; line-height:1.7;">ความยาวคลื่นเดอบรอยล์ของอิเล็กตรอนที่ปรับแก้ผลสัมพัทธภาพ</p>
+        </div>
+        
+        <div class="formula-box">
+          <div class="formula-box-title">📌 กฎของแบรกก์และสมการเชอร์เรอร์</div>
+          <div class="formula-math">$$2 d_{hkl} \sin\theta = n \lambda, \qquad D = \frac{K \lambda}{\beta \cos\theta}$$</div>
+          <p style="font-size:9.5pt; margin:0; color:#475569; line-height:1.7;">การเลี้ยวเบนรังสีเอกซ์และการคำนวณขนาดผลึกเฉลี่ย</p>
+        </div>
+        
+        <div class="example-box">
+          <div class="example-header">
+            <span>📝 ตัวอย่างการคำนวณที่ 4.1: การคำนวณความยาวคลื่นอิเล็กตรอนในกล้อง TEM 200 kV</span>
+            <span style="background:#dcfce7; color:#15803d; font-size:8pt; padding:2px 8px; border-radius:4px; font-weight:700;">Worked Example</span>
+          </div>
+          <p><strong>โจทย์ปัญหา:</strong> กล้อง TEM ใช้ศักย์เร่ง $V = 200	ext{ kV}$ จงคำนวณหาความยาวคลื่นสัมพัทธภาพ $\lambda_e$</p>
+          <p><strong>วิธีทำและการวิเคราะห์อย่างละเอียด:</strong><br>$$\lambda_e = \frac{1.226}{\sqrt{200000 (1 + 0.978 \times 10^{-6} \times 200000)}}\text{ nm} = 0.00251\text{ nm} = 2.51\text{ pm}$$</p>
+          <div style="background:rgba(255,255,255,0.7); border-left:3px solid #16a34a; padding:8px 12px; margin-top:8px; font-size:9pt; color:#166534;">
+            💡 <strong>นัยสำคัญทางกายภาพและข้อสรุป:</strong> ลำอิเล็กตรอน $200	ext{ kV}$ มีความยาวคลื่นสั้นเพียง $2.51	ext{ pm}$ ทำให้มองเห็นระนาบผลึกได้อย่างชัดเจน
+          </div>
+        </div>
+        
+
+      <div class="summary-box">
+        <h3 style="color:#7e22ce; margin-top:0; border-bottom:1px solid #f0abfc; padding-bottom:6px;">📚 สรุปสาระสำคัญประจำบทเรียน (Chapter Summary)</h3>
+        <ul style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;">
+          <li style='margin-bottom:6px;'>SEM และ TEM ใช้ลำอิเล็กตรอนพลังงานสูงเพื่อให้ได้ความละเอียดระดับอะตอม</li><li style='margin-bottom:6px;'>AFM ตรวจวัดแรงระหว่างปลายเข็มกับผิวเพื่อสร้างภาพ 3D ความสูงระดับต่ำกว่านาโนเมตร</li><li style='margin-bottom:6px;'>XRD วิเคราะห์โครงสร้างผลึกและขนาดผลึกเฉลี่ยด้วยสมการเชอร์เรอร์ D = Kλ / (β cosθ)</li><li style='margin-bottom:6px;'>XPS ตรวจวัดสถานะพลังงานพันธะทางเคมีและองค์ประกอบธาตุที่ผิวสัมผัส</li><li style='margin-bottom:6px;'>DLS วัดขนาดไฮโดรไดนามิกของอนุภาคคอลลอยด์ในสารละลาย</li>
+        </ul>
+      </div>
+
+      <div class="exercise-box">
+        <h3 style="color:#b45309; margin-top:0; border-bottom:1px solid #fde68a; padding-bottom:6px;">✍️ แบบฝึกหัดและโจทย์ท้าทายประจำบทเรียน (End-of-Chapter Problems)</h3>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 1: ความรู้ความเข้าใจและการประยุกต์พื้นฐาน</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>อธิบายความแตกต่างระหว่างสัญญาณ SE และ BSE ในกล้อง SEM</li><li style='margin-bottom:6px;'>เหตุใด DLS จึงให้ขนาดอนุภาคใหญ่กว่า TEM เสมอ?</li></ol>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 2: การวิเคราะห์เชิงปริมาณและการพิสูจน์ทางฟิสิกส์</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>คำนวณขนาดผลึกนาโนทองคำจากพีก XRD 2θ = 38.2° FWHM = 0.65°</li></ol>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 3: การประเมินค่าและการออกแบบเชิงวิจัยสร้างสรรค์</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>ออกแบบแผนการวิเคราะห์อนุภาค Fe3O4@Au Core-Shell ครบวงจร</li></ol>
+      </div>
+    </div>
+    
+  
+    <div class="chapter-container">
+      <div class="chapter-hero">
+        <div class="chapter-badge">CHAPTER 05 • NANOTECHNOLOGICAL PHYSICS</div>
+        <h1 class="chapter-title">กราฟีนและวัสดุโครงสร้าง 2 มิติ</h1>
+        <p class="chapter-subtitle">Graphene, Carbon Nanotubes & 2D van der Waals Heterostructures</p>
+      </div>
+
+      <div class="diagram-wrap">
+        <img src="../assets/diagrams/ch05_2d_materials.svg" alt="กราฟีนและวัสดุโครงสร้าง 2 มิติ">
+        <div class="caption">ภาพที่ 5.1 โครงสร้างแถบพลังงานกราฟีน กรวยดิแรก และเวกเตอร์ไครัลลิตี้ของท่อคาร์บอนนาโน</div>
+      </div>
+
+      <h2>5.1 กราฟีนและฟิสิกส์ของเฟอร์มิออนไร้มวล (Graphene & Massless Dirac Fermions)</h2>
+<p>กราฟีน (Graphene) คือผลึกคาร์บอนหนาหนึ่งชั้นอะตอมจัดเรียงตัวในโครงตาข่ายรังผึ้งสองมิติ ($sp^2$ Hybridization) มีความสัมพันธ์การกระจายตัวของพลังงานเชิงเส้นรอบจุดดิแรก ($K$ and $K'$) ทำให้พาหะประจุมีพฤติกรรมเสมือนเฟอร์มิออนไร้มวลตามสมการดิแรกแบบสัมพัทธภาพ</p>
+<p>ท่อคาร์บอนนาโน (CNTs) เกิดจากการม้วนแผ่นกราฟีนตามเวกเตอร์ไครัล $(n,m)$ ซึ่งกำหนดความเป็นโลหะหรือสารกึ่งตัวนำ</p>
+
+        <div class="formula-box">
+          <div class="formula-box-title">📌 ความสัมพันธ์การกระจายตัวของพลังงานในกราฟีน</div>
+          <div class="formula-math">$$E(\vec{q}) = \pm \hbar v_F |\vec{q}|, \qquad v_F \approx 1.0 \times 10^6\text{ m/s}$$</div>
+          <p style="font-size:9.5pt; margin:0; color:#475569; line-height:1.7;">ความเร็วเฟอร์มิและกรวยดิแรก</p>
+        </div>
+        
+        <div class="formula-box">
+          <div class="formula-box-title">📌 กฎเวกเตอร์ไครัลลิตี้ของท่อคาร์บอนนาโน</div>
+          <div class="formula-math">$$d_t = \frac{a}{\pi} \sqrt{n^2 + nm + m^2}, \qquad \text{Metallic if } (n-m) \bmod 3 = 0$$</div>
+          <p style="font-size:9.5pt; margin:0; color:#475569; line-height:1.7;">เส้นผ่านศูนย์กลางและสมบัติการนำไฟฟ้าของ SWCNT</p>
+        </div>
+        
+        <div class="example-box">
+          <div class="example-header">
+            <span>📝 ตัวอย่างการคำนวณที่ 5.1: การคำนวณความเร็วลอยเลื่อนในกราฟีนสภาพคล่องสูง</span>
+            <span style="background:#dcfce7; color:#15803d; font-size:8pt; padding:2px 8px; border-radius:4px; font-weight:700;">Worked Example</span>
+          </div>
+          <p><strong>โจทย์ปัญหา:</strong> แผ่นกราฟีนมีสภาพคล่องประจุ $\mu = 200,000	ext{ cm}^2/	ext{V}\cdot	ext{s}$ ภายใต้สนามไฟฟ้า $E_x = 100	ext{ V/cm}$ จงคำนวณหาความเร็วลอยเลื่อน $v_d$</p>
+          <p><strong>วิธีทำและการวิเคราะห์อย่างละเอียด:</strong><br>$$v_d = \mu E_x = 200000 \times 100 = 2.0 \times 10^7\text{ cm/s} = 2.0 \times 10^5\text{ m/s}$$</p>
+          <div style="background:rgba(255,255,255,0.7); border-left:3px solid #16a34a; padding:8px 12px; margin-top:8px; font-size:9pt; color:#166534;">
+            💡 <strong>นัยสำคัญทางกายภาพและข้อสรุป:</strong> อิเล็กตรอนเคลื่อนที่ด้วยความเร็ว 20% ของความเร็วเฟอร์มิโดยแทบไม่เกิดการกระเจิง
+          </div>
+        </div>
+        
+
+      <div class="summary-box">
+        <h3 style="color:#7e22ce; margin-top:0; border-bottom:1px solid #f0abfc; padding-bottom:6px;">📚 สรุปสาระสำคัญประจำบทเรียน (Chapter Summary)</h3>
+        <ul style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;">
+          <li style='margin-bottom:6px;'>กราฟีนมีการกระจายตัวพลังงานเชิงเส้นรอบ Dirac Cones และพาหะประจุมีสภาพคล่องสูงมหาศาล</li><li style='margin-bottom:6px;'>เวกเตอร์ไครัล (n,m) กำหนดความเป็นโลหะหรือสารกึ่งตัวนำของท่อคาร์บอนนาโน</li><li style='margin-bottom:6px;'>MoS2 Monolayer เปลี่ยนผ่านสู่ Direct Bandgap ให้โฟโตลูมิเนสเซนส์เข้มข้น</li><li style='margin-bottom:6px;'>van der Waals Heterostructures เปิดมิติการซ้อนวัสดุ 2D โดยไร้ข้อจำกัด Lattice Mismatch</li>
+        </ul>
+      </div>
+
+      <div class="exercise-box">
+        <h3 style="color:#b45309; margin-top:0; border-bottom:1px solid #fde68a; padding-bottom:6px;">✍️ แบบฝึกหัดและโจทย์ท้าทายประจำบทเรียน (End-of-Chapter Problems)</h3>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 1: ความรู้ความเข้าใจและการประยุกต์พื้นฐาน</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>จำแนกความเป็นโลหะ/สารกึ่งตัวนำของ CNTs (10,10), (12,0), (11,4)</li></ol>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 2: การวิเคราะห์เชิงปริมาณและการพิสูจน์ทางฟิสิกส์</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>คำนวณหาเส้นผ่านศูนย์กลางและช่องว่างแถบพลังงานของ CNT (10,0)</li></ol>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 3: การประเมินค่าและการออกแบบเชิงวิจัยสร้างสรรค์</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>ออกแบบทรานซิสเตอร์กราฟีน/h-BN/MoS2 เพื่อเพิ่ม On/Off Ratio</li></ol>
+      </div>
+    </div>
+    
+  
+    <div class="chapter-container">
+      <div class="chapter-hero">
+        <div class="chapter-badge">CHAPTER 06 • NANOTECHNOLOGICAL PHYSICS</div>
+        <h1 class="chapter-title">นาโนอิเล็กทรอนิกส์ นาโนโฟโทนิกส์ และสปินทรอนิกส์</h1>
+        <p class="chapter-subtitle">Nanoelectronics, Nanophotonics, Single-Electron Devices & Spintronics</p>
+      </div>
+
+      <div class="diagram-wrap">
+        <img src="../assets/diagrams/ch06_nanoelectronics.svg" alt="นาโนอิเล็กทรอนิกส์ นาโนโฟโทนิกส์ และสปินทรอนิกส์">
+        <div class="caption">ภาพที่ 6.1 แผนผังทรานซิสเตอร์อิเล็กตรอนเดี่ยว ปรากฏการณ์ Coulomb Blockade และหัวอ่านฮาร์ดดิสก์ GMR/TMR</div>
+      </div>
+
+      <h2>6.1 การทะลุผ่านเชิงควอนตัมและทรานซิสเตอร์อิเล็กตรอนเดี่ยว (Coulomb Blockade & Single-Electron Transistors)</h2>
+<p>เมื่อตัวนำขนาดเล็กระดับนาโน (ควอนตัมดอท) มีความจุไฟฟ้าต่ำมาก ($C_{\Sigma} < 10^{-18}	ext{ F}$) พลังงานคูลอมบ์ที่ต้องใช้ในการเติมอิเล็กตรอน 1 ตัว ($E_C = e^2 / 2C_{\Sigma}$) จะสูงกว่าพลังงานความร้อน $k_B T$ ส่งผลให้กระแสไฟฟ้าถูกปิดกั้นอย่างสมบูรณ์ เกิดปรากฏการณ์คูลอมบ์บล็อกเคด (Coulomb Blockade)</p>
+<p>สปินทรอนิกส์ (Spintronics) ใช้ประโยชน์จากสถานะสปินของอิเล็กตรอนในโครงสร้าง GMR และ TMR เพื่อสร้างหัวอ่านฮาร์ดดิสก์และหน่วยความจำ MRAM ความเร็วสูง</p>
+
+        <div class="formula-box">
+          <div class="formula-box-title">📌 พลังงานชาร์จประจุคูลอมบ์</div>
+          <div class="formula-math">$$E_C = \frac{e^2}{2 C_{\Sigma}} \gg k_B T, \qquad R_T \gg \frac{h}{e^2} \approx 25.81\text{ k}\Omega$$</div>
+          <p style="font-size:9.5pt; margin:0; color:#475569; line-height:1.7;">เงื่อนไขการเกิด Coulomb Blockade ใน SET</p>
+        </div>
+        
+        <div class="formula-box">
+          <div class="formula-box-title">📌 สมการจูลลิแยร์สำหรับอัตราส่วน TMR</div>
+          <div class="formula-math">$$\text{TMR} = \frac{R_{\text{AP}} - R_{\text{P}}}{R_{\text{P}}} = \frac{2 P_1 P_2}{1 - P_1 P_2}$$</div>
+          <p style="font-size:9.5pt; margin:0; color:#475569; line-height:1.7;">อัตราส่วนการเปลี่ยนแปลงความต้านทาน TMR</p>
+        </div>
+        
+        <div class="example-box">
+          <div class="example-header">
+            <span>📝 ตัวอย่างการคำนวณที่ 6.1: การคำนวณอุณหภูมิวิกฤตของ SET ความจุ 0.80 aF</span>
+            <span style="background:#dcfce7; color:#15803d; font-size:8pt; padding:2px 8px; border-radius:4px; font-weight:700;">Worked Example</span>
+          </div>
+          <p><strong>โจทย์ปัญหา:</strong> SET มีความจุรวม $C_{\Sigma} = 0.80	ext{ aF}$ จงคำนวณหาพลังงานชาร์จประจุ $E_C$ และอุณหภูมิสูงสุด $T_{	ext{max}}$ ($E_C \ge 10 k_B T$)</p>
+          <p><strong>วิธีทำและการวิเคราะห์อย่างละเอียด:</strong><br>$$E_C = \frac{e^2}{2 C_{\Sigma}} = 1.604 \times 10^{-20}\text{ J} = 100.1\text{ meV}, \qquad T_{\text{max}} = \frac{E_C}{10 k_B} = 116.2\text{ K}$$</p>
+          <div style="background:rgba(255,255,255,0.7); border-left:3px solid #16a34a; padding:8px 12px; margin-top:8px; font-size:9pt; color:#166534;">
+            💡 <strong>นัยสำคัญทางกายภาพและข้อสรุป:</strong> SET นี้สามารถทำงานได้อย่างเสถียรที่อุณหภูมิไนโตรเจนเหลว (77 K)
+          </div>
+        </div>
+        
+
+      <div class="summary-box">
+        <h3 style="color:#7e22ce; margin-top:0; border-bottom:1px solid #f0abfc; padding-bottom:6px;">📚 สรุปสาระสำคัญประจำบทเรียน (Chapter Summary)</h3>
+        <ul style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;">
+          <li style='margin-bottom:6px;'>Coulomb Blockade ปิดกั้นกระแสทันเนลลิ่งเมื่อพลังงานชาร์จประจุ e^2/2C > k_B T</li><li style='margin-bottom:6px;'>Single-Electron Transistor ควบคุมการส่งผ่านประจุได้ทีละ 1 อิเล็กตรอน</li><li style='margin-bottom:6px;'>Spintronics อาศัยสปินของอิเล็กตรอนในปรากฏการณ์ GMR และ TMR สำหรับหน่วยความจำ MRAM</li>
+        </ul>
+      </div>
+
+      <div class="exercise-box">
+        <h3 style="color:#b45309; margin-top:0; border-bottom:1px solid #fde68a; padding-bottom:6px;">✍️ แบบฝึกหัดและโจทย์ท้าทายประจำบทเรียน (End-of-Chapter Problems)</h3>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 1: ความรู้ความเข้าใจและการประยุกต์พื้นฐาน</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>ระบุเงื่อนไข 2 ประการสำหรับการเกิด Coulomb Blockade</li></ol>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 2: การวิเคราะห์เชิงปริมาณและการพิสูจน์ทางฟิสิกส์</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>คำนวณหาค่า TMR เมื่อ MTJ มีโพลาไรเซชันสปิน P1 = P2 = 0.65</li></ol>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 3: การประเมินค่าและการออกแบบเชิงวิจัยสร้างสรรค์</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>เปรียบเทียบสถาปัตยกรรม STT-MRAM กับ DRAM ดั้งเดิม</li></ol>
+      </div>
+    </div>
+    
+  
+    <div class="chapter-container">
+      <div class="chapter-hero">
+        <div class="chapter-badge">CHAPTER 07 • NANOTECHNOLOGICAL PHYSICS</div>
+        <h1 class="chapter-title">นาโนเทคโนโลยีชีวภาพและการแพทย์</h1>
+        <p class="chapter-subtitle">Bionanotechnology, Lipid Nanoparticles (LNP), Targeted Drug Delivery & SERS Biosensors</p>
+      </div>
+
+      <div class="diagram-wrap">
+        <img src="../assets/diagrams/ch07_bionanomedicine.svg" alt="นาโนเทคโนโลยีชีวภาพและการแพทย์">
+        <div class="caption">ภาพที่ 7.1 โครงสร้างอนุภาคไขมันระดับนาโน LNP นำส่งสารพันธุกรรม mRNA และปรากฏการณ์ SERS Hotspots</div>
+      </div>
+
+      <h2>7.1 ลิพิดนาโนพาร์ติเคิลและการนำส่งสารพันธุกรรม mRNA (Lipid Nanoparticles & Nanomedicine)</h2>
+<p>อนุภาคไขมันระดับนาโน (Lipid Nanoparticles - LNPs) เป็นระบบนำส่งยาขั้นสูงที่ปฏิวัติวงการแพทย์ ประกอบด้วยไขมัน 4 ชนิดหลัก: Ionizable Cationic Lipid, Phospholipid, Cholesterol และ PEGylated Lipid ทำหน้าที่ปกป้องสายโมเลกุล mRNA จากเอนไซม์ RNase ในร่างกายและปลดปล่อยเข้าสู่ไซโทพลาซึมผ่านการแตกตัวของเอนโดโซม (Endosomal Escape)</p>
+<p>เทคนิค SERS ขยายสัญญาณรามานด้วยสนามพลาสมอนเฉพาะที่ระดับ 10^8 - 10^11 เท่า สามารถตรวจจับโมเลกุลเดี่ยวของสารพันธุกรรมและสารพิษได้</p>
+
+        <div class="formula-box">
+          <div class="formula-box-title">📌 ประสิทธิภาพการกักเก็บและอัตราส่วน N/P Ratio</div>
+          <div class="formula-math">$$\text{EE (\%)} = \frac{C_{\text{total}} - C_{\text{free}}}{C_{\text{total}}} \times 100\%, \qquad \text{N/P} = \frac{n_{\text{Nitrogen}}}{n_{\text{Phosphate}}}$$</div>
+          <p style="font-size:9.5pt; margin:0; color:#475569; line-height:1.7;">ประสิทธิภาพการกักเก็บยาและสัดส่วนประจุ</p>
+        </div>
+        
+        <div class="formula-box">
+          <div class="formula-box-title">📌 ปัจจัยการขยายสัญญาณใน SERS</div>
+          <div class="formula-math">$$\text{EF}_{\text{EM}} \approx \left| \frac{E_{\text{loc}}}{E_0} \right|^4$$</div>
+          <p style="font-size:9.5pt; margin:0; color:#475569; line-height:1.7;">การขยายสัญญาณรามานตามสนามไฟฟ้ากำลัง 4</p>
+        </div>
+        
+        <div class="example-box">
+          <div class="example-header">
+            <span>📝 ตัวอย่างการคำนวณที่ 7.1: การคำนวณอัตราส่วน N/P Ratio ในสูตรวัคซีน mRNA-LNP</span>
+            <span style="background:#dcfce7; color:#15803d; font-size:8pt; padding:2px 8px; border-radius:4px; font-weight:700;">Worked Example</span>
+          </div>
+          <p><strong>โจทย์ปัญหา:</strong> สูตรวัคซีนใช้ mRNA $30	ext{ }\mu	ext{g}$ ($M_{	ext{nt}} = 330	ext{ g/mol}$) และ SM-102 $400	ext{ }\mu	ext{g}$ ($M = 710.2	ext{ g/mol}$) จงคำนวณหาค่า N/P Ratio</p>
+          <p><strong>วิธีทำและการวิเคราะห์อย่างละเอียด:</strong><br>$$n_{\text{N}} = 563.2\text{ nmol}, \quad n_{\text{P}} = 90.91\text{ nmol} \implies \text{N/P Ratio} = \frac{563.2}{90.91} = 6.20$$</p>
+          <div style="background:rgba(255,255,255,0.7); border-left:3px solid #16a34a; padding:8px 12px; margin-top:8px; font-size:9pt; color:#166534;">
+            💡 <strong>นัยสำคัญทางกายภาพและข้อสรุป:</strong> ค่า N/P Ratio ที่ 6.20 ให้ประสิทธิภาพการกักเก็บสารพันธุกรรมสูงสุดเกิน 95%
+          </div>
+        </div>
+        
+
+      <div class="summary-box">
+        <h3 style="color:#7e22ce; margin-top:0; border-bottom:1px solid #f0abfc; padding-bottom:6px;">📚 สรุปสาระสำคัญประจำบทเรียน (Chapter Summary)</h3>
+        <ul style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;">
+          <li style='margin-bottom:6px;'>LNP ห่อหุ้มและนำส่ง mRNA เข้าสู่เซลล์ด้วยไขมัน 4 ชนิดที่ประกอบตัวเอง</li><li style='margin-bottom:6px;'>SERS ขยายสัญญาณการสั่นโมเลกุลด้วยสนามพลาสมอนฮอตสปอตระดับ |E|^4</li><li style='margin-bottom:6px;'>Magnetic Hyperthermia ใช้ความร้อนจากอนุภาคนาโนแม่เหล็กทำลายเซลล์มะเร็งเฉพาะจุด</li>
+        </ul>
+      </div>
+
+      <div class="exercise-box">
+        <h3 style="color:#b45309; margin-top:0; border-bottom:1px solid #fde68a; padding-bottom:6px;">✍️ แบบฝึกหัดและโจทย์ท้าทายประจำบทเรียน (End-of-Chapter Problems)</h3>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 1: ความรู้ความเข้าใจและการประยุกต์พื้นฐาน</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>อธิบายหน้าที่ของไขมัน 4 ชนิดในโครงสร้าง LNP</li><li style='margin-bottom:6px;'>ทำไมสัญญาณ SERS จึงแปรผันตามสนามไฟฟ้ากำลังสี่?</li></ol>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 2: การวิเคราะห์เชิงปริมาณและการพิสูจน์ทางฟิสิกส์</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>คำนวณค่าปัจจัยการขยายสัญญาณ SERS เมื่อสนามไฟฟ้าเฉพาะที่ขยาย 150 เท่า</li></ol>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 3: การประเมินค่าและการออกแบบเชิงวิจัยสร้างสรรค์</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>ออกแบบอนุภาคนาโนแกน-เปลือกเพื่อการถ่ายภาพ MRI พร้อมปล่อยยาตามเป้าหมาย</li></ol>
+      </div>
+    </div>
+    
+  
+    <div class="chapter-container">
+      <div class="chapter-hero">
+        <div class="chapter-badge">CHAPTER 08 • NANOTECHNOLOGICAL PHYSICS</div>
+        <h1 class="chapter-title">นาโนเทคโนโลยีพลังงาน สิ่งแวดล้อม และความปลอดภัย</h1>
+        <p class="chapter-subtitle">Energy Nanomaterials, Perovskite Solar Cells, Batteries & Nanotoxicology</p>
+      </div>
+
+      <div class="diagram-wrap">
+        <img src="../assets/diagrams/ch08_energy_future.svg" alt="นาโนเทคโนโลยีพลังงาน สิ่งแวดล้อม และความปลอดภัย">
+        <div class="caption">ภาพที่ 8.1 แผนผังเซลล์แสงอาทิตย์เพอรอฟสไกต์ แบตเตอรี่โซลิดสเตต และวงจรความปลอดภัยทางชีวภาพ</div>
+      </div>
+
+      <h2>8.1 เซลล์แสงอาทิตย์เฮไลด์เพอรอฟสไกต์และนาโนพิษวิทยา (Perovskite Solar Cells, Batteries & Nanotoxicology)</h2>
+<p>วัสดุเพอรอฟสไกต์เฮไลด์อินทรีย์-อนินทรีย์ ($	ext{CH}_3	ext{NH}_3	ext{PbI}_3$) มีค่าสัมประสิทธิ์การดูดกลืนแสงสูงมาก ($> 10^5	ext{ cm}^{-1}$), ความยาวการแพร่ของพาหะประจุยาว ($> 1	ext{ }\mu	ext{m}$) และช่องว่างแถบพลังงานที่ปรับจูนได้ ทำให้มีประสิทธิภาพการแปลงพลังงานแสงอาทิตย์ (PCE) พุ่งสูงเกิน 26% ในเวลาไม่ถึงทศวรรษ</p>
+<p>นาโนพิษวิทยา (Nanotoxicology) และกรอบการออกแบบที่ปลอดภัยตั้งแต่ต้นทาง (Safe-by-Design) มุ่งเน้นการประเมินความเป็นพิษต่อเซลล์ การสร้างอนุมูลอิสระ ROS และการควบคุมผลกระทบต่อสิ่งแวดล้อมอย่างยั่งยืน</p>
+
+        <div class="formula-box">
+          <div class="formula-box-title">📌 ประสิทธิภาพการแปลงพลังงานแสงอาทิตย์</div>
+          <div class="formula-math">$$\text{PCE} = \frac{J_{\text{sc}} \times V_{\text{oc}} \times \text{FF}}{P_{\text{in}}} \times 100\%$$</div>
+          <p style="font-size:9.5pt; margin:0; color:#475569; line-height:1.7;">สมการคำนวณประสิทธิภาพเซลล์แสงอาทิตย์</p>
+        </div>
+        
+        <div class="formula-box">
+          <div class="formula-box-title">📌 การสร้างอนุมูลอิสระจากโฟโตคะตะลิซิส</div>
+          <div class="formula-math">$$\text{TiO}_2 + h\nu \to e_{\text{CB}}^- + h_{\text{VB}}^+, \qquad h_{\text{VB}}^+ + \text{H}_2\text{O} \to \cdot\text{OH} + \text{H}^+$$</div>
+          <p style="font-size:9.5pt; margin:0; color:#475569; line-height:1.7;">กลไกการสร้างอนุมูลไฮดรอกซิล ROS</p>
+        </div>
+        
+        <div class="example-box">
+          <div class="example-header">
+            <span>📝 ตัวอย่างการคำนวณที่ 8.1: การคำนวณประสิทธิภาพ PCE ของเซลล์แทนเด็มเพอรอฟสไกต์/ซิลิคอน</span>
+            <span style="background:#dcfce7; color:#15803d; font-size:8pt; padding:2px 8px; border-radius:4px; font-weight:700;">Worked Example</span>
+          </div>
+          <p><strong>โจทย์ปัญหา:</strong> เซลล์แสงอาทิตย์แทนเด็มมี $J_{	ext{sc}} = 20.5	ext{ mA/cm}^2$, $V_{	ext{oc}} = 1.88	ext{ V}$, $	ext{FF} = 0.81$ ภายใต้แสง $P_{	ext{in}} = 100	ext{ mW/cm}^2$ จงคำนวณหาค่า $	ext{PCE}$</p>
+          <p><strong>วิธีทำและการวิเคราะห์อย่างละเอียด:</strong><br>$$\text{PCE} = \frac{(20.5)(1.88)(0.81)}{100.0} \times 100\% = 31.22\%$$</p>
+          <div style="background:rgba(255,255,255,0.7); border-left:3px solid #16a34a; padding:8px 12px; margin-top:8px; font-size:9pt; color:#166534;">
+            💡 <strong>นัยสำคัญทางกายภาพและข้อสรุป:</strong> ประสิทธิภาพสูงถึง 31.22% ทะลุผ่านขีดจำกัดช็อกเลย์-ไควเซอร์ของเซลล์ซิลิคอนเดี่ยว
+          </div>
+        </div>
+        
+
+      <div class="summary-box">
+        <h3 style="color:#7e22ce; margin-top:0; border-bottom:1px solid #f0abfc; padding-bottom:6px;">📚 สรุปสาระสำคัญประจำบทเรียน (Chapter Summary)</h3>
+        <ul style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;">
+          <li style='margin-bottom:6px;'>เซลล์เพอรอฟสไกต์ให้ประสิทธิภาพการแปลงพลังงานแสงสูงเกิน 26% และนำไปสู่เซลล์แทนเด็ม 31%+</li><li style='margin-bottom:6px;'>วัสดุรูพรุนนาโนเพิ่มความจุและความเร็วในการชาร์จของแบตเตอรี่และซูเปอร์คาปาซิเตอร์</li><li style='margin-bottom:6px;'>นาโนพิษวิทยาประเมินผลกระทบของ ROS และการแทรกซึมผ่านเยื่อหุ้มเซลล์ของอนุภาคนาโน</li><li style='margin-bottom:6px;'>กรอบการออกแบบ Safe-by-Design มุ่งเน้นการสร้างนวัตกรรมนาโนที่ปลอดภัยและยั่งยืน</li>
+        </ul>
+      </div>
+
+      <div class="exercise-box">
+        <h3 style="color:#b45309; margin-top:0; border-bottom:1px solid #fde68a; padding-bottom:6px;">✍️ แบบฝึกหัดและโจทย์ท้าทายประจำบทเรียน (End-of-Chapter Problems)</h3>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 1: ความรู้ความเข้าใจและการประยุกต์พื้นฐาน</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>อธิบายกลไกการสร้างอนุมูลอิสระ ROS ของอนุภาค TiO2 เมื่อโดนแสง UV</li></ol>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 2: การวิเคราะห์เชิงปริมาณและการพิสูจน์ทางฟิสิกส์</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>คำนวณหาค่า PCE ของเซลล์แสงอาทิตย์เมื่อ Jsc = 24 mA/cm2, Voc = 1.15 V, FF = 0.78</li></ol>
+        <h4 style="color:#92400e; margin-top:12px;">ระดับที่ 3: การประเมินค่าและการออกแบบเชิงวิจัยสร้างสรรค์</h4>
+        <ol style="margin-left:20px; font-size:9.5pt; color:#334155; line-height:1.7;"><li style='margin-bottom:6px;'>วางกรอบประเมินความปลอดภัยเครื่องสำอางผสมอนุภาค ZnO ตามหลัก Safe-by-Design</li></ol>
+      </div>
+    </div>
+    
+  
+    <!-- APPENDIX A -->
+    <div class="chapter-container">
+      <div class="chapter-hero">
+        <div class="chapter-badge">APPENDIX A • REFERENCE CONSTANTS</div>
+        <h1 class="chapter-title">ภาคผนวก ก: ค่าคงที่สากลทางฟิสิกส์และตารางแปลงหน่วย</h1>
+        <p class="chapter-subtitle">Fundamental Physical Constants &amp; Unit Conversion Factors in Nanophysics</p>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ปริมาณทางฟิสิกส์ (Physical Quantity)</th>
+            <th>สัญลักษณ์ (Symbol)</th>
+            <th>ค่าในระบบหน่วย SI (Value in SI Units)</th>
+            <th>ค่าในระบบหน่วยนาโน (Nanoscale Units)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>ค่าคงที่พลังค์ (Planck Constant)</td><td>$h$</td><td>$6.62607015 \times 10^{-34}\text{ J}\cdot\text{s}$</td><td>$4.135667 \times 10^{-15}\text{ eV}\cdot\text{s}$</td></tr>
+          <tr><td>ค่าคงที่พลังค์ลดรูป (Reduced Planck Constant)</td><td>$\hbar = h/2\pi$</td><td>$1.05457182 \times 10^{-34}\text{ J}\cdot\text{s}$</td><td>$6.582119 \times 10^{-16}\text{ eV}\cdot\text{s}$</td></tr>
+          <tr><td>ประจุของอิเล็กตรอน (Elementary Charge)</td><td>$e$</td><td>$1.60217663 \times 10^{-19}\text{ C}$</td><td>$1\text{ e}$</td></tr>
+          <tr><td>มวลนิ่งของอิเล็กตรอน (Electron Rest Mass)</td><td>$m_0$</td><td>$9.10938370 \times 10^{-31}\text{ kg}$</td><td>$0.5109989\text{ MeV}/c^2$</td></tr>
+          <tr><td>ค่าคงที่โบลต์ซมันน์ (Boltzmann Constant)</td><td>$k_B$</td><td>$1.380649 \times 10^{-23}\text{ J/K}$</td><td>$8.617333 \times 10^{-5}\text{ eV/K}$</td></tr>
+          <tr><td>ความเร็วแสงในสุญญากาศ (Speed of Light)</td><td>$c$</td><td>$2.99792458 \times 10^8\text{ m/s}$</td><td>$0.2998\text{ nm/fs}$</td></tr>
+          <tr><td>สภาพยอมของสุญญากาศ (Vacuum Permittivity)</td><td>$\varepsilon_0$</td><td>$8.85418781 \times 10^{-12}\text{ F/m}$</td><td>$5.5263 \times 10^{-2}\text{ e}^2/(\text{eV}\cdot\text{nm})$</td></tr>
+          <tr><td>รัศมีโบร์ของไฮโดรเจน (Bohr Radius)</td><td>$a_0$</td><td>$5.29177211 \times 10^{-11}\text{ m}$</td><td>$0.0529177\text{ nm} = 0.529\text{ Å}$</td></tr>
+          <tr><td>พลังงานความร้อนที่อุณหภูมิห้อง ($300\text{ K}$)</td><td>$k_B T_{300}$</td><td>$4.142 \times 10^{-21}\text{ J}$</td><td>$25.85\text{ meV} \approx 1/40\text{ eV}$</td></tr>
+          <tr><td>ความต้านทานควอนตัมของคลิตซิง (von Klitzing Constant)</td><td>$R_K = h/e^2$</td><td>$25,812.807\text{ }\Omega$</td><td>$25.813\text{ k}\Omega$</td></tr>
+          <tr><td>การนำไฟฟ้าควอนตัม (Quantum Conductance)</td><td>$G_0 = 2e^2/h$</td><td>$7.74809173 \times 10^{-5}\text{ S}$</td><td>$(12.906\text{ k}\Omega)^{-1}$</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- APPENDIX B -->
+    <div class="chapter-container">
+      <div class="chapter-hero">
+        <div class="chapter-badge">APPENDIX B • MATHEMATICAL APPARATUS</div>
+        <h1 class="chapter-title">ภาคผนวก ข: บทพิสูจน์คณิตศาสตร์และสมการชเรอดิงเงอร์ในพิกัดทรงกลม</h1>
+        <p class="chapter-subtitle">Mathematical Proofs, Spherical Harmonics &amp; Bessel Functions in Quantum Dots</p>
+      </div>
+
+      <h2>ข.1 การแยกตัวแปรในสมการชเรอดิงเงอร์สำหรับควอนตัมดอททรงกลม</h2>
+      <p>สมการชเรอดิงเงอร์อิสระจากเวลาในพิกัดทรงกลม ($r, \theta, \phi$) ภายใต้ศักย์แบบสมมาตรทรงกลม $V(r)$ เขียนได้ดังนี้:</p>
+      <div class="formula-box">
+        <div class="formula-math">$$\left[ -\frac{\hbar^2}{2m^*} \left( \frac{1}{r^2}\frac{\partial}{\partial r}\left(r^2\frac{\partial}{\partial r}\right) + \frac{1}{r^2\sin\theta}\frac{\partial}{\partial\theta}\left(\sin\theta\frac{\partial}{\partial\theta}\right) + \frac{1}{r^2\sin^2\theta}\frac{\partial^2}{\partial\phi^2} \right) + V(r) \right] \psi(r,\theta,\phi) = E\psi$$</div>
+      </div>
+      <p>เมื่อแยกตัวแปร $\psi(r,\theta,\phi) = R_{nl}(r) Y_{lm}(\theta,\phi)$ จะได้สมการในแนวรัศมี:</p>
+      <div class="formula-box">
+        <div class="formula-math">$$\frac{d^2 R}{dr^2} + \frac{2}{r}\frac{dR}{dr} + \left[ \frac{2m^*}{\hbar^2}(E - V(r)) - \frac{l(l+1)}{r^2} \right] R = 0$$</div>
+      </div>
+      <p>สำหรับบ่อศักย์ลึกอนันต์รัศมี $R_0$ ผลเฉลยคือฟังก์ชันเบสเซลทรงกลม (Spherical Bessel Functions, $j_l(kr)$) โดยที่ $k_{n,l} = \alpha_{n,l} / R_0$ เมื่อ $\alpha_{n,l}$ คือรากที่ $n$ ของ $j_l(x) = 0$ ระดับพลังงานจึงกำหนดโดย:</p>
+      <div class="formula-box">
+        <div class="formula-math">$$E_{n,l} = \frac{\hbar^2 \alpha_{n,l}^2}{2 m^* R_0^2}$$</div>
+      </div>
+    </div>
+
+    <!-- GLOSSARY -->
+    <div class="chapter-container">
+      <div class="chapter-hero">
+        <div class="chapter-badge">GLOSSARY • THAI-ENGLISH</div>
+        <h1 class="chapter-title">อภิธานศัพท์นาโนฟิสิกส์ (Glossary of Nanophysics Terms)</h1>
+        <p class="chapter-subtitle">Comprehensive Bilingual Vocabulary and Physical Definitions</p>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>คำศัพท์ภาษาไทย</th>
+            <th>คำศัพท์ภาษาอังกฤษ</th>
+            <th>คำนิยามและความหมายทางฟิสิกส์</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>การกักขังเชิงควอนตัม</strong></td><td>Quantum Confinement</td><td>ปรากฏการณ์ที่ฟังก์ชันคลื่นของอนุภาคถูกบีบอัดในมิติที่เล็กกว่าความยาวคลื่นเดอบรอยล์ ทำให้ระดับพลังงานไม่ต่อเนื่อง</td></tr>
+          <tr><td><strong>กรวยดิแรก</strong></td><td>Dirac Cones</td><td>ความสัมพันธ์การกระจายตัวของพลังงานรูปกรวยเชิงเส้นในกราฟีนที่พาหะมีพฤติกรรมเสมือนอนุภาคไร้มวล</td></tr>
+          <tr><td><strong>ความดันลาปลาซ</strong></td><td>Laplace Pressure</td><td>ผลต่างความดันข้ามผิวโค้งของอนุภาคนาโนเนื่องจากพลังงานพื้นผิว $\Delta P = 2\gamma/R$</td></tr>
+          <tr><td><strong>ควอนตัมดอท</strong></td><td>Quantum Dot (0D)</td><td>ผลึกสารกึ่งตัวนำขนาดนาโนเมตรที่มีระดับพลังงานแยกขาดจากกันเสมือนอะตอมเดี่ยวประดิษฐ์</td></tr>
+          <tr><td><strong>คูลอมบ์บล็อกเคด</strong></td><td>Coulomb Blockade</td><td>การยับยั้งการไหลของกระแสทันเนลลิ่งในตัวนำขนาดจิ๋วเนื่องจากพลังงานชาร์จประจุ $e^2/2C > k_B T$</td></tr>
+          <tr><td><strong>พลาสมอนเรโซแนนซ์</strong></td><td>LSPR</td><td>การสั่นพ้องร่วมของอิเล็กตรอนอิสระในอนุภาคโลหะนาโนกับสนามไฟฟ้าของคลื่นแสง</td></tr>
+          <tr><td><strong>ลิพิดนาโนพาร์ติเคิล</strong></td><td>Lipid Nanoparticle (LNP)</td><td>อนุภาคไขมันระดับนาโนเมตรที่ใช้เป็นระบบห่อหุ้มและนำส่งยาหรือวัคซีน mRNA เข้าสู่เซลล์</td></tr>
+          <tr><td><strong>ออสวอลด์ไรเปนนิง</strong></td><td>Ostwald Ripening</td><td>กระบวนการเติบโตของผลึกที่อนุภาคขนาดเล็กละลายตัวไปพอกพูนบนผิวของอนุภาคขนาดใหญ่กว่า</td></tr>
+          <tr><td><strong>เอ็กซิตอน</strong></td><td>Exciton</td><td>คู่อนุภาคเทียมระหว่างอิเล็กตรอนและโฮลที่ยึดเหนี่ยวกันด้วยแรงดึงดูดคูลอมบ์ในสารกึ่งตัวนำ</td></tr>
+          <tr><td><strong>ฮีเทอโรสตรัคเจอร์</strong></td><td>Heterostructure</td><td>โครงสร้างที่ประกอบขึ้นจากการประกบซ้อนวัสดุที่มีช่องว่างแถบพลังงานแตกต่างกัน</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- REFERENCES -->
+    <div class="chapter-container">
+      <div class="chapter-hero">
+        <div class="chapter-badge">BIBLIOGRAPHY &amp; REFERENCES</div>
+        <h1 class="chapter-title">เอกสารอ้างอิงและบรรณานุกรมวิชาการ</h1>
+        <p class="chapter-subtitle">Authoritative Academic References, Standard Textbooks &amp; Seminal Papers</p>
+      </div>
+
+      <ol style="margin-left:25px; font-size:9.5pt; color:#334155; line-height:1.8;">
+        <li>Wolf, E. L. (2015). <em>Nanophysics and Nanotechnology: An Introduction to Modern Concepts in Nanoscience</em> (3rd ed.). Wiley-VCH.</li>
+        <li>Kittel, C. (2005). <em>Introduction to Solid State Physics</em> (8th ed.). John Wiley &amp; Sons.</li>
+        <li>Ashcroft, N. W., &amp; Mermin, N. D. (1976). <em>Solid State Physics</em>. Saunders College Publishing.</li>
+        <li>Datta, S. (2005). <em>Quantum Transport: Atom to Transistor</em>. Cambridge University Press.</li>
+        <li>Brus, L. E. (1984). Electron–electron and electron-hole interactions in small semiconductor crystallites: The size dependence of the lowest excited electronic state. <em>Journal of Chemical Physics</em>, 80(9), 4403–4409.</li>
+        <li>Novoselov, K. S., Geim, A. K., Morozov, S. V., Jiang, D., Zhang, Y., Dubonos, S. V., Grigorieva, I. V., &amp; Firsov, A. A. (2004). Electric field effect in atomically thin carbon films. <em>Science</em>, 306(5696), 666–669.</li>
+        <li>Iijima, S. (1991). Helical microtubules of graphitic carbon. <em>Nature</em>, 354(6348), 56–58.</li>
+        <li>Bohren, C. F., &amp; Huffman, D. R. (1983). <em>Absorption and Scattering of Light by Small Particles</em>. John Wiley &amp; Sons.</li>
+        <li>Israelachvili, J. N. (2011). <em>Intermolecular and Surface Forces</em> (3rd ed.). Academic Press.</li>
+        <li>LaMer, V. K., &amp; Dinegar, R. H. (1950). Theory, production and mechanism of formation of monodispersed hydrosols. <em>Journal of the American Chemical Society</em>, 72(11), 4847–4854.</li>
+        <li>Sze, S. M., &amp; Ng, K. K. (2007). <em>Physics of Semiconductor Devices</em> (3rd ed.). John Wiley &amp; Sons.</li>
+        <li>Feynman, R. P. (1959). There's plenty of room at the bottom: An invitation to enter a new field of physics. <em>Engineering and Science</em>, 23(5), 22–36.</li>
+        <li>ชีวะ ทัศนา และ จิรพัศ จันทมาลี. (2026). <em>ฟิสิกส์ของแข็งและวัสดุศาสตร์ระดับนาโน</em>. มหาวิทยาลัยราชภัฏรำไพพรรณี.</li>
+      </ol>
+
+      <div style="margin-top:40px; padding:25px; border:2px dashed #cbd5e1; border-radius:12px; background:#f8fafc; text-align:center;">
+        <h3 style="color:#0f172a; margin:0 0 10px 0;">🎉 สิ้นสุดเล่มตำราวิชาการ: นาโนเทคโนโลยีเชิงฟิสิกส์ (Masterclass Edition)</h3>
+        <p style="font-size:9.5pt; color:#64748b; margin:0; line-height:1.6;">
+          ลิขสิทธิ์ทางวิชาการ © พ.ศ. 2569 ผู้ช่วยศาสตราจารย์ ดร.ชีวะ ทัศนา (Asst. Prof. Dr. Chewa Thassana)<br>
+          สาขาวิชาฟิสิกส์ คณะวิทยาศาสตร์และเทคโนโลยี มหาวิทยาลัยราชภัฏรำไพพรรณี (RBRU)<br>
+          จัดทำและเรนเดอร์ตามมาตรฐาน Modern Academic Textbook Publishing System (Cambridge / Springer Style)
+        </p>
+      </div>
+    </div>
+    
+</body>
+</html>
