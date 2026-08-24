@@ -116,17 +116,17 @@
   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; border-bottom: 1px solid rgba(0, 240, 255, 0.2); padding-bottom: 12px;">
     <div style="display: flex; align-items: center; gap: 10px;">
       <span style="font-size: 1.2rem;">📌</span>
-      <span style="font-weight: 800; font-size: 1.08rem; color: #38bdf8; letter-spacing: -0.2px;">กฎและสมการสำคัญประจำหัวข้อ 8.4</span>
+      <span style="font-weight: 800; font-size: 1.08rem; color: #38bdf8; letter-spacing: -0.2px;">ฟังก์ชันการสูญเสียของโมเดลปัญญาประดิษฐ์ทำนายสมบัติวัสดุนาโน (AI Loss Function & Property Prediction)</span>
     </div>
     <span style="background: rgba(0, 240, 255, 0.15); border: 1px solid #00f0ff; color: #00f0ff; padding: 3px 12px; border-radius: 9999px; font-size: 0.78rem; font-weight: 700; font-family: 'JetBrains Mono', monospace;">
-      ฟิสิกส์นาโน
+      AI & Machine Learning
     </span>
   </div>
 
   <!-- Formula Highlight Display Box -->
   <div style="background: #020617; border: 1.5px solid rgba(0, 240, 255, 0.35); border-radius: 12px; padding: 20px 24px; text-align: center; margin: 16px 0; box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.8);">
     <div style="font-family: 'Cambria Math', 'Times New Roman', 'KaTeX_Main', serif; font-size: 1.55rem; line-height: 1.8; letter-spacing: 0.5px; display: inline-flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px;">
-      <span style="color:#facc15; font-weight:700; font-family:'Cambria Math', serif; font-size:1.4rem;">\bar{x} = \frac{1}{N}\sum_{i=1}^N x_i, \quad \sigma_{\bar{x}} = \frac{s}{\sqrt{N}}</span>
+      <span style="color:#38bdf8; font-weight:700;">&Lscr;<sub>MSE</sub></span> <span style="color:#ffffff;">=</span> <span style="display:inline-flex; align-items:center; gap:6px;"><span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;"><span style="border-bottom:2px solid #38bdf8; padding:0 6px; color:#38bdf8; font-weight:700;">1</span><span style="color:#38bdf8; font-weight:700;">N</span></span> <span style="color:#38bdf8; font-size:1.1rem;">&sum;</span><sub style="color:#94a3b8;">i=1</sub><sup style="color:#94a3b8;">N</sup> <span style="color:#cbd5e1;">(</span><span style="color:#34d399; font-weight:700;">y<sub>i</sub></span> <span style="color:#ffffff;">&minus;</span> <span style="color:#facc15; font-weight:700;">y&#770;<sub>i</sub></span><span style="color:#cbd5e1;">)<sup>2</sup></span> <span style="color:#ffffff;">+</span> <span style="color:#c084fc; font-weight:700;">&lambda; ||W||<sup>2</sup></span></span>
     </div>
   </div>
 
@@ -134,14 +134,23 @@
   <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 14px 18px; margin: 14px 0 12px 0;">
     <div style="font-size: 0.82rem; font-weight: 700; color: #94a3b8; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">คำอธิบายตัวแปรและหน่วย SI:</div>
     <div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
-      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; สมการหลัก:</span>
-      <span>ความสัมพันธ์เชิงปริมาณของตัวแปรในระบบฟิสิกส์ระดับนาโน (8.4 การวิเคราะห์ข้อมูลขั้นสูงและการนำเสนอผลงานวิจัย)</span>
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; &Lscr;_MSE:</span>
+      <span>ฟังก์ชันการสูญเสียกำลังสองเฉลี่ยของการทำนายสมบัติวัสดุ (Mean Squared Error Loss)</span>
+    </div><div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; y_i:</span>
+      <span>ค่าสมบัติทางกายภาพจริงจากการทดลองหรือการคำนวณ DFT (Ground Truth Target: Bandgap, Formation Energy)</span>
+    </div><div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; ŷ_i:</span>
+      <span>ค่าสมบัติที่ทำนายได้จากโครงข่ายประสาทเทียมกราฟ (Graph Neural Network Prediction: CGCNN)</span>
+    </div><div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; &lambda; ||W||²:</span>
+      <span>เทอมควบคุมความซับซ้อนเพื่อป้องกันการเรียนรู้เกิน (L2 Weight Regularization Penalty)</span>
     </div>
   </div>
 
   <!-- Physical Significance Callout -->
   <div style="background: rgba(0, 240, 255, 0.08); border-left: 4px solid #00f0ff; border-radius: 8px; padding: 10px 16px; font-size: 0.90rem; color: #e2e8f0; line-height: 1.65;">
-    💡 <strong style="color: #38bdf8;">นัยสำคัญทางฟิสิกส์:</strong> สมการนี้แสดงความสัมพันธ์เชิงฟิสิกส์ในระดับนาโนสเกล โดยสมบัติของสสารจะเปลี่ยนแปลงอย่างมีนัยสำคัญตามขนาดและมิติของโครงสร้าง 8.4 การวิเคราะห์ข้อมูลขั้นสูงและการนำเสนอผลงานวิจัย
+    💡 <strong style="color: #38bdf8;">นัยสำคัญทางฟิสิกส์:</strong> ปัญญาประดิษฐ์สำหรับการออกแบบย้อนกลับ (Inverse Materials Design) สามารถสแกนและคัดกรองโครงสร้างผลึกนาโนกว่า 100,000 ชนิดในฐานข้อมูล Materials Project ได้ภายในไม่กี่นาที
   </div>
 </div>
 
@@ -188,7 +197,7 @@
           <span style="display: inline-block; background: #0284c7; color: #ffffff; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-size: 0.85rem; font-weight: 700; margin-right: 8px;">1</span>
           <strong>ขั้นตอนที่ 1: กำหนดตัวแปรและแทนค่าลงในสมการหลัก</strong>
           <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; margin: 8px 0 8px 32px; font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; text-align: center; color: #0284c7;">
-            กฎและสมการสำคัญประจำหัวข้อ 8.4
+            ฟังก์ชันการสูญเสียของโมเดลปัญญาประดิษฐ์ทำนายสมบัติวัสดุนาโน (AI Loss Function & Property Prediction)
           </div>
         </div>
 
@@ -196,7 +205,7 @@
           <span style="display: inline-block; background: #0284c7; color: #ffffff; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-size: 0.85rem; font-weight: 700; margin-right: 8px;">2</span>
           <strong>ขั้นตอนที่ 2: วิเคราะห์ผลกระทบทางกายภาพและการเปลี่ยนแปลงระดับควอนตัม</strong>
           <p style="margin: 6px 0 0 32px; font-size: 0.95rem; color: #334155;">
-            สมการนี้แสดงความสัมพันธ์เชิงฟิสิกส์ในระดับนาโนสเกล โดยสมบัติของสสารจะเปลี่ยนแปลงอย่างมีนัยสำคัญตามขนาดและมิติของโครงสร้าง 8.4 การวิเคราะห์ข้อมูลขั้นสูงและการนำเสนอผลงานวิจัย
+            ปัญญาประดิษฐ์สำหรับการออกแบบย้อนกลับ (Inverse Materials Design) สามารถสแกนและคัดกรองโครงสร้างผลึกนาโนกว่า 100,000 ชนิดในฐานข้อมูล Materials Project ได้ภายในไม่กี่นาที
           </p>
         </div>
 

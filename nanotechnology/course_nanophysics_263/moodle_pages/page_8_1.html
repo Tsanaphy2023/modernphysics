@@ -116,17 +116,33 @@
   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; border-bottom: 1px solid rgba(0, 240, 255, 0.2); padding-bottom: 12px;">
     <div style="display: flex; align-items: center; gap: 10px;">
       <span style="font-size: 1.2rem;">📌</span>
-      <span style="font-weight: 800; font-size: 1.08rem; color: #38bdf8; letter-spacing: -0.2px;">กฎและสมการสำคัญประจำหัวข้อ 8.1</span>
+      <span style="font-weight: 800; font-size: 1.08rem; color: #38bdf8; letter-spacing: -0.2px;">ศักย์เลนนาร์ด-โจนส์และสมการการเคลื่อนที่พลวัตโมเลกุล (Lennard-Jones Potential & Molecular Dynamics)</span>
     </div>
     <span style="background: rgba(0, 240, 255, 0.15); border: 1px solid #00f0ff; color: #00f0ff; padding: 3px 12px; border-radius: 9999px; font-size: 0.78rem; font-weight: 700; font-family: 'JetBrains Mono', monospace;">
-      ฟิสิกส์นาโน
+      พลวัตโมเลกุล MD
     </span>
   </div>
 
   <!-- Formula Highlight Display Box -->
   <div style="background: #020617; border: 1.5px solid rgba(0, 240, 255, 0.35); border-radius: 12px; padding: 20px 24px; text-align: center; margin: 16px 0; box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.8);">
     <div style="font-family: 'Cambria Math', 'Times New Roman', 'KaTeX_Main', serif; font-size: 1.55rem; line-height: 1.8; letter-spacing: 0.5px; display: inline-flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px;">
-      <span style="color:#facc15; font-weight:700; font-family:'Cambria Math', serif; font-size:1.4rem;">\nabla \times \mathbf{E} = -\frac{\partial \mathbf{B}}{\partial t}, \quad \nabla \times \mathbf{H} = \mathbf{J} + \frac{\partial \mathbf{D}}{\partial t}</span>
+      <span style="display:inline-flex; align-items:center; gap:16px; flex-wrap:wrap; justify-content:center;">
+              <span style="display:inline-flex; align-items:center; gap:6px;">
+                <span style="color:#38bdf8; font-weight:700;">V<sub>LJ</sub>(r)</span> <span style="color:#ffffff;">=</span> 
+                <span style="color:#facc15; font-weight:700;">4 &epsilon;</span> 
+                <span style="color:#cbd5e1;">[</span><span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;"><span style="border-bottom:2px solid #38bdf8; padding:0 6px; color:#38bdf8; font-weight:700;">&sigma;</span><span style="color:#facc15; font-weight:700;">r</span></span><span style="color:#cbd5e1;">)<sup>12</sup></span> <span style="color:#ffffff;">&minus;</span> 
+                <span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;"><span style="border-bottom:2px solid #f43f5e; padding:0 6px; color:#f43f5e; font-weight:700;">&sigma;</span><span style="color:#facc15; font-weight:700;">r</span></span><span style="color:#cbd5e1;">)<sup>6</sup></span><span style="color:#cbd5e1;">]</span>
+              </span>
+              <span style="color:#ffffff; font-weight:700;">,</span>
+              <span style="display:inline-flex; align-items:center; gap:6px;">
+                <span style="color:#34d399; font-weight:700;"><span style="text-decoration:overline;">F</span><sub>i</sub></span> <span style="color:#ffffff;">=</span> 
+                <span style="color:#facc15; font-weight:700;">m<sub>i</sub></span> 
+                <span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;">
+                  <span style="border-bottom:2px solid #34d399; padding:0 6px; color:#34d399; font-weight:700;">d<sup>2</sup> <span style="text-decoration:overline;">r</span><sub>i</sub></span>
+                  <span style="color:#34d399; font-weight:700;">dt<sup>2</sup></span>
+                </span>
+              </span>
+            </span>
     </div>
   </div>
 
@@ -134,14 +150,26 @@
   <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 14px 18px; margin: 14px 0 12px 0;">
     <div style="font-size: 0.82rem; font-weight: 700; color: #94a3b8; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">คำอธิบายตัวแปรและหน่วย SI:</div>
     <div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
-      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; สมการหลัก:</span>
-      <span>ความสัมพันธ์เชิงปริมาณของตัวแปรในระบบฟิสิกส์ระดับนาโน (8.1 การจำลองสมบัติทางแสงของวัสดุนาโนด้วยระเบียบวิธีเชิงตัวเลข)</span>
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; V_LJ(r):</span>
+      <span>พลังงานศักย์อันตรกิริยาระหว่างคู่อะตอมตามแบบจำลองเลนนาร์ด-โจนส์ (หน่วย: eV หรือ J)</span>
+    </div><div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; &epsilon;:</span>
+      <span>ความลึกของบ่อพลังงานศักย์ที่ระยะเสถียร (Potential Well Depth, eV)</span>
+    </div><div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; &sigma;:</span>
+      <span>ระยะห่างระหว่างจุดศูนย์กลางของอะตอมที่ทำให้ศักย์มีค่าเป็นศูนย์ (Finite Distance where V=0, &Aring;)</span>
+    </div><div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; r:</span>
+      <span>ระยะห่างระหว่างคู่อะตอม (Interatomic Distance: r⁻¹² คือแรงผลักเปาลี และ r⁻⁶ คือแรงดึงดูดแวนเดอร์วาลส์)</span>
+    </div><div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; F_i, m_i:</span>
+      <span>เวกเตอร์แรงลัพธ์และมวลของอะตอมที่ i ตามระเบียบวิธีอินทิเกรตแบบแวร์เลต์ (Verlet Integration)</span>
     </div>
   </div>
 
   <!-- Physical Significance Callout -->
   <div style="background: rgba(0, 240, 255, 0.08); border-left: 4px solid #00f0ff; border-radius: 8px; padding: 10px 16px; font-size: 0.90rem; color: #e2e8f0; line-height: 1.65;">
-    💡 <strong style="color: #38bdf8;">นัยสำคัญทางฟิสิกส์:</strong> สมการนี้แสดงความสัมพันธ์เชิงฟิสิกส์ในระดับนาโนสเกล โดยสมบัติของสสารจะเปลี่ยนแปลงอย่างมีนัยสำคัญตามขนาดและมิติของโครงสร้าง 8.1 การจำลองสมบัติทางแสงของวัสดุนาโนด้วยระเบียบวิธีเชิงตัวเลข
+    💡 <strong style="color: #38bdf8;">นัยสำคัญทางฟิสิกส์:</strong> การจำลองพลวัตโมเลกุล (Molecular Dynamics - MD) ช่วยให้นักวิจัยมองเห็นการจัดเรียงตัวของอะตอม การหลอมเหลวที่จุดต่ำกว่าบัลค์ (Melting Point Depression) และการแพร่กระจายตัวของโครงสร้างนาโนในระดับเฟมโตวินาที
   </div>
 </div>
 
@@ -188,7 +216,7 @@
           <span style="display: inline-block; background: #0284c7; color: #ffffff; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-size: 0.85rem; font-weight: 700; margin-right: 8px;">1</span>
           <strong>ขั้นตอนที่ 1: กำหนดตัวแปรและแทนค่าลงในสมการหลัก</strong>
           <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; margin: 8px 0 8px 32px; font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; text-align: center; color: #0284c7;">
-            กฎและสมการสำคัญประจำหัวข้อ 8.1
+            ศักย์เลนนาร์ด-โจนส์และสมการการเคลื่อนที่พลวัตโมเลกุล (Lennard-Jones Potential & Molecular Dynamics)
           </div>
         </div>
 
@@ -196,7 +224,7 @@
           <span style="display: inline-block; background: #0284c7; color: #ffffff; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-size: 0.85rem; font-weight: 700; margin-right: 8px;">2</span>
           <strong>ขั้นตอนที่ 2: วิเคราะห์ผลกระทบทางกายภาพและการเปลี่ยนแปลงระดับควอนตัม</strong>
           <p style="margin: 6px 0 0 32px; font-size: 0.95rem; color: #334155;">
-            สมการนี้แสดงความสัมพันธ์เชิงฟิสิกส์ในระดับนาโนสเกล โดยสมบัติของสสารจะเปลี่ยนแปลงอย่างมีนัยสำคัญตามขนาดและมิติของโครงสร้าง 8.1 การจำลองสมบัติทางแสงของวัสดุนาโนด้วยระเบียบวิธีเชิงตัวเลข
+            การจำลองพลวัตโมเลกุล (Molecular Dynamics - MD) ช่วยให้นักวิจัยมองเห็นการจัดเรียงตัวของอะตอม การหลอมเหลวที่จุดต่ำกว่าบัลค์ (Melting Point Depression) และการแพร่กระจายตัวของโครงสร้างนาโนในระดับเฟมโตวินาที
           </p>
         </div>
 

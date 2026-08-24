@@ -3,367 +3,180 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nanophysics Simulator 8.3 — 8.3 การออกแบบโครงงานวิจัยนาโนเทคโนโลยีเชิงฟิสิกส์</title>
+  <title>Lab 8.3: Response Surface Methodology (RSM) Optimizer</title>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
   <style>
     :root {
-      --bg-dark: #020617;
-      --card-bg: #090e1a;
+      --bg: #020617;
+      --panel: #090e1a;
       --cyan: #00f0ff;
+      --amber: #facc15;
       --emerald: #10b981;
-      --amber: #f59e0b;
-      --rose: #f43f5e;
-      --purple: #a855f7;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: var(--bg-dark);
-      color: #f8fafc;
-      font-family: 'Sarabun', -apple-system, sans-serif;
-      padding: 10px;
-      overflow-x: hidden;
-    }
-    .sim-card {
-      background: var(--card-bg);
-      border: 1px solid #1e293b;
-      border-radius: 12px;
-      padding: 16px;
-      max-width: 100%;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-      position: relative;
-    }
-    .sim-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 12px;
-      border-bottom: 1px solid #1e293b;
-      padding-bottom: 8px;
-    }
-    .sim-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--cyan);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .status-badge {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid var(--emerald);
-      color: var(--emerald);
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 9999px;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .sim-canvas-container {
-      position: relative;
-      width: 100%;
-      height: 280px;
-      background: #000000;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      overflow: hidden;
-      margin-bottom: 12px;
-    }
-    canvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-    .controls-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 10px;
-      margin-bottom: 10px;
-      background: #0f172a;
-      padding: 10px 14px;
-      border-radius: 8px;
-      border: 1px solid #1e293b;
-    }
-    .ctrl-item {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .ctrl-label {
-      font-size: 0.78rem;
-      color: #94a3b8;
-      display: flex;
-      justify-content: space-between;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    input[type=range] {
-      width: 100%;
-      accent-color: var(--cyan);
-      cursor: pointer;
-    }
-    .hud-readout {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      font-size: 0.82rem;
-      color: #cbd5e1;
-      background: #020617;
-      border: 1px solid #334155;
-      border-radius: 6px;
-      padding: 6px 12px;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .hud-val {
-      color: var(--amber);
-      font-weight: 700;
-    }
-    .btn-action {
-      background: linear-gradient(135deg, #0284c7, var(--cyan));
-      color: #020617;
-      border: none;
-      border-radius: 6px;
-      padding: 6px 14px;
-      font-weight: 700;
-      font-size: 0.80rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-action:hover {
-      box-shadow: 0 0 10px var(--cyan);
-      transform: scale(1.02);
-    }
+    body { background: var(--bg); color: #f8fafc; font-family: 'Sarabun', sans-serif; padding: 12px; }
+    .sim-card { background: var(--panel); border: 1px solid #1e293b; border-radius: 14px; padding: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
+    .sim-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 10px; margin-bottom: 12px; }
+    .sim-title { font-size: 1.1rem; font-weight: 700; color: var(--emerald); display: flex; align-items: center; gap: 8px; }
+    .badge { background: rgba(16,185,129,0.15); border: 1px solid var(--emerald); color: var(--emerald); padding: 3px 10px; border-radius: 9999px; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; }
+    .canvas-box { position: relative; width: 100%; height: 320px; background: #000; border: 1px solid #334155; border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
+    canvas { width: 100%; height: 100%; display: block; }
+    .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; background: #0f172a; padding: 12px 16px; border-radius: 10px; border: 1px solid #1e293b; margin-bottom: 12px; }
+    .ctrl-group { display: flex; flex-direction: column; gap: 6px; }
+    .ctrl-lbl { font-size: 0.8rem; color: #94a3b8; display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; }
+    input[type=range] { width: 100%; accent-color: var(--emerald); cursor: pointer; }
+    .hud { display: flex; justify-content: space-between; align-items: center; background: #020617; border: 1px solid #334155; border-radius: 8px; padding: 10px 16px; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; flex-wrap: wrap; gap: 10px; }
+    .hud-val { color: var(--cyan); font-weight: 700; }
   </style>
 </head>
 <body>
   <div class="sim-card">
     <div class="sim-header">
       <div class="sim-title">
-        <span>🔬</span>
-        <span>แล็บจำลอง 8.3: 8.3 การออกแบบโครงงานวิจัยนาโนเทคโนโลยีเชิงฟิสิกส์</span>
+        <span>📊</span>
+        <span>แล็บ 8.3: การออกแบบการทดลองและแบบจำลองพื้นผิวตอบสนอง (RSM 3D Optimizer)</span>
       </div>
-      <div class="status-badge">● 60 FPS REAL-TIME</div>
+      <div class="badge">● CENTRAL COMPOSITE DESIGN (CCD) OPTIMIZATION</div>
     </div>
 
-    <div class="sim-canvas-container">
-      <canvas id="nanoCanvas"></canvas>
+    <div class="canvas-box">
+      <canvas id="rsmCanvas"></canvas>
     </div>
 
-    <div class="controls-grid">
-      <div class="ctrl-item">
-        <div class="ctrl-label">
-          <span>ขนาดอนุภาค (Diameter)</span>
-          <span id="valD">10.0 nm</span>
+    <div class="controls">
+      <div class="ctrl-group">
+        <div class="ctrl-lbl">
+          <span>อุณหภูมิการสังเคราะห์ (Factor X1: Temperature)</span>
+          <span id="txtX1">X1 = 180 °C</span>
         </div>
-        <input type="range" id="sliderD" min="1" max="100" step="0.5" value="10">
+        <input type="range" id="sliderX1" min="100" max="250" step="5" value="180">
       </div>
-      <div class="ctrl-item">
-        <div class="ctrl-label">
-          <span>อุณหภูมิ (Temperature)</span>
-          <span id="valT">300 K</span>
+      <div class="ctrl-group">
+        <div class="ctrl-lbl">
+          <span>เวลาในการทำปฏิกิริยา (Factor X2: Time)</span>
+          <span id="txtX2">X2 = 45 min</span>
         </div>
-        <input type="range" id="sliderT" min="10" max="600" step="5" value="300">
-      </div>
-      <div class="ctrl-item">
-        <div class="ctrl-label">
-          <span>พารามิเตอร์จำลอง (Parameter)</span>
-          <span id="valP">1.00</span>
-        </div>
-        <input type="range" id="sliderP" min="0.1" max="5.0" step="0.05" value="1.0">
+        <input type="range" id="sliderX2" min="10" max="120" step="5" value="45">
       </div>
     </div>
 
-    <div class="hud-readout">
-      <div>สมการหลัก: <span class="hud-val">\text{Problem} \to \text{Hypothesis} \to \text{SOP} \to \text{Evidence}</span></div>
-      <div>สถานะ: <span class="hud-val" id="hudStatus">Active Simulation</span></div>
-      <button type="button" class="btn-action" id="btnReset" onclick="resetSim()">↺ รีเซ็ตการทดลอง</button>
+    <div class="hud">
+      <div>ร้อยละผลผลิต (Yield Y): <span class="hud-val" id="hudY">94.6%</span> | ความสม่ำเสมอขนาด (PDI): <span class="hud-val" id="hudPDI">0.065 (Monodisperse)</span></div>
+      <div>สภาวะที่เหมาะสมที่สุด (Global Optimum): <span class="hud-val" id="hudOpt">185 °C / 50 min (R² = 0.988)</span></div>
+      <button type="button" onclick="jumpToOptimum()" style="background:#10b981; color:#020617; border:none; padding:6px 14px; border-radius:6px; font-weight:700; cursor:pointer;">⚡ กระโดดสู่จุดสภาวะที่เหมาะสมที่สุด (Global Optimum)</button>
     </div>
   </div>
 
   <script src="ar_mediapipe_controller.js"></script>
   <script>
-    const canvas = document.getElementById("nanoCanvas");
+    const canvas = document.getElementById("rsmCanvas");
     const ctx = canvas.getContext("2d");
 
-    function resizeCanvas() {
+    function resize() {
       canvas.width = canvas.parentElement.clientWidth;
       canvas.height = canvas.parentElement.clientHeight;
     }
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
+    window.addEventListener("resize", resize);
+    resize();
 
-    let d = 10.0;
-    let temp = 300;
-    let param = 1.0;
-    let animTime = 0;
+    let x1 = 180, x2 = 45;
 
-    const sliderD = document.getElementById("sliderD");
-    const sliderT = document.getElementById("sliderT");
-    const sliderP = document.getElementById("sliderP");
-    const valD = document.getElementById("valD");
-    const valT = document.getElementById("valT");
-    const valP = document.getElementById("valP");
-    const hudStatus = document.getElementById("hudStatus");
+    const sliderX1 = document.getElementById("sliderX1");
+    const sliderX2 = document.getElementById("sliderX2");
+    const txtX1 = document.getElementById("txtX1");
+    const txtX2 = document.getElementById("txtX2");
+    const hudY = document.getElementById("hudY");
+    const hudPDI = document.getElementById("hudPDI");
 
-    sliderD.addEventListener("input", (e) => {
-      d = parseFloat(e.target.value);
-      valD.textContent = d.toFixed(1) + " nm";
-      updateReadout();
-    });
+    sliderX1.addEventListener("input", (e) => { x1 = parseFloat(e.target.value); updateRSM(); });
+    sliderX2.addEventListener("input", (e) => { x2 = parseFloat(e.target.value); updateRSM(); });
 
-    sliderT.addEventListener("input", (e) => {
-      temp = parseFloat(e.target.value);
-      valT.textContent = temp.toFixed(0) + " K";
-      updateReadout();
-    });
-
-    sliderP.addEventListener("input", (e) => {
-      param = parseFloat(e.target.value);
-      valP.textContent = param.toFixed(2);
-      updateReadout();
-    });
-
-    function resetSim() {
-      sliderD.value = 10;
-      sliderT.value = 300;
-      sliderP.value = 1.0;
-      d = 10; temp = 300; param = 1.0;
-      valD.textContent = "10.0 nm";
-      valT.textContent = "300 K";
-      valP.textContent = "1.00";
-      animTime = 0;
+    function jumpToOptimum() {
+      x1 = 185; x2 = 50;
+      sliderX1.value = x1; sliderX2.value = x2;
+      updateRSM();
     }
 
-    function updateReadout() {
-      const ratio = (6.0 / d).toFixed(2);
-      hudStatus.textContent = "A/V Ratio = " + ratio + " nm⁻¹";
+    function calculateYield(temp, time) {
+      // 2nd order response surface quadratic model
+      const tNorm = (temp - 185) / 40.0;
+      const timeNorm = (time - 50) / 30.0;
+      return Math.max(10, 96.5 - (tNorm * tNorm * 35) - (timeNorm * timeNorm * 28) + (tNorm * timeNorm * 8));
     }
 
-    // Particles for Simulation
-    const particles = [];
-    for (let i = 0; i < 40; i++) {
-      particles.push({
-        x: Math.random() * 400 + 50,
-        y: Math.random() * 200 + 40,
-        vx: (Math.random() - 0.5) * 1.5,
-        vy: (Math.random() - 0.5) * 1.5,
-        color: i % 2 === 0 ? "#00f0ff" : "#f59e0b"
-      });
+    function updateRSM() {
+      txtX1.textContent = "X1 = " + x1.toFixed(0) + " °C";
+      txtX2.textContent = "X2 = " + x2.toFixed(0) + " min";
+      const y = calculateYield(x1, x2);
+      hudY.textContent = y.toFixed(1) + "%";
+      hudPDI.textContent = (0.05 + (100 - y) * 0.003).toFixed(3);
     }
 
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const w = canvas.width;
       const h = canvas.height;
-      animTime += 0.03;
 
-      // Draw Perspective Grid
-      ctx.strokeStyle = "rgba(0, 240, 255, 0.15)";
-      ctx.lineWidth = 1;
-      for (let x = 0; x < w; x += 40) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, h);
-        ctx.stroke();
-      }
-      for (let y = 0; y < h; y += 40) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(w, y);
-        ctx.stroke();
-      }
+      const simW = w * 0.55;
 
-      // Dynamic Nanoscale Entity Render
-      const cx = w * 0.45;
-      const cy = h * 0.5;
-      const visualR = Math.max(15, Math.min(90, d * 1.8));
-
-      // Glow Halo
-      const grad = ctx.createRadialGradient(cx, cy, 5, cx, cy, visualR * 1.6);
-      grad.addColorStop(0, "rgba(0, 240, 255, 0.8)");
-      grad.addColorStop(0.5, "rgba(168, 85, 247, 0.3)");
-      grad.addColorStop(1, "rgba(0, 0, 0, 0)");
-      ctx.fillStyle = grad;
-      ctx.beginPath();
-      ctx.arc(cx, cy, visualR * 1.6, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Main Core Nanoparticle
-      ctx.fillStyle = "#0f172a";
-      ctx.strokeStyle = "#00f0ff";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.arc(cx, cy, visualR, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.stroke();
-
-      // Atomic Shells inside Nanoparticle
-      const numRings = Math.max(2, Math.floor(visualR / 15));
-      ctx.strokeStyle = "rgba(245, 158, 11, 0.5)";
-      ctx.lineWidth = 1.5;
-      for (let r = 1; r <= numRings; r++) {
-        ctx.beginPath();
-        ctx.arc(cx, cy, (visualR / numRings) * r, 0, Math.PI * 2);
-        ctx.stroke();
-      }
-
-      // Orbiting Surface Atoms
-      const numAtoms = Math.floor(d * 1.5);
-      for (let a = 0; a < numAtoms; a++) {
-        const angle = (a / numAtoms) * Math.PI * 2 + animTime * 0.5;
-        const ax = cx + Math.cos(angle) * visualR;
-        const ay = cy + Math.sin(angle) * visualR;
-        ctx.fillStyle = a % 2 === 0 ? "#f43f5e" : "#38bdf8";
-        ctx.beginPath();
-        ctx.arc(ax, ay, 4, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      // Real-time Graph Overlay (Right side)
-      const gx = w * 0.72;
-      const gy = 30;
-      const gw = w * 0.25;
-      const gh = h - 60;
-      ctx.fillStyle = "rgba(15, 23, 42, 0.85)";
+      // 2D Contour Heatmap of Response Surface
+      ctx.fillStyle = "#020617";
       ctx.strokeStyle = "#334155";
-      ctx.lineWidth = 1.5;
+      ctx.lineWidth = 2;
+      ctx.fillRect(15, 15, simW - 15, h - 30);
+      ctx.strokeRect(15, 15, simW - 15, h - 30);
+
+      const resX = 30, resY = 25;
+      const cw = (simW - 40) / resX;
+      const ch = (h - 50) / resY;
+
+      for (let r = 0; r < resY; r++) {
+        for (let c = 0; c < resX; c++) {
+          const t = 100 + (c / resX) * 150;
+          const tm = 10 + ((resY - r) / resY) * 110;
+          const yld = calculateYield(t, tm);
+
+          ctx.fillStyle = yld > 90 ? "rgba(16, 185, 129, 0.7)" : yld > 75 ? "rgba(250, 204, 21, 0.6)" : "rgba(56, 189, 248, 0.4)";
+          ctx.fillRect(25 + c * cw, 25 + r * ch, cw + 1, ch + 1);
+        }
+      }
+
+      // Mark current X1 and X2 point
+      const curX = 25 + ((x1 - 100) / 150) * (simW - 40);
+      const curY = 25 + (1 - (x2 - 10) / 110) * (h - 50);
+
+      ctx.fillStyle = "#ffffff";
+      ctx.strokeStyle = "#020617";
+      ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.arc(curX, curY, 8, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+
+      // Right Side: 3D Surface Regression Equation Box
+      const gx = w * 0.58;
+      const gy = 25;
+      const gw = w * 0.39;
+      const gh = h - 50;
+
+      ctx.fillStyle = "rgba(15, 23, 42, 0.9)";
+      ctx.strokeStyle = "#334155";
       ctx.fillRect(gx, gy, gw, gh);
       ctx.strokeRect(gx, gy, gw, gh);
 
-      ctx.fillStyle = "#38bdf8";
+      ctx.fillStyle = "#10b981";
       ctx.font = "11px 'JetBrains Mono', monospace";
-      ctx.fillText("A/V vs Diameter (nm)", gx + 10, gy + 18);
+      ctx.fillText("Quadratic RSM Model Y(X1, X2)", gx + 10, gy + 18);
 
-      // Plot A/V curve
-      ctx.strokeStyle = "#facc15";
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      for (let px = 0; px < gw - 20; px += 2) {
-        const simD = 1 + (px / (gw - 20)) * 100;
-        const simAV = 6.0 / simD;
-        const py = gy + gh - 15 - (simAV / 6.0) * (gh - 40);
-        if (px === 0) ctx.moveTo(gx + 10 + px, py);
-        else ctx.lineTo(gx + 10 + px, py);
-      }
-      ctx.stroke();
-
-      // Plot current point
-      const curPX = ((d - 1) / 99) * (gw - 20);
-      const curAV = 6.0 / d;
-      const curPY = gy + gh - 15 - (curAV / 6.0) * (gh - 40);
-      ctx.fillStyle = "#f43f5e";
-      ctx.beginPath();
-      ctx.arc(gx + 10 + curPX, curPY, 5, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "11px 'Sarabun', sans-serif";
+      ctx.fillText("• R² = 0.988 (Excellent Model Fit)", gx + 15, gy + 55);
+      ctx.fillText("• P-value < 0.0001 (Statistically Significant)", gx + 15, gy + 85);
+      ctx.fillText("• จุดเหมาะสมสูงสุด: 185 °C / 50 min", gx + 15, gy + 115);
 
       requestAnimationFrame(draw);
     }
-
     draw();
+    updateRSM();
   </script>
 </body>
 </html>
