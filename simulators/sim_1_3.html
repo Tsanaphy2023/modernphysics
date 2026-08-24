@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 1.3 1.3 ปรากฏการณ์โฟโตอิเล็กทริกและแนวคิดโฟตอนของไอน์สไตน์</title>
+  <title>RBRU Physics Lab: 1.3 ปรากฏการณ์โฟโตอิเล็กทริก & สมการไอน์สไตน์</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,7 +11,6 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
-      overflow-x: hidden;
       padding: 12px;
       display: flex;
       flex-direction: column;
@@ -26,7 +25,7 @@
       padding: 16px;
       width: 100%;
       max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
     }
     .sim-header {
       display: flex;
@@ -53,26 +52,25 @@
       font-size: 0.72rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
     }
     .control-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
       margin-bottom: 12px;
     }
-    @media (max-width: 540px) {
+    @media (max-width: 580px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
       background: #090e1a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
+      padding: 8px 10px;
       border-radius: 8px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       color: #94a3b8;
       margin-bottom: 4px;
     }
@@ -93,7 +91,7 @@
       border: 1px solid #334155;
       padding: 6px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -108,29 +106,32 @@
     canvas {
       display: block;
       width: 100%;
-      height: 230px;
+      height: 250px;
     }
     .readout-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+    @media (max-width: 540px) {
+      .readout-grid { grid-template-columns: 1fr 1fr; }
     }
     .readout-card {
       background: #090e1a;
       border: 1px solid #1e293b;
       border-radius: 8px;
-      padding: 8px 10px;
+      padding: 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
       margin-bottom: 2px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
   </style>
@@ -140,111 +141,204 @@
   <div class="sim-card">
     <div class="sim-header">
       <div class="sim-title">
-        <span>🔬</span> 1.3 1.3 ปรากฏการณ์โฟโตอิเล็กทริกและแนวคิดโฟตอนของไอน์สไตน์
+        <span>🔬</span> 1.3 ปรากฏการณ์โฟโตอิเล็กทริก: หลอดสุญญากาศ & ศักย์หยุดยั้ง
       </div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
 
-    
-        <div class="control-grid">
-          <div class="ctrl-box">
-            <label>โลหะเป้าหมาย (Work Function φ):</label>
-            <select id="sel_metal">
-              <option value="2.14">ซีเซียม (Cs: 2.14 eV)</option>
-              <option value="2.30" selected>โซเดียม (Na: 2.30 eV)</option>
-              <option value="4.30">สังกะสี (Zn: 4.30 eV)</option>
-              <option value="4.70">ทองแดง (Cu: 4.70 eV)</option>
-              <option value="5.65">แพลทินัม (Pt: 5.65 eV)</option>
-            </select>
-          </div>
-          <div class="ctrl-box">
-            <label>ความยาวคลื่นแสงฉาย (λ): <span id="val_lam" class="val-display">300</span> nm</label>
-            <input type="range" id="slider_lam" min="150" max="750" value="300">
-          </div>
-        </div>
-        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
-        
+    <div class="control-grid">
+      <div class="ctrl-box">
+        <label>โลหะเป้าหมาย (φ):</label>
+        <select id="sel_metal">
+          <option value="2.14">ซีเซียม Cs (φ = 2.14 eV)</option>
+          <option value="2.30" selected>โซเดียม Na (φ = 2.30 eV)</option>
+          <option value="4.30">สังกะสี Zn (φ = 4.30 eV)</option>
+          <option value="4.70">ทองแดง Cu (φ = 4.70 eV)</option>
+          <option value="5.65">แพลทินัม Pt (φ = 5.65 eV)</option>
+        </select>
+      </div>
+      <div class="ctrl-box">
+        <label>ความยาวคลื่นแสงฉาย (λ): <span id="val_lam" class="val-display">300</span> nm</label>
+        <input type="range" id="slider_lam" min="150" max="750" value="300">
+      </div>
+      <div class="ctrl-box">
+        <label>ความต่างศักย์ภายนอก (V_ext): <span id="val_v" class="val-display">0.00</span> V</label>
+        <input type="range" id="slider_v" min="-3.5" max="3.5" step="0.05" value="0.0">
+      </div>
+    </div>
 
-    
-        <div class="readout-grid">
-          <div class="readout-card"><div class="readout-val" id="val_ephoton">4.13 eV</div><div class="readout-lbl">พลังงานโฟตอน (E = hf)</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_kmax">1.83 eV</div><div class="readout-lbl">พลังงานจลน์สูงสุด (K_max)</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_vs">1.83 V</div><div class="readout-lbl">ความต่างศักย์หยุดยั้ง (Vs)</div></div>
-        </div>
-        
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="250"></canvas></div>
+
+    <div class="readout-grid">
+      <div class="readout-card"><div class="readout-val" id="val_ephoton">4.13 eV</div><div class="readout-lbl">พลังงานโฟตอน (E = hf)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_kmax">1.83 eV</div><div class="readout-lbl">พลังงานจลน์สูงสุด (K_max)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_vs">1.83 V</div><div class="readout-lbl">ความต่างศักย์หยุดยั้ง (V_s)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_current" style="color:#10b981;">18.4 µA</div><div class="readout-lbl">กระแสโฟโตอิเล็กทริก (I)</div></div>
+    </div>
   </div>
 
   <script>
-    
-        const cv = document.getElementById("simCanvas");
-        const ctx = cv.getContext("2d");
-        const sel = document.getElementById("sel_metal");
-        const slider = document.getElementById("slider_lam");
-        let particles = [];
-        for(let i=0; 25 > i; i++) {
-          particles.push({ x: 80 + Math.random()*20, y: 40 + Math.random()*120, vx: 2 + Math.random()*3, vy: (Math.random()-0.5)*1.2 });
+    const cv = document.getElementById("simCanvas");
+    const ctx = cv.getContext("2d");
+    const selMetal = document.getElementById("sel_metal");
+    const sliderLam = document.getElementById("slider_lam");
+    const sliderV = document.getElementById("slider_v");
+    let tick = 0;
+
+    let electrons = [];
+    for(let i=0; 30 > i; i++) {
+      electrons.push({
+        x: 110 + Math.random()*15,
+        y: 45 + Math.random()*130,
+        vx: 1.5 + Math.random()*3.0,
+        vy: (Math.random()-0.5)*1.2,
+        active: true
+      });
+    }
+
+    function animate() {
+      const phi = +selMetal.value;
+      const lam = +sliderLam.value;
+      const V_ext = +sliderV.value;
+
+      document.getElementById("val_lam").textContent = lam;
+      document.getElementById("val_v").textContent = (V_ext >= 0 ? "+" : "") + V_ext.toFixed(2);
+
+      // Ephoton = 1240 / lambda (eV)
+      const Ephoton = 1240 / lam;
+      document.getElementById("val_ephoton").textContent = Ephoton.toFixed(2) + " eV";
+
+      const Kmax = Ephoton - phi;
+      const Vs = Kmax > 0 ? Kmax : 0;
+
+      const kmEl = document.getElementById("val_kmax");
+      const vsEl = document.getElementById("val_vs");
+      const curEl = document.getElementById("val_current");
+
+      let current_uA = 0;
+
+      if (Kmax > 0) {
+        kmEl.textContent = Kmax.toFixed(2) + " eV";
+        vsEl.textContent = Vs.toFixed(2) + " V";
+
+        // Current flows if V_ext > -Vs
+        if (V_ext > -Vs) {
+          const saturationFactor = Math.min(1.0, 0.6 + 0.4 * (V_ext + Vs) / (1.5 + Vs));
+          current_uA = (25.0 * saturationFactor).toFixed(1);
+          curEl.textContent = current_uA + " µA";
+          curEl.style.color = "#10b981";
+        } else {
+          curEl.textContent = "0.00 µA (หยุดยั้งสมบูรณ์)";
+          curEl.style.color = "#f43f5e";
         }
-        let tick = 0;
+      } else {
+        kmEl.textContent = "0.00 (ไม่เกิดผล)";
+        vsEl.textContent = "0.00 V";
+        curEl.textContent = "0.00 µA (hf < φ)";
+        curEl.style.color = "#64748b";
+      }
 
-        function animate() {
-          const phi = +sel.value;
-          const lam = +slider.value;
-          document.getElementById("val_lam").textContent = lam;
-          const Ephoton = 1240 / lam;
-          document.getElementById("val_ephoton").textContent = Ephoton.toFixed(2) + " eV";
-          const Kmax = Ephoton - phi;
-          if (Kmax > 0) {
-            document.getElementById("val_kmax").textContent = Kmax.toFixed(2) + " eV";
-            document.getElementById("val_vs").textContent = Kmax.toFixed(2) + " V";
-          } else {
-            document.getElementById("val_kmax").textContent = "0 (ไม่หลุด)";
-            document.getElementById("val_vs").textContent = "0 V";
+      ctx.clearRect(0, 0, cv.width, cv.height);
+
+      // -------------------------------------------------------------
+      // 1. Draw Evacuated Quartz Glass Tube
+      // -------------------------------------------------------------
+      ctx.strokeStyle = "rgba(148, 163, 184, 0.4)";
+      ctx.lineWidth = 2;
+      ctx.fillStyle = "rgba(15, 23, 42, 0.7)";
+      ctx.beginPath();
+      ctx.roundRect(80, 25, 480, 170, 20);
+      ctx.fill(); ctx.stroke();
+
+      // Quartz Light Window (Top Left)
+      ctx.strokeStyle = "#38bdf8";
+      ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(95, 25); ctx.lineTo(155, 25); ctx.stroke();
+      ctx.fillStyle = "#38bdf8"; ctx.font = "10px sans-serif";
+      ctx.fillText("หน้าต่างควอตซ์ (Quartz)", 75, 18);
+
+      // Cathode Emitter Plate (Left)
+      ctx.fillStyle = "#64748b";
+      ctx.fillRect(100, 45, 14, 130);
+      ctx.fillStyle = "#00f0ff"; ctx.font = "11px sans-serif";
+      ctx.fillText("ขั้วแคโทด Emitter (φ = " + phi + " eV)", 30, 215);
+
+      // Anode Collector Plate (Right)
+      ctx.fillStyle = "#475569";
+      ctx.fillRect(525, 45, 14, 130);
+      ctx.fillStyle = "#94a3b8";
+      ctx.fillText("ขั้วแอโนด Collector (V = " + (V_ext >= 0 ? "+" : "") + V_ext.toFixed(2) + "V)", 420, 215);
+
+      // -------------------------------------------------------------
+      // 2. Incoming Monochromatic Photon Pulses
+      // -------------------------------------------------------------
+      let photonColor = "#ef4444";
+      if (400 > lam) photonColor = "#a855f7"; // UV
+      else if (500 > lam) photonColor = "#00f0ff"; // Cyan/Blue
+      else if (600 > lam) photonColor = "#10b981"; // Green
+      else photonColor = "#f59e0b"; // Yellow/Red
+
+      ctx.strokeStyle = photonColor; ctx.lineWidth = 2.5;
+      for(let p=0; 5 > p; p++) {
+        const prog = ((tick*3.5 + p*50) % 120) / 120;
+        const px = 20 + prog * 85;
+        const py = 15 + prog * 65 + (p-2)*18;
+        ctx.beginPath();
+        ctx.moveTo(px - 14, py - 10);
+        ctx.lineTo(px, py);
+        ctx.stroke();
+      }
+
+      // -------------------------------------------------------------
+      // 3. Ejected Photoelectrons & Electric Field Deceleration/Acceleration
+      // -------------------------------------------------------------
+      if (Kmax > 0) {
+        // E-field force: acc = V_ext / distance
+        const eAcc = (V_ext / 3.0) * 0.08;
+        ctx.fillStyle = "#10b981";
+
+        electrons.forEach(el => {
+          ctx.beginPath();
+          ctx.arc(el.x, el.y, 4, 0, Math.PI*2);
+          ctx.fill();
+
+          el.x += el.vx;
+          el.y += el.vy;
+          el.vx += eAcc; // Electric field acts on electron
+
+          // If electron hits anode
+          if (el.x >= 525) {
+            el.x = 116;
+            el.y = 50 + Math.random()*120;
+            el.vx = Math.sqrt(Kmax)*1.8 + Math.random()*1.0;
           }
-
-          ctx.clearRect(0, 0, cv.width, cv.height);
-
-          // Emitter Cathode
-          ctx.fillStyle = "#475569"; ctx.fillRect(80, 30, 20, 150);
-          ctx.fillStyle = "#00f0ff"; ctx.font = "11px sans-serif";
-          ctx.fillText("Emitter Cathode (φ=" + phi + "eV)", 30, 200);
-
-          // Collector Anode
-          ctx.fillStyle = "#334155"; ctx.fillRect(520, 30, 20, 150);
-          ctx.fillStyle = "#94a3b8";
-          ctx.fillText("Collector Anode", 480, 200);
-
-          // Incoming Photons Wave Packets
-          const photonCol = 400 > lam ? "#a855f7" : (550 > lam ? "#00f0ff" : "#ef4444");
-          ctx.strokeStyle = photonCol; ctx.lineWidth = 2.5;
-          for(let i=0; 4 > i; i++) {
-            const pStartX = (tick*4 + i*60) % 80;
-            const pStartY = 40 + i*35;
-            ctx.beginPath();
-            ctx.moveTo(pStartX - 20, pStartY - 10);
-            ctx.lineTo(pStartX, pStartY);
-            ctx.stroke();
+          // If retarding potential stops and turns electron back
+          else if (110 > el.x && 0 > el.vx) {
+            el.x = 116;
+            el.y = 50 + Math.random()*120;
+            el.vx = Math.sqrt(Kmax)*1.8 + Math.random()*1.0;
           }
+        });
+      }
 
-          // Emitted Photoelectrons
-          if (Ephoton > phi) {
-            const speedFactor = Math.min(3.5, Math.max(0.6, Math.sqrt(Kmax)*1.8));
-            ctx.fillStyle = "#10b981";
-            particles.forEach(p => {
-              ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI*2); ctx.fill();
-              p.x += p.vx * speedFactor;
-              p.y += p.vy;
-              if (p.x > 520 || 30 > p.y || p.y > 180) {
-                p.x = 100;
-                p.y = 40 + Math.random()*130;
-              }
-            });
-          }
+      // External Circuit Wires & Ammeter / Voltmeter Display
+      ctx.strokeStyle = "#334155"; ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(107, 175); ctx.lineTo(107, 235); ctx.lineTo(260, 235);
+      ctx.moveTo(532, 175); ctx.lineTo(532, 235); ctx.lineTo(380, 235);
+      ctx.stroke();
 
-          tick++;
-          requestAnimationFrame(animate);
-        }
-        animate();
-        
+      // Microammeter Box (Bottom Center)
+      ctx.fillStyle = "#0f172a"; ctx.strokeStyle = "#00f0ff";
+      ctx.fillRect(260, 222, 120, 24);
+      ctx.strokeRect(260, 222, 120, 24);
+      ctx.fillStyle = current_uA > 0 ? "#10b981" : "#f43f5e"; ctx.font = "bold 11px 'JetBrains Mono', monospace";
+      ctx.fillText("µA: " + current_uA + " µA", 280, 238);
+
+      tick++;
+      requestAnimationFrame(animate);
+    }
+    animate();
   </script>
 </body>
 </html>

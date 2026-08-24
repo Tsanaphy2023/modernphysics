@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 1.2 1.2 การแผ่รังสีของวัตถุดำและสมมติฐานของพลังค์</title>
+  <title>RBRU Physics Lab: 1.2 การแผ่รังสีของวัตถุดำ & กฎการกระจัดของวีน</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,7 +11,6 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
-      overflow-x: hidden;
       padding: 12px;
       display: flex;
       flex-direction: column;
@@ -26,7 +25,7 @@
       padding: 16px;
       width: 100%;
       max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
     }
     .sim-header {
       display: flex;
@@ -53,7 +52,6 @@
       font-size: 0.72rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
     }
     .control-grid {
       display: grid;
@@ -108,7 +106,7 @@
     canvas {
       display: block;
       width: 100%;
-      height: 230px;
+      height: 240px;
     }
     .readout-grid {
       display: grid;
@@ -140,83 +138,171 @@
   <div class="sim-card">
     <div class="sim-header">
       <div class="sim-title">
-        <span>🔬</span> 1.2 1.2 การแผ่รังสีของวัตถุดำและสมมติฐานของพลังค์
+        <span>🔬</span> 1.2 การแผ่รังสีของวัตถุดำ & กฎของวีนและสเตฟาน-โบลทซ์มานน์
       </div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
 
-    
-        <div class="control-grid">
-          <div class="ctrl-box" style="grid-column: 1 / -1;">
-            <label>อุณหภูมิสัมบูรณ์ของดาว (T): <span id="val_temp" class="val-display">5800</span> K (ดวงอาทิตย์)</label>
-            <input type="range" id="slider_temp" min="1000" max="12000" step="100" value="5800">
-          </div>
-        </div>
-        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
-        
+    <div class="control-grid">
+      <div class="ctrl-box">
+        <label>อุณหภูมิผิวของวัตถุ (T): <span id="val_temp" class="val-display">5800</span> K</label>
+        <input type="range" id="slider_temp" min="1000" max="15000" step="100" value="5800">
+      </div>
+      <div class="ctrl-box">
+        <label>วัตถุดาราศาสตร์ตัวอย่าง (Presets):</label>
+        <select id="sel_preset">
+          <option value="310">ร่างกายมนุษย์ (310 K - IR)</option>
+          <option value="3000">ดาวฤกษ์สีแดง Betelgeuse (3,000 K)</option>
+          <option value="5800" selected>ดวงอาทิตย์ Sun (5,800 K)</option>
+          <option value="9940">ดาวซิริอุส Sirius A (9,940 K)</option>
+          <option value="15000">ดาวยักษ์สีน้ำเงิน Blue Giant (15,000 K)</option>
+        </select>
+      </div>
+    </div>
 
-    
-        <div class="readout-grid">
-          <div class="readout-card"><div class="readout-val" id="val_peak">500 nm</div><div class="readout-lbl">ความยาวคลื่นสูงสุด (λ_max)</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_color">ขาว-เหลือง</div><div class="readout-lbl">สีของรังสีความร้อน</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_power">6.42 × 10⁷ W/m²</div><div class="readout-lbl">กำลังแผ่รังสีรวม (σT⁴)</div></div>
-        </div>
-        
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="240"></canvas></div>
+
+    <div class="readout-grid">
+      <div class="readout-card"><div class="readout-val" id="val_peak">500 nm</div><div class="readout-lbl">ความยาวคลื่นสูงสุด (λ_max = b/T)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_color">ขาว-เหลือง</div><div class="readout-lbl">สีของรังสีความร้อนที่ปรากฏ</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_power">6.42 × 10⁷ W/m²</div><div class="readout-lbl">กำลังแผ่รังสีรวม (I = σT⁴)</div></div>
+    </div>
   </div>
 
   <script>
-    
-        const cv = document.getElementById("simCanvas");
-        const ctx = cv.getContext("2d");
-        const slider = document.getElementById("slider_param") || { value: 50 };
-        let tick = 0;
+    const cv = document.getElementById("simCanvas");
+    const ctx = cv.getContext("2d");
+    const sliderTemp = document.getElementById("slider_temp");
+    const selPreset = document.getElementById("sel_preset");
+    let tick = 0;
 
-        function animate() {
-          const val = +slider.value || 50;
-          const valEl = document.getElementById("val_param");
-          if (valEl) valEl.textContent = val;
-          const coeff = (val / 50).toFixed(3);
-          const mEl = document.getElementById("val_metric");
-          if (mEl) mEl.textContent = coeff;
+    selPreset.addEventListener("change", () => {
+      sliderTemp.value = selPreset.value;
+    });
 
-          ctx.clearRect(0, 0, cv.width, cv.height);
+    function getBlackbodyRGB(T) {
+      // Color temperature mapping approximation
+      let r, g, b;
+      if (4000 >= T) {
+        r = 255;
+        g = Math.max(80, Math.min(200, (T - 1000) * 0.045 + 80));
+        b = Math.max(20, Math.min(100, (T - 1000) * 0.02 + 20));
+      } else if (7000 >= T) {
+        r = 255;
+        g = Math.min(255, 200 + (T - 4000) * 0.018);
+        b = Math.min(255, 100 + (T - 4000) * 0.05);
+      } else {
+        r = Math.max(160, 255 - (T - 7000) * 0.01);
+        g = Math.max(200, 255 - (T - 7000) * 0.005);
+        b = 255;
+      }
+      return { r: Math.round(r), g: Math.round(g), b: Math.round(b) };
+    }
 
-          // Waveform 1 (Neon Cyan)
-          ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=2) {
-            const norm = (x-40)/560;
-            const y = 115 + 45 * Math.sin(norm * Math.PI * 4 * coeff + tick*0.06) * Math.cos(norm * Math.PI * 2);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+    function animate() {
+      const T = +sliderTemp.value;
+      document.getElementById("val_temp").textContent = T;
 
-          // Waveform 2 (Amber Field)
-          ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=4) {
-            const norm = (x-40)/560;
-            const y = 115 + 50 * Math.sin(norm * Math.PI * 2 * coeff - tick*0.04);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+      // Wien's Displacement Law: lambda_max = 2.898e-3 / T (in nm)
+      const peakLam = Math.round(2898000 / T);
+      document.getElementById("val_peak").textContent = peakLam >= 1000 ? (peakLam/1000).toFixed(2) + " µm (IR)" : peakLam + " nm";
 
-          // Particle Field
-          for(let i=0; 10 > i; i++) {
-            const px = 40 + ((tick*3 + i*56) % 560);
-            const py = 115 + 30 * Math.sin(px*0.02 + tick*0.05);
-            ctx.fillStyle = "#10b981";
-            ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI*2); ctx.fill();
-          }
+      // Stefan-Boltzmann Law: I = sigma * T^4
+      const sigma = 5.670374e-8;
+      const power = sigma * Math.pow(T, 4);
+      document.getElementById("val_power").textContent = power >= 1e6 ? (power / 1e6).toFixed(2) + " MW/m²" : power.toFixed(0) + " W/m²";
 
-          ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
-          ctx.fillText("จำลองผลลัพธ์พลวัตเชิงฟิสิกส์เรียลไทม์ (Live 60 FPS Engine)", 50, 30);
+      const rgb = getBlackbodyRGB(T);
+      let colName = "แดงเข้ม (Deep Red)";
+      if (T > 2500 && 4000 >= T) colName = "ส้ม-แดง (Orange-Red)";
+      else if (T > 4000 && 6000 >= T) colName = "ขาว-เหลือง (Yellow-White)";
+      else if (T > 6000 && 9000 >= T) colName = "ขาวนวล (Pure White)";
+      else if (T > 9000) colName = "ฟ้าอมขาว (Blue-White)";
+      document.getElementById("val_color").textContent = colName;
 
-          tick++;
-          requestAnimationFrame(animate);
-        }
-        animate();
-        
+      ctx.clearRect(0, 0, cv.width, cv.height);
+
+      // -------------------------------------------------------------
+      // 1. Left Panel: Shaded Glowing Thermal Sphere / Stellar Object
+      // -------------------------------------------------------------
+      const starX = 85, starY = 120, starR = 55;
+      
+      // Corona flare ripples
+      for(let f=0; 3 > f; f++) {
+        const flareR = starR + 8 + Math.sin(tick*0.06 + f)*4;
+        ctx.fillStyle = "rgba(" + rgb.r + "," + rgb.g + "," + rgb.b + "," + (0.15 - f*0.04) + ")";
+        ctx.beginPath(); ctx.arc(starX, starY, flareR, 0, Math.PI*2); ctx.fill();
+      }
+
+      // Star Body Gradient
+      const starGrad = ctx.createRadialGradient(starX - 18, starY - 18, 4, starX, starY, starR);
+      starGrad.addColorStop(0, "#ffffff");
+      starGrad.addColorStop(0.35, "rgb(" + rgb.r + "," + rgb.g + "," + rgb.b + ")");
+      starGrad.addColorStop(1, "rgba(" + Math.round(rgb.r*0.4) + "," + Math.round(rgb.g*0.4) + "," + Math.round(rgb.b*0.4) + ", 0.95)");
+      ctx.fillStyle = starGrad;
+      ctx.beginPath(); ctx.arc(starX, starY, starR, 0, Math.PI*2); ctx.fill();
+
+      ctx.fillStyle = "#ffffff"; ctx.font = "11px sans-serif";
+      ctx.fillText("วัตถุดำ / ดาวฤกษ์", starX - 42, starY + 75);
+      ctx.fillStyle = "#00f0ff";
+      ctx.fillText("T = " + T + " K", starX - 25, starY + 90);
+
+      // -------------------------------------------------------------
+      // 2. Right Panel: Spectral Radiance Curve & Wien Displacement Peak
+      // -------------------------------------------------------------
+      const originX = 180, originY = 210;
+      const graphW = 430, graphH = 180;
+
+      // Visible spectrum background band
+      const visStartX = originX + (400 / 3000 * graphW);
+      const visEndX = originX + (750 / 3000 * graphW);
+      const visGrad = ctx.createLinearGradient(visStartX, 0, visEndX, 0);
+      visGrad.addColorStop(0, "rgba(59, 130, 246, 0.2)");
+      visGrad.addColorStop(0.5, "rgba(34, 197, 94, 0.2)");
+      visGrad.addColorStop(1, "rgba(239, 68, 68, 0.2)");
+      ctx.fillStyle = visGrad;
+      ctx.fillRect(visStartX, 30, visEndX - visStartX, graphH);
+
+      ctx.fillStyle = "#10b981"; ctx.font = "10px sans-serif";
+      ctx.fillText("Visible", visStartX + 8, 42);
+
+      // Planck Blackbody Radiation Curve
+      ctx.strokeStyle = "rgb(" + rgb.r + "," + rgb.g + "," + rgb.b + ")";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      for(let px = originX + 2; originX + graphW >= px; px += 2) {
+        const lam = ((px - originX) / graphW) * 3000; // 0 to 3000 nm
+        const p = Math.pow(T / 1000, 3) * Math.pow(lam / peakLam, 5) / (Math.exp((lam ? peakLam / lam : 10) * 2.5) - 1 + 0.05);
+        const y = originY - Math.min(170, p * 5.5);
+        if (px === originX + 2) ctx.moveTo(px, y);
+        else ctx.lineTo(px, y);
+      }
+      ctx.stroke();
+
+      // Wien's Displacement Peak Indicator
+      const peakX = originX + (peakLam / 3000 * graphW);
+      if (peakX >= originX && originX + graphW >= peakX) {
+        ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2; ctx.setLineDash([4, 4]);
+        ctx.beginPath(); ctx.moveTo(peakX, 30); ctx.lineTo(peakX, originY); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = "#f59e0b"; ctx.font = "11px sans-serif";
+        ctx.fillText("λ_max = " + (peakLam >= 1000 ? (peakLam/1000).toFixed(2) + " µm" : peakLam + " nm"), peakX + 6, 60);
+      }
+
+      // Graph Axes
+      ctx.strokeStyle = "#94a3b8"; ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(originX, 30); ctx.lineTo(originX, originY); ctx.lineTo(originX + graphW, originY);
+      ctx.stroke();
+
+      ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
+      ctx.fillText("ความยาวคลื่น λ (nm) →", originX + graphW - 120, originY + 18);
+      ctx.fillText("ความเข้มพลังงาน I(λ, T)", originX - 10, 22);
+
+      tick++;
+      requestAnimationFrame(animate);
+    }
+    animate();
   </script>
 </body>
 </html>
