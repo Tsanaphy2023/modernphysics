@@ -43,7 +43,11 @@ modernphysics/
 ├── index.html                                      # GitHub Pages Entry Point (Interactive App)
 ├── assets/
 │   └── images/
-│       └── modern_physics_banner.jpg               # แบนเนอร์รายวิชา
+│       ├── modern_physics_banner.jpg               # แบนเนอร์หลักใช้งาน (Version 3)
+│       ├── modern_physics_banner_v1_pure_scifi.jpg # Version 1: กราฟิกไซไฟฟิสิกส์ล้วน
+│       ├── modern_physics_banner_v2_ai_synth.jpg   # Version 2: AI Synthesized Portrait
+│       ├── modern_physics_banner_v3_exact_portrait.jpg # Version 3: ภาพถ่ายจริง ผศ.ดร.ชีวะ ทัศนา (Exact Portrait + Cyber Glow)
+│       └── chewa_portrait_cutout.png               # ภาพไดคัทความละเอียดสูง
 ├── หนังสือ-เล่ม1-ฟิสิกส์ยุคใหม่/
 │   ├── course_data.json                            # ข้อมูลทั้ง 8 บท / 40 หัวข้อย่อย
 │   ├── make_course_json.py                         # สร้าง course_data.json
@@ -56,6 +60,15 @@ modernphysics/
 │       ├── chapter_2/                              # page_2_1.html … page_2_5.html
 │       ├── chapter_3/ … chapter_8/
 ```
+
+---
+
+## 🖼️ แกลเลอรีแบนเนอร์แต่ละเวอร์ชัน (Banner Versions Archive)
+
+- **Version 1 (Pure Sci-Fi):** `assets/images/modern_physics_banner_v1_pure_scifi.jpg` (กราฟิกฟังก์ชันคลื่นควอนตัม โครงข่ายกาลอวกาศ และ HUD วิทยาศาสตร์)
+- **Version 2 (AI Synthesized):** `assets/images/modern_physics_banner_v2_ai_synth.jpg` (เวอร์ชันประมวลผลผ่าน AI)
+- **Version 3 (Exact Real Portrait - Active):** `assets/images/modern_physics_banner_v3_exact_portrait.jpg` (ภาพถ่ายจริงของ ผศ.ดร.ชีวะ ทัศนา ไดคัทคมชัด 100% เกลี่ยแสงขอบนีออนไซเบอร์ `#00f0ff` กลมกลืนกับพื้นหลังอวกาศ)
+
 
 ---
 
