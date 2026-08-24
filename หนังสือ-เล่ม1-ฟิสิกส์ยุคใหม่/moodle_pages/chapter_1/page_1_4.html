@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1.4 สเปกตรัมของอะตอมไฮโดรเจนและสูตรริดเบิร์ก | RBRU MOOC ฟิสิกส์ยุคใหม่</title>
+<style>
+  :root {
+    --primary: #087f8c;
+    --bg-dark: #0f172a;
+    --text-dark: #1e293b;
+    --text-light: #f8fafc;
+    --card-bg: #ffffff;
+    --border: #e2e8f0;
+  }
+  body {
+    font-family: "Sarabun", "Prompt", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.75;
+    color: var(--text-dark);
+    background: #f8fafc;
+    margin: 0;
+    padding: 20px;
+  }
+  .moodle-page-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  }
+  .page-header {
+    background: linear-gradient(135deg, #087f8c 0%, #0c4a6e 100%);
+    color: #ffffff;
+    padding: 30px;
+  }
+  .page-meta {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: bold;
+  }
+  h1 { margin: 0 0 10px 0; font-size: 1.8em; line-height: 1.3; }
+  .content { padding: 30px; }
+  .formula-box {
+    background: #f0fdf4;
+    border-left: 5px solid #10b981;
+    border-radius: 8px;
+    padding: 18px;
+    margin: 20px 0;
+  }
+  .formula-title { font-weight: bold; color: #047857; margin-bottom: 8px; display: block; }
+  .formula-math { font-size: 1.2em; text-align: center; padding: 10px 0; }
+  .example-card {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 24px 0;
+  }
+  .quiz-card {
+    background: #fefce8;
+    border: 1px solid #fef08a;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 24px 0;
+  }
+  .btn-ar {
+    display: inline-block;
+    background: #0284c7;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 15px;
+    transition: background 0.2s;
+  }
+  .btn-ar:hover { background: #0369a1; }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+  }
+  .data-table th, .data-table td {
+    border: 1px solid #cbd5e1;
+    padding: 10px 14px;
+    text-align: left;
+  }
+  .data-table th { background: #f1f5f9; }
+  .grid-3cards, .grid-2col {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .info-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .badge-tag {
+    display: inline-block;
+    background: #e0f2fe;
+    color: #0369a1;
+    font-size: 0.8em;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<div class="moodle-page-wrapper">
+  <div class="page-header">
+    <div class="page-meta">
+      <span class="tag">บทที่ 1</span>
+      <span class="tag">อนุกรมสเปกตรัม</span>
+      <span class="tag">⏱️ 7 นาที</span>
+    </div>
+    <h1>1.4 สเปกตรัมของอะตอมไฮโดรเจนและสูตรริดเบิร์ก</h1>
+    <p>การถอดรหัสความยาวคลื่นของไฮโดรเจนผ่านสูตรริดเบิร์ก สู่หลักฐานระดับพลังงานของอะตอม</p>
+  </div>
+
+  <div class="content">
+    <div class="theory-section"><h3>🌈 อนุกรมเส้นสเปกตรัมของไฮโดรเจน</h3><p>เมื่อกระตุ้นอะตอมไฮโดรเจนด้วยไฟฟ้า แสงที่เปล่งออกมาจะแยกออกเป็นเส้นสเปกตรัมเฉพาะค่า โยฮันเนส ริดเบิร์ก ได้สรุปความสัมพันธ์ของความยาวคลื่นเป็นสูตรสากล:</p><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 สูตรริดเบิร์ก (Rydberg Formula)</span><span class="formula-category">สมการสเปกโทรสโกปี</span></div><div class="formula-math">\[\frac{1}{\lambda} = R_H \left( \frac{1}{n_1^2} - \frac{1}{n_2^2} \right) \quad (n_2 > n_1)\]</div><p>โดยที่ \(R_H = 1.097373 \times 10^7 \text{ m}^{-1}\) (ค่าคงตัวของริดเบิร์ก)</p><ul><li><b>อนุกรมไลมาน (Lyman):</b> \(n_1 = 1, n_2 = 2, 3, 4, ...\) (ย่านอัลตราไวโอเลต)</li><li><b>อนุกรมบาลเมอร์ (Balmer):</b> \(n_1 = 2, n_2 = 3, 4, 5, ...\) (ย่านแสงขาวที่ตามองเห็น)</li><li><b>อนุกรมพาสเชน (Paschen):</b> \(n_1 = 3, n_2 = 4, 5, 6, ...\) (ย่านอินฟราเรดใกล้)</li><li><b>อนุกรมแบรกเกต (Brackett):</b> \(n_1 = 4, n_2 = 5, 6, ...\) (ย่านอินฟราเรด)</li></ul></div></div>
+
+    <div class="example-card">
+      <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างคำนวณ: เส้นสีแดงของไฮโดรเจน</h3>
+      <p><b>โจทย์:</b> จงคำนวณความยาวคลื่นของการเปลี่ยนสถานะจาก \(n_2 = 3 \to n_1 = 2\) (เส้นแรกในอนุกรมบาลเมอร์)</p>
+      <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e0f2fe;">
+        <b>เฉลยและวิธีทำ:</b><br>\(\frac{1}{\lambda} = 1.097 \times 10^7 \left( \frac{1}{2^2} - \frac{1}{3^2} \right) = 1.097 \times 10^7 \times \frac{5}{36} = 1.5236 \times 10^6 \text{ m}^{-1}\)<br>\(\lambda = 656.3 \text{ nm}\) (แสงสีแดง H-alpha)
+      </div>
+    </div>
+
+    <div class="quiz-card">
+      <h3 style="color: #854d0e; margin-top:0;">💡 คำถามทบทวนแนวคิด (Concept Check)</h3>
+      <p><b>คำถาม:</b> อนุกรมสเปกตรัมใดของไฮโดรเจนที่อยู่ในช่วงความยาวคลื่นที่สายตามนุษย์มองเห็นได้?</p>
+      <ul style="list-style: none; padding-left: 0;">
+        <li><b>A.</b> อนุกรมไลมาน (Lyman Series)</li><li><b>B.</b> อนุกรมบาลเมอร์ (Balmer Series)</li><li><b>C.</b> อนุกรมพาสเชน (Paschen Series)</li><li><b>D.</b> อนุกรมพฟุนด์ (Pfund Series)</li>
+      </ul>
+      <details style="margin-top: 15px; cursor: pointer;">
+        <summary><b>เฉลยและคำอธิบายละเอียด (คลิกเพื่อดู)</b></summary>
+        <div style="margin-top: 10px; padding: 12px; background: #ffffff; border-radius: 6px;">
+          <b>คำตอบที่ถูกต้อง:</b> ข้อ B.<br>
+          ถูกต้อง! อนุกรมบาลเมอร์ (n1 = 2) ให้เส้นสเปกตรัมสีแดง เขียว น้ำเงิน ม่วง ในช่วงแสงขาว (Visible light)
+        </div>
+      </details>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px; padding: 20px; background: #0f172a; color: #ffffff; border-radius: 12px;">
+      <h3 style="color: #38bdf8; margin: 0 0 10px 0;">🚀 ห้องปฏิบัติการเสมือนจริง 3D / AR</h3>
+      <p style="color: #94a3b8; font-size: 0.9em;">เชื่อมต่อการทดลองเชิงลึกด้วย MediaPipe Hand Tracking และ Three.js Shader</p>
+      <a href="https://tsanaphy2023.github.io/modernphysics/" target="_blank" class="btn-ar">🚀 เปิดห้องแล็บ AR เต็มจอ (GitHub Pages Global CDN) ↗</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

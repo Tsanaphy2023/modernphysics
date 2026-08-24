@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>6.5 แบบฝึกหัดและปฏิบัติการจำลอง AR | RBRU MOOC ฟิสิกส์ยุคใหม่</title>
+<style>
+  :root {
+    --primary: #8b5cf6;
+    --bg-dark: #0f172a;
+    --text-dark: #1e293b;
+    --text-light: #f8fafc;
+    --card-bg: #ffffff;
+    --border: #e2e8f0;
+  }
+  body {
+    font-family: "Sarabun", "Prompt", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.75;
+    color: var(--text-dark);
+    background: #f8fafc;
+    margin: 0;
+    padding: 20px;
+  }
+  .moodle-page-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  }
+  .page-header {
+    background: linear-gradient(135deg, #8b5cf6 0%, #5b21b6 100%);
+    color: #ffffff;
+    padding: 30px;
+  }
+  .page-meta {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: bold;
+  }
+  h1 { margin: 0 0 10px 0; font-size: 1.8em; line-height: 1.3; }
+  .content { padding: 30px; }
+  .formula-box {
+    background: #f0fdf4;
+    border-left: 5px solid #10b981;
+    border-radius: 8px;
+    padding: 18px;
+    margin: 20px 0;
+  }
+  .formula-title { font-weight: bold; color: #047857; margin-bottom: 8px; display: block; }
+  .formula-math { font-size: 1.2em; text-align: center; padding: 10px 0; }
+  .example-card {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 24px 0;
+  }
+  .quiz-card {
+    background: #fefce8;
+    border: 1px solid #fef08a;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 24px 0;
+  }
+  .btn-ar {
+    display: inline-block;
+    background: #0284c7;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 15px;
+    transition: background 0.2s;
+  }
+  .btn-ar:hover { background: #0369a1; }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+  }
+  .data-table th, .data-table td {
+    border: 1px solid #cbd5e1;
+    padding: 10px 14px;
+    text-align: left;
+  }
+  .data-table th { background: #f1f5f9; }
+  .grid-3cards, .grid-2col {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .info-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .badge-tag {
+    display: inline-block;
+    background: #e0f2fe;
+    color: #0369a1;
+    font-size: 0.8em;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<div class="moodle-page-wrapper">
+  <div class="page-header">
+    <div class="page-meta">
+      <span class="tag">บทที่ 6</span>
+      <span class="tag">สรุปและการประเมิน</span>
+      <span class="tag">⏱️ 10 นาที</span>
+    </div>
+    <h1>6.5 แบบฝึกหัดและปฏิบัติการจำลอง AR</h1>
+    <p>สรุปฟิสิกส์นิวเคลียร์ แบบทดสอบประเมิน และห้องทดลองเสมือนจริง 3D AR Nuclear Studio</p>
+  </div>
+
+  <div class="content">
+    <div class="theory-section"><h3>📝 สรุปสาระสำคัญประจำบทที่ 6</h3><div class="summary-grid"><div class="summary-item"><b>1. พลังงานยึดเหนี่ยว:</b> มวลพร่องเปลี่ยนเป็นพลังงาน เสถียรสูงสุดที่เหล็ก-56</div><div class="summary-item"><b>2. การสลายตัว:</b> อัตราการสลายตัวลดลงแบบเอกซ์โพเนนเชียลตามครึ่งชีวิต</div><div class="summary-item"><b>3. ฟิชชัน vs ฟิวชัน:</b> ฟิชชันแตกตัว ฟิวชันหลอมรวม ปลดปล่อยพลังงานมหาศาล</div></div><div class="ar-launcher-card"><div class="ar-badge">🚀 3D & WebXR Lab</div><h4>ห้องปฏิบัติการจำลองเสมือนจริง: Nuclear Reactor & Half-life 3D AR</h4><p>จำลองการควบคุมแท่งปฏิกรณ์ฟิชชันและการสลายตัวของนิวเคลียสแบบ 3 มิติ ด้วยการโต้ตอบผ่านสัญญาณมือ MediaPipe</p><a href="https://github.com" target="_blank" class="btn-ar-launch">🚀 เปิดห้องแล็บ AR เต็มจอ (GitHub Pages CDN) ↗</a></div></div>
+
+    <div class="example-card">
+      <h3 style="color: #0369a1; margin-top:0;">📐 แบบฝึกหัดทบทวน: ปฏิกิริยาฟิวชันในดวงอาทิตย์</h3>
+      <p><b>โจทย์:</b> ใน Proton-Proton chain โปรตอน 4 ตัวหลอมรวมเป็นฮีเลียม 1 ตัว ปลดปล่อยพลังงาน 26.7 MeV จงหามวลที่หายไปในแต่ละรอบ</p>
+      <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e0f2fe;">
+        <b>เฉลยและวิธีทำ:</b><br>มวลที่หายไป = 26.7 MeV / 931.5 MeV/u = 0.0287 u ในแต่ละวินาที ดวงอาทิตย์เปลี่ยนมวล 4 ล้านตันกลายเป็นแสงสว่าง
+      </div>
+    </div>
+
+    <div class="quiz-card">
+      <h3 style="color: #854d0e; margin-top:0;">💡 คำถามทบทวนแนวคิด (Concept Check)</h3>
+      <p><b>คำถาม:</b> หน่วยวัดปริมาณรังสีที่ร่างกายมนุษย์ได้รับโดยคำนึงถึงผลกระทบทางชีวภาพมีหน่วยเป็นอะไร?</p>
+      <ul style="list-style: none; padding-left: 0;">
+        <li><b>A.</b> เบ็กเคอเรล (Bq)</li><li><b>B.</b> เกรย์ (Gy)</li><li><b>C.</b> ซีเวิร์ต (Sievert: Sv)</li><li><b>D.</b> จูล (J)</li>
+      </ul>
+      <details style="margin-top: 15px; cursor: pointer;">
+        <summary><b>เฉลยและคำอธิบายละเอียด (คลิกเพื่อดู)</b></summary>
+        <div style="margin-top: 10px; padding: 12px; background: #ffffff; border-radius: 6px;">
+          <b>คำตอบที่ถูกต้อง:</b> ข้อ C.<br>
+          ถูกต้อง! ซีเวิร์ต (Sv หรือ mSv) คือหน่วยวัด Equivalent Dose ที่คำนึงถึงผลกระทบของรังสีต่อเนื้อเยื่อมนุษย์
+        </div>
+      </details>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px; padding: 20px; background: #0f172a; color: #ffffff; border-radius: 12px;">
+      <h3 style="color: #38bdf8; margin: 0 0 10px 0;">🚀 ห้องปฏิบัติการเสมือนจริง 3D / AR</h3>
+      <p style="color: #94a3b8; font-size: 0.9em;">เชื่อมต่อการทดลองเชิงลึกด้วย MediaPipe Hand Tracking และ Three.js Shader</p>
+      <a href="https://tsanaphy2023.github.io/modernphysics/" target="_blank" class="btn-ar">🚀 เปิดห้องแล็บ AR เต็มจอ (GitHub Pages Global CDN) ↗</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

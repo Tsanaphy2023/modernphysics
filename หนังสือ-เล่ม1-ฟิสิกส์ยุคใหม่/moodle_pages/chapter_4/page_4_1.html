@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4.1 ฟังก์ชันคลื่นและสมการชโรดิงเจอร์ | RBRU MOOC ฟิสิกส์ยุคใหม่</title>
+<style>
+  :root {
+    --primary: #0284c7;
+    --bg-dark: #0f172a;
+    --text-dark: #1e293b;
+    --text-light: #f8fafc;
+    --card-bg: #ffffff;
+    --border: #e2e8f0;
+  }
+  body {
+    font-family: "Sarabun", "Prompt", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.75;
+    color: var(--text-dark);
+    background: #f8fafc;
+    margin: 0;
+    padding: 20px;
+  }
+  .moodle-page-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  }
+  .page-header {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    color: #ffffff;
+    padding: 30px;
+  }
+  .page-meta {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: bold;
+  }
+  h1 { margin: 0 0 10px 0; font-size: 1.8em; line-height: 1.3; }
+  .content { padding: 30px; }
+  .formula-box {
+    background: #f0fdf4;
+    border-left: 5px solid #10b981;
+    border-radius: 8px;
+    padding: 18px;
+    margin: 20px 0;
+  }
+  .formula-title { font-weight: bold; color: #047857; margin-bottom: 8px; display: block; }
+  .formula-math { font-size: 1.2em; text-align: center; padding: 10px 0; }
+  .example-card {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 24px 0;
+  }
+  .quiz-card {
+    background: #fefce8;
+    border: 1px solid #fef08a;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 24px 0;
+  }
+  .btn-ar {
+    display: inline-block;
+    background: #0284c7;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 15px;
+    transition: background 0.2s;
+  }
+  .btn-ar:hover { background: #0369a1; }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+  }
+  .data-table th, .data-table td {
+    border: 1px solid #cbd5e1;
+    padding: 10px 14px;
+    text-align: left;
+  }
+  .data-table th { background: #f1f5f9; }
+  .grid-3cards, .grid-2col {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .info-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .badge-tag {
+    display: inline-block;
+    background: #e0f2fe;
+    color: #0369a1;
+    font-size: 0.8em;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<div class="moodle-page-wrapper">
+  <div class="page-header">
+    <div class="page-meta">
+      <span class="tag">บทที่ 4</span>
+      <span class="tag">Schrödinger Equation</span>
+      <span class="tag">⏱️ 8 นาที</span>
+    </div>
+    <h1>4.1 ฟังก์ชันคลื่นและสมการชโรดิงเจอร์</h1>
+    <p>การตีความฟังก์ชันคลื่นตามหลักความน่าจะเป็นของ Max Born และสมการชโรดิงเจอร์</p>
+  </div>
+
+  <div class="content">
+    <div class="theory-section"><h3>🌊 ฟังก์ชันคลื่น \(\Psi(x,t)\) และการตีความเชิงความน่าจะเป็น</h3><p>ในกลศาสตร์ควอนตัม สถานะของอนุภาคถูกบรรจุอยู่ใน <b>ฟังก์ชันคลื่น (Wavefunction: \(\Psi(x,t)\))</b> มักซ์ บอร์น เสนอว่าขนาดกำลังสองของฟังก์ชันคลื่นคือ <b>ความหนาแน่นความน่าจะเป็น (Probability Density)</b></p><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 กฎความน่าจะเป็นและเงื่อนไขนอร์มัลไลซ์ (Normalization)</span><span class="formula-category">Born's Rule</span></div><div class="formula-math">\[P(x) dx = |\Psi(x,t)|^2 dx, \quad \int_{-\infty}^{\infty} |\Psi(x,t)|^2 dx = 1\]</div><p>โอกาสในการพบอนุภาค ณ บริเวณใดๆ จะแปรผันตาม \(|\Psi|^2\) และความน่าจะเป็นรวมทั่วทั้งเอกภพต้องเท่ากับ 1 เสมอ</p></div><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 สมการชโรดิงเจอร์ที่ไม่ขึ้นกับเวลา (Time-Independent Schrödinger Equation)</span><span class="formula-category">สมการแม่บทควอนตัม</span></div><div class="formula-math">\[-\frac{\hbar^2}{2m} \frac{d^2\psi(x)}{dx^2} + V(x)\psi(x) = E\psi(x)\]</div></div></div>
+
+    <div class="example-card">
+      <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างคำนวณ: การนอร์มัลไลซ์ฟังก์ชันคลื่น</h3>
+      <p><b>โจทย์:</b> ฟังก์ชันคลื่น Gaussian psi(x) = A * exp(-a x^2) จงหาค่าคงตัว A ที่ทำให้นอร์มัลไลซ์</p>
+      <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e0f2fe;">
+        <b>เฉลยและวิธีทำ:</b><br>อินทิเกรตกำลังสองฟังก์ชันคลื่นทั่วทั้งแกน แล้วเซ็ตเท่ากับ 1 จะได้ A = (2a / pi)^(1/4)
+      </div>
+    </div>
+
+    <div class="quiz-card">
+      <h3 style="color: #854d0e; margin-top:0;">💡 คำถามทบทวนแนวคิด (Concept Check)</h3>
+      <p><b>คำถาม:</b> ความหมายทางกายภาพของ |psi(x)|^2 ในกลศาสตร์ควอนตัมคืออะไร?</p>
+      <ul style="list-style: none; padding-left: 0;">
+        <li><b>A.</b> ความเร็วของอนุภาค ณ จุด x</li><li><b>B.</b> ความหนาแน่นของความน่าจะเป็นในการตรวจพบอนุภาค ณ จุด x</li><li><b>C.</b> พลังงานจลน์ของอนุภาค</li><li><b>D.</b> แรงที่กระทำต่ออนุภาค</li>
+      </ul>
+      <details style="margin-top: 15px; cursor: pointer;">
+        <summary><b>เฉลยและคำอธิบายละเอียด (คลิกเพื่อดู)</b></summary>
+        <div style="margin-top: 10px; padding: 12px; background: #ffffff; border-radius: 6px;">
+          <b>คำตอบที่ถูกต้อง:</b> ข้อ B.<br>
+          ถูกต้อง! ตามการตีความของ Max Born ขนาดกำลังสองของฟังก์ชันคลื่นคือ Probability Density ในการพบอนุภาค
+        </div>
+      </details>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px; padding: 20px; background: #0f172a; color: #ffffff; border-radius: 12px;">
+      <h3 style="color: #38bdf8; margin: 0 0 10px 0;">🚀 ห้องปฏิบัติการเสมือนจริง 3D / AR</h3>
+      <p style="color: #94a3b8; font-size: 0.9em;">เชื่อมต่อการทดลองเชิงลึกด้วย MediaPipe Hand Tracking และ Three.js Shader</p>
+      <a href="https://tsanaphy2023.github.io/modernphysics/" target="_blank" class="btn-ar">🚀 เปิดห้องแล็บ AR เต็มจอ (GitHub Pages Global CDN) ↗</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1.2 การแผ่รังสีของวัตถุดำและสมมติฐานของพลังค์ | RBRU MOOC ฟิสิกส์ยุคใหม่</title>
+<style>
+  :root {
+    --primary: #087f8c;
+    --bg-dark: #0f172a;
+    --text-dark: #1e293b;
+    --text-light: #f8fafc;
+    --card-bg: #ffffff;
+    --border: #e2e8f0;
+  }
+  body {
+    font-family: "Sarabun", "Prompt", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.75;
+    color: var(--text-dark);
+    background: #f8fafc;
+    margin: 0;
+    padding: 20px;
+  }
+  .moodle-page-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  }
+  .page-header {
+    background: linear-gradient(135deg, #087f8c 0%, #0c4a6e 100%);
+    color: #ffffff;
+    padding: 30px;
+  }
+  .page-meta {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: bold;
+  }
+  h1 { margin: 0 0 10px 0; font-size: 1.8em; line-height: 1.3; }
+  .content { padding: 30px; }
+  .formula-box {
+    background: #f0fdf4;
+    border-left: 5px solid #10b981;
+    border-radius: 8px;
+    padding: 18px;
+    margin: 20px 0;
+  }
+  .formula-title { font-weight: bold; color: #047857; margin-bottom: 8px; display: block; }
+  .formula-math { font-size: 1.2em; text-align: center; padding: 10px 0; }
+  .example-card {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 24px 0;
+  }
+  .quiz-card {
+    background: #fefce8;
+    border: 1px solid #fef08a;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 24px 0;
+  }
+  .btn-ar {
+    display: inline-block;
+    background: #0284c7;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 15px;
+    transition: background 0.2s;
+  }
+  .btn-ar:hover { background: #0369a1; }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+  }
+  .data-table th, .data-table td {
+    border: 1px solid #cbd5e1;
+    padding: 10px 14px;
+    text-align: left;
+  }
+  .data-table th { background: #f1f5f9; }
+  .grid-3cards, .grid-2col {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .info-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .badge-tag {
+    display: inline-block;
+    background: #e0f2fe;
+    color: #0369a1;
+    font-size: 0.8em;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<div class="moodle-page-wrapper">
+  <div class="page-header">
+    <div class="page-meta">
+      <span class="tag">บทที่ 1</span>
+      <span class="tag">กฎของพลังค์และวีน</span>
+      <span class="tag">⏱️ 8 นาที</span>
+    </div>
+    <h1>1.2 การแผ่รังสีของวัตถุดำและสมมติฐานของพลังค์</h1>
+    <p>ค้นพบจุดกำเนิดของค่าคงตัวของพลังค์ และการพิสูจน์กฎการแผ่รังสีของวัตถุดำที่แก้ปัญหาหายนะอัลตราไวโอเลต</p>
+  </div>
+
+  <div class="content">
+    <div class="theory-section"><h3>✨ วัตถุดำ (Black Body) และสมมติฐานควอนตัม</h3><p><b>วัตถุดำ</b> คือ วัตถุอุดมคติที่ดูดกลืนรังสีแม่เหล็กไฟฟ้าทุกความยาวคลื่นที่ตกกระทบได้ 100% โดยไม่มีการสะท้อน และเมื่อได้รับความร้อนจะแผ่รังสีแม่เหล็กไฟฟ้าออกมาอย่างสมบูรณ์แบบตามอุณหภูมิสัมบูรณ์ \(T\)</p><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 กฎการกระจัดของวีน (Wien's Displacement Law)</span><span class="formula-category">สมการสำคัญ</span></div><div class="formula-math">\[\lambda_{\max} \cdot T = b = 2.898 \times 10^{-3} \text{ m}\cdot\text{K}\]</div><p>เมื่ออุณหภูมิ \(T\) สูงขึ้น ยอดคลื่นของการแผ่รังสี \(\lambda_{\max}\) จะเลื่อนไปทางความยาวคลื่นที่สั้นลง (ความถี่สูงขึ้น)</p></div><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 สมมติฐานควอนตัมของมักซ์ พลังค์ (ค.ศ. 1900)</span><span class="formula-category">สมการปฏิวัติฟิสิกส์</span></div><div class="formula-math">\[E = nhf = n \frac{hc}{\lambda} \quad (n = 1, 2, 3, ...)\]</div><p>โดยที่ \(h = 6.626 \times 10^{-34} \text{ J}\cdot\text{s}\) (ค่าคงตัวของพลังค์) พลังงานของการสั่นระดับอะตอมไม่ได้ต่อเนื่อง แต่ถูกจำกัดให้มีค่าเป็นจำนวนเท่าของก้อนพลังงาน \(hf\)</p></div></div>
+
+    <div class="example-card">
+      <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างคำนวณ: อุณหภูมิพื้นผิวของดวงอาทิตย์</h3>
+      <p><b>โจทย์:</b> ยอดความเข้มสูงสุดของแสงอาทิตย์อยู่ที่ความยาวคลื่น \(\lambda_{\max} \approx 500 \text{ nm}\) จงประมาณอุณหภูมิยังผลที่ผิวของดวงอาทิตย์</p>
+      <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e0f2fe;">
+        <b>เฉลยและวิธีทำ:</b><br>จากกฎการกระจัดของวีน: \(T = \frac{b}{\lambda_{\max}} = \frac{2.898 \times 10^{-3} \text{ m}\cdot\text{K}}{500 \times 10^{-9} \text{ m}} = 5,796 \text{ K}\) (ประมาณ 5,800 เคลวิน)
+      </div>
+    </div>
+
+    <div class="quiz-card">
+      <h3 style="color: #854d0e; margin-top:0;">💡 คำถามทบทวนแนวคิด (Concept Check)</h3>
+      <p><b>คำถาม:</b> หากดาวฤกษ์ดวงหนึ่งมีอุณหภูมิผิวสูงเป็น 2 เท่าของดวงอาทิตย์ ยอดความยาวคลื่น \(\lambda_{\max}\) ของดาวดวงนั้นจะเป็นอย่างไร?</p>
+      <ul style="list-style: none; padding-left: 0;">
+        <li><b>A.</b> ยาวขึ้นเป็น 2 เท่า</li><li><b>B.</b> สั้นลงเหลือ 1/2 ของเดิม (เลื่อนไปทางน้ำเงิน/UV)</li><li><b>C.</b> เพิ่มขึ้นเป็น 4 เท่า</li><li><b>D.</b> ไม่เปลี่ยนแปลงเพราะความเร็วแสงคงที่</li>
+      </ul>
+      <details style="margin-top: 15px; cursor: pointer;">
+        <summary><b>เฉลยและคำอธิบายละเอียด (คลิกเพื่อดู)</b></summary>
+        <div style="margin-top: 10px; padding: 12px; background: #ffffff; border-radius: 6px;">
+          <b>คำตอบที่ถูกต้อง:</b> ข้อ B.<br>
+          ถูกต้อง! ตามกฎของวีน ยอดความยาวคลื่นแปรผกผันกับอุณหภูมิ ดังนั้นเมื่ออุณหภูมิเพิ่ม 2 เท่า ความยาวคลื่นสูงสุดจะสั้นลงเหลือครึ่งหนึ่ง
+        </div>
+      </details>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px; padding: 20px; background: #0f172a; color: #ffffff; border-radius: 12px;">
+      <h3 style="color: #38bdf8; margin: 0 0 10px 0;">🚀 ห้องปฏิบัติการเสมือนจริง 3D / AR</h3>
+      <p style="color: #94a3b8; font-size: 0.9em;">เชื่อมต่อการทดลองเชิงลึกด้วย MediaPipe Hand Tracking และ Three.js Shader</p>
+      <a href="https://tsanaphy2023.github.io/modernphysics/" target="_blank" class="btn-ar">🚀 เปิดห้องแล็บ AR เต็มจอ (GitHub Pages Global CDN) ↗</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>8.2 ทฤษฎีบิกแบงและรังสีไมโครเวฟพื้นหลังของเอกภพ | RBRU MOOC ฟิสิกส์ยุคใหม่</title>
+<style>
+  :root {
+    --primary: #6366f1;
+    --bg-dark: #0f172a;
+    --text-dark: #1e293b;
+    --text-light: #f8fafc;
+    --card-bg: #ffffff;
+    --border: #e2e8f0;
+  }
+  body {
+    font-family: "Sarabun", "Prompt", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.75;
+    color: var(--text-dark);
+    background: #f8fafc;
+    margin: 0;
+    padding: 20px;
+  }
+  .moodle-page-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  }
+  .page-header {
+    background: linear-gradient(135deg, #6366f1 0%, #3730a3 100%);
+    color: #ffffff;
+    padding: 30px;
+  }
+  .page-meta {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: bold;
+  }
+  h1 { margin: 0 0 10px 0; font-size: 1.8em; line-height: 1.3; }
+  .content { padding: 30px; }
+  .formula-box {
+    background: #f0fdf4;
+    border-left: 5px solid #10b981;
+    border-radius: 8px;
+    padding: 18px;
+    margin: 20px 0;
+  }
+  .formula-title { font-weight: bold; color: #047857; margin-bottom: 8px; display: block; }
+  .formula-math { font-size: 1.2em; text-align: center; padding: 10px 0; }
+  .example-card {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 24px 0;
+  }
+  .quiz-card {
+    background: #fefce8;
+    border: 1px solid #fef08a;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 24px 0;
+  }
+  .btn-ar {
+    display: inline-block;
+    background: #0284c7;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 15px;
+    transition: background 0.2s;
+  }
+  .btn-ar:hover { background: #0369a1; }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+  }
+  .data-table th, .data-table td {
+    border: 1px solid #cbd5e1;
+    padding: 10px 14px;
+    text-align: left;
+  }
+  .data-table th { background: #f1f5f9; }
+  .grid-3cards, .grid-2col {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .info-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .badge-tag {
+    display: inline-block;
+    background: #e0f2fe;
+    color: #0369a1;
+    font-size: 0.8em;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<div class="moodle-page-wrapper">
+  <div class="page-header">
+    <div class="page-meta">
+      <span class="tag">บทที่ 8</span>
+      <span class="tag">Big Bang & CMB</span>
+      <span class="tag">⏱️ 9 นาที</span>
+    </div>
+    <h1>8.2 ทฤษฎีบิกแบงและรังสีไมโครเวฟพื้นหลังของเอกภพ</h1>
+    <p>ไทม์ไลน์บิกแบง การสังเคราะห์นิวเคลียสยุคแรก และรังสีไมโครเวฟพื้นหลัง (CMB 2.725 K)</p>
+  </div>
+
+  <div class="content">
+    <div class="theory-section"><h3>💥 ทฤษฎีบิกแบง (The Big Bang Theory) และรังสี CMB</h3><p>เอกภพเริ่มต้นจากสภาวะที่มีความหนาแน่นและอุณหภูมิสูงยิ่งยวดเมื่อประมาณ 13.8 พันล้านปีก่อน และมี 2 หลักฐานเสาหลักค้ำจุน:</p><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 รังสีไมโครเวฟพื้นหลังของเอกภพ (Cosmic Microwave Background)</span><span class="formula-category">แสงแรกแห่งเอกภพ</span></div><p>แสงที่แผ่ออกมาในยุค Recombination (380,000 ปีหลังบิกแบง) ปัจจุบันถูกยืดขยายจนมีอุณหภูมิวัตถุดำเหลือเพียง 2.725 เคลวิน</p></div><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 สัดส่วนธาตุยุคกำเนิด</span><span class="formula-category">การสังเคราะห์ธาตุ</span></div><p>ทฤษฎีทำนายสัดส่วนมวลธาตุยุคแรก: ไฮโดรเจน 75% และฮีเลียม-4 25%</p></div></div>
+
+    <div class="example-card">
+      <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างการค้นพบ: Penzias & Wilson (1965)</h3>
+      <p><b>โจทย์:</b> Penzias และ Wilson ค้นพบสัญญาณรบกวน CMB ด้วยสายอากาศฮอร์นได้อย่างไร?</p>
+      <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e0f2fe;">
+        <b>เฉลยและวิธีทำ:</b><br>พวกเขาวัดพบสัญญาณรบกวนความถี่ไมโครเวฟสม่ำเสมอในทุกทิศทางของท้องฟ้า ซึ่งต่อมาได้รับการยืนยันว่าเป็นแสงสะท้อนจากบิกแบง จนได้รับรางวัลโนเบลปี 1978
+      </div>
+    </div>
+
+    <div class="quiz-card">
+      <h3 style="color: #854d0e; margin-top:0;">💡 คำถามทบทวนแนวคิด (Concept Check)</h3>
+      <p><b>คำถาม:</b> รังสีไมโครเวฟพื้นหลังของเอกภพ (CMB) มีเส้นโค้งการแผ่รังสีตรงกับกฎฟิสิกส์ใดอย่างสมบูรณ์แบบที่สุดในธรรมชาติ?</p>
+      <ul style="list-style: none; padding-left: 0;">
+        <li><b>A.</b> กฎการสะท้อนของแสง</li><li><b>B.</b> กฎการแผ่รังสีของวัตถุดำของพลังค์ที่อุณหภูมิ 2.725 K</li><li><b>C.</b> กฎความโน้มถ่วงของนิวตัน</li><li><b>D.</b> กฎของบอยล์และชาร์ล</li>
+      </ul>
+      <details style="margin-top: 15px; cursor: pointer;">
+        <summary><b>เฉลยและคำอธิบายละเอียด (คลิกเพื่อดู)</b></summary>
+        <div style="margin-top: 10px; padding: 12px; background: #ffffff; border-radius: 6px;">
+          <b>คำตอบที่ถูกต้อง:</b> ข้อ B.<br>
+          ถูกต้อง! ดาวเทียม Planck วัดสเปกตรัมของ CMB ได้เป็นกราฟวัตถุดำที่สมบูรณ์แบบที่สุดเท่าที่มนุษย์เคยตรวจวัดได้
+        </div>
+      </details>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px; padding: 20px; background: #0f172a; color: #ffffff; border-radius: 12px;">
+      <h3 style="color: #38bdf8; margin: 0 0 10px 0;">🚀 ห้องปฏิบัติการเสมือนจริง 3D / AR</h3>
+      <p style="color: #94a3b8; font-size: 0.9em;">เชื่อมต่อการทดลองเชิงลึกด้วย MediaPipe Hand Tracking และ Three.js Shader</p>
+      <a href="https://tsanaphy2023.github.io/modernphysics/" target="_blank" class="btn-ar">🚀 เปิดห้องแล็บ AR เต็มจอ (GitHub Pages Global CDN) ↗</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
