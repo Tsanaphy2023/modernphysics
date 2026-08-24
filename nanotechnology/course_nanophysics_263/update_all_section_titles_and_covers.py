@@ -1,0 +1,376 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Updates all 8 Section Names (Chapters 1-8) and Section 0 on Course ID 263
+with exact availabilityconditionsjson validation fix, 3D animated covers,
+and interactive topic cards grids with direct CMID links.
+"""
+
+import os
+import sys
+import re
+import json
+import time
+import requests
+
+BASE_DIR = "/Users/chewathassana/Downloads/manus_backup2026/ModernPhysics"
+sys.path.append(BASE_DIR)
+
+COURSE_ID = "263"
+BASE_URL = "https://elearning.rbru.ac.th"
+
+NANO_DIR = os.path.join(BASE_DIR, "nanotechnology/course_nanophysics_263")
+COURSE_DATA_FILE = os.path.join(NANO_DIR, "course_data.json")
+
+session = requests.Session()
+session.cookies.set("MoodleSessionrbrulms", "lsd8fv1nrb9spqgtchgv9a1co1", domain="elearning.rbru.ac.th")
+session.headers.update({
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Origin": BASE_URL,
+    "Referer": f"{BASE_URL}/course/view.php?id={COURSE_ID}"
+})
+
+with open(COURSE_DATA_FILE, "r", encoding="utf-8") as f:
+    chapters = json.load(f)
+
+# 1. Fetch current catalog on Course 263
+print(f"📡 Fetching Course {COURSE_ID} structure from Moodle...")
+r_course = session.get(f"{BASE_URL}/course/view.php?id={COURSE_ID}")
+sesskey = re.search(r'name=\"sesskey\"\s+value=\"([^\"]+)\"', r_course.text).group(1)
+
+sections_raw = re.findall(r'<li[^>]*id=\"section-(\d+)\"[^>]*>(.*?)</li>\s*(?=<li[^>]*id=\"section-|\Z)', r_course.text, re.DOTALL)
+moodle_catalog = {}
+
+for s_num_str, s_html in sections_raw:
+    s_num = int(s_num_str)
+    sec_id_m = re.search(r'editsection\.php\?id=(\d+)', s_html)
+    sec_db_id = sec_id_m.group(1) if sec_id_m else ''
+    acts = re.findall(r'<li[^>]*class=\"activity\s+page[^>]*id=\"module-(\d+)\"[^>]*>(.*?)</li>', s_html, re.DOTALL)
+    pages = []
+    for m_id, m_html in acts:
+        inst = re.search(r'<span class=\"instancename\"[^>]*>(.*?)</span>', m_html, re.DOTALL)
+        name = re.sub(r'<[^>]+>', '', inst.group(1)).strip() if inst else ''
+        name = re.sub(r'\s*หน้า\s*$', '', name).strip()
+        pages.append({"cmid": m_id, "name": name, "url": f"{BASE_URL}/mod/page/view.php?id={m_id}"})
+    moodle_catalog[s_num] = {"section_num": s_num, "sec_db_id": sec_db_id, "pages": pages}
+
+# 2. Deploy Section 0 Hero Banner
+print("\n🎨 Updating Section 0 Course Hero Banner...")
+sec0_db_id = moodle_catalog.get(0, {}).get("sec_db_id", "2540")
+sec0_html = """
+<div class="course-panoramic-hero" style="font-family: 'Sarabun', -apple-system, sans-serif; background: linear-gradient(135deg, #090e1a 0%, #0f172a 100%); border: 1px solid rgba(0, 240, 255, 0.4); border-radius: 16px; padding: 28px; margin-bottom: 24px; color: #ffffff; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7); position: relative; overflow: hidden;">
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+    <div>
+      <span style="background: rgba(0, 240, 255, 0.15); border: 1px solid #00f0ff; color: #00f0ff; padding: 4px 12px; border-radius: 9999px; font-size: 0.82rem; font-weight: 700; font-family: 'JetBrains Mono', monospace;">⚛️ RBRU MOOC 4014971</span>
+      <h1 style="font-size: 1.85rem; font-weight: 800; color: #ffffff; margin: 10px 0 6px 0; letter-spacing: -0.5px;">รายวิชา นาโนเทคโนโลยีเชิงฟิสิกส์</h1>
+      <p style="font-size: 1.05rem; color: #38bdf8; font-weight: 600; margin-bottom: 12px;">Nanotechnological Physics & Quantum Nanomaterials</p>
+      <p style="font-size: 0.92rem; color: #cbd5e1; max-width: 850px; line-height: 1.7;">
+        ยินดีต้อนรับสู่หลักสูตรออนไลน์เชิงปฏิบัติการระดับพรีเมียม ศึกษาฟิสิกส์ของสสารในระดับ 1 ถึง 100 นาโนเมตร การกักขังเชิงควอนตัม (Quantum Confinement) การสั่นพลาสมอนพื้นผิวเฉพาะที่ (LSPR) กล้องจุลทรรศน์อิเล็กตรอนและโพรบสแกน (SEM/TEM/AFM/STM) กราฟีน ท่อคาร์บอนนาโน โซลาร์เซลล์รุ่นใหม่ และการนำส่งยาตรงเป้าหมาย พร้อมห้องปฏิบัติการจำลอง 60 FPS และระบบควบคุมไร้สัมผัส AR MediaPipe Hands
+      </p>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 18px;">
+    <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid #1e293b; border-radius: 10px; padding: 12px 16px;">
+      <div style="font-size: 0.78rem; color: #94a3b8; font-weight: 700;">📚 โครงสร้างรายวิชา</div>
+      <div style="font-size: 1.05rem; color: #facc15; font-weight: 700;">8 บทเรียน 40 หัวข้อย่อย</div>
+    </div>
+    <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid #1e293b; border-radius: 10px; padding: 12px 16px;">
+      <div style="font-size: 0.78rem; color: #94a3b8; font-weight: 700;">🔬 ปฏิบัติการจำลอง</div>
+      <div style="font-size: 1.05rem; color: #00f0ff; font-weight: 700;">40 AR Interactive Labs</div>
+    </div>
+    <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid #1e293b; border-radius: 10px; padding: 12px 16px;">
+      <div style="font-size: 0.78rem; color: #94a3b8; font-weight: 700;">🎯 ผลลัพธ์การเรียนรู้</div>
+      <div style="font-size: 1.05rem; color: #10b981; font-weight: 700;">CLO 1 – CLO 7</div>
+    </div>
+  </div>
+</div>
+"""
+
+edit_url0 = f"{BASE_URL}/course/editsection.php?id={sec0_db_id}"
+r_edit0 = session.get(edit_url0)
+if r_edit0.status_code == 200:
+    data0 = {}
+    for m in re.finditer(r'<input[^>]*name=[\"\']([^\"\']+)[\"\'][^>]*value=[\"\']([^\"\']*)[\"\']', r_edit0.text):
+        k, v = m.group(1), m.group(2)
+        if k in ['cancel', 'q', 'search']:
+            continue
+        data0[k] = v
+    data0['id'] = str(sec0_db_id)
+    data0['course'] = COURSE_ID
+    data0['sesskey'] = sesskey
+    data0['_qf__editsection_form'] = '1'
+    data0['availabilityconditionsjson'] = '{"op":"&","c":[],"showc":[]}'
+    data0['name'] = 'ภาพรวมรายวิชาและคำแนะนำการเรียนรู้'
+    data0['summary_editor[text]'] = sec0_html
+    data0['summary_editor[format]'] = '1'
+    data0['submitbutton'] = 'บันทึกการเปลี่ยนแปลง'
+    session.post(edit_url0, data=data0)
+    print(f"  ✅ Updated Section 0 Title & Banner (DB ID: {sec0_db_id})")
+
+# 3. Update Sections 1 to 8 Titles and 3D Covers & Topic Cards
+print("\n🎨 Updating Section Titles (Chapters 1 to 8) & 3D Cards Grids...")
+
+from deploy_animated_covers_and_section_cards import get_chapter_animated_cover_svg
+
+NANO_ICONS = {
+    "1.1": """<svg width="48" height="48" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="28" fill="#0f172a" stroke="#00f0ff" stroke-width="2"/><line x1="14" y1="32" x2="50" y2="32" stroke="#00f0ff" stroke-width="2"/><line x1="14" y1="26" x2="14" y2="38" stroke="#00f0ff" stroke-width="2"/><line x1="50" y1="26" x2="50" y2="38" stroke="#00f0ff" stroke-width="2"/><text x="20" y="48" fill="#facc15" font-size="10" font-family="monospace">1-100nm</text></svg>""",
+    "1.2": """<svg width="48" height="48" viewBox="0 0 64 64" fill="none"><rect x="12" y="12" width="40" height="40" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="2"/><text x="18" y="38" fill="#10b981" font-size="12" font-family="monospace" font-weight="bold">A/V=6/d</text></svg>""",
+    "1.3": """<svg width="48" height="48" viewBox="0 0 64 64" fill="none"><circle cx="24" cy="32" r="10" fill="#f43f5e"/><circle cx="40" cy="32" r="10" fill="#f43f5e"/><path d="M24 32 L40 32" stroke="#facc15" stroke-width="2" stroke-dasharray="2 2"/><text x="21" y="52" fill="#facc15" font-size="9" font-family="monospace">ΔG<0</text></svg>""",
+    "1.4": """<svg width="48" height="48" viewBox="0 0 64 64" fill="none"><rect x="8" y="14" width="48" height="36" rx="4" fill="#020617" stroke="#64748b"/><line x1="16" y1="42" x2="36" y2="42" stroke="#ffffff" stroke-width="3"/><text x="16" y="38" fill="#ffffff" font-size="8" font-family="sans-serif">20 nm</text></svg>""",
+    "1.5": """<svg width="48" height="48" viewBox="0 0 64 64" fill="none"><rect x="8" y="12" width="48" height="40" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2"/><circle cx="32" cy="32" r="14" stroke="#00f0ff" stroke-width="2" fill="none"/><text x="18" y="47" fill="#10b981" font-size="8" font-family="sans-serif" font-weight="bold">3D AR LAB</text></svg>"""
+}
+
+def generate_nano_section_html(ch_id, clean_title, ch_desc, pages_info):
+    cover_svg = get_chapter_animated_cover_svg(ch_id)
+
+    card_items_html = ""
+    for p in pages_info:
+        pid = p["id"]
+        ptitle = p["title"]
+        psummary = p.get("summary", "")[:95] + "..."
+        cmid = p.get("cmid", "")
+        url = p.get("url", f"{BASE_URL}/mod/page/view.php?id={cmid}")
+        svg = NANO_ICONS.get(pid, NANO_ICONS.get("1.1"))
+        formula = p.get("formula", "Nanotechnology Concept")
+
+        card_items_html += f"""
+        <div class="topic-card-3d">
+          <div class="card-top-header">
+            <div class="card-icon-3d">{svg}</div>
+            <div class="topic-badge">หัวข้อ {pid}</div>
+          </div>
+          <h3 class="topic-title">{ptitle}</h3>
+          <div class="formula-badge">\\({formula}\\)</div>
+          <p class="topic-summary">{psummary}</p>
+          <a href="{url}" class="btn-enter-lesson">
+            <span>🚀 เข้าสู่บทเรียน & ปฏิบัติการจำลอง</span>
+            <span class="arrow-icon">→</span>
+          </a>
+        </div>
+        """
+
+    html = f"""
+<div class="chapter-overview-container" style="font-family: 'Sarabun', -apple-system, sans-serif; color: #f8fafc; margin-bottom: 24px;">
+  <style>
+    @keyframes pulse-slow {{
+      0%, 100% {{ transform: scale(1); opacity: 0.85; }}
+      50% {{ transform: scale(1.08); opacity: 1.0; }}
+    }}
+    @keyframes spin-slow {{
+      from {{ transform: rotate(0deg); }}
+      to {{ transform: rotate(360deg); }}
+    }}
+    .anim-pulse {{ animation: pulse-slow 3s infinite ease-in-out; }}
+    .anim-spin-slow {{ transform-origin: center; animation: spin-slow 20s linear infinite; }}
+
+    .cover-svg-wrapper {{
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      border: 1px solid rgba(0, 240, 255, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      background: #020617;
+    }}
+    .cover-svg-anim {{
+      display: block;
+      width: 100%;
+      height: auto;
+    }}
+
+    .chapter-hero-banner {{
+      background: linear-gradient(135deg, #090e1a 0%, #0f172a 100%);
+      border: 1px solid rgba(0, 240, 255, 0.35);
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65);
+    }}
+    .chapter-badge-tag {{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 240, 255, 0.15);
+      border: 1px solid #00f0ff;
+      color: #00f0ff;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 0.80rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 8px;
+    }}
+    .chapter-hero-title {{
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
+    }}
+    .chapter-hero-desc {{
+      font-size: 0.92rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+      max-width: 800px;
+    }}
+    .topics-grid-3d {{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }}
+    .topic-card-3d {{
+      background: rgba(9, 14, 26, 0.92);
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      position: relative;
+    }}
+    .topic-card-3d:hover {{
+      transform: translateY(-4px);
+      border-color: #00f0ff;
+      box-shadow: 0 12px 30px rgba(0, 240, 255, 0.25);
+    }}
+    .card-top-header {{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }}
+    .card-icon-3d {{
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0f172a;
+      border-radius: 10px;
+      border: 1px solid #334155;
+    }}
+    .topic-badge {{
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #38bdf8;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+    }}
+    .topic-title {{
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }}
+    .formula-badge {{
+      background: #020617;
+      border: 1px solid #334155;
+      color: #facc15;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 8px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }}
+    .topic-summary {{
+      font-size: 0.82rem;
+      color: #94a3b8;
+      line-height: 1.5;
+      margin-bottom: 14px;
+      flex-grow: 1;
+    }}
+    .btn-enter-lesson {{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(135deg, #0284c7 0%, #00f0ff 100%);
+      color: #020617 !important;
+      text-decoration: none !important;
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }}
+    .btn-enter-lesson:hover {{
+      box-shadow: 0 0 14px rgba(0, 240, 255, 0.6);
+      transform: scale(1.02);
+    }}
+    .arrow-icon {{
+      font-size: 1.1rem;
+      font-weight: 900;
+    }}
+  </style>
+
+  {cover_svg}
+
+  <div class="chapter-hero-banner">
+    <div class="chapter-badge-tag">⚛️ CHAPTER {ch_id} OVERVIEW</div>
+    <h2 class="chapter-hero-title">บทที่ {ch_id} {clean_title}</h2>
+    <p class="chapter-hero-desc">{ch_desc}</p>
+  </div>
+
+  <div class="topics-grid-3d">
+    {card_items_html}
+  </div>
+</div>
+"""
+    return html
+
+for ch in chapters:
+    ch_id = ch["id"]
+    raw_title = ch["title"]
+    clean_title = re.sub(r'^(บทที่\s*\d+\s*|\d+\s*)', '', raw_title).strip()
+    formatted_section_name = f"บทที่ {ch_id} {clean_title}"
+    ch_desc = ch["description"]
+
+    sec_info = moodle_catalog.get(ch_id, {"sec_db_id": "", "pages": []})
+    sec_db_id = sec_info["sec_db_id"]
+    moodle_pages = sec_info["pages"]
+
+    combined_pages = []
+    for p_idx, p in enumerate(ch["pages"]):
+        p_copy = dict(p)
+        if p_idx < len(moodle_pages):
+            p_copy["cmid"] = moodle_pages[p_idx]["cmid"]
+            p_copy["url"] = moodle_pages[p_idx]["url"]
+        combined_pages.append(p_copy)
+
+    section_html = generate_nano_section_html(ch_id, clean_title, ch_desc, combined_pages)
+
+    edit_url = f"{BASE_URL}/course/editsection.php?id={sec_db_id}"
+    r_edit = session.get(edit_url)
+    if r_edit.status_code == 200:
+        data = {}
+        for m in re.finditer(r'<input[^>]*name=[\"\']([^\"\']+)[\"\'][^>]*value=[\"\']([^\"\']*)[\"\']', r_edit.text):
+            k, v = m.group(1), m.group(2)
+            if k in ['cancel', 'q', 'search']:
+                continue
+            data[k] = v
+        data['id'] = str(sec_db_id)
+        data['course'] = COURSE_ID
+        data['sesskey'] = sesskey
+        data['_qf__editsection_form'] = '1'
+        data['availabilityconditionsjson'] = '{"op":"&","c":[],"showc":[]}'
+        data['name'] = formatted_section_name
+        data['summary_editor[text]'] = section_html
+        data['summary_editor[format]'] = '1'
+        data['submitbutton'] = 'บันทึกการเปลี่ยนแปลง'
+        resp_sec = session.post(edit_url, data=data)
+        print(f"  ✅ Successfully Updated Section {ch_id} Name to '{formatted_section_name}' (DB ID: {sec_db_id})")
+        time.sleep(0.3)
+
+print(f"\n🎉 Successfully updated all Chapter Section Names & 3D Overviews on Course ID {COURSE_ID}!")
