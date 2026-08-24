@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 6.2 6.2 การสลายของนิวเคลียสกัมมันตรังสีและครึ่งชีวิต</title>
+  <title>6.2 การสลายกัมมันตรังสี & ครึ่งชีวิต</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,33 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
+      margin: 0;
+      padding: 6px;
       overflow-x: hidden;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -48,33 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -88,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -101,9 +96,9 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
@@ -116,116 +111,233 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 6.2 6.2 การสลายของนิวเคลียสกัมมันตรังสีและครึ่งชีวิต
-      </div>
+      <div class="sim-title"><span>🔬</span> 6.2 การสลายกัมมันตรังสี & ครึ่งชีวิต (Radioactive Half-Life & C-14 Dating)</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
-    
-        <div class="control-grid">
-          <div class="ctrl-box">
-            <label>เวลาที่ผ่านไป (t / T₁/₂): <span id="val_t" class="val-display">1.0</span> เท่า</label>
-            <input type="range" id="slider_t" min="0" max="5.0" step="0.1" value="1.0">
-          </div>
-          <div class="ctrl-box">
-            <label>ไอโซโทปกัมมันตรังสี:</label>
-            <select id="sel_iso">
-              <option value="5730">Carbon-14 (T₁/₂ = 5,730 ปี)</option>
-              <option value="30.17">Cesium-137 (T₁/₂ = 30.17 ปี)</option>
-              <option value="8.02">Iodine-131 (T₁/₂ = 8.02 วัน)</option>
-              <option value="1600">Radium-226 (T₁/₂ = 1,600 ปี)</option>
-            </select>
-          </div>
-        </div>
-        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
-        
-
-    
-        <div class="readout-grid">
-          <div class="readout-card"><div class="readout-val" id="val_rem">50.0 %</div><div class="readout-lbl">สัดส่วนนิวเคลียสที่เหลือ</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_dec">50.0 %</div><div class="readout-lbl">นิวเคลียสที่สลายตัวไปแล้ว</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_act">0.500 A₀</div><div class="readout-lbl">กัมมันตภาพรังสี (Activity)</div></div>
-        </div>
-        
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tabGrid" onclick="setMode('grid')">🎲 การสลายเชิงสถิติ (Stochastic Decay Grid)</button>
+      <button class="tab-btn" id="tabC14" onclick="setMode('c14')">🏺 การหาอายุด้วยคาร์บอน-14 (C-14 Dating)</button>
+    </div>
+    <div id="controlsGrid" class="control-grid">
+      <div class="ctrl-box">
+        <label>ครึ่งชีวิตของไอโซโทป (T_½): <span id="val_t12" class="val-display">5.0</span> วินาที</label>
+        <input type="range" id="slider_t12" min="2.0" max="15.0" step="0.5" value="5.0">
+      </div>
+      <div class="ctrl-box">
+        <button type="button" onclick="resetGrid()" style="background:#0284c7; color:#fff; border:none; padding:8px 16px; border-radius:6px; font-weight:700; cursor:pointer; font-family:'Sarabun', sans-serif; margin-top:8px;">🔄 เริ่มต้นการสลายใหม่ (Reset Grid)</button>
+      </div>
+    </div>
+    <div id="controlsC14" class="control-grid" style="display:none;">
+      <div class="ctrl-box">
+        <label>ปริมาณ ¹⁴C ที่เหลืออยู่ในวัตถุโบราณ: <span id="val_c14_pct" class="val-display">25.0</span> %</label>
+        <input type="range" id="slider_c14_pct" min="1.0" max="100.0" step="0.5" value="25.0">
+      </div>
+      <div class="ctrl-box">
+        <label>ครึ่งชีวิตของ ¹⁴C: 5,730 ปี (คงตัว)</label>
+        <div style="color:#94a3b8; font-size:0.80rem; margin-top:4px;">N(t) = N₀·(½)^(t / 5730)</div>
+      </div>
+    </div>
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+    <div class="readout-grid" id="readoutsGrid">
+      <div class="readout-card"><div class="readout-val" id="val_surv_count">400 / 400</div><div class="readout-lbl">นิวเคลียสที่ยังไม่สลาย (N(t))</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_time_elap">0.0 s</div><div class="readout-lbl">เวลาที่ผ่านไป (Elapsed Time)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_decay_pct" style="color:#10b981;">100.0 %</div><div class="readout-lbl">สัดส่วนคงเหลือเชิงทฤษฎี</div></div>
+    </div>
+    <div class="readout-grid" id="readoutsC14" style="display:none;">
+      <div class="readout-card"><div class="readout-val" id="val_artifact_age">11,460 ปี</div><div class="readout-lbl">อายุของวัตถุโบราณ (Artifact Age)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_half_lives">2.00 ครึ่งชีวิต</div><div class="readout-lbl">จำนวนรอบครึ่งชีวิตที่ผ่านไป (n)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_c14_stat" style="color:#00f0ff;">ยุคหินเพลิโอลิธิก</div><div class="readout-lbl">การเทียบเคียงยุคประวัติศาสตร์</div></div>
+    </div>
   </div>
 
   <script>
-    
-        const cv = document.getElementById("simCanvas");
-        const ctx = cv.getContext("2d");
-        const slider = document.getElementById("slider_param") || { value: 50 };
-        let tick = 0;
 
-        function animate() {
-          const val = +slider.value || 50;
-          const valEl = document.getElementById("val_param");
-          if (valEl) valEl.textContent = val;
-          const coeff = (val / 50).toFixed(3);
-          const mEl = document.getElementById("val_metric");
-          if (mEl) mEl.textContent = coeff;
+    const cv = document.getElementById("simCanvas");
+    const ctx = cv.getContext("2d");
+    let currentMode = "grid";
+    let tick = 0;
+    let gridAtoms = [];
+    let startTime = Date.now();
 
-          ctx.clearRect(0, 0, cv.width, cv.height);
+    function setMode(mode) {
+      currentMode = mode;
+      document.getElementById("tabGrid").classList.toggle("active", mode === "grid");
+      document.getElementById("tabC14").classList.toggle("active", mode === "c14");
+      document.getElementById("controlsGrid").style.display = mode === "grid" ? "grid" : "none";
+      document.getElementById("controlsC14").style.display = mode === "c14" ? "grid" : "none";
+      document.getElementById("readoutsGrid").style.display = mode === "grid" ? "grid" : "none";
+      document.getElementById("readoutsC14").style.display = mode === "c14" ? "grid" : "none";
+    }
 
-          // Waveform 1 (Neon Cyan)
-          ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=2) {
-            const norm = (x-40)/560;
-            const y = 115 + 45 * Math.sin(norm * Math.PI * 4 * coeff + tick*0.06) * Math.cos(norm * Math.PI * 2);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    function resetGrid() {
+      gridAtoms = [];
+      for(let i=0; 400 > i; i++) {
+        gridAtoms.push({ alive: true });
+      }
+      startTime = Date.now();
+    }
+    resetGrid();
+
+    function animate() {
+      ctx.clearRect(0, 0, cv.width, cv.height);
+
+      if (currentMode === "grid") {
+        const T12_sec = +document.getElementById("slider_t12").value;
+        document.getElementById("val_t12").textContent = T12_sec.toFixed(1);
+
+        const elapsedSec = (Date.now() - startTime) / 1000;
+        document.getElementById("val_time_elap").textContent = elapsedSec.toFixed(1) + " s";
+
+        const lambda = Math.LN2 / T12_sec;
+        const decayProbPerFrame = 1 - Math.exp(-lambda * (1/60));
+
+        let aliveCount = 0;
+        gridAtoms.forEach(a => {
+          if (a.alive) {
+            if (Math.random() < decayProbPerFrame) a.alive = false;
+            else aliveCount++;
           }
-          ctx.stroke();
+        });
 
-          // Waveform 2 (Amber Field)
-          ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=4) {
-            const norm = (x-40)/560;
-            const y = 115 + 50 * Math.sin(norm * Math.PI * 2 * coeff - tick*0.04);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        document.getElementById("val_surv_count").textContent = aliveCount + " / 400";
+        const theoPct = Math.exp(-lambda * elapsedSec) * 100;
+        document.getElementById("val_decay_pct").textContent = theoPct.toFixed(1) + " %";
+
+        // Left Panel: 20x20 Atom Grid
+        const ox = 30, oy = 25, size = 8;
+        for(let r=0; 20 > r; r++) {
+          for(let c=0; 20 > c; c++) {
+            const idx = r * 20 + c;
+            const a = gridAtoms[idx];
+            ctx.fillStyle = a.alive ? "#00f0ff" : "rgba(71, 85, 105, 0.35)";
+            ctx.fillRect(ox + c * 9.5, oy + r * 9.5, size, size);
           }
-          ctx.stroke();
-
-          // Particle Field
-          for(let i=0; 10 > i; i++) {
-            const px = 40 + ((tick*3 + i*56) % 560);
-            const py = 115 + 30 * Math.sin(px*0.02 + tick*0.05);
-            ctx.fillStyle = "#10b981";
-            ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI*2); ctx.fill();
-          }
-
-          ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
-          ctx.fillText("จำลองผลลัพธ์พลวัตเชิงฟิสิกส์เรียลไทม์ (Live 60 FPS Engine)", 50, 30);
-
-          tick++;
-          requestAnimationFrame(animate);
         }
-        animate();
-        
+
+        // Right Panel: Decay Curve Plot
+        const gx = 250, gy = 185, gw = 360, gh = 150;
+        ctx.strokeStyle = "#475569"; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(gx, gy); ctx.lineTo(gx + gw, gy); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(gx, gy); ctx.lineTo(gx, gy - gh); ctx.stroke();
+
+        ctx.fillStyle = "#94a3b8"; ctx.font = "10px sans-serif";
+        ctx.fillText("เวลา t (วินาที) →", gx + gw - 85, gy + 16);
+        ctx.fillText("จำนวนนิวเคลียส N(t)", gx - 10, gy - gh - 6);
+
+        // Exponential Curve
+        ctx.strokeStyle = "#10b981"; ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        for(let px = 0; gw >= px; px += 2) {
+          const t_plot = (px / gw) * (T12_sec * 4);
+          const N_plot = 400 * Math.exp(-Math.LN2 * t_plot / T12_sec);
+          const py = gy - (N_plot / 400) * gh;
+          if (px === 0) ctx.moveTo(gx + px, py); else ctx.lineTo(gx + px, py);
+        }
+        ctx.stroke();
+
+        // Current time point
+        const curPx = Math.min(gw, (elapsedSec / (T12_sec * 4)) * gw);
+        const curPy = gy - (aliveCount / 400) * gh;
+        ctx.fillStyle = "#f59e0b"; ctx.beginPath(); ctx.arc(gx + curPx, curPy, 5, 0, Math.PI*2); ctx.fill();
+      }
+      else {
+        // C-14 Dating Mode
+        const pct = +document.getElementById("slider_c14_pct").value;
+        document.getElementById("val_c14_pct").textContent = pct.toFixed(1);
+
+        // n = log(pct/100) / log(0.5)
+        const halfLives = Math.log(pct / 100.0) / Math.log(0.5);
+        const ageYears = halfLives * 5730;
+
+        document.getElementById("val_half_lives").textContent = halfLives.toFixed(2) + " ครึ่งชีวิต";
+        document.getElementById("val_artifact_age").textContent = Math.round(ageYears).toLocaleString() + " ปี";
+
+        // Alpha, Beta, Gamma Deflection Chamber
+        const bx = 120, by = 115;
+        ctx.fillStyle = "#0f172a"; ctx.strokeStyle = "#1e293b";
+        ctx.fillRect(40, 20, 560, 185); ctx.strokeRect(40, 20, 560, 185);
+
+        // Lead Container Source
+        ctx.fillStyle = "#64748b"; ctx.fillRect(60, by - 25, 40, 50);
+        ctx.fillStyle = "#ffffff"; ctx.font = "9px sans-serif"; ctx.fillText("Source", 64, by + 4);
+
+        // Magnetic field region (Inward B-field crosses)
+        ctx.fillStyle = "rgba(148, 163, 184, 0.3)"; ctx.font = "12px monospace";
+        for(let r=0; 4 > r; r++) {
+          for(let c=0; 6 > c; c++) {
+            ctx.fillText("×", 160 + c * 55, 60 + r * 35);
+          }
+        }
+        ctx.fillStyle = "#f59e0b"; ctx.fillText("สนามแม่เหล็กพุ่งเข้า (B ⊗)", 200, 38);
+
+        // Deflected Beams
+        // Alpha: Upward curve (Heavy +2e)
+        ctx.strokeStyle = "#f43f5e"; ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.moveTo(100, by); ctx.quadraticCurveTo(240, by, 380, by - 65); ctx.stroke();
+        ctx.fillStyle = "#f43f5e"; ctx.font = "bold 10px sans-serif"; ctx.fillText("α แอลฟา (เบนขึ้น)", 400, by - 65);
+
+        // Gamma: Straight line (Neutral photon)
+        ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5; ctx.setLineDash([3, 3]);
+        ctx.beginPath(); ctx.moveTo(100, by); ctx.lineTo(540, by); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = "#00f0ff"; ctx.fillText("γ แกมมา (ตรงไม่เบน)", 440, by - 8);
+
+        // Beta: Downward sharp curve (Light -e)
+        ctx.strokeStyle = "#10b981"; ctx.lineWidth = 2.5;
+        ctx.beginPath(); ctx.moveTo(100, by); ctx.quadraticCurveTo(200, by, 280, by + 65); ctx.stroke();
+        ctx.fillStyle = "#10b981"; ctx.fillText("β⁻ บีตา (เบนลงมาก)", 300, by + 65);
+      }
+
+      tick++;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
   </script>
 </body>
 </html>
