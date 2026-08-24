@@ -1,0 +1,249 @@
+/* Precision Instrument Console — spectrum fitting stays evidence-first: measured trace, fitted envelope, component, and calibrated readout. */
+.instrument-strip {
+  grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+}
+
+.materials-shell .section-kicker,
+.materials-shell .eyebrow {
+  color: #8296a0;
+}
+
+.materials-shell .eyebrow svg { color: #c7f36b; }
+
+.materials-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .58;
+  background-image:
+    radial-gradient(circle at 74% 53%, rgba(199,243,107,.12) 0 2px, transparent 3px),
+    linear-gradient(rgba(152,181,192,.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(152,181,192,.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(8,18,30,.15), rgba(8,18,30,.82) 62%);
+  background-size: auto, 34px 34px, 34px 34px, auto;
+  mask-image: linear-gradient(90deg, transparent 0 37%, black 54% 100%);
+}
+
+.brand-specimen-mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 39px;
+  height: 39px;
+}
+
+.materials-header .brand-mark {
+  width: 33px;
+  height: 33px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 7px rgba(199,243,107,.24));
+}
+
+.brand-specimen-mark::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  right: 5px;
+  top: 19px;
+  border-top: 1px solid rgba(199,243,107,.72);
+}
+
+.brand-specimen-mark i {
+  position: absolute;
+  bottom: 2px;
+  display: flex;
+  gap: 2px;
+}
+
+.brand-specimen-mark i b {
+  width: 2px;
+  height: 2px;
+  background: #c7f36b;
+  box-shadow: 0 0 4px rgba(199,243,107,.8);
+}
+
+.instrument-choice {
+  min-height: 145px;
+  border-top: 1px solid rgba(66,84,94,.24);
+  border-right: 1px solid rgba(66,84,94,.12);
+}
+
+.instrument-choice > svg { color: #687d87; }
+.instrument-choice.active > svg { color: #c7f36b; }
+.instrument-number { color: #7a8990; font-size: 8px; letter-spacing: .06em; }
+.instrument-choice.active .instrument-number { color: #c7f36b; }
+.instrument-observable { margin-top: auto; padding-top: 8px; width: 100%; color: #768890; border-top: 1px solid rgba(65,83,92,.16); font-size: 7px !important; letter-spacing: .055em !important; }
+.instrument-choice.active .instrument-observable { color: #b8c7c5; border-color: rgba(199,243,107,.24); }
+
+.fit-controls {
+  margin-top: 17px;
+  padding-top: 16px;
+  border-top: 1px solid #d3ccbe;
+}
+
+.fit-control-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 13px;
+  color: #66767d;
+  font: 600 9px/1 "IBM Plex Mono", monospace;
+  letter-spacing: .08em;
+}
+
+.fit-control-title b { color: #6e8c43; font-weight: 600; }
+
+.line-shape-control {
+  padding: 12px 0 10px;
+  border-top: 1px solid rgba(211, 204, 190, .72);
+  border-bottom: 1px solid rgba(211, 204, 190, .72);
+}
+
+.line-shape-control > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  color: #5d6d74;
+  font: 600 9px/1 "IBM Plex Mono", monospace;
+  letter-spacing: .08em;
+}
+
+.line-shape-control > div:first-child b { color: #6e8c43; font-weight: 600; }
+.line-shape-options { display: grid; grid-template-columns: 28px repeat(3, 1fr); gap: 4px; margin-top: 10px; }
+.shape-guide { display: grid; place-items: center; color: #77868b; background: #e6e0d4; font: 600 7px/1 "IBM Plex Mono", monospace; letter-spacing: .05em; writing-mode: vertical-rl; transform: rotate(180deg); }
+
+.shape-choice {
+  min-height: 48px;
+  padding: 7px 5px;
+  color: #596a71;
+  background: #efe9de;
+  border: 1px solid #d3ccbe;
+  text-align: left;
+  transition: background .16s ease, border-color .16s ease, color .16s ease, transform .16s ease;
+}
+
+.shape-choice b { display: block; font: 600 9px/1.15 "IBM Plex Mono", monospace; }
+.shape-choice small { display: block; margin-top: 4px; font: 500 7px/1.2 "IBM Plex Mono", monospace; opacity: .78; }
+.shape-choice:hover { border-color: #8da760; color: #172b3c; transform: translateY(-1px); }
+.shape-choice.active { color: #132439; background: #c7f36b; border-color: #c7f36b; box-shadow: inset 0 -2px rgba(22,40,55,.56); }
+.shape-choice:active { transform: scale(.97); }
+
+.line-shape-control > p { margin: 10px 0 0; color: #6b7a7f; font-size: 10px; line-height: 1.45; }
+
+.fit-slider { padding: 10px 0; border-top: 1px solid rgba(211, 204, 190, .72); }
+.fit-slider > div { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.fit-slider label { color: #5d6d74; font: 600 10px/1.3 "IBM Plex Mono", monospace; letter-spacing: .06em; }
+.fit-slider output { color: #132439; font: 600 11px/1 "IBM Plex Mono", monospace; }
+.fit-slider input { width: 100%; margin-top: 8px; accent-color: #739b36; }
+
+.fit-reset {
+  width: 100%;
+  margin-top: 9px;
+  padding: 9px;
+  color: #607178;
+  background: transparent;
+  font-size: 11px;
+  transition: color .16s ease, transform .16s ease;
+}
+
+.fit-reset:hover { color: #132439; }
+.fit-reset:active { transform: scale(.97); }
+
+.spectrum-frame { width: min(100%, 500px); }
+.spectrum-signal { width: 100%; }
+.spectrum-baseline { fill: none; stroke: #6f8791; stroke-width: .7; stroke-dasharray: 2 2; }
+.spectrum-raw { fill: none; stroke: #d5e0e0; stroke-width: 1; opacity: .85; }
+.spectrum-component { fill: none; stroke: #e7a66d; stroke-width: 1; stroke-dasharray: 3 1.5; }
+.spectrum-fit { fill: none; stroke: #c7f36b; stroke-width: 1.45; filter: drop-shadow(0 0 3px rgba(199, 243, 107, .4)); }
+
+.spectrum-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin: 7px 0 0 6px;
+  color: #a9bac2;
+  font: 500 8px/1.2 "IBM Plex Mono", monospace;
+}
+
+.spectrum-legend span { display: flex; align-items: center; gap: 5px; }
+.spectrum-legend i { width: 16px; border-top: 2px solid; }
+.spectrum-legend .raw { color: #d5e0e0; }
+.spectrum-legend .fit { color: #c7f36b; }
+.spectrum-legend .component { color: #e7a66d; border-top-style: dashed; }
+
+.residual-panel {
+  margin-top: 13px;
+  padding: 10px 12px 8px;
+  background: rgba(4, 13, 24, .58);
+  border: 1px solid rgba(164, 190, 202, .16);
+}
+
+.residual-panel-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+  color: #98aab4;
+  font: 600 8px/1 "IBM Plex Mono", monospace;
+  letter-spacing: .07em;
+}
+
+.residual-panel-head b { color: #d8a47d; font-weight: 600; }
+.residual-svg { width: 100%; height: auto; overflow: visible; }
+.residual-axis { stroke: rgba(204, 222, 225, .24); stroke-width: .6; }
+.residual-zero { stroke: rgba(199, 243, 107, .46); stroke-width: .7; stroke-dasharray: 2 2; }
+.residual-line { fill: none; stroke: #d8a47d; stroke-width: 1.05; filter: drop-shadow(0 0 2px rgba(216, 164, 125, .26)); }
+.residual-svg text { fill: #8ea2ad; font: 4px "IBM Plex Mono", monospace; letter-spacing: .3px; }
+
+.residual-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 2px;
+  color: #8ca0aa;
+  font: 500 7px/1.3 "IBM Plex Mono", monospace;
+}
+
+.residual-readout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  margin-top: 15px;
+  border: 1px solid rgba(95, 115, 121, .26);
+  background: rgba(255, 255, 255, .22);
+}
+
+.residual-readout > span {
+  grid-column: 1 / -1;
+  padding: 8px 9px;
+  color: #68787e;
+  border-bottom: 1px solid rgba(95, 115, 121, .23);
+  font: 600 8px/1 "IBM Plex Mono", monospace;
+  letter-spacing: .09em;
+}
+
+.residual-readout > div { display: grid; gap: 4px; padding: 9px; background: rgba(248, 244, 234, .52); }
+.residual-readout b { color: #6a7b81; font: 600 8px/1 "IBM Plex Mono", monospace; letter-spacing: .06em; }
+.residual-readout strong { color: #223647; font: 600 17px/1 "Space Grotesk", sans-serif; letter-spacing: -.04em; }
+
+.metric-highlight strong small {
+  margin-left: 4px;
+  color: #667780;
+  font: 500 12px/1 "IBM Plex Mono", monospace;
+  letter-spacing: 0;
+}
+
+@media (max-width: 720px) {
+  .instrument-strip { grid-template-columns: repeat(8, minmax(105px, 1fr)); }
+  .instrument-choice { min-height: 132px; }
+  .fit-control-title { font-size: 8px; }
+  .shape-choice { min-height: 44px; }
+  .shape-choice b { font-size: 8px; }
+  .shape-choice small { font-size: 6px; }
+  .spectrum-legend { gap: 7px 10px; font-size: 7px; }
+  .residual-panel { padding: 9px 8px 7px; }
+  .residual-panel-head { font-size: 7px; }
+  .residual-foot { font-size: 6px; }
+}

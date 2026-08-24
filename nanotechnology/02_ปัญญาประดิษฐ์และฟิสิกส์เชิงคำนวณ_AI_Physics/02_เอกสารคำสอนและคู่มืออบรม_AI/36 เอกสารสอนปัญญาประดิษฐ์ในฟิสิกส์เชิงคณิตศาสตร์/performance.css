@@ -1,0 +1,299 @@
+/* Performance optimizations for AI Physics Course */
+
+/* Performance critical styles */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.smooth-scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.contain-layout {
+  contain: layout;
+}
+
+.contain-paint {
+  contain: paint;
+}
+
+.contain-strict {
+  contain: strict;
+}
+
+/* Loading states */
+.loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* Skeleton loading */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton 1.5s infinite;
+}
+
+.dark .skeleton {
+  background: linear-gradient(
+    90deg,
+    #374151 25%,
+    #4b5563 50%,
+    #374151 75%
+  );
+  background-size: 200% 100%;
+}
+
+@keyframes skeleton {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Code blocks optimization */
+.code-block {
+  background: #1e293b;
+  color: #e2e8f0;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  contain: layout style;
+}
+
+.code-block::-webkit-scrollbar {
+  height: 8px;
+}
+
+.code-block::-webkit-scrollbar-track {
+  background: #334155;
+  border-radius: 4px;
+}
+
+.code-block::-webkit-scrollbar-thumb {
+  background: #64748b;
+  border-radius: 4px;
+}
+
+.code-block::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Syntax highlighting */
+.token.comment { color: #64748b; }
+.token.keyword { color: #c084fc; }
+.token.string { color: #34d399; }
+.token.number { color: #fbbf24; }
+.token.function { color: #60a5fa; }
+.token.operator { color: #f87171; }
+
+/* Interactive elements optimization */
+.interactive {
+  cursor: pointer;
+  transition: transform 150ms ease-in-out;
+  will-change: transform;
+}
+
+.interactive:hover {
+  transform: translateY(-1px);
+}
+
+.interactive:active {
+  transform: translateY(0);
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .gpu-accelerated {
+    will-change: auto;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .interactive:focus {
+    outline: 3px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
+/* Print optimizations */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .gpu-accelerated {
+    transform: none;
+    will-change: auto;
+  }
+  
+  .interactive {
+    transform: none;
+  }
+}
+
+/* Custom scrollbar optimization */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Animation optimizations */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(10px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Layout optimization */
+.layout-optimized {
+  contain: layout;
+}
+
+.paint-optimized {
+  contain: paint;
+}
+
+.style-optimized {
+  contain: style;
+}
+
+/* Memory optimization for large lists */
+.virtual-list-item {
+  contain: strict;
+  height: auto;
+  min-height: 0;
+}
+
+/* Focus optimization */
+.focus-optimized:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Text rendering optimization */
+.text-optimized {
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Image optimization */
+.image-optimized {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Backdrop filter optimization */
+.backdrop-optimized {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  will-change: backdrop-filter;
+}
+
+/* Grid optimization */
+.grid-optimized {
+  display: grid;
+  contain: layout;
+}
+
+/* Flex optimization */
+.flex-optimized {
+  display: flex;
+  contain: layout;
+}

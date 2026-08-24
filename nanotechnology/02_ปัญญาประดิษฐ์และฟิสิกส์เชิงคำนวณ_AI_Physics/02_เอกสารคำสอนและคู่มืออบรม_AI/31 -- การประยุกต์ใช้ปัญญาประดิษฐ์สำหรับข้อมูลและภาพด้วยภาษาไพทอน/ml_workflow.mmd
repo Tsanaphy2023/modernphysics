@@ -1,0 +1,49 @@
+graph TD
+    Start["เริ่มต้นโครงการ ML"]
+    
+    Data["1. รวบรวมข้อมูล<br/>Data Collection"]
+    Clean["2. ทำความสะอาดข้อมูล<br/>Data Cleaning"]
+    EDA["3. สำรวจข้อมูล<br/>Exploratory Data Analysis"]
+    Feature["4. Feature Engineering<br/>สร้างและคัดเลือก Features"]
+    Split["5. แบ่งข้อมูล<br/>Train/Validation/Test Split"]
+    Model["6. เลือกและสร้างโมเดล<br/>Model Selection"]
+    Train["7. ฝึกสอนโมเดล<br/>Model Training"]
+    Evaluate["8. ประเมินผล<br/>Model Evaluation"]
+    
+    Decision{"ผลลัพธ์<br/>เป็นที่พอใจ?"}
+    
+    Tune["9. ปรับแต่งโมเดล<br/>Hyperparameter Tuning"]
+    Deploy["10. นำไปใช้งาน<br/>Deployment"]
+    Monitor["11. ติดตามผล<br/>Monitoring"]
+    
+    Start --> Data
+    Data --> Clean
+    Clean --> EDA
+    EDA --> Feature
+    Feature --> Split
+    Split --> Model
+    Model --> Train
+    Train --> Evaluate
+    Evaluate --> Decision
+    
+    Decision -->|ไม่| Tune
+    Tune --> Model
+    
+    Decision -->|ใช่| Deploy
+    Deploy --> Monitor
+    Monitor --> |ปรับปรุง| Feature
+    
+    style Start fill:#e8f5e9,stroke:#2e7d32,stroke-width:3px
+    style Data fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    style Clean fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    style EDA fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    style Feature fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style Split fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style Model fill:#f3e5f5,stroke:#6a1b9a,stroke-width:2px
+    style Train fill:#f3e5f5,stroke:#6a1b9a,stroke-width:2px
+    style Evaluate fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    style Decision fill:#fff9c4,stroke:#f57f17,stroke-width:3px
+    style Tune fill:#ffccbc,stroke:#bf360c,stroke-width:2px
+    style Deploy fill:#c8e6c9,stroke:#2e7d32,stroke-width:3px
+    style Monitor fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px
+

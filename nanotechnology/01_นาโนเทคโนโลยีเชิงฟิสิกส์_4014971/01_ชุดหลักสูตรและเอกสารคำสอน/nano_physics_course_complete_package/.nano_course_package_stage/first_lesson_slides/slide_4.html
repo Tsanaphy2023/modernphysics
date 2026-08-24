@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-bar {
+            width: 100%;
+            height: 15px;
+            background-color: #FF5A00;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .content-wrapper {
+            padding: 80px 64px 0 64px;
+            height: 720px;
+            display: flex;
+            flex-direction: column;
+        }
+        .slide-title {
+            color: #0B1D3A;
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        .divider {
+            width: 100%;
+            height: 2px;
+            background-color: #0B1D3A;
+            margin-bottom: 40px;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px 60px;
+            margin-bottom: 40px;
+        }
+        .instrument-box {
+            display: flex;
+            flex-direction: column;
+        }
+        .instrument-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .instrument-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #0B1D3A;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+        }
+        .instrument-icon i {
+            color: #FFFFFF;
+            font-size: 28px;
+        }
+        .instrument-title {
+            color: #FF5A00;
+            font-size: 32px;
+            font-weight: 800;
+        }
+        .instrument-desc {
+            color: #708090;
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 1.5;
+            border-top: 2px solid #EEEEEE;
+            padding-top: 16px;
+        }
+        .highlight-box {
+            background-color: #0B1D3A;
+            border-left: 8px solid #FF5A00;
+            padding: 24px 32px 0 32px;
+            min-height: 100px;
+            display: flex;
+            align-items: flex-start;
+            margin-top: auto;
+            margin-bottom: 40px;
+        }
+        .highlight-icon {
+            color: #FF5A00;
+            font-size: 36px;
+            margin-right: 24px;
+            margin-top: 4px;
+        }
+        .highlight-text {
+            color: #FFFFFF;
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 1.4;
+        }
+        .highlight-subtext {
+            color: #FF5A00;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-bar"></div>
+        <div class="content-wrapper">
+            <h2 class="slide-title">เครื่องมือวัดต้องเลือกตามคำถาม</h2>
+            <div class="divider"></div>
+            
+            <div class="grid-container">
+                <div class="instrument-box">
+                    <div class="instrument-header">
+                        <div class="instrument-icon"><i class="fas fa-search"></i></div>
+                        <div class="instrument-title">TEM / SEM</div>
+                    </div>
+                    <div class="instrument-desc">แสดงรูปร่างและขนาดในภาพ แต่ต้องระวังผลกระทบจากการเตรียมตัวอย่างและการเลือกบริเวณถ่ายภาพ</div>
+                </div>
+                
+                <div class="instrument-box">
+                    <div class="instrument-header">
+                        <div class="instrument-icon"><i class="fas fa-layer-group"></i></div>
+                        <div class="instrument-title">AFM</div>
+                    </div>
+                    <div class="instrument-desc">วิเคราะห์ภูมิประเทศพื้นผิว (Topography) และความสูงเชิงสัมพัทธ์ในระดับนาโนเมตร</div>
+                </div>
+                
+                <div class="instrument-box">
+                    <div class="instrument-header">
+                        <div class="instrument-icon"><i class="fas fa-water"></i></div>
+                        <div class="instrument-title">DLS</div>
+                    </div>
+                    <div class="instrument-desc">วัดการเคลื่อนที่เชิงไฮโดรไดนามิกในสารแขวนลอย (ไม่ใช่การถ่ายภาพอนุภาคโดยตรง)</div>
+                </div>
+                
+                <div class="instrument-box">
+                    <div class="instrument-header">
+                        <div class="instrument-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="instrument-title">UV-Vis / XRD</div>
+                    </div>
+                    <div class="instrument-desc">วิเคราะห์การตอบสนองทางแสงหรือโครงสร้างผลึก ตามคำถามที่กำหนดอย่างเฉพาะเจาะจง</div>
+                </div>
+            </div>
+            
+            <div class="highlight-box">
+                <i class="fas fa-exclamation-triangle highlight-icon"></i>
+                <div class="highlight-text">
+                    หลักปฏิบัติสำคัญ: <span class="highlight-subtext">ระบุสิ่งที่เครื่องมือ "ตอบได้" และ "ตอบไม่ได้" เสมอ</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

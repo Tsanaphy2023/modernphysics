@@ -1,0 +1,18 @@
+graph TD
+    A[my_ai_project/] --> B(.venv/);
+    A --> C(data/);
+    A --> D(models/);
+    A --> E(notebooks/);
+    A --> F(src/);
+    F --> G(__init__.py);
+    F --> H(data_loader.py);
+    F --> I(model_trainer.py);
+    A --> J(tests/);
+    A --> K(requirements.txt);
+    A --> L(README.md);
+
+    subgraph src/
+        G
+        H
+        I
+    end

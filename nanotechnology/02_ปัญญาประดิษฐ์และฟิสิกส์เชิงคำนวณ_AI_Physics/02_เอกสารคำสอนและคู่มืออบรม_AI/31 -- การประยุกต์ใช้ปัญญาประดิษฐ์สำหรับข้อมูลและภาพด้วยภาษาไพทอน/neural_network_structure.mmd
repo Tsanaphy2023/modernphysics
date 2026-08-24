@@ -1,0 +1,70 @@
+graph LR
+    subgraph Input["Input Layer<br/>ชั้นข้อมูลนำเข้า"]
+        I1((X1))
+        I2((X2))
+        I3((X3))
+    end
+    
+    subgraph Hidden1["Hidden Layer 1<br/>ชั้นซ่อน 1"]
+        H11((H1))
+        H12((H2))
+        H13((H3))
+        H14((H4))
+    end
+    
+    subgraph Hidden2["Hidden Layer 2<br/>ชั้นซ่อน 2"]
+        H21((H1))
+        H22((H2))
+        H23((H3))
+    end
+    
+    subgraph Output["Output Layer<br/>ชั้นผลลัพธ์"]
+        O1((Y1))
+        O2((Y2))
+    end
+    
+    I1 --> H11
+    I1 --> H12
+    I1 --> H13
+    I1 --> H14
+    
+    I2 --> H11
+    I2 --> H12
+    I2 --> H13
+    I2 --> H14
+    
+    I3 --> H11
+    I3 --> H12
+    I3 --> H13
+    I3 --> H14
+    
+    H11 --> H21
+    H11 --> H22
+    H11 --> H23
+    
+    H12 --> H21
+    H12 --> H22
+    H12 --> H23
+    
+    H13 --> H21
+    H13 --> H22
+    H13 --> H23
+    
+    H14 --> H21
+    H14 --> H22
+    H14 --> H23
+    
+    H21 --> O1
+    H21 --> O2
+    
+    H22 --> O1
+    H22 --> O2
+    
+    H23 --> O1
+    H23 --> O2
+    
+    style Input fill:#e3f2fd,stroke:#1565c0,stroke-width:3px
+    style Hidden1 fill:#fff3e0,stroke:#e65100,stroke-width:3px
+    style Hidden2 fill:#fff3e0,stroke:#e65100,stroke-width:3px
+    style Output fill:#f3e5f5,stroke:#6a1b9a,stroke-width:3px
+

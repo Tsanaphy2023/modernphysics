@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-bar {
+            width: 100%;
+            height: 15px;
+            background-color: #FF5A00;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .content-wrapper {
+            padding-top: 80px; /* keep title top padding */
+            padding-left: 60px;
+            padding-right: 60px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .slide-title {
+            color: #0B1D3A;
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        .divider {
+            width: 100%;
+            height: 2px;
+            background-color: #0B1D3A;
+            margin-bottom: 10px; /* reduced */
+        }
+        .ref-list {
+            display: flex;
+            flex-direction: column;
+            margin-top: 10px; /* reduced */
+        }
+        .ref-item {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 12px; /* reduced */
+        }
+        .ref-icon {
+            width: 60px;
+            font-size: 36px;
+            color: #FF5A00;
+            padding-top: 4px;
+            flex-shrink: 0;
+        }
+        .ref-content {
+            display: flex;
+            flex-direction: column;
+        }
+        .ref-title {
+            color: #0B1D3A;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .ref-desc {
+            color: #708090;
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 1.45; /* slightly reduced */
+        }
+        .ref-url {
+            color: #FF5A00;
+            font-size: 22px;
+            font-weight: 500;
+            margin-top: 8px;
+            font-family: monospace;
+        }
+        .thank-you-box {
+            margin-top: 12px; /* reduced */
+            border-top: 4px solid #0B1D3A;
+            padding-top: 18px; /* reduced */
+            text-align: center;
+        }
+        .thank-you-text {
+            color: #0B1D3A;
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-bar"></div>
+        <div class="content-wrapper">
+            <h2 class="slide-title">เอกสารอ้างอิงสำหรับคาบแรก</h2>
+            <div class="divider"></div>
+            
+            <div class="ref-list">
+                <div class="ref-item">
+                    <div class="ref-icon"><i class="fas fa-globe"></i></div>
+                    <div class="ref-content">
+                        <div class="ref-title">National Nanotechnology Initiative (NNI)</div>
+                        <div class="ref-desc">What is Nanotechnology? - นิยามและแนวคิดพื้นฐานของเทคโนโลยีระดับนาโน</div>
+                        <div class="ref-url">https://www.nano.gov/nanotech-101/what/definition</div>
+                    </div>
+                </div>
+                
+                <div class="ref-item">
+                    <div class="ref-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div class="ref-content">
+                        <div class="ref-title">Cornell EHS &amp; UNC Environment, Health and Safety</div>
+                        <div class="ref-desc">Nanomaterials Safety &amp; Safe Use of Nanomaterials - แนวปฏิบัติด้านความปลอดภัยในห้องปฏิบัติการ</div>
+                        <div class="ref-url">https://ehs.cornell.edu/ | https://policies.unc.edu/</div>
+                    </div>
+                </div>
+                
+                <div class="ref-item">
+                    <div class="ref-icon"><i class="fas fa-book-open"></i></div>
+                    <div class="ref-content">
+                        <div class="ref-title">National Center for Biotechnology Information (NCBI)</div>
+                        <div class="ref-desc">Nanoparticle Characterization - เทคนิคการตรวจวิเคราะห์และข้อจำกัดของเครื่องมือวัด</div>
+                        <div class="ref-url">https://pmc.ncbi.nlm.nih.gov/articles/PMC6982820/</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="thank-you-box">
+                <div class="thank-you-text">Q &amp; A</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

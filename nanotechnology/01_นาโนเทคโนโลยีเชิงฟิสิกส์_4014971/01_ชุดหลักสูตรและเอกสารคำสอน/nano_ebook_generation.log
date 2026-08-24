@@ -1,0 +1,8 @@
+Attempt 1 failed for 01: 'NoneType' object is not subscriptable
+Attempt 2 failed for 01: 'NoneType' object is not subscriptable
+Attempt 3 failed for 01: 'NoneType' object is not subscriptable
+Traceback (most recent call last):
+  File "/home/ubuntu/generate_nano_ebook_chapters.py", line 101, in <module>
+    text = resp.choices[0].message.content or ''
+           ~~~~~~~~~~~~^^^
+TypeError: 'NoneType' object is not subscriptable

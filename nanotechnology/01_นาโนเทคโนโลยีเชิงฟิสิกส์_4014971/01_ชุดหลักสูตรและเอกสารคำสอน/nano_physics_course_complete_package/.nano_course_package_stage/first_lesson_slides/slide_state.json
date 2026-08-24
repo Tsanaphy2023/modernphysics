@@ -1,0 +1,125 @@
+{
+  "project_info": {
+    "title": "มาตราส่วนเล็ก เปลี่ยนคำตอบใหญ่",
+    "created": 1786710655.203,
+    "last_updated": 1786711118.123,
+    "total_slides": 11
+  },
+  "slides": [
+    {
+      "id": "slide_1",
+      "state": "edited",
+      "pageNum": 1
+    },
+    {
+      "id": "slide_2",
+      "state": "edited",
+      "pageNum": 2
+    },
+    {
+      "id": "slide_3",
+      "state": "edited",
+      "pageNum": 3
+    },
+    {
+      "id": "slide_4",
+      "state": "edited",
+      "pageNum": 4
+    },
+    {
+      "id": "slide_5",
+      "state": "edited",
+      "pageNum": 5
+    },
+    {
+      "id": "slide_6",
+      "state": "edited",
+      "pageNum": 6
+    },
+    {
+      "id": "slide_7",
+      "state": "edited",
+      "pageNum": 7
+    },
+    {
+      "id": "slide_8",
+      "state": "edited",
+      "pageNum": 8
+    },
+    {
+      "id": "slide_9",
+      "state": "edited",
+      "pageNum": 9
+    },
+    {
+      "id": "slide_10",
+      "state": "edited",
+      "pageNum": 10
+    },
+    {
+      "id": "slide_11",
+      "state": "edited",
+      "pageNum": 11
+    }
+  ],
+  "outline": [
+    {
+      "id": "slide_1",
+      "title": "มาตราส่วนเล็ก เปลี่ยนคำตอบใหญ่",
+      "summary": "นิยามของระดับนาโนและความสำคัญของอัตราส่วนพื้นที่ผิวต่อปริมาตรที่เปลี่ยนสมบัติของวัสดุ"
+    },
+    {
+      "id": "slide_2",
+      "title": "แก่นของรายวิชา: จากโครงสร้างสู่การตัดสินใจ",
+      "summary": "กรอบการเรียนรู้ 4 องค์ประกอบ: Structure, Physics, Evidence และ Decision",
+      "image_plan": "/home/ubuntu/upload/search_images/3crTfl1iZnZ8.jpg - Scale chart illustrating nanoscale and size comparisons from water to tennis ball (Slide 1: Scale)"
+    },
+    {
+      "id": "slide_3",
+      "title": "ฟิสิกส์ที่ทำให้ระดับนาโน \"ไม่เหมือนเดิม\"",
+      "summary": "กลไกทางฟิสิกส์หลัก เช่น พื้นที่ผิวสูง การกักขังเชิงควอนตัม และอิทธิพลของอินเทอร์เฟซ"
+    },
+    {
+      "id": "slide_4",
+      "title": "เครื่องมือวัดต้องเลือกตามคำถาม",
+      "summary": "ข้อจำกัดและขอบเขตการตอบคำถามของเครื่องมือวิเคราะห์หลัก (TEM/SEM, AFM, DLS, UV-Vis/XRD)"
+    },
+    {
+      "id": "slide_5",
+      "title": "ข้อมูลที่ดีเริ่มก่อนการวาดกราฟ",
+      "summary": "ความสำคัญของการบันทึก metadata การแยกข้อมูลดิบ และการแสดงความไม่แน่นอน",
+      "image_plan": "/home/ubuntu/upload/search_images/9ymlY6U3DIbA.jpg - AFM (Atomic Force Microscopy) cantilever diagram illustrating measurement tool (Slide 4)"
+    },
+    {
+      "id": "slide_6",
+      "title": "Data Lab: อย่าถามแค่ว่า \"ต่างกันไหม\"",
+      "summary": "แนวทางการวิเคราะห์ข้อมูลโดยพิจารณา control ขนาดผล และช่วงความเชื่อมั่น"
+    },
+    {
+      "id": "slide_7",
+      "title": "จากผลทดลองสู่ข้อสรุปแบบมีเงื่อนไข",
+      "summary": "หลักการสรุปผลที่ไม่เกินขอบเขตหลักฐานและระบุแหล่งที่มาของความไม่แน่นอน"
+    },
+    {
+      "id": "slide_8",
+      "title": "นาโนเทคโนโลยีต้องคิดทั้งวงจรชีวิต",
+      "summary": "การประเมิน Value, Risk, Equity และความปลอดภัยในห้องปฏิบัติการ"
+    },
+    {
+      "id": "slide_9",
+      "title": "โครงงานกลุ่ม: ทีมวิเคราะห์หลักฐาน",
+      "summary": "บทบาทและภารกิจของทีมวิเคราะห์หลักฐานเพื่อเสนอแนะภายใต้เงื่อนไข",
+      "image_plan": "/home/ubuntu/upload/search_images/0cIIN3O1XGh1.png - Electron microscopy and nanoparticle organization data for life-cycle and risk analysis (Slide 8)"
+    },
+    {
+      "id": "slide_10",
+      "title": "กิจกรรมเปิดชั้นเรียน: เริ่มจากคำถาม",
+      "summary": "กิจกรรม workbook ให้ผู้เรียนแยกแยะ claim หลักฐาน และความไม่แน่นอน"
+    },
+    {
+      "id": "slide_11",
+      "title": "เอกสารอ้างอิงสำหรับคาบแรก",
+      "summary": "แหล่งอ้างอิงที่เชื่อถือได้สำหรับการเรียนรู้ในคาบแรก"
+    }
+  ]
+}

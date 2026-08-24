@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เอกสารประกอบการสอน: ปัญญาประดิษฐ์สำหรับฟิสิกส์เชิงคณิตศาสตร์</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 40px 0;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header h2 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .course-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .info-section h3 {
+            color: #667eea;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 5px;
+        }
+        
+        .info-section p, .info-section ul {
+            margin-bottom: 15px;
+        }
+        
+        .info-section ul {
+            padding-left: 20px;
+        }
+        
+        .info-section li {
+            margin-bottom: 8px;
+        }
+        
+        .download-section {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background: white;
+            color: #f5576c;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .chapter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .chapter-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+        
+        .chapter-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .chapter-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .chapter-card p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header h2 {
+                font-size: 1.2rem;
+            }
+            
+            .content-card {
+                padding: 20px;
+            }
+            
+            .course-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>เอกสารประกอบการสอน</h1>
+            <h2>รายวิชา: ปัญญาประดิษฐ์สำหรับฟิสิกส์เชิงคณิตศาสตร์</h2>
+            <p>(Artificial Intelligence for Mathematical Physics)</p>
+        </div>
+        
+        <div class="content-card">
+            <div class="course-info">
+                <div class="info-section">
+                    <h3>คำอธิบายรายวิชา</h3>
+                    <p>รายวิชานี้สำรวจการประยุกต์ใช้เทคนิคปัญญาประดิษฐ์ (AI) และการเรียนรู้ของเครื่อง (Machine Learning) เพื่อแก้ไขปัญหาที่ซับซ้อนในขอบเขตของฟิสิกส์เชิงคณิตศาสตร์</p>
+                </div>
+                
+                <div class="info-section">
+                    <h3>วัตถุประสงค์การเรียนรู้</h3>
+                    <ul>
+                        <li>อธิบายหลักการพื้นฐานและทฤษฎีทางคณิตศาสตร์ของอัลกอริทึมปัญญาประดิษฐ์</li>
+                        <li>ประยุกต์ใช้แบบจำลองการเรียนรู้ของเครื่องในฟิสิกส์เชิงคณิตศาสตร์</li>
+                        <li>ออกแบบและพัฒนาแบบจำลอง AI สำหรับการจำลองปรากฏการณ์ทางฟิสิกส์</li>
+                        <li>วิเคราะห์และประเมินผลความแม่นยำของแบบจำลอง AI</li>
+                        <li>นำเสนอแนวคิดการวิจัยที่ผสมผสานระหว่าง AI และฟิสิกส์</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="download-section">
+                <h3 style="color: white; margin-bottom: 20px;">ดาวน์โหลดเอกสาร</h3>
+                <a href="/course_outline.pdf" class="download-btn" target="_blank">
+                    📄 ดาวน์โหลด PDF (ฉบับสมบูรณ์)
+                </a>
+            </div>
+            
+            <h3 style="color: #667eea; margin-bottom: 20px; text-align: center;">โครงสร้างเนื้อหารายวิชา (9 บท)</h3>
+            
+            <div class="chapter-grid">
+                <div class="chapter-card">
+                    <h4>บทที่ 1: บทนำสู่ปัญญาประดิษฐ์และฟิสิกส์เชิงคณิตศาสตร์</h4>
+                    <p>ภาพรวมและความสำคัญของการบูรณาการ AI ในงานวิจัยฟิสิกส์ พร้อมทบทวนแนวคิดหลักทางฟิสิกส์เชิงคณิตศาสตร์</p>
+                </div>
+                
+                <div class="chapter-card">
+                    <h4>บทที่ 2: พื้นฐานทางคณิตศาสตร์สำหรับการเรียนรู้ของเครื่อง</h4>
+                    <p>หลักการทางคณิตศาสตร์ที่เป็นรากฐานของอัลกอริทึม ML รวมถึงพีชคณิตเชิงเส้น แคลคูลัส และทฤษฎีความน่าจะเป็น</p>
+                </div>
+                
+                <div class="chapter-card">
+                    <h4>บทที่ 3: การเรียนรู้แบบมีผู้สอน (Supervised Learning)</h4>
+                    <p>หลักการทำงานของแบบจำลองการถดถอยและการจำแนกประเภท พร้อมการประยุกต์ใช้ในการวิเคราะห์ข้อมูลทางฟิสิกส์</p>
+                </div>
+                
+                <div class="chapter-card">
+                    <h4>บทที่ 4: การเรียนรู้แบบไม่มีผู้สอน (Unsupervised Learning)</h4>
+                    <p>เทคนิคการลดมิติและการจัดกลุ่ม เพื่อค้นหารูปแบบที่ซ่อนอยู่ในข้อมูลฟิสิกส์</p>
+                </div>
+                
+                <div class="chapter-card">
+                    <h4>บทที่ 5: โครงข่ายประสาทเทียมและการเรียนรู้เชิงลึก</h4>
+                    <p>สถาปัตยกรรมและหลักการทำงานของโครงข่ายประสาทเทียม พร้อมการประยุกต์ใช้ในปัญหาที่ซับซ้อนทางฟิสิกส์</p>
+                </div>
+                
+                <div class="chapter-card">
+                    <h4>บทที่ 6: การจำลองและการสร้างแบบจำลองด้วย AI</h4>
+                    <p>การใช้ CNNs ในการวิเคราะห์ข้อมูลที่มีลักษณะเป็นโครงสร้างกริด และการประยุกต์ใช้ในฟิสิกส์อนุภาค</p>
+                </div>
+                
+                <div class="chapter-card">
+                    <h4>บทที่ 7: การเรียนรู้เสริมกำลัง (Reinforcement Learning)</h4>
+                    <p>หลักการของ RL และการประยุกต์ใช้ในการควบคุมระบบ การออกแบบการทดลอง และการหาค่าเหมาะสมที่สุด</p>
+                </div>
+                
+                <div class="chapter-card">
+                    <h4>บทที่ 8: การค้นพบสมการเชิงฟิสิกส์ด้วย AI</h4>
+                    <p>การใช้ AI ในการค้นหาสมการทางคณิตศาสตร์จากข้อมูล รวมถึง Symbolic Regression และ Physics-Informed Neural Networks</p>
+                </div>
+                
+                <div class="chapter-card">
+                    <h4>บทที่ 9: การประยุกต์ใช้ขั้นสูงและแนวโน้มอนาคต</h4>
+                    <p>ฟิสิกส์ควอนตัมและปัญญาประดิษฐ์ จริยธรรมและผลกระทบทางสังคม และแนวโน้มอนาคตของ AI ในฟิสิกส์</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>เอกสารประกอบการสอนสำหรับการยื่นขอตำแหน่งรองศาสตราจารย์</p>
+            <p>สาขาฟิสิกส์และปัญญาประดิษฐ์</p>
+        </div>
+    </div>
+</body>
+</html>
+

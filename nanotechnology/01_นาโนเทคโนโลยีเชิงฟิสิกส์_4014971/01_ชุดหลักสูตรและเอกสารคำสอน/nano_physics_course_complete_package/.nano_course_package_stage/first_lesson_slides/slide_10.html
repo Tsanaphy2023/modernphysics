@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-bar {
+            width: 100%;
+            height: 15px;
+            background-color: #FF5A00;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .content-wrapper {
+            padding-top: 80px; /* keep title spacing */
+            padding-left: 64px;
+            padding-right: 64px;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 24px; /* reduced from 40 to save vertical space */
+            height: 100%;
+        }
+        .slide-title {
+            color: #0B1D3A;
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            grid-column: span 6;
+        }
+        .divider {
+            width: 100%;
+            height: 2px;
+            background-color: #0B1D3A;
+            margin-bottom: 20px;
+            grid-column: span 6;
+        }
+        .left-column {
+            grid-column: span 3;
+            display: flex;
+            flex-direction: column;
+        }
+        .right-column {
+            grid-column: span 3;
+            display: flex;
+            flex-direction: column;
+        }
+        .mission-text {
+            color: #0B1D3A;
+            font-size: 28px;
+            font-weight: 800;
+            margin-top: 10px;
+        }
+        .step-box {
+            margin-top: 16px; /* reduced from 32 */
+            border-left: 6px solid #FF5A00;
+            padding-left: 24px;
+        }
+        .step-title {
+            color: #FF5A00;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .step-title i {
+            color: #0B1D3A;
+        }
+        .step-desc {
+            color: #708090;
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        .workbook-box {
+            border: 4px solid #0B1D3A;
+            background-color: #FAFAFA;
+            padding-top: 24px; /* reduced from 40 */
+            padding-left: 24px;
+            padding-right: 24px;
+            min-height: 400px; /* reduced to let content fit without overflow */
+            position: relative;
+            margin-top: 10px;
+        }
+        .workbook-header {
+            color: #0B1D3A;
+            font-size: 24px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid #EEEEEE;
+            padding-top: 6px; /* slightly reduced */
+            margin-bottom: 16px; /* reduced from 30 */
+        }
+        .workbook-prompt {
+            color: #FF5A00;
+            font-size: 32px;
+            font-weight: 800;
+            line-height: 1.4;
+            font-style: italic;
+            margin-top: 12px; /* reduced from 20 */
+        }
+        .workbook-line {
+            margin-top: 12px; /* reduced from 40 */
+            display: flex;
+            align-items: flex-end;
+        }
+        .line-label {
+            color: #0B1D3A;
+            font-size: 24px;
+            font-weight: 800;
+            margin-right: 16px;
+            white-space: nowrap;
+        }
+        .line-dots {
+            flex-grow: 1;
+            border-bottom: 2px dotted #708090;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-bar"></div>
+        <div class="content-wrapper">
+            <h2 class="slide-title">กิจกรรมเปิดชั้นเรียน: เริ่มจากคำถาม</h2>
+            <div class="divider"></div>
+            
+            <div class="left-column">
+                <div class="mission-text">ภารกิจ: แยกแยะข้อเท็จจริงจากการกล่าวอ้าง</div>
+                
+                <div class="step-box">
+                    <div class="step-title"><i class="fas fa-bullhorn"></i> 1. ระบุ Claim</div>
+                    <div class="step-desc">ข้อความนี้กำลังกล่าวอ้างหรือสรุปผลว่าอะไร?</div>
+                </div>
+                
+                <div class="step-box">
+                    <div class="step-title"><i class="fas fa-microscope"></i> 2. หา Evidence</div>
+                    <div class="step-desc">หลักฐานเชิงประจักษ์หรือข้อมูลทดลองใดที่จำเป็นต้องใช้เพื่อพิสูจน์ข้อกล่าวอ้างนี้?</div>
+                </div>
+                
+                <div class="step-box">
+                    <div class="step-title"><i class="fas fa-question-circle"></i> 3. ตั้งคำถามถึง Uncertainty</div>
+                    <div class="step-desc">มีเงื่อนไข ข้อจำกัด หรือความไม่แน่นอนใดที่ซ่อนอยู่และไม่ได้ถูกกล่าวถึง?</div>
+                </div>
+            </div>
+            
+            <div class="right-column">
+                <div class="workbook-box">
+                    <div class="workbook-header">Workbook: Case Study 01</div>
+                    
+                    <div class="workbook-prompt">
+                        "เสื้อผ้านาโนซิลเวอร์สามารถยับยั้งแบคทีเรียได้ 99.9% ตลอดอายุการใช้งาน"
+                    </div>
+                    
+                    <div class="workbook-line">
+                        <div class="line-label">หลักฐานที่ต้องใช้:</div>
+                        <div class="line-dots"></div>
+                    </div>
+                    
+                    <div class="workbook-line">
+                        <div class="line-label">ความไม่แน่นอน:</div>
+                        <div class="line-dots"></div>
+                    </div>
+                    
+                    <div class="workbook-line">
+                        <div class="line-label">เงื่อนไขที่ซ่อนอยู่:</div>
+                        <div class="line-dots"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

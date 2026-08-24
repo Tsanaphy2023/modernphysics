@@ -1,0 +1,21 @@
+# Git Ignore for Modern Physics & Nanotechnology Repo
+# Ignore OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Ignore Large archives and raw zip packages
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Ignore large original archives folder in nanotechnology
+nanotechnology/03_เอกสารต้นฉบับ_Original_Archives/
+nanotechnology/**/*.pdf
+nanotechnology/**/*.pptx
+nanotechnology/**/*.zip

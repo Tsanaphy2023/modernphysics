@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-bar {
+            width: 100%;
+            height: 15px;
+            background-color: #FF5A00;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .content-wrapper {
+            padding: 80px 64px 20px 64px;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 24px;
+            height: 100%;
+        }
+        .text-column {
+            grid-column: span 4;
+            display: flex;
+            flex-direction: column;
+        }
+        .highlight-column {
+            grid-column: span 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .slide-title {
+            color: #0B1D3A;
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        .divider {
+            width: 100%;
+            height: 2px;
+            background-color: #0B1D3A;
+            margin-bottom: 20px;
+        }
+        .point-container {
+            margin-bottom: 16px;
+            position: relative;
+            padding-left: 30px;
+        }
+        .point-container::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 12px;
+            width: 12px;
+            height: 12px;
+            background-color: #FF5A00;
+        }
+        .point-title {
+            color: #0B1D3A;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .point-text {
+            color: #708090;
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        .oversized-box {
+            width: 100%;
+            border: 8px solid #0B1D3A;
+            background-color: rgba(11, 29, 58, 0.05);
+            padding: 24px 32px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .box-label {
+            color: #708090;
+            font-size: 24px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+        .box-main-text {
+            color: #FF5A00;
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.3;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-bar"></div>
+        <div class="content-wrapper">
+            <div class="text-column">
+                <h2 class="slide-title">จากผลทดลองสู่ข้อสรุปแบบมีเงื่อนไข</h2>
+                <div class="divider"></div>
+                
+                <div class="point-container">
+                    <div class="point-title">แยกข้อเท็จจริงจากการอนุมาน</div>
+                    <div class="point-text">ระบุให้ชัดเจนว่าข้อมูลบอกอะไรได้จริง และมีอะไรที่ยังเป็นเพียงการอนุมานหรือสมมติฐาน</div>
+                </div>
+                
+                <div class="point-container">
+                    <div class="point-title">ระบุแหล่งที่มาของความไม่แน่นอน</div>
+                    <div class="point-text">ความไม่แน่นอนอาจมาจากตัวอย่าง วิธีวัด ข้อจำกัดของเครื่องมือ หรือกระบวนการวิเคราะห์ข้อมูล</div>
+                </div>
+                
+                <div class="point-container">
+                    <div class="point-title">กำหนดเงื่อนไขและขอบเขต</div>
+                    <div class="point-text">ข้อสรุปที่ดีต้องระบุเงื่อนไขที่ผลลัพธ์นั้นเป็นจริง ขอบเขตการนำไปใช้ และข้อมูลที่ต้องเก็บเพิ่มเติม</div>
+                </div>
+            </div>
+            
+            <div class="highlight-column">
+                <div class="oversized-box">
+                    <div class="box-label">หลักการสำคัญ</div>
+                    <div class="box-main-text">Claim<br>ต้องไม่กว้างกว่า<br>หลักฐาน</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เวิร์กชอปการเขียนโปรแกรม AI ด้วย Python | Pre-order Professional eBook</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans Thai', sans-serif; }
+        body { background: #121212; color: #ffffff; line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Hero Section */
+        header { padding: 80px 0; text-align: center; background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); border-bottom: 1px solid #333; }
+        header h1 { font-size: 42px; font-weight: 700; margin-bottom: 20px; color: #ffffff; }
+        header h1 span { color: #007BFF; }
+        header p { font-size: 20px; color: #cccccc; max-width: 800px; margin: 0 auto 30px auto; }
+        .cta-button { display: inline-block; background: #007BFF; color: #ffffff; padding: 15px 40px; font-size: 18px; font-weight: 600; text-decoration: none; border-radius: 5px; transition: background 0.3s; }
+        .cta-button:hover { background: #0056b3; }
+        
+        /* Features Section */
+        .features { padding: 80px 0; }
+        .section-title { text-align: center; font-size: 32px; font-weight: 700; margin-bottom: 50px; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .feature-card { background: #1a1a1a; padding: 30px; border-top: 4px solid #007BFF; border-radius: 6px; }
+        .feature-card i { font-size: 32px; color: #007BFF; margin-bottom: 20px; }
+        .feature-card h3 { font-size: 20px; margin-bottom: 15px; }
+        .feature-card p { font-size: 15px; color: #aaaaaa; }
+
+        /* Pricing Section */
+        .pricing { padding: 80px 0; background: #181818; text-align: center; }
+        .price-card { background: #222222; max-width: 500px; margin: 0 auto; padding: 40px; border: 2px solid #007BFF; border-radius: 8px; }
+        .price-tag { font-size: 48px; font-weight: 700; color: #007BFF; margin: 20px 0; }
+        .price-list { list-style: none; text-align: left; margin: 30px 0; }
+        .price-list li { margin-bottom: 12px; font-size: 16px; color: #cccccc; display: flex; align-items: center; gap: 10px; }
+        .price-list li i { color: #007BFF; }
+
+        /* Footer */
+        footer { padding: 40px 0; text-align: center; border-top: 1px solid #333; color: #777; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>เวิร์กชอปการเขียนโปรแกรม <span>AI ด้วย Python</span></h1>
+            <p>ยกระดับทักษะการพัฒนาปัญญาประดิษฐ์ของคุณด้วยคู่มือ Professional eBook ฉบับสมบูรณ์ พร้อมทฤษฎีทางวิชาการและแนวทางปฏิบัติจริงในระดับอุตสาหกรรม</p>
+            <a href="#pricing" class="cta-button">สั่งซื้อล่วงหน้า (Pre-order) ทันที</a>
+        </div>
+    </header>
+
+    <section class="features container">
+        <h2 class="section-title">สิ่งที่คุณจะได้รับใน Professional Edition</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-book-open"></i>
+                <h3>เนื้อหาเชิงวิชาการเข้มข้น</h3>
+                <p>ครอบคลุมตั้งแต่ Big O Notation, OOP for AI, NumPy/Pandas, PyTorch ไปจนถึง FastAPI และ Docker Deployment</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-laptop-code"></i>
+                <h3>โจทย์ปฏิบัติการและเฉลย</h3>
+                <p>พร้อมโปรเจกต์ Smart Housing Price Prediction และชุดแบบทดสอบขั้นสูงสำหรับวัดระดับความเชี่ยวชาญ</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <h3>สคริปต์บรรยายและสไลด์</h3>
+                <p>ประกอบด้วยสไลด์สรุปเนื้อหาและสคริปต์บรรยายภาษาไทยที่พร้อมนำไปใช้สอนหรือนำเสนอได้ทันที</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <h2 class="section-title">Pre-order Special Offer</h2>
+            <div class="price-card">
+                <h3>Professional eBook Package</h3>
+                <div class="price-tag">$24.99 <span style="font-size: 18px; color: #aaa;">(~900 THB)</span></div>
+                <ul class="price-list">
+                    <li><i class="fas fa-check"></i> PDF ฉบับสมบูรณ์ (Professional Academic Edition)</li>
+                    <li><i class="fas fa-check"></i> Source Code และ Jupyter Notebooks ทั้งหมด</li>
+                    <li><i class="fas fa-check"></i> ชุดสไลด์สรุปเนื้อหาและสคริปต์บรรยาย</li>
+                    <li><i class="fas fa-check"></i> อัปเดตเนื้อหาใหม่ฟรีตลอดชีพ</li>
+                </ul>
+                <a href="https://gumroad.com" target="_blank" class="cta-button">สั่งซื้อล่วงหน้าผ่าน Gumroad</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 Manus AI. All Rights Reserved. | Professional Academic Publishing</p>
+        </div>
+    </footer>
+
+</body>
+</html>

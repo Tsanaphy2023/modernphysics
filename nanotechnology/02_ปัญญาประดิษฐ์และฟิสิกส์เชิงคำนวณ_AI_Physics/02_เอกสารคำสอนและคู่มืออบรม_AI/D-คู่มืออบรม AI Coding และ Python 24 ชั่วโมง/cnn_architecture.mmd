@@ -1,0 +1,18 @@
+graph TD
+    A[Input Image (32x32x3)] --> B(Conv Layer 1: 6 Filters, 5x5);
+    B --> C(ReLU);
+    C --> D(Max Pooling: 2x2, Stride 2);
+    D --> E[Feature Map 1 (16x16x6)];
+    E --> F(Conv Layer 2: 16 Filters, 5x5);
+    F --> G(ReLU);
+    G --> H(Max Pooling: 2x2, Stride 2);
+    H --> I[Feature Map 2 (8x8x16)];
+    I --> J(Flatten);
+    J --> K(Fully Connected Layer 1: 120 Neurons);
+    K --> L(ReLU);
+    L --> M(Fully Connected Layer 2: 84 Neurons);
+    M --> N(ReLU);
+    N --> O[Output Layer: 10 Classes];
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style O fill:#ccf,stroke:#333,stroke-width:2px
+    style J fill:#ff9,stroke:#333,stroke-width:2px

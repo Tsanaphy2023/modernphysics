@@ -1,0 +1,7 @@
+graph LR
+    A[Developer Code] --> B(Dockerfile)
+    B --> C{Docker Build}
+    C --> D[Docker Image]
+    D --> E{Docker Run}
+    E --> F[Docker Container]
+    F --> G(ML Model API)

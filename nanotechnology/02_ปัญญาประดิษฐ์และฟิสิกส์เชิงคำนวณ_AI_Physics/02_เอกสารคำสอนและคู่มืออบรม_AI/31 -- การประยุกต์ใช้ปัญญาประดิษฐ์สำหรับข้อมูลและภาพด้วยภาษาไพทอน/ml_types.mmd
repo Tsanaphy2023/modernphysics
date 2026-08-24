@@ -1,0 +1,27 @@
+graph TD
+    ML["<b>Machine Learning</b><br/>การเรียนรู้ของเครื่อง"]
+    
+    ML --> SL["<b>Supervised Learning</b><br/>การเรียนรู้แบบมีผู้สอน<br/><i>มีข้อมูลที่มี label</i>"]
+    ML --> UL["<b>Unsupervised Learning</b><br/>การเรียนรู้แบบไม่มีผู้สอน<br/><i>ไม่มี label</i>"]
+    ML --> RL["<b>Reinforcement Learning</b><br/>การเรียนรู้แบบเสริมแรง<br/><i>เรียนรู้จากรางวัลและการลงโทษ</i>"]
+    
+    SL --> SL1["Classification<br/>การจำแนกประเภท"]
+    SL --> SL2["Regression<br/>การทำนายค่าต่อเนื่อง"]
+    
+    UL --> UL1["Clustering<br/>การจัดกลุ่ม"]
+    UL --> UL2["Dimensionality Reduction<br/>การลดมิติข้อมูล"]
+    
+    RL --> RL1["Q-Learning"]
+    RL --> RL2["Policy Gradient"]
+    
+    style ML fill:#4fc3f7,stroke:#01579b,stroke-width:4px,color:#000
+    style SL fill:#81c784,stroke:#2e7d32,stroke-width:3px,color:#000
+    style UL fill:#ffb74d,stroke:#e65100,stroke-width:3px,color:#000
+    style RL fill:#ba68c8,stroke:#4a148c,stroke-width:3px,color:#000
+    style SL1 fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px,color:#000
+    style SL2 fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px,color:#000
+    style UL1 fill:#ffe0b2,stroke:#e65100,stroke-width:2px,color:#000
+    style UL2 fill:#ffe0b2,stroke:#e65100,stroke-width:2px,color:#000
+    style RL1 fill:#e1bee7,stroke:#4a148c,stroke-width:2px,color:#000
+    style RL2 fill:#e1bee7,stroke:#4a148c,stroke-width:2px,color:#000
+

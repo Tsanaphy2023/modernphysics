@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-bar {
+            width: 100%;
+            height: 15px;
+            background-color: #FF5A00;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .content-wrapper {
+            padding: 80px 64px 20px 64px;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 40px;
+            height: 100%;
+        }
+        .text-column {
+            grid-column: span 4;
+            display: flex;
+            flex-direction: column;
+        }
+        .image-column {
+            grid-column: span 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .slide-title {
+            color: #0B1D3A;
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        .divider {
+            width: 100%;
+            height: 2px;
+            background-color: #0B1D3A;
+            margin-bottom: 24px; /* reduced from 40 -> 24 to save vertical space */
+        }
+        .point-container {
+            margin-bottom: 8px; /* reduced from 24 -> 8 to compress vertical spacing */
+            position: relative;
+            padding-left: 30px;
+        }
+        .point-container::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 12px;
+            height: 12px;
+            background-color: #FF5A00;
+        }
+        .point-title {
+            color: #0B1D3A;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .point-text {
+            color: #708090;
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        .instrument-image {
+            width: 100%;
+            height: 350px;
+            object-fit: contain;
+            border: 2px solid #0B1D3A;
+            margin-bottom: 16px;
+        }
+        .image-caption {
+            color: #708090;
+            font-size: 18px;
+            font-weight: 500;
+            text-align: center;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-bar"></div>
+        <div class="content-wrapper">
+            <div class="text-column">
+                <h2 class="slide-title">ข้อมูลที่ดีเริ่มก่อนการวาดกราฟ</h2>
+                <div class="divider"></div>
+                
+                <div class="point-container">
+                    <div class="point-title">บันทึก Metadata ให้ครบถ้วน</div>
+                    <div class="point-text">ระบุรายละเอียดตัวอย่าง เงื่อนไข เครื่องมือ หน่วย และการทำซ้ำอย่างชัดเจน</div>
+                </div>
+                
+                <div class="point-container">
+                    <div class="point-title">แยกข้อมูลดิบ (Raw Data)</div>
+                    <div class="point-text">เก็บรักษาข้อมูลดิบแยกออกจากข้อมูลที่ผ่านการประมวลผลแล้วเสมอ</div>
+                </div>
+                
+                <div class="point-container">
+                    <div class="point-title">แสดงข้อมูลรายซ้ำ</div>
+                    <div class="point-text">ไม่ซ่อนการกระจายของข้อมูลไว้หลังค่าเฉลี่ยเพียงอย่างเดียว</div>
+                </div>
+                
+                <div class="point-container">
+                    <div class="point-title">รายงานความไม่แน่นอน</div>
+                    <div class="point-text">ระบุจำนวนตัวอย่าง (n) หน่วย ช่วงความไม่แน่นอน และเกณฑ์การตัดข้อมูล (Outliers)</div>
+                </div>
+            </div>
+            <div class="image-column">
+                <img src="/home/ubuntu/upload/search_images/9ymlY6U3DIbA.jpg" alt="AFM Cantilever" class="instrument-image">
+                <div class="image-caption">เครื่องมือวัดสร้างข้อมูลดิบที่ต้องจัดการอย่างเป็นระบบ</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

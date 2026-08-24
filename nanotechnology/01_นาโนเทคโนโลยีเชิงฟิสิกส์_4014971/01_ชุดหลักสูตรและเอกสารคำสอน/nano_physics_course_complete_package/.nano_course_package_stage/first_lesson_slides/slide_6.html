@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-bar {
+            width: 100%;
+            height: 15px;
+            background-color: #FF5A00;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .content-wrapper {
+            padding-top: 80px;
+            padding-left: 64px;
+            padding-right: 64px;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 40px;
+            height: 100%;
+        }
+        .text-column {
+            grid-column: span 3;
+            display: flex;
+            flex-direction: column;
+        }
+        .graph-column {
+            grid-column: span 3;
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+        }
+        .slide-title {
+            color: #0B1D3A;
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        .divider {
+            width: 100%;
+            height: 2px;
+            background-color: #0B1D3A;
+            margin-bottom: 12px; /* reduced to save vertical space */
+        }
+        .point-container {
+            margin-bottom: 8px; /* reduced */
+            position: relative;
+            padding-left: 30px;
+        }
+        .point-container::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 12px;
+            height: 12px;
+            background-color: #0B1D3A;
+        }
+        .point-text {
+            color: #708090;
+            font-size: 26px;
+            font-weight: 500;
+            line-height: 1.2; /* tightened to reduce height without changing font size */
+        }
+        .highlight-text-bold {
+            color: #0B1D3A;
+            font-weight: 800;
+        }
+        .highlight-box {
+            margin-top: 12px; /* reduced */
+            border-left: 8px solid #FF5A00;
+            padding-top: 12px; /* reduced */
+            padding-left: 20px;
+            padding-right: 20px;
+            background-color: rgba(255, 90, 0, 0.05);
+            min-height: 100px; /* reduced */
+        }
+        .highlight-title {
+            color: #FF5A00;
+            font-size: 24px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .highlight-content {
+            color: #0B1D3A;
+            font-size: 28px;
+            font-weight: 800;
+            font-style: italic;
+            line-height: 1.4;
+        }
+        
+        /* CSS Graph Styles */
+        .graph-bounding-box {
+            width: 100%;
+            height: 450px;
+            border: 4px solid #0B1D3A;
+            position: relative;
+            background-color: #FAFAFA;
+            padding-top: 24px; /* slightly reduced */
+            padding-left: 60px;
+            padding-right: 40px;
+        }
+        .y-axis {
+            position: absolute;
+            left: 60px;
+            top: 40px;
+            bottom: 60px;
+            width: 4px;
+            background-color: #0B1D3A;
+        }
+        .x-axis {
+            position: absolute;
+            left: 60px;
+            bottom: 60px;
+            right: 40px;
+            height: 4px;
+            background-color: #0B1D3A;
+        }
+        .y-label {
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            color: #708090;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        .x-label-1, .x-label-2 {
+            position: absolute;
+            bottom: 20px;
+            color: #0B1D3A;
+            font-size: 24px;
+            font-weight: 800;
+            transform: translateX(-50%);
+        }
+        .x-label-1 { left: 35%; }
+        .x-label-2 { left: 75%; }
+        
+        /* Control Group (Navy) */
+        .error-bar-1 {
+            position: absolute;
+            left: 35%;
+            top: 45%;
+            height: 30%;
+            width: 4px;
+            background-color: #0B1D3A;
+            transform: translateX(-50%);
+        }
+        .error-cap-top-1 { position: absolute; left: 35%; top: 45%; width: 20px; height: 4px; background-color: #0B1D3A; transform: translateX(-50%); }
+        .error-cap-bot-1 { position: absolute; left: 35%; top: 75%; width: 20px; height: 4px; background-color: #0B1D3A; transform: translateX(-50%); }
+        .mean-line-1 { position: absolute; left: 35%; top: 60%; width: 60px; height: 6px; background-color: #0B1D3A; transform: translateX(-50%); z-index: 2; }
+        
+        .scatter-1 { position: absolute; width: 14px; height: 14px; background-color: rgba(11, 29, 58, 0.5); transform: translateX(-50%); }
+        .s1-1 { left: 32%; top: 50%; }
+        .s1-2 { left: 38%; top: 55%; }
+        .s1-3 { left: 34%; top: 62%; }
+        .s1-4 { left: 36%; top: 68%; }
+        .s1-5 { left: 33%; top: 72%; }
+        .s1-6 { left: 37%; top: 48%; }
+
+        /* Treatment Group (Orange) */
+        .error-bar-2 {
+            position: absolute;
+            left: 75%;
+            top: 20%;
+            height: 40%;
+            width: 4px;
+            background-color: #FF5A00;
+            transform: translateX(-50%);
+        }
+        .error-cap-top-2 { position: absolute; left: 75%; top: 20%; width: 20px; height: 4px; background-color: #FF5A00; transform: translateX(-50%); }
+        .error-cap-bot-2 { position: absolute; left: 75%; top: 60%; width: 20px; height: 4px; background-color: #FF5A00; transform: translateX(-50%); }
+        .mean-line-2 { position: absolute; left: 75%; top: 40%; width: 60px; height: 6px; background-color: #FF5A00; transform: translateX(-50%); z-index: 2; }
+        
+        .scatter-2 { position: absolute; width: 14px; height: 14px; background-color: rgba(255, 90, 0, 0.5); transform: translateX(-50%); }
+        .s2-1 { left: 72%; top: 25%; }
+        .s2-2 { left: 78%; top: 32%; }
+        .s2-3 { left: 74%; top: 38%; }
+        .s2-4 { left: 76%; top: 45%; }
+        .s2-5 { left: 73%; top: 52%; }
+        .s2-6 { left: 77%; top: 58%; }
+        
+        .graph-caption {
+            margin-top: 12px;
+            color: #708090;
+            font-size: 18px;
+            font-weight: 500;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-bar"></div>
+        <div class="content-wrapper">
+            <div class="text-column">
+                <h2 class="slide-title">Data Lab: อย่าถามแค่ว่า "ต่างกันไหม"</h2>
+                <div class="divider"></div>
+                
+                <div class="point-container">
+                    <div class="point-text"><span class="highlight-text-bold">เริ่มจาก Control ที่เหมาะสม</span> และกำหนดคำถามที่สามารถตรวจสอบได้จริงด้วยข้อมูล</div>
+                </div>
+                
+                <div class="point-container">
+                    <div class="point-text"><span class="highlight-text-bold">เปรียบเทียบขนาดผล (Effect Size)</span> กับความแปรปรวนของข้อมูล ไม่ใช่ดูแค่ค่าเฉลี่ยเพียงอย่างเดียว</div>
+                </div>
+                
+                <div class="point-container">
+                    <div class="point-text"><span class="highlight-text-bold">เปิดเผยหลักฐานอย่างโปร่งใส</span> โดยใช้กราฟที่แสดงจุดข้อมูลจริง ค่าเฉลี่ย และช่วงความเชื่อมั่น</div>
+                </div>
+                
+                <div class="highlight-box">
+                    <div class="highlight-title">คำถามต่อยอด</div>
+                    <div class="highlight-content">ผลต่างนี้ มีความหมายเชิงการใช้งานหรือไม่?</div>
+                </div>
+            </div>
+            
+            <div class="graph-column">
+                <div class="graph-bounding-box">
+                    <div class="y-label">RESPONSE (a.u.)</div>
+                    <div class="y-axis"></div>
+                    <div class="x-axis"></div>
+                    
+                    <div class="x-label-1">Control</div>
+                    <div class="x-label-2">Treatment</div>
+                    
+                    <!-- Control Data -->
+                    <div class="error-bar-1"></div>
+                    <div class="error-cap-top-1"></div>
+                    <div class="error-cap-bot-1"></div>
+                    <div class="mean-line-1"></div>
+                    <div class="scatter-1 s1-1"></div>
+                    <div class="scatter-1 s1-2"></div>
+                    <div class="scatter-1 s1-3"></div>
+                    <div class="scatter-1 s1-4"></div>
+                    <div class="scatter-1 s1-5"></div>
+                    <div class="scatter-1 s1-6"></div>
+                    
+                    <!-- Treatment Data -->
+                    <div class="error-bar-2"></div>
+                    <div class="error-cap-top-2"></div>
+                    <div class="error-cap-bot-2"></div>
+                    <div class="mean-line-2"></div>
+                    <div class="scatter-2 s2-1"></div>
+                    <div class="scatter-2 s2-2"></div>
+                    <div class="scatter-2 s2-3"></div>
+                    <div class="scatter-2 s2-4"></div>
+                    <div class="scatter-2 s2-5"></div>
+                    <div class="scatter-2 s2-6"></div>
+                </div>
+                <div class="graph-caption">ภาพจำลอง: การแสดงจุดข้อมูลจริง (Scatter) พร้อมค่าเฉลี่ยและช่วงความเชื่อมั่น</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: #FFFFFF;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+            display: flex;
+            overflow: hidden;
+        }
+        .left-panel {
+            width: 65%;
+            background-color: #FFFFFF;
+            padding: 120px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+        .right-panel {
+            width: 35%;
+            background-color: #FF5A00;
+            position: relative;
+            z-index: 1;
+        }
+        .accent-shape {
+            position: absolute;
+            width: 200px;
+            height: 720px;
+            background-color: #0B1D3A;
+            right: 30%;
+            transform: skewX(-15deg);
+            z-index: 1;
+        }
+        .course-code {
+            color: #708090;
+            font-size: 24px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .main-title {
+            color: #0B1D3A;
+            font-size: 80px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 40px;
+        }
+        .subtitle {
+            color: #FF5A00;
+            font-size: 32px;
+            font-weight: 500;
+            line-height: 1.4;
+            max-width: 80%;
+        }
+        .divider {
+            width: 80px;
+            height: 6px;
+            background-color: #FF5A00;
+            margin: 40px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="accent-shape"></div>
+        <div class="left-panel">
+            <div class="course-code">รายวิชา 4014971 | คาบที่ 1</div>
+            <h1 class="main-title">นาโนเทคโนโลยี<br>เชิงฟิสิกส์</h1>
+            <div class="divider"></div>
+            <h2 class="subtitle">จากมาตราส่วนสู่หลักฐาน<br>และการตัดสินใจอย่างรับผิดชอบ</h2>
+        </div>
+        <div class="right-panel"></div>
+    </div>
+</body>
+</html>
