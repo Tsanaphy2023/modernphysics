@@ -1,4 +1,4 @@
-<!-- RBRU MOOC Masterclass Content: 6.4 6.4 นาโนเซนเซอร์และการตรวจวินิจฉัยโรคทางการแพทย์ (Nanosensors & SERS Diagnostics) -->
+<!-- RBRU MOOC Masterclass Content: 6.4 6.4 นาโนเซนเซอร์และการตรวจวินิจฉัยโรคทางการแพทย์ -->
 <div class="rbru-mooc-page" style="font-family: 'Sarabun', -apple-system, sans-serif; color: #1e293b; line-height: 1.8; max-width: 1000px; margin: 0 auto;">
   <style>
     .topic-hero-header {
@@ -104,7 +104,7 @@
   <!-- TOPIC HERO HEADER -->
   <div class="topic-hero-header">
     <div class="topic-tag">⚛️ NANOTECHNOLOGICAL PHYSICS &bull; TOPIC 6.4</div>
-    <h1 class="topic-main-title">6.4 นาโนเซนเซอร์และการตรวจวินิจฉัยโรคทางการแพทย์ (Nanosensors & SERS Diagnostics)</h1>
+    <h1 class="topic-main-title">6.4 นาโนเซนเซอร์และการตรวจวินิจฉัยโรคทางการแพทย์</h1>
     <p class="topic-sub-desc">เทคนิค Surface-Enhanced Raman Scattering (SERS) ตรวจจับสารชีวโมเลกุลความเข้มข้นต่ำ และชิป Lab-on-a-Chip</p>
   </div>
 
@@ -116,17 +116,33 @@
   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; border-bottom: 1px solid rgba(0, 240, 255, 0.2); padding-bottom: 12px;">
     <div style="display: flex; align-items: center; gap: 10px;">
       <span style="font-size: 1.2rem;">📌</span>
-      <span style="font-weight: 800; font-size: 1.08rem; color: #38bdf8; letter-spacing: -0.2px;">กฎและสมการสำคัญประจำหัวข้อ 6.4</span>
+      <span style="font-weight: 800; font-size: 1.08rem; color: #38bdf8; letter-spacing: -0.2px;">ไอโซเทอมการดูดซับสารมลพิษและการกรองด้วยเมมเบรนนาโน (Langmuir Adsorption & Nanofiltration Flux)</span>
     </div>
     <span style="background: rgba(0, 240, 255, 0.15); border: 1px solid #00f0ff; color: #00f0ff; padding: 3px 12px; border-radius: 9999px; font-size: 0.78rem; font-weight: 700; font-family: 'JetBrains Mono', monospace;">
-      ฟิสิกส์นาโน
+      สิ่งแวดล้อม & เมมเบรน
     </span>
   </div>
 
   <!-- Formula Highlight Display Box -->
   <div style="background: #020617; border: 1.5px solid rgba(0, 240, 255, 0.35); border-radius: 12px; padding: 20px 24px; text-align: center; margin: 16px 0; box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.8);">
     <div style="font-family: 'Cambria Math', 'Times New Roman', 'KaTeX_Main', serif; font-size: 1.55rem; line-height: 1.8; letter-spacing: 0.5px; display: inline-flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px;">
-      <span style="color:#facc15; font-weight:700; font-family:'Cambria Math', serif; font-size:1.4rem;">I_{\text{SERS}} \propto |E_{\text{loc}}|^4 \approx \left|\frac{E(\omega)}{E_0}\right|^4</span>
+      <span style="display:inline-flex; align-items:center; gap:16px; flex-wrap:wrap; justify-content:center;">
+              <span style="display:inline-flex; align-items:center; gap:6px;">
+                <span style="color:#38bdf8; font-weight:700;">q<sub>e</sub></span> <span style="color:#ffffff;">=</span> 
+                <span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;">
+                  <span style="border-bottom:2px solid #38bdf8; padding:0 6px; color:#38bdf8; font-weight:700;">q<sub>m</sub> K<sub>L</sub> C<sub>e</sub></span>
+                  <span style="color:#facc15; font-weight:700;">1 + K<sub>L</sub> C<sub>e</sub></span>
+                </span>
+              </span>
+              <span style="color:#ffffff; font-weight:700;">,</span>
+              <span style="display:inline-flex; align-items:center; gap:6px;">
+                <span style="color:#34d399; font-weight:700;">J<sub>w</sub></span> <span style="color:#ffffff;">=</span> 
+                <span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;">
+                  <span style="border-bottom:2px solid #34d399; padding:0 6px; color:#34d399; font-weight:700;">&Delta;P &minus; &Delta;&pi;</span>
+                  <span style="color:#f43f5e; font-weight:700;">&mu; R<sub>tot</sub></span>
+                </span>
+              </span>
+            </span>
     </div>
   </div>
 
@@ -134,14 +150,26 @@
   <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 14px 18px; margin: 14px 0 12px 0;">
     <div style="font-size: 0.82rem; font-weight: 700; color: #94a3b8; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">คำอธิบายตัวแปรและหน่วย SI:</div>
     <div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
-      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; สมการหลัก:</span>
-      <span>ความสัมพันธ์เชิงปริมาณของตัวแปรในระบบฟิสิกส์ระดับนาโน (6.4 นาโนเซนเซอร์และการตรวจวินิจฉัยโรคทางการแพทย์ (Nanosensors & SERS Diagnostics))</span>
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; q_e:</span>
+      <span>ปริมาณสารมลพิษที่ถูกดูดซับต่อหน่วยมวลของวัสดุนาโนที่สมดุล (Adsorption Capacity, mg/g)</span>
+    </div><div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; q_m:</span>
+      <span>ความสามารถในการดูดซับชั้นเดี่ยวสูงสุดตามทฤษฎีแลงเมียร์ (Maximum Monolayer Capacity, mg/g)</span>
+    </div><div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; K_L:</span>
+      <span>ค่าคงที่ความสัมพันธ์พลังงานการดูดซับของแลงเมียร์ (Langmuir Constant, L/mg)</span>
+    </div><div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; C_e:</span>
+      <span>ความเข้มข้นสารมลพิษที่เหลืออยู่ในน้ำที่สภาวะสมดุล (Equilibrium Concentration, mg/L)</span>
+    </div><div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; J_w:</span>
+      <span>ฟลักซ์อัตราการไหลของน้ำสะอาดผ่านแผ่นกรองเมมเบรนนาโน (Water Permeation Flux, L/m²·h)</span>
     </div>
   </div>
 
   <!-- Physical Significance Callout -->
   <div style="background: rgba(0, 240, 255, 0.08); border-left: 4px solid #00f0ff; border-radius: 8px; padding: 10px 16px; font-size: 0.90rem; color: #e2e8f0; line-height: 1.65;">
-    💡 <strong style="color: #38bdf8;">นัยสำคัญทางฟิสิกส์:</strong> สมการนี้แสดงความสัมพันธ์เชิงฟิสิกส์ในระดับนาโนสเกล โดยสมบัติของสสารจะเปลี่ยนแปลงอย่างมีนัยสำคัญตามขนาดและมิติของโครงสร้าง 6.4 นาโนเซนเซอร์และการตรวจวินิจฉัยโรคทางการแพทย์ (Nanosensors & SERS Diagnostics)
+    💡 <strong style="color: #38bdf8;">นัยสำคัญทางฟิสิกส์:</strong> เมมเบรนที่เคลือบด้วยกราฟีนออกไซด์ (GO Membrane) หรืออนุภาคนาโนไททาเนีย (TiO₂) สามารถดักจับไอออนโลหะหนักและย่อยสลายสารอินทรีย์ด้วยแสง (Photocatalysis) ได้พร้อมกัน
   </div>
 </div>
 
@@ -151,7 +179,7 @@
     <div class="sim-card-header">
       <div style="font-weight: 700; font-size: 1.05rem; display: flex; align-items: center; gap: 8px; color: #00f0ff;">
         <span>🎮</span>
-        <span>ห้องปฏิบัติการจำลองเสมือนจริง: 6.4 นาโนเซนเซอร์และการตรวจวินิจฉัยโรคทางการแพทย์ (Nanosensors & SERS Diagnostics)</span>
+        <span>ห้องปฏิบัติการจำลองเสมือนจริง: 6.4 นาโนเซนเซอร์และการตรวจวินิจฉัยโรคทางการแพทย์</span>
       </div>
       <a href="https://tsanaphy2023.github.io/modernphysics/simulators/sim_nano_6_4.html" target="_blank" class="btn-fullscreen">
         <span>🚀 เปิดแล็บเต็มจอ (Fullscreen)</span>
@@ -176,7 +204,7 @@
     </div>
     <div style="padding: 20px 24px;">
       <p style="margin-top: 0; font-size: 1rem; color: #1e293b; line-height: 1.7;">
-        <strong>โจทย์:</strong> จงคำนวณและวิเคราะห์พารามิเตอร์ทางกายภาพในระดับนาโนสเกลตามกฎและสมการที่เกี่ยวข้องกับ 6.4 นาโนเซนเซอร์และการตรวจวินิจฉัยโรคทางการแพทย์ (Nanosensors & SERS Diagnostics) เมื่อกำหนดค่าเริ่มต้นตามสภาวะมาตรฐาน
+        <strong>โจทย์:</strong> จงคำนวณและวิเคราะห์พารามิเตอร์ทางกายภาพในระดับนาโนสเกลตามกฎและสมการที่เกี่ยวข้องกับ 6.4 นาโนเซนเซอร์และการตรวจวินิจฉัยโรคทางการแพทย์ เมื่อกำหนดค่าเริ่มต้นตามสภาวะมาตรฐาน
       </p>
       
       <button type="button" class="btn-toggle-sol" onclick="toggleSolution('6_4')">
@@ -188,7 +216,7 @@
           <span style="display: inline-block; background: #0284c7; color: #ffffff; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-size: 0.85rem; font-weight: 700; margin-right: 8px;">1</span>
           <strong>ขั้นตอนที่ 1: กำหนดตัวแปรและแทนค่าลงในสมการหลัก</strong>
           <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; margin: 8px 0 8px 32px; font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; text-align: center; color: #0284c7;">
-            กฎและสมการสำคัญประจำหัวข้อ 6.4
+            ไอโซเทอมการดูดซับสารมลพิษและการกรองด้วยเมมเบรนนาโน (Langmuir Adsorption & Nanofiltration Flux)
           </div>
         </div>
 
@@ -196,7 +224,7 @@
           <span style="display: inline-block; background: #0284c7; color: #ffffff; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-size: 0.85rem; font-weight: 700; margin-right: 8px;">2</span>
           <strong>ขั้นตอนที่ 2: วิเคราะห์ผลกระทบทางกายภาพและการเปลี่ยนแปลงระดับควอนตัม</strong>
           <p style="margin: 6px 0 0 32px; font-size: 0.95rem; color: #334155;">
-            สมการนี้แสดงความสัมพันธ์เชิงฟิสิกส์ในระดับนาโนสเกล โดยสมบัติของสสารจะเปลี่ยนแปลงอย่างมีนัยสำคัญตามขนาดและมิติของโครงสร้าง 6.4 นาโนเซนเซอร์และการตรวจวินิจฉัยโรคทางการแพทย์ (Nanosensors & SERS Diagnostics)
+            เมมเบรนที่เคลือบด้วยกราฟีนออกไซด์ (GO Membrane) หรืออนุภาคนาโนไททาเนีย (TiO₂) สามารถดักจับไอออนโลหะหนักและย่อยสลายสารอินทรีย์ด้วยแสง (Photocatalysis) ได้พร้อมกัน
           </p>
         </div>
 

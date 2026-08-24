@@ -14,6 +14,7 @@
       --cyan: #00f0ff;
       --amber: #facc15;
       --emerald: #10b981;
+      --rose: #f43f5e;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: var(--bg); color: #f8fafc; font-family: 'Sarabun', sans-serif; padding: 12px; }
@@ -36,7 +37,7 @@
     <div class="sim-header">
       <div class="sim-title">
         <span>⚛️</span>
-        <span>แล็บ 5.1: กรวยดิแรกและการนำไฟฟ้าแอมบิโพลาร์ของกราฟีน (Graphene Dirac Cone Solver)</span>
+        <span>แล็บ 5.1: กรวยดิแรกและโครงตาข่ายรังผึ้งกราฟีน (Graphene Dirac Cone & Honeycomb Lattice)</span>
       </div>
       <div class="badge">● MASSLESS DIRAC FERMIONS (v_F = 10⁶ m/s)</div>
     </div>
@@ -112,26 +113,30 @@
       }
     }
 
+    // Hexagonal Honeycomb lattice nodes
+    const hexRadius = 18;
+    const hexH = Math.sqrt(3) * hexRadius;
+
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const w = canvas.width;
       const h = canvas.height;
       animTime += 0.03;
 
-      const simW = w * 0.55;
+      const simW = w * 0.50;
       const cx = simW * 0.5;
       const cy = h * 0.5;
 
-      // 3D Perspective Box
+      // 1. Left Viewport: 3D Dirac Cones
       ctx.fillStyle = "#020617";
       ctx.strokeStyle = "#334155";
       ctx.lineWidth = 2;
       ctx.fillRect(15, 15, simW - 15, h - 30);
       ctx.strokeRect(15, 15, simW - 15, h - 30);
 
-      // Draw Upper Dirac Cone (Conduction Band)
-      const coneH = 90;
-      const coneR = 75;
+      // Upper Dirac Cone (Conduction Band)
+      const coneH = 85;
+      const coneR = 70;
 
       ctx.fillStyle = "rgba(56, 189, 248, 0.25)";
       ctx.strokeStyle = "#38bdf8";
@@ -144,7 +149,7 @@
       ctx.fill();
       ctx.stroke();
 
-      // Draw Lower Dirac Cone (Valence Band)
+      // Lower Dirac Cone (Valence Band)
       ctx.fillStyle = "rgba(244, 63, 94, 0.25)";
       ctx.strokeStyle = "#f43f5e";
       ctx.beginPath();
@@ -169,13 +174,13 @@
 
       ctx.fillStyle = "#facc15";
       ctx.font = "11px 'JetBrains Mono', monospace";
-      ctx.fillText("Fermi Level EF = " + (EF_eV >= 0 ? "+" : "") + EF_eV.toFixed(2) + " eV", cx + Math.max(10, efR) + 12, efY + 4);
+      ctx.fillText("E_F = " + (EF_eV >= 0 ? "+" : "") + EF_eV.toFixed(2) + " eV", cx + Math.max(10, efR) + 8, efY + 4);
 
-      // Right Side: Linear Energy Dispersion Graph E(k)
-      const gx = w * 0.58;
-      const gy = 25;
-      const gw = w * 0.39;
-      const gh = h - 50;
+      // 2. Right Viewport: 2D Honeycomb Carbon Lattice with Ballistic Electron Wave
+      const gx = w * 0.52;
+      const gy = 15;
+      const gw = w * 0.46;
+      const gh = h - 30;
 
       ctx.fillStyle = "rgba(15, 23, 42, 0.9)";
       ctx.strokeStyle = "#334155";
@@ -184,34 +189,37 @@
 
       ctx.fillStyle = "#00f0ff";
       ctx.font = "11px 'JetBrains Mono', monospace";
-      ctx.fillText("Graphene Linear Dispersion E(k) = ±ℏ v_F |k|", gx + 10, gy + 18);
+      ctx.fillText("2D Honeycomb Graphene Lattice & Klein Tunneling", gx + 10, gy + 18);
 
-      const midGX = gx + gw * 0.5;
-      const midGY = gy + gh * 0.5;
-
-      // Linear V-Shape lines
-      ctx.strokeStyle = "#38bdf8";
-      ctx.lineWidth = 2.5;
-      ctx.beginPath();
-      ctx.moveTo(midGX - 60, midGY - 75);
-      ctx.lineTo(midGX, midGY);
-      ctx.lineTo(midGX + 60, midGY - 75);
-      ctx.stroke();
-
-      ctx.strokeStyle = "#f43f5e";
-      ctx.beginPath();
-      ctx.moveTo(midGX - 60, midGY + 75);
-      ctx.lineTo(midGX, midGY);
-      ctx.lineTo(midGX + 60, midGY + 75);
-      ctx.stroke();
-
-      // Current EF on plot
-      ctx.strokeStyle = "#facc15";
+      // Draw Honeycomb Hexagonal mesh
+      ctx.strokeStyle = "rgba(148, 163, 184, 0.35)";
       ctx.lineWidth = 1.5;
-      ctx.setLineDash([4, 4]);
-      const plotEFY = midGY - (EF_eV / 0.6) * 75;
-      ctx.beginPath(); ctx.moveTo(gx + 15, plotEFY); ctx.lineTo(gx + gw - 15, plotEFY); ctx.stroke();
-      ctx.setLineDash([]);
+      for (let r = 0; r < 5; r++) {
+        for (let c = 0; c < 7; c++) {
+          const hx = gx + 30 + c * hexRadius * 1.5;
+          const hy = gy + 45 + r * hexH + (c % 2 === 1 ? hexH * 0.5 : 0);
+
+          ctx.beginPath();
+          for (let s = 0; s < 6; s++) {
+            const ang = (s / 6) * Math.PI * 2;
+            const sx = hx + Math.cos(ang) * (hexRadius * 0.6);
+            const sy = hy + Math.sin(ang) * (hexRadius * 0.6);
+            if (s === 0) ctx.moveTo(sx, sy);
+            else ctx.lineTo(sx, sy);
+          }
+          ctx.closePath();
+          ctx.stroke();
+        }
+      }
+
+      // Ballistic Dirac Electrons moving across graphene sheet
+      const carrierCol = EF_eV >= 0 ? "#00f0ff" : "#f43f5e";
+      ctx.fillStyle = carrierCol;
+      for (let e = 0; e < 14; e++) {
+        const ex = gx + 30 + ((e * 28 + animTime * 100) % (gw - 50));
+        const ey = gy + 60 + (e % 4) * 45;
+        ctx.beginPath(); ctx.arc(ex, ey, 4.5, 0, Math.PI * 2); ctx.fill();
+      }
 
       requestAnimationFrame(draw);
     }

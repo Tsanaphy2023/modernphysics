@@ -1,4 +1,4 @@
-<!-- RBRU MOOC Masterclass Content: 6.2 6.2 การกักเก็บพลังงาน: นาโนแบตเตอรี่และซูเปอร์คาปาซิเตอร์ (Nano Batteries & Supercapacitors) -->
+<!-- RBRU MOOC Masterclass Content: 6.2 6.2 การกักเก็บพลังงาน: นาโนแบตเตอรี่และซูเปอร์คาปาซิเตอร์ -->
 <div class="rbru-mooc-page" style="font-family: 'Sarabun', -apple-system, sans-serif; color: #1e293b; line-height: 1.8; max-width: 1000px; margin: 0 auto;">
   <style>
     .topic-hero-header {
@@ -104,7 +104,7 @@
   <!-- TOPIC HERO HEADER -->
   <div class="topic-hero-header">
     <div class="topic-tag">⚛️ NANOTECHNOLOGICAL PHYSICS &bull; TOPIC 6.2</div>
-    <h1 class="topic-main-title">6.2 การกักเก็บพลังงาน: นาโนแบตเตอรี่และซูเปอร์คาปาซิเตอร์ (Nano Batteries & Supercapacitors)</h1>
+    <h1 class="topic-main-title">6.2 การกักเก็บพลังงาน: นาโนแบตเตอรี่และซูเปอร์คาปาซิเตอร์</h1>
     <p class="topic-sub-desc">การแพร่ของลิเทียมไอออนในโครงข่ายอนุภาคนาโน ชั้นประจุคู่ไฟฟ้า (EDLC) และการเพิ่มความหนาแน่นพลังงาน</p>
   </div>
 
@@ -116,17 +116,34 @@
   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; border-bottom: 1px solid rgba(0, 240, 255, 0.2); padding-bottom: 12px;">
     <div style="display: flex; align-items: center; gap: 10px;">
       <span style="font-size: 1.2rem;">📌</span>
-      <span style="font-weight: 800; font-size: 1.08rem; color: #38bdf8; letter-spacing: -0.2px;">กฎและสมการสำคัญประจำหัวข้อ 6.2</span>
+      <span style="font-weight: 800; font-size: 1.08rem; color: #38bdf8; letter-spacing: -0.2px;">ความหนาแน่นพลังงานและกำลังไฟฟ้าของตัวเก็บประจุยิ่งยวดนาโน (Nano-Supercapacitor Energy & Power Density)</span>
     </div>
     <span style="background: rgba(0, 240, 255, 0.15); border: 1px solid #00f0ff; color: #00f0ff; padding: 3px 12px; border-radius: 9999px; font-size: 0.78rem; font-weight: 700; font-family: 'JetBrains Mono', monospace;">
-      ฟิสิกส์นาโน
+      ตัวเก็บประจุยิ่งยวด
     </span>
   </div>
 
   <!-- Formula Highlight Display Box -->
   <div style="background: #020617; border: 1.5px solid rgba(0, 240, 255, 0.35); border-radius: 12px; padding: 20px 24px; text-align: center; margin: 16px 0; box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.8);">
     <div style="font-family: 'Cambria Math', 'Times New Roman', 'KaTeX_Main', serif; font-size: 1.55rem; line-height: 1.8; letter-spacing: 0.5px; display: inline-flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px;">
-      <span style="color:#facc15; font-weight:700; font-family:'Cambria Math', serif; font-size:1.4rem;">t_{\text{diff}} \approx \frac{L^2}{D_{\text{Li}}}, \quad C = \frac{\varepsilon_0 \varepsilon_r A}{d}</span>
+      <span style="display:inline-flex; align-items:center; gap:16px; flex-wrap:wrap; justify-content:center;">
+              <span style="display:inline-flex; align-items:center; gap:6px;">
+                <span style="color:#38bdf8; font-weight:700;">E</span> <span style="color:#ffffff;">=</span> 
+                <span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;">
+                  <span style="border-bottom:2px solid #38bdf8; padding:0 6px; color:#38bdf8; font-weight:700;">1</span>
+                  <span style="color:#38bdf8; font-weight:700;">2</span>
+                </span>
+                <span style="color:#facc15; font-weight:700;">C</span> <span style="color:#34d399; font-weight:700;">V<sup>2</sup></span>
+              </span>
+              <span style="color:#ffffff; font-weight:700;">,</span>
+              <span style="display:inline-flex; align-items:center; gap:6px;">
+                <span style="color:#f43f5e; font-weight:700;">P<sub>max</sub></span> <span style="color:#ffffff;">=</span> 
+                <span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;">
+                  <span style="border-bottom:2px solid #f43f5e; padding:0 6px; color:#34d399; font-weight:700;">V<sup>2</sup></span>
+                  <span style="color:#f43f5e; font-weight:700;">4 R<sub>ESR</sub></span>
+                </span>
+              </span>
+            </span>
     </div>
   </div>
 
@@ -134,14 +151,26 @@
   <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 14px 18px; margin: 14px 0 12px 0;">
     <div style="font-size: 0.82rem; font-weight: 700; color: #94a3b8; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">คำอธิบายตัวแปรและหน่วย SI:</div>
     <div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
-      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; สมการหลัก:</span>
-      <span>ความสัมพันธ์เชิงปริมาณของตัวแปรในระบบฟิสิกส์ระดับนาโน (6.2 การกักเก็บพลังงาน: นาโนแบตเตอรี่และซูเปอร์คาปาซิเตอร์ (Nano Batteries & Supercapacitors))</span>
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; E:</span>
+      <span>พลังงานสะสมสูงสุดต่อหน่วยมวล (Specific Energy Density, หน่วย: Wh/kg หรือ J/g)</span>
+    </div><div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; P_max:</span>
+      <span>กำลังไฟฟ้าสูงสุดที่จ่ายได้ทันที (Specific Power Density, หน่วย: W/kg หรือ kW/kg)</span>
+    </div><div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; C:</span>
+      <span>ค่าความจุไฟฟ้าจำเพาะของขั้วไฟฟ้ากราฟีนรูพรุน 3 มิติ (Specific Capacitance, F/g)</span>
+    </div><div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; V:</span>
+      <span>หน้าต่างศักย์ไฟฟ้าการทำงานสูงสุด (Operating Voltage Window, V)</span>
+    </div><div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; R_ESR:</span>
+      <span>ความต้านทานอนุกรมสมมูลภายในเซลล์ (Equivalent Series Resistance, &Omega;)</span>
     </div>
   </div>
 
   <!-- Physical Significance Callout -->
   <div style="background: rgba(0, 240, 255, 0.08); border-left: 4px solid #00f0ff; border-radius: 8px; padding: 10px 16px; font-size: 0.90rem; color: #e2e8f0; line-height: 1.65;">
-    💡 <strong style="color: #38bdf8;">นัยสำคัญทางฟิสิกส์:</strong> สมการนี้แสดงความสัมพันธ์เชิงฟิสิกส์ในระดับนาโนสเกล โดยสมบัติของสสารจะเปลี่ยนแปลงอย่างมีนัยสำคัญตามขนาดและมิติของโครงสร้าง 6.2 การกักเก็บพลังงาน: นาโนแบตเตอรี่และซูเปอร์คาปาซิเตอร์ (Nano Batteries & Supercapacitors)
+    💡 <strong style="color: #38bdf8;">นัยสำคัญทางฟิสิกส์:</strong> การใช้วัสดุนาโนคาร์บอนและ MXenes ที่มีพื้นที่ผิวจำเพาะสูง (> 1,500 m²/g) ช่วยให้เกิดการเก็บประจุแบบไฟฟ้าสองชั้น (EDLC) ร่วมกับปฏิกิริยาซูโดคาพาซิทีฟ ทำให้ชาร์จเต็มได้ภายในไม่กี่วินาที
   </div>
 </div>
 
@@ -151,7 +180,7 @@
     <div class="sim-card-header">
       <div style="font-weight: 700; font-size: 1.05rem; display: flex; align-items: center; gap: 8px; color: #00f0ff;">
         <span>🎮</span>
-        <span>ห้องปฏิบัติการจำลองเสมือนจริง: 6.2 การกักเก็บพลังงาน: นาโนแบตเตอรี่และซูเปอร์คาปาซิเตอร์ (Nano Batteries & Supercapacitors)</span>
+        <span>ห้องปฏิบัติการจำลองเสมือนจริง: 6.2 การกักเก็บพลังงาน: นาโนแบตเตอรี่และซูเปอร์คาปาซิเตอร์</span>
       </div>
       <a href="https://tsanaphy2023.github.io/modernphysics/simulators/sim_nano_6_2.html" target="_blank" class="btn-fullscreen">
         <span>🚀 เปิดแล็บเต็มจอ (Fullscreen)</span>
@@ -176,7 +205,7 @@
     </div>
     <div style="padding: 20px 24px;">
       <p style="margin-top: 0; font-size: 1rem; color: #1e293b; line-height: 1.7;">
-        <strong>โจทย์:</strong> จงคำนวณและวิเคราะห์พารามิเตอร์ทางกายภาพในระดับนาโนสเกลตามกฎและสมการที่เกี่ยวข้องกับ 6.2 การกักเก็บพลังงาน: นาโนแบตเตอรี่และซูเปอร์คาปาซิเตอร์ (Nano Batteries & Supercapacitors) เมื่อกำหนดค่าเริ่มต้นตามสภาวะมาตรฐาน
+        <strong>โจทย์:</strong> จงคำนวณและวิเคราะห์พารามิเตอร์ทางกายภาพในระดับนาโนสเกลตามกฎและสมการที่เกี่ยวข้องกับ 6.2 การกักเก็บพลังงาน: นาโนแบตเตอรี่และซูเปอร์คาปาซิเตอร์ เมื่อกำหนดค่าเริ่มต้นตามสภาวะมาตรฐาน
       </p>
       
       <button type="button" class="btn-toggle-sol" onclick="toggleSolution('6_2')">
@@ -188,7 +217,7 @@
           <span style="display: inline-block; background: #0284c7; color: #ffffff; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-size: 0.85rem; font-weight: 700; margin-right: 8px;">1</span>
           <strong>ขั้นตอนที่ 1: กำหนดตัวแปรและแทนค่าลงในสมการหลัก</strong>
           <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; margin: 8px 0 8px 32px; font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; text-align: center; color: #0284c7;">
-            กฎและสมการสำคัญประจำหัวข้อ 6.2
+            ความหนาแน่นพลังงานและกำลังไฟฟ้าของตัวเก็บประจุยิ่งยวดนาโน (Nano-Supercapacitor Energy & Power Density)
           </div>
         </div>
 
@@ -196,7 +225,7 @@
           <span style="display: inline-block; background: #0284c7; color: #ffffff; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-size: 0.85rem; font-weight: 700; margin-right: 8px;">2</span>
           <strong>ขั้นตอนที่ 2: วิเคราะห์ผลกระทบทางกายภาพและการเปลี่ยนแปลงระดับควอนตัม</strong>
           <p style="margin: 6px 0 0 32px; font-size: 0.95rem; color: #334155;">
-            สมการนี้แสดงความสัมพันธ์เชิงฟิสิกส์ในระดับนาโนสเกล โดยสมบัติของสสารจะเปลี่ยนแปลงอย่างมีนัยสำคัญตามขนาดและมิติของโครงสร้าง 6.2 การกักเก็บพลังงาน: นาโนแบตเตอรี่และซูเปอร์คาปาซิเตอร์ (Nano Batteries & Supercapacitors)
+            การใช้วัสดุนาโนคาร์บอนและ MXenes ที่มีพื้นที่ผิวจำเพาะสูง (> 1,500 m²/g) ช่วยให้เกิดการเก็บประจุแบบไฟฟ้าสองชั้น (EDLC) ร่วมกับปฏิกิริยาซูโดคาพาซิทีฟ ทำให้ชาร์จเต็มได้ภายในไม่กี่วินาที
           </p>
         </div>
 

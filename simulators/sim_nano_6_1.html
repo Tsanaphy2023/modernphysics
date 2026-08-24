@@ -3,256 +3,120 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nanophysics Simulator 6.1 — 6.1 โซลาร์เซลล์รุ่นใหม่และตัวเร่งปฏิกิริยานาโน</title>
+  <title>Lab 6.1: Perovskite & QD Solar Cell PCE Solver</title>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
   <style>
     :root {
-      --bg-dark: #020617;
-      --card-bg: #090e1a;
+      --bg: #020617;
+      --panel: #090e1a;
       --cyan: #00f0ff;
+      --amber: #facc15;
       --emerald: #10b981;
-      --amber: #f59e0b;
-      --rose: #f43f5e;
-      --purple: #a855f7;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: var(--bg-dark);
-      color: #f8fafc;
-      font-family: 'Sarabun', -apple-system, sans-serif;
-      padding: 10px;
-      overflow-x: hidden;
-    }
-    .sim-card {
-      background: var(--card-bg);
-      border: 1px solid #1e293b;
-      border-radius: 12px;
-      padding: 16px;
-      max-width: 100%;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-      position: relative;
-    }
-    .sim-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 12px;
-      border-bottom: 1px solid #1e293b;
-      padding-bottom: 8px;
-    }
-    .sim-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--cyan);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .status-badge {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid var(--emerald);
-      color: var(--emerald);
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 9999px;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .sim-canvas-container {
-      position: relative;
-      width: 100%;
-      height: 280px;
-      background: #000000;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      overflow: hidden;
-      margin-bottom: 12px;
-    }
-    canvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-    .controls-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 10px;
-      margin-bottom: 10px;
-      background: #0f172a;
-      padding: 10px 14px;
-      border-radius: 8px;
-      border: 1px solid #1e293b;
-    }
-    .ctrl-item {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .ctrl-label {
-      font-size: 0.78rem;
-      color: #94a3b8;
-      display: flex;
-      justify-content: space-between;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    input[type=range] {
-      width: 100%;
-      accent-color: var(--cyan);
-      cursor: pointer;
-    }
-    .hud-readout {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      font-size: 0.82rem;
-      color: #cbd5e1;
-      background: #020617;
-      border: 1px solid #334155;
-      border-radius: 6px;
-      padding: 6px 12px;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .hud-val {
-      color: var(--amber);
-      font-weight: 700;
-    }
-    .btn-action {
-      background: linear-gradient(135deg, #0284c7, var(--cyan));
-      color: #020617;
-      border: none;
-      border-radius: 6px;
-      padding: 6px 14px;
-      font-weight: 700;
-      font-size: 0.80rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-action:hover {
-      box-shadow: 0 0 10px var(--cyan);
-      transform: scale(1.02);
-    }
+    body { background: var(--bg); color: #f8fafc; font-family: 'Sarabun', sans-serif; padding: 12px; }
+    .sim-card { background: var(--panel); border: 1px solid #1e293b; border-radius: 14px; padding: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
+    .sim-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 10px; margin-bottom: 12px; }
+    .sim-title { font-size: 1.1rem; font-weight: 700; color: var(--amber); display: flex; align-items: center; gap: 8px; }
+    .badge { background: rgba(250,204,21,0.15); border: 1px solid var(--amber); color: var(--amber); padding: 3px 10px; border-radius: 9999px; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; }
+    .canvas-box { position: relative; width: 100%; height: 320px; background: #000; border: 1px solid #334155; border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
+    canvas { width: 100%; height: 100%; display: block; }
+    .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; background: #0f172a; padding: 12px 16px; border-radius: 10px; border: 1px solid #1e293b; margin-bottom: 12px; }
+    .ctrl-group { display: flex; flex-direction: column; gap: 6px; }
+    .ctrl-lbl { font-size: 0.8rem; color: #94a3b8; display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; }
+    input[type=range] { width: 100%; accent-color: var(--amber); cursor: pointer; }
+    .hud { display: flex; justify-content: space-between; align-items: center; background: #020617; border: 1px solid #334155; border-radius: 8px; padding: 10px 16px; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; flex-wrap: wrap; gap: 10px; }
+    .hud-val { color: var(--cyan); font-weight: 700; }
   </style>
 </head>
 <body>
   <div class="sim-card">
     <div class="sim-header">
       <div class="sim-title">
-        <span>🔬</span>
-        <span>แล็บจำลอง 6.1: 6.1 โซลาร์เซลล์รุ่นใหม่และตัวเร่งปฏิกิริยานาโน</span>
+        <span>☀️</span>
+        <span>แล็บ 6.1: การแปลงพลังงานแสงอาทิตย์และเส้นโค้ง J-V (Perovskite & QD Solar Cell PCE)</span>
       </div>
-      <div class="status-badge">● 60 FPS REAL-TIME</div>
+      <div class="badge">● AM 1.5G 100 mW/cm² STANDARD</div>
     </div>
 
-    <div class="sim-canvas-container">
-      <canvas id="nanoCanvas"></canvas>
+    <div class="canvas-box">
+      <canvas id="solarCanvas"></canvas>
     </div>
 
-    <div class="controls-grid">
-      <div class="ctrl-item">
-        <div class="ctrl-label">
-          <span>ขนาดอนุภาค (Diameter)</span>
-          <span id="valD">10.0 nm</span>
+    <div class="controls">
+      <div class="ctrl-group">
+        <div class="ctrl-lbl">
+          <span>ความหนาแน่นกระแสลัดวงจร (Short-Circuit Current: \(J_{sc}\))</span>
+          <span id="txtJsc">Jsc = 24.5 mA/cm²</span>
         </div>
-        <input type="range" id="sliderD" min="1" max="100" step="0.5" value="10">
+        <input type="range" id="sliderJsc" min="10.0" max="30.0" step="0.5" value="24.5">
       </div>
-      <div class="ctrl-item">
-        <div class="ctrl-label">
-          <span>อุณหภูมิ (Temperature)</span>
-          <span id="valT">300 K</span>
+      <div class="ctrl-group">
+        <div class="ctrl-lbl">
+          <span>แรงดันไฟฟ้าวงจรเปิด (Open-Circuit Voltage: \(V_{oc}\))</span>
+          <span id="txtVoc">Voc = 1.15 V</span>
         </div>
-        <input type="range" id="sliderT" min="10" max="600" step="5" value="300">
-      </div>
-      <div class="ctrl-item">
-        <div class="ctrl-label">
-          <span>พารามิเตอร์จำลอง (Parameter)</span>
-          <span id="valP">1.00</span>
-        </div>
-        <input type="range" id="sliderP" min="0.1" max="5.0" step="0.05" value="1.0">
+        <input type="range" id="sliderVoc" min="0.6" max="1.3" step="0.02" value="1.15">
       </div>
     </div>
 
-    <div class="hud-readout">
-      <div>สมการหลัก: <span class="hud-val">\eta = \frac{J_{sc} \cdot V_{oc} \cdot \text{FF}}{P_{in}} \times 100\%</span></div>
-      <div>สถานะ: <span class="hud-val" id="hudStatus">Active Simulation</span></div>
-      <button type="button" class="btn-action" id="btnReset" onclick="resetSim()">↺ รีเซ็ตการทดลอง</button>
+    <div class="hud">
+      <div>แฟกเตอร์เติมเต็ม (Fill Factor): <span class="hud-val" id="hudFF">0.82 (82.0%)</span> | กำลังไฟฟ้าสูงสุด: <span class="hud-val" id="hudPmax">23.1 mW/cm²</span></div>
+      <div>ประสิทธิภาพการแปลงพลังงาน (PCE): <span class="hud-val" id="hudPCE">23.1% (High Efficiency Tandem)</span></div>
+      <button type="button" onclick="setPerovskitePreset()" style="background:#facc15; color:#020617; border:none; padding:6px 14px; border-radius:6px; font-weight:700; cursor:pointer;">⚡ พรีเซต Perovskite/Si Tandem (PCE > 29%)</button>
     </div>
   </div>
 
   <script src="ar_mediapipe_controller.js"></script>
   <script>
-    const canvas = document.getElementById("nanoCanvas");
+    const canvas = document.getElementById("solarCanvas");
     const ctx = canvas.getContext("2d");
 
-    function resizeCanvas() {
+    function resize() {
       canvas.width = canvas.parentElement.clientWidth;
       canvas.height = canvas.parentElement.clientHeight;
     }
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
+    window.addEventListener("resize", resize);
+    resize();
 
-    let d = 10.0;
-    let temp = 300;
-    let param = 1.0;
+    let Jsc = 24.5;
+    let Voc = 1.15;
+    const FF = 0.82;
+    const Pin = 100.0; // mW/cm2
     let animTime = 0;
 
-    const sliderD = document.getElementById("sliderD");
-    const sliderT = document.getElementById("sliderT");
-    const sliderP = document.getElementById("sliderP");
-    const valD = document.getElementById("valD");
-    const valT = document.getElementById("valT");
-    const valP = document.getElementById("valP");
-    const hudStatus = document.getElementById("hudStatus");
+    const sliderJsc = document.getElementById("sliderJsc");
+    const sliderVoc = document.getElementById("sliderVoc");
+    const txtJsc = document.getElementById("txtJsc");
+    const txtVoc = document.getElementById("txtVoc");
+    const hudPmax = document.getElementById("hudPmax");
+    const hudPCE = document.getElementById("hudPCE");
 
-    sliderD.addEventListener("input", (e) => {
-      d = parseFloat(e.target.value);
-      valD.textContent = d.toFixed(1) + " nm";
-      updateReadout();
+    sliderJsc.addEventListener("input", (e) => {
+      Jsc = parseFloat(e.target.value);
+      updateSolar();
     });
 
-    sliderT.addEventListener("input", (e) => {
-      temp = parseFloat(e.target.value);
-      valT.textContent = temp.toFixed(0) + " K";
-      updateReadout();
+    sliderVoc.addEventListener("input", (e) => {
+      Voc = parseFloat(e.target.value);
+      updateSolar();
     });
 
-    sliderP.addEventListener("input", (e) => {
-      param = parseFloat(e.target.value);
-      valP.textContent = param.toFixed(2);
-      updateReadout();
-    });
-
-    function resetSim() {
-      sliderD.value = 10;
-      sliderT.value = 300;
-      sliderP.value = 1.0;
-      d = 10; temp = 300; param = 1.0;
-      valD.textContent = "10.0 nm";
-      valT.textContent = "300 K";
-      valP.textContent = "1.00";
-      animTime = 0;
+    function setPerovskitePreset() {
+      Jsc = 28.5; Voc = 1.25;
+      sliderJsc.value = Jsc; sliderVoc.value = Voc;
+      updateSolar();
     }
 
-    function updateReadout() {
-      const ratio = (6.0 / d).toFixed(2);
-      hudStatus.textContent = "A/V Ratio = " + ratio + " nm⁻¹";
-    }
-
-    // Particles for Simulation
-    const particles = [];
-    for (let i = 0; i < 40; i++) {
-      particles.push({
-        x: Math.random() * 400 + 50,
-        y: Math.random() * 200 + 40,
-        vx: (Math.random() - 0.5) * 1.5,
-        vy: (Math.random() - 0.5) * 1.5,
-        color: i % 2 === 0 ? "#00f0ff" : "#f59e0b"
-      });
+    function updateSolar() {
+      txtJsc.textContent = "Jsc = " + Jsc.toFixed(1) + " mA/cm²";
+      txtVoc.textContent = "Voc = " + Voc.toFixed(2) + " V";
+      const Pmax = (Jsc * Voc * FF);
+      const PCE = (Pmax / Pin) * 100;
+      hudPmax.textContent = Pmax.toFixed(1) + " mW/cm²";
+      hudPCE.textContent = PCE.toFixed(1) + "% (" + (PCE > 25 ? "Ultra-High Tandem" : "High Efficiency") + ")";
     }
 
     function draw() {
@@ -261,109 +125,94 @@
       const h = canvas.height;
       animTime += 0.03;
 
-      // Draw Perspective Grid
-      ctx.strokeStyle = "rgba(0, 240, 255, 0.15)";
-      ctx.lineWidth = 1;
-      for (let x = 0; x < w; x += 40) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, h);
-        ctx.stroke();
-      }
-      for (let y = 0; y < h; y += 40) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(w, y);
-        ctx.stroke();
-      }
-
-      // Dynamic Nanoscale Entity Render
-      const cx = w * 0.45;
+      const simW = w * 0.50;
       const cy = h * 0.5;
-      const visualR = Math.max(15, Math.min(90, d * 1.8));
 
-      // Glow Halo
-      const grad = ctx.createRadialGradient(cx, cy, 5, cx, cy, visualR * 1.6);
-      grad.addColorStop(0, "rgba(0, 240, 255, 0.8)");
-      grad.addColorStop(0.5, "rgba(168, 85, 247, 0.3)");
-      grad.addColorStop(1, "rgba(0, 0, 0, 0)");
-      ctx.fillStyle = grad;
-      ctx.beginPath();
-      ctx.arc(cx, cy, visualR * 1.6, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Main Core Nanoparticle
-      ctx.fillStyle = "#0f172a";
-      ctx.strokeStyle = "#00f0ff";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.arc(cx, cy, visualR, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.stroke();
-
-      // Atomic Shells inside Nanoparticle
-      const numRings = Math.max(2, Math.floor(visualR / 15));
-      ctx.strokeStyle = "rgba(245, 158, 11, 0.5)";
-      ctx.lineWidth = 1.5;
-      for (let r = 1; r <= numRings; r++) {
-        ctx.beginPath();
-        ctx.arc(cx, cy, (visualR / numRings) * r, 0, Math.PI * 2);
-        ctx.stroke();
-      }
-
-      // Orbiting Surface Atoms
-      const numAtoms = Math.floor(d * 1.5);
-      for (let a = 0; a < numAtoms; a++) {
-        const angle = (a / numAtoms) * Math.PI * 2 + animTime * 0.5;
-        const ax = cx + Math.cos(angle) * visualR;
-        const ay = cy + Math.sin(angle) * visualR;
-        ctx.fillStyle = a % 2 === 0 ? "#f43f5e" : "#38bdf8";
-        ctx.beginPath();
-        ctx.arc(ax, ay, 4, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      // Real-time Graph Overlay (Right side)
-      const gx = w * 0.72;
-      const gy = 30;
-      const gw = w * 0.25;
-      const gh = h - 60;
-      ctx.fillStyle = "rgba(15, 23, 42, 0.85)";
+      // 3D Solar Cell Photogeneration Layer Box
+      ctx.fillStyle = "#020617";
       ctx.strokeStyle = "#334155";
-      ctx.lineWidth = 1.5;
+      ctx.lineWidth = 2;
+      ctx.fillRect(15, 15, simW - 15, h - 30);
+      ctx.strokeRect(15, 15, simW - 15, h - 30);
+
+      // Glass / ITO transparent anode (Top)
+      ctx.fillStyle = "rgba(0, 240, 255, 0.25)";
+      ctx.fillRect(30, 45, simW - 50, 20);
+      ctx.strokeStyle = "#00f0ff"; ctx.strokeRect(30, 45, simW - 50, 20);
+      ctx.fillStyle = "#ffffff"; ctx.font = "11px 'JetBrains Mono', monospace"; ctx.fillText("ITO Transparent Anode", 40, 60);
+
+      // Perovskite Absorber Layer (Middle Amber)
+      ctx.fillStyle = "rgba(250, 204, 21, 0.35)";
+      ctx.fillRect(30, 70, simW - 50, 75);
+      ctx.strokeStyle = "#facc15"; ctx.strokeRect(30, 70, simW - 50, 75);
+      ctx.fillStyle = "#facc15"; ctx.fillText("Perovskite / QD Absorber Layer", 40, 110);
+
+      // Metal Cathode (Bottom)
+      ctx.fillStyle = "rgba(148, 163, 184, 0.3)";
+      ctx.fillRect(30, 150, simW - 50, 25);
+      ctx.strokeStyle = "#94a3b8"; ctx.strokeRect(30, 150, simW - 50, 25);
+      ctx.fillStyle = "#ffffff"; ctx.fillText("Metal Back Contact (Ag / Au)", 40, 168);
+
+      // Sunlight Photons & Generated Electron-Hole Pairs
+      ctx.fillStyle = "#facc15";
+      for (let p = 0; p < 8; p++) {
+        const px = 45 + p * 28;
+        const py = 20 + ((p * 20 + animTime * 60) % 50);
+        ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI * 2); ctx.fill();
+      }
+
+      // Generated Electrons (Cyan) flowing to top
+      ctx.fillStyle = "#00f0ff";
+      for (let e = 0; e < 6; e++) {
+        const ex = 50 + e * 35;
+        const ey = 135 - ((e * 15 + animTime * 45) % 65);
+        ctx.beginPath(); ctx.arc(ex, ey, 4, 0, Math.PI * 2); ctx.fill();
+      }
+
+      // Right Side: J-V Characteristic Curve & MPP Point
+      const gx = w * 0.53;
+      const gy = 15;
+      const gw = w * 0.45;
+      const gh = h - 30;
+
+      ctx.fillStyle = "rgba(15, 23, 42, 0.9)";
+      ctx.strokeStyle = "#334155";
       ctx.fillRect(gx, gy, gw, gh);
       ctx.strokeRect(gx, gy, gw, gh);
 
-      ctx.fillStyle = "#38bdf8";
+      ctx.fillStyle = "#facc15";
       ctx.font = "11px 'JetBrains Mono', monospace";
-      ctx.fillText("A/V vs Diameter (nm)", gx + 10, gy + 18);
+      ctx.fillText("J-V Curve & Maximum Power Point (MPP)", gx + 10, gy + 18);
 
-      // Plot A/V curve
-      ctx.strokeStyle = "#facc15";
-      ctx.lineWidth = 2;
+      // Plot J-V curve
+      ctx.strokeStyle = "#00f0ff";
+      ctx.lineWidth = 2.5;
       ctx.beginPath();
-      for (let px = 0; px < gw - 20; px += 2) {
-        const simD = 1 + (px / (gw - 20)) * 100;
-        const simAV = 6.0 / simD;
-        const py = gy + gh - 15 - (simAV / 6.0) * (gh - 40);
-        if (px === 0) ctx.moveTo(gx + 10 + px, py);
-        else ctx.lineTo(gx + 10 + px, py);
+      const originX = gx + 25;
+      const originY = gy + gh - 35;
+      const plotW = gw - 50;
+      const plotH = gh - 65;
+
+      ctx.moveTo(originX, originY - (Jsc / 30.0) * plotH);
+      for (let vx = 0; vx <= plotW; vx += 2) {
+        const v = (vx / plotW) * Voc * 1.05;
+        const j = Jsc * (1 - Math.exp((v - Voc) / 0.15));
+        const py = originY - Math.max(0, (j / 30.0) * plotH);
+        ctx.lineTo(originX + vx, py);
       }
       ctx.stroke();
 
-      // Plot current point
-      const curPX = ((d - 1) / 99) * (gw - 20);
-      const curAV = 6.0 / d;
-      const curPY = gy + gh - 15 - (curAV / 6.0) * (gh - 40);
-      ctx.fillStyle = "#f43f5e";
-      ctx.beginPath();
-      ctx.arc(gx + 10 + curPX, curPY, 5, 0, Math.PI * 2);
-      ctx.fill();
+      // Maximum power point marker
+      const mppX = originX + (Voc * 0.85 / (Voc * 1.05)) * plotW;
+      const mppY = originY - (Jsc * 0.9 / 30.0) * plotH;
+      ctx.fillStyle = "#facc15";
+      ctx.beginPath(); ctx.arc(mppX, mppY, 6, 0, Math.PI * 2); ctx.fill();
+      ctx.fillText("MPP (" + ((Jsc * Voc * FF)).toFixed(1) + " mW/cm²)", mppX - 45, mppY - 12);
 
       requestAnimationFrame(draw);
     }
-
     draw();
+    updateSolar();
   </script>
 </body>
 </html>
