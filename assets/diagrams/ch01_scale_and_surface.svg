@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090e1a"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="boxGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#00f0ff"/>
+    </linearGradient>
+    <filter id="glow1">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background Card -->
+  <rect width="900" height="420" rx="16" fill="url(#bgGrad1)" stroke="#00f0ff" stroke-opacity="0.35" stroke-width="1.5"/>
+
+  <!-- Title -->
+  <text x="450" y="38" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="18" font-weight="700" fill="#38bdf8" letter-spacing="0.5">
+    แผนผังเปรียบเทียบมาตราส่วนความยาวและสัดส่วนพื้นที่ผิวต่อปริมาตร (Specific Surface Area)
+  </text>
+  <line x1="60" y1="52" x2="840" y2="52" stroke="#334155" stroke-width="1"/>
+
+  <!-- Macro Scale Cube (1 cm) -->
+  <g transform="translate(100, 90)">
+    <rect width="140" height="140" fill="#1e293b" stroke="#64748b" stroke-width="2" rx="8"/>
+    <!-- 3D Cube illusion -->
+    <path d="M 0 0 L 30 -25 L 170 -25 L 140 0 Z" fill="#334155" stroke="#64748b" stroke-width="1.5"/>
+    <path d="M 140 0 L 170 -25 L 170 115 L 140 140 Z" fill="#1e293b" stroke="#64748b" stroke-width="1.5"/>
+    <text x="70" y="75" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="15" font-weight="700" fill="#ffffff">บัลค์ (Bulk)</text>
+    <text x="70" y="98" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" fill="#94a3b8">d = 1 cm</text>
+    
+    <!-- Specs -->
+    <rect x="-10" y="160" width="160" height="110" rx="8" fill="rgba(15, 23, 42, 0.8)" stroke="#334155" stroke-width="1"/>
+    <text x="70" y="185" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="12" fill="#cbd5e1">ปริมาตร: 1.0 cm³</text>
+    <text x="70" y="210" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="12" fill="#cbd5e1">พื้นที่ผิว: 6.0 cm²</text>
+    <text x="70" y="235" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="700" fill="#38bdf8">A/V = 600 m⁻¹</text>
+    <text x="70" y="258" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="11" fill="#facc15">อะตอมที่ผิว: &lt; 0.0001%</text>
+  </g>
+
+  <!-- Arrow Transition -->
+  <g transform="translate(385, 175)">
+    <path d="M 0 0 L 110 0" stroke="#00f0ff" stroke-width="3" stroke-dasharray="6,4"/>
+    <polygon points="120,0 108,-6 108,6" fill="#00f0ff"/>
+    <text x="60" y="-14" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="13" font-weight="700" fill="#00f0ff">แบ่งย่อยสู่ระดับนาโน</text>
+    <text x="60" y="24" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12" fill="#facc15">N = 10²¹ อนุภาค</text>
+  </g>
+
+  <!-- Nano Scale Cube Group (1 nm) -->
+  <g transform="translate(630, 90)">
+    <!-- Cluster of tiny glowing nanocubes -->
+    <g filter="url(#glow1)">
+      <rect x="10" y="10" width="35" height="35" fill="url(#boxGrad1)" rx="4"/>
+      <rect x="55" y="10" width="35" height="35" fill="url(#boxGrad1)" rx="4"/>
+      <rect x="100" y="10" width="35" height="35" fill="url(#boxGrad1)" rx="4"/>
+      <rect x="10" y="55" width="35" height="35" fill="url(#boxGrad1)" rx="4"/>
+      <rect x="55" y="55" width="35" height="35" fill="url(#boxGrad1)" rx="4"/>
+      <rect x="100" y="55" width="35" height="35" fill="url(#boxGrad1)" rx="4"/>
+      <rect x="10" y="100" width="35" height="35" fill="url(#boxGrad1)" rx="4"/>
+      <rect x="55" y="100" width="35" height="35" fill="url(#boxGrad1)" rx="4"/>
+      <rect x="100" y="100" width="35" height="35" fill="url(#boxGrad1)" rx="4"/>
+    </g>
+    <text x="72" y="78" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="700" fill="#020617">NANO</text>
+
+    <!-- Specs -->
+    <rect x="-10" y="160" width="165" height="110" rx="8" fill="rgba(15, 23, 42, 0.8)" stroke="#00f0ff" stroke-width="1.2"/>
+    <text x="72" y="185" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="12" fill="#cbd5e1">ปริมาตรรวม: 1.0 cm³</text>
+    <text x="72" y="210" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="12" fill="#cbd5e1">พื้นที่ผิว: 60,000,000 cm²</text>
+    <text x="72" y="235" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="700" fill="#00f0ff">A/V = 6×10⁹ m⁻¹</text>
+    <text x="72" y="258" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="11" font-weight="700" fill="#10b981">อะตอมที่ผิว: &gt; 85% (Active!)</text>
+  </g>
+
+  <!-- Bottom Key Formula Bar -->
+  <g transform="translate(60, 365)">
+    <rect width="780" height="38" rx="8" fill="#020617" stroke="#334155" stroke-width="1"/>
+    <text x="390" y="24" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" fill="#ffffff">
+      <tspan fill="#38bdf8" font-weight="700">A / V = 6 / d</tspan> &emsp;|&emsp; 
+      <tspan fill="#facc15">N_surface / N_total ∝ 1 / d</tspan> &emsp;|&emsp; 
+      <tspan fill="#34d399">ความว่องไวปฏิกิริยาเร่งเร่งปฏิกิริยา (Catalysis Rate) เพิ่มขึ้น 10⁶ เท่า</tspan>
+    </text>
+  </g>
+</svg>

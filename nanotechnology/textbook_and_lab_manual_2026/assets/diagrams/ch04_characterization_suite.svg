@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090e1a"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="420" rx="16" fill="url(#bgGrad4)" stroke="#00f0ff" stroke-opacity="0.35" stroke-width="1.5"/>
+  <text x="450" y="38" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="18" font-weight="700" fill="#38bdf8">
+    ชุดเครื่องมือมาตรวิทยาและวิเคราะห์ลักษณะเฉพาะของวัสดุนาโน (Nanometrology Suite)
+  </text>
+  <line x1="60" y1="52" x2="840" y2="52" stroke="#334155" stroke-width="1"/>
+
+  <!-- 4 Pillars -->
+  <g transform="translate(60, 80)">
+    <!-- SEM / TEM -->
+    <rect x="0" y="0" width="175" height="260" rx="10" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="87" y="30" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="14" font-weight="700" fill="#38bdf8">1. FE-SEM / HR-TEM</text>
+    <text x="87" y="50" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">ลำอิเล็กตรอนความยาวคลื่นสั้น</text>
+    <text x="87" y="110" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="12" fill="#cbd5e1">สัณฐานวิทยา & โครงตาข่าย</text>
+    <text x="87" y="140" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12" fill="#facc15">λ = h / √(2m₀eU)</text>
+    <text x="87" y="180" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="11" fill="#94a3b8">กำลังขยาย: 1,000,000×</text>
+    <text x="87" y="210" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="11" font-weight="700" fill="#10b981">ความละเอียด: 0.05 nm</text>
+  </g>
+
+  <g transform="translate(260, 80)">
+    <!-- AFM / STM -->
+    <rect x="0" y="0" width="175" height="260" rx="10" fill="#0f172a" stroke="#facc15" stroke-width="1.5"/>
+    <text x="87" y="30" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="14" font-weight="700" fill="#facc15">2. AFM / STM Probe</text>
+    <text x="87" y="50" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">หัวเข็มกราดตรวจระดับอะตอม</text>
+    <text x="87" y="110" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="12" fill="#cbd5e1">ภูมิประเทศผิว 3D & อุโมงค์</text>
+    <text x="87" y="140" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12" fill="#38bdf8">I ∝ V · exp(-2κd)</text>
+    <text x="87" y="180" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="11" fill="#94a3b8">แรงกระทำ: ปิโกนิวตัน (pN)</text>
+    <text x="87" y="210" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="11" font-weight="700" fill="#10b981">แยกแยะอะตอมเดี่ยวได้</text>
+  </g>
+
+  <g transform="translate(460, 80)">
+    <!-- XRD -->
+    <rect x="0" y="0" width="175" height="260" rx="10" fill="#0f172a" stroke="#34d399" stroke-width="1.5"/>
+    <text x="87" y="30" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="14" font-weight="700" fill="#34d399">3. XRD Diffraction</text>
+    <text x="87" y="50" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">การเลี้ยวเบนรังสีเอกซ์</text>
+    <text x="87" y="110" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="12" fill="#cbd5e1">ขนาดผลึก & เฟสสาร</text>
+    <text x="87" y="140" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12" fill="#facc15">D = Kλ / (β cosθ)</text>
+    <text x="87" y="180" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="11" fill="#94a3b8">กฎของแบรกก์: 2d sinθ = nλ</text>
+    <text x="87" y="210" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="11" font-weight="700" fill="#10b981">คำนวณ Scherrer Size</text>
+  </g>
+
+  <g transform="translate(660, 80)">
+    <!-- XPS / Raman -->
+    <rect x="0" y="0" width="175" height="260" rx="10" fill="#0f172a" stroke="#c084fc" stroke-width="1.5"/>
+    <text x="87" y="30" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="14" font-weight="700" fill="#c084fc">4. XPS & Raman</text>
+    <text x="87" y="50" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#94a3b8">สเปกโทรสโกปีผิวและโฟนอน</text>
+    <text x="87" y="110" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="12" fill="#cbd5e1">สถานะพันธะเคมี & การสั่น</text>
+    <text x="87" y="140" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12" fill="#38bdf8">E_B = hν - E_K - Φ</text>
+    <text x="87" y="180" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="11" fill="#94a3b8">วิเคราะห์ความลึกผิว 1-10 nm</text>
+    <text x="87" y="210" text-anchor="middle" font-family="'Sarabun', sans-serif" font-size="11" font-weight="700" fill="#10b981">ตรวจจับ D, G, 2D Peak</text>
+  </g>
+
+  <!-- Bottom Formula -->
+  <g transform="translate(60, 360)">
+    <rect width="775" height="42" rx="8" fill="#020617" stroke="#334155" stroke-width="1"/>
+    <text x="387" y="26" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12.5" fill="#ffffff">
+      <tspan fill="#38bdf8" font-weight="700">เกณฑ์ความละเอียดเรย์ลี (Rayleigh Limit):</tspan> &nbsp;
+      <tspan fill="#facc15">r = 0.61 λ / NA</tspan> &emsp;|&emsp; 
+      <tspan fill="#34d399">De Broglie Wavelength: λ = 1.226 / √V (nm)</tspan>
+    </text>
+  </g>
+</svg>
