@@ -10,22 +10,22 @@
     "pages": [
       {
         "cmid": "4974",
-        "name": "1.1 มิติและมาตราส่วนระดับนาโน",
+        "name": "1.1 มิติและมาตราส่วนระดับนาโน (Nanoscale Dimensions &amp; Scaling Laws)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4974"
       },
       {
         "cmid": "4975",
-        "name": "1.2 สัดส่วนพื้นที่ผิวต่อปริมาตรและผลกระทบเชิงกายภาพ",
+        "name": "1.2 สัดส่วนพื้นที่ผิวต่อปริมาตรและผลกระทบเชิงกายภาพ (Surface-to-Volume Ratio)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4975"
       },
       {
         "cmid": "4976",
-        "name": "1.3 พลังงานพื้นผิวและพฤติกรรมการเกาะกลุ่มของอนุภาคนาโน",
+        "name": "1.3 พลังงานพื้นผิวและพฤติกรรมการเกาะกลุ่มของอนุภาคนาโน (Surface Energy &amp; Agglomeration)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4976"
       },
       {
         "cmid": "4977",
-        "name": "1.4 การอ่านสเกลบาร์และการวิเคราะห์ภาพกล้องจุลทรรศน์",
+        "name": "1.4 การอ่านสเกลบาร์และการวิเคราะห์ภาพกล้องจุลทรรศน์ (Scale Bar Metrology)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4977"
       },
       {
@@ -41,22 +41,22 @@
     "pages": [
       {
         "cmid": "4979",
-        "name": "2.1 ปรากฏการณ์การกักขังเชิงควอนตัมและแบบจำลอง Brus",
+        "name": "2.1 ปรากฏการณ์การกักขังเชิงควอนตัมและแบบจำลอง Brus (Quantum Confinement &amp; Brus Model)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4979"
       },
       {
         "cmid": "4980",
-        "name": "2.2 อนุภาคควอนตัมดอทและสเปกตรัมการดูดกลืนและการคายแสง",
+        "name": "2.2 อนุภาคควอนตัมดอทและสเปกตรัมการดูดกลืนและการคายแสง (Quantum Dots Photoluminescence)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4980"
       },
       {
         "cmid": "4981",
-        "name": "2.3 การสั่นพลาสมอนพื้นผิวเฉพาะที่",
+        "name": "2.3 การสั่นพลาสมอนพื้นผิวเฉพาะที่ (Localized Surface Plasmon Resonance - LSPR)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4981"
       },
       {
         "cmid": "4982",
-        "name": "2.4 สภาพนำไฟฟ้าควอนไทซ์และสมบัติแม่เหล็กยิ่งยวด",
+        "name": "2.4 สภาพนำไฟฟ้าควอนไทซ์และสมบัติแม่เหล็กยิ่งยวด (Quantized Conductance &amp; Superparamagnetism)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4982"
       },
       {
@@ -72,22 +72,22 @@
     "pages": [
       {
         "cmid": "4984",
-        "name": "3.1 แนวทางการสังเคราะห์แบบล่างขึ้นบนและบนลงล่าง",
+        "name": "3.1 แนวทางการสังเคราะห์แบบล่างขึ้นบนและบนลงล่าง (Bottom-up vs Top-down Synthesis)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4984"
       },
       {
         "cmid": "4985",
-        "name": "3.2 กระบวนการโซล-เจลและเคมีสารละลาย",
+        "name": "3.2 กระบวนการโซล-เจลและเคมีสารละลาย (Sol-Gel Process &amp; Solution Chemistry)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4985"
       },
       {
         "cmid": "4986",
-        "name": "3.3 การสะสมไอสารเคมีและไอสารกายภาพ",
+        "name": "3.3 การสะสมไอสารเคมีและไอสารกายภาพ (CVD &amp; PVD Thin Film Growth)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4986"
       },
       {
         "cmid": "4987",
-        "name": "3.4 นาโนลิโทกราฟีและการสร้างลวดลายระดับนาโน",
+        "name": "3.4 นาโนลิโทกราฟีและการสร้างลวดลายระดับนาโน (Nanolithography &amp; Patterning)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4987"
       },
       {
@@ -103,22 +103,22 @@
     "pages": [
       {
         "cmid": "4989",
-        "name": "4.1 กล้องจุลทรรศน์อิเล็กตรอนแบบส่องกราดและส่องผ่าน",
+        "name": "4.1 กล้องจุลทรรศน์อิเล็กตรอนแบบส่องกราดและส่องผ่าน (SEM &amp; TEM Metrology)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4989"
       },
       {
         "cmid": "4990",
-        "name": "4.2 กล้องจุลทรรศน์โพรบสแกน",
+        "name": "4.2 กล้องจุลทรรศน์โพรบสแกน (Scanning Probe Microscopy: AFM &amp; STM)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4990"
       },
       {
         "cmid": "4991",
-        "name": "4.3 การเลี้ยวเบนของรังสีเอกซ์และสมการเชอร์เรอร์",
+        "name": "4.3 การเลี้ยวเบนของรังสีเอกซ์และสมการเชอร์เรอร์ (XRD &amp; Scherrer Analysis)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4991"
       },
       {
         "cmid": "4992",
-        "name": "4.4 การกระเจิงแสงแบบพลวัตและศักย์ซีตา",
+        "name": "4.4 การกระเจิงแสงแบบพลวัตและศักย์ซีตา (DLS &amp; Zeta Potential)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4992"
       },
       {
@@ -134,22 +134,22 @@
     "pages": [
       {
         "cmid": "4994",
-        "name": "5.1 กราฟีนและวัสดุโครงสร้าง 2 มิติ",
+        "name": "5.1 กราฟีนและวัสดุโครงสร้าง 2 มิติ (Graphene &amp; 2D Nanomaterials)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4994"
       },
       {
         "cmid": "4995",
-        "name": "5.2 ท่อคาร์บอนนาโนและสมบัติการนำส่งทางไฟฟ้า",
+        "name": "5.2 ท่อคาร์บอนนาโนและสมบัติการนำส่งทางไฟฟ้า (Carbon Nanotubes - CNT)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4995"
       },
       {
         "cmid": "4996",
-        "name": "5.3 ทรานซิสเตอร์สนามผลและทรานซิสเตอร์อิเล็กตรอนเดี่ยว",
+        "name": "5.3 ทรานซิสเตอร์สนามผลและทรานซิสเตอร์อิเล็กตรอนเดี่ยว (Nano-FET &amp; Single Electron Transistor)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4996"
       },
       {
         "cmid": "4997",
-        "name": "5.4 สปินทรอนิกส์และเทคโนโลยีหัวอ่านแม่เหล็ก",
+        "name": "5.4 สปินทรอนิกส์และเทคโนโลยีหัวอ่านแม่เหล็ก (Spintronics &amp; GMR/TMR Devices)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4997"
       },
       {
@@ -165,22 +165,22 @@
     "pages": [
       {
         "cmid": "4999",
-        "name": "6.1 โซลาร์เซลล์รุ่นใหม่และตัวเร่งปฏิกิริยานาโน",
+        "name": "6.1 โซลาร์เซลล์รุ่นใหม่และตัวเร่งปฏิกิริยานาโน (Perovskite Solar Cells &amp; Nanocatalysis)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4999"
       },
       {
         "cmid": "5000",
-        "name": "6.2 การกักเก็บพลังงาน: นาโนแบตเตอรี่และซูเปอร์คาปาซิเตอร์",
+        "name": "6.2 การกักเก็บพลังงาน: นาโนแบตเตอรี่และซูเปอร์คาปาซิเตอร์ (Nano Batteries &amp; Supercapacitors)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=5000"
       },
       {
         "cmid": "5001",
-        "name": "6.3 การนำส่งยาตรงเป้าหมายและอนุภาคไขมันระดับนาโน",
+        "name": "6.3 การนำส่งยาตรงเป้าหมายและอนุภาคไขมันระดับนาโน (Targeted Drug Delivery &amp; LNPs)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=5001"
       },
       {
         "cmid": "5002",
-        "name": "6.4 นาโนเซนเซอร์และการตรวจวินิจฉัยโรคทางการแพทย์",
+        "name": "6.4 นาโนเซนเซอร์และการตรวจวินิจฉัยโรคทางการแพทย์ (Nanosensors &amp; SERS Diagnostics)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=5002"
       },
       {
@@ -196,22 +196,22 @@
     "pages": [
       {
         "cmid": "5004",
-        "name": "7.1 ความเป็นพิษของอนุภาคนาโนและเส้นทางการรับสัมผัส",
+        "name": "7.1 ความเป็นพิษของอนุภาคนาโนและเส้นทางการรับสัมผัส (Nanotoxicology &amp; Exposure Pathways)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=5004"
       },
       {
         "cmid": "5005",
-        "name": "7.2 มาตรการควบคุมและขั้นตอนปฏิบัติงานมาตรฐาน",
+        "name": "7.2 มาตรการควบคุมและขั้นตอนปฏิบัติงานมาตรฐาน (Hierarchy of Controls &amp; Nano-SOP)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=5005"
       },
       {
         "cmid": "5006",
-        "name": "7.3 การจัดการของเสียวัสดุนาโนและสิ่งแวดล้อม",
+        "name": "7.3 การจัดการของเสียวัสดุนาโนและสิ่งแวดล้อม (Nano-waste Disposal &amp; Environment)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=5006"
       },
       {
         "cmid": "5007",
-        "name": "7.4 จริยธรรมการวิจัยและการกำกับดูแลเทคโนโลยี",
+        "name": "7.4 จริยธรรมการวิจัยและการกำกับดูแลเทคโนโลยี (Research Ethics &amp; Governance)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=5007"
       },
       {
@@ -227,27 +227,27 @@
     "pages": [
       {
         "cmid": "5009",
-        "name": "8.1 การจำลองสมบัติทางแสงของวัสดุนาโนด้วยระเบียบวิธีเชิงตัวเลข",
+        "name": "8.1 การจำลองสมบัติทางแสงของวัสดุนาโนด้วยระเบียบวิธีเชิงตัวเลข (FDTD Computational Optics)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=5009"
       },
       {
         "cmid": "5010",
-        "name": "8.2 การจำลองพลวัตโมเลกุลในระดับนาโน",
+        "name": "8.2 การจำลองพลวัตโมเลกุลในระดับนาโน (Molecular Dynamics Simulation)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=5010"
       },
       {
         "cmid": "5011",
-        "name": "8.3 การออกแบบโครงงานวิจัยนาโนเทคโนโลยีเชิงฟิสิกส์",
+        "name": "8.3 การออกแบบโครงงานวิจัยนาโนเทคโนโลยีเชิงฟิสิกส์ (Nanophysics Research Proposal Design)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=5011"
       },
       {
         "cmid": "5012",
-        "name": "8.4 การวิเคราะห์ข้อมูลขั้นสูงและการนำเสนอผลงานวิจัย",
+        "name": "8.4 การวิเคราะห์ข้อมูลขั้นสูงและการนำเสนอผลงานวิจัย (Data Analysis &amp; Scientific Reporting)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=5012"
       },
       {
         "cmid": "5013",
-        "name": "8.5 ห้องปฏิบัติการเสมือนจริง 3D/AR เต็มรูปแบบพร้อมระบบตรวจจับท่าทางมือ",
+        "name": "8.5 ห้องปฏิบัติการเสมือนจริง 3D/AR เต็มรูปแบบพร้อมระบบตรวจจับท่าทางมือ (Universal AR Nanophysics Lab Hub)",
         "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=5013"
       }
     ]
