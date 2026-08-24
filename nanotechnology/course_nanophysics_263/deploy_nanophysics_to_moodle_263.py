@@ -4,7 +4,7 @@
 Automated Pipeline to Populate Course ID 263 (นาโนเทคโนโลยีเชิงฟิสิกส์):
 - Creates/updates 40 Page activities across 8 sections
 - Updates Section 0 Course Hero Banner & Learning Outcomes (CLO 1-7)
-- Updates Sections 1-8 with 3D Animated SVG Covers and 3D Interactive Cards Grid
+- Updates Sections 1-8 with 3D Animated SVG Covers and 3D Interactive Cards Grid (with exact cmid links)
 """
 
 import os
@@ -58,17 +58,158 @@ for s_num_str, s_html in sections_raw:
     for m_id, m_html in acts:
         inst = re.search(r'<span class=\"instancename\"[^>]*>(.*?)</span>', m_html, re.DOTALL)
         name = re.sub(r'<[^>]+>', '', inst.group(1)).strip() if inst else ''
+        # Clean title
+        name = re.sub(r'\s*หน้า\s*$', '', name).strip()
         pages.append({"cmid": m_id, "name": name, "url": f"{BASE_URL}/mod/page/view.php?id={m_id}"})
     moodle_catalog[s_num] = {"section_num": s_num, "sec_db_id": sec_db_id, "pages": pages}
 
-print(f"Found {len(moodle_catalog)} sections on Course {COURSE_ID}:")
-for s_num, s_info in moodle_catalog.items():
-    print(f"  Section {s_num} (DB ID: {s_info['sec_db_id']}): {len(s_info['pages'])} pages")
+# 2. Create / Update all 40 Page Activities
+print("\n📝 Creating / Updating all 40 Page Activities across 8 Chapters...")
+
+for ch in chapters:
+    ch_id = ch["id"]
+    sec_info = moodle_catalog.get(ch_id, {"sec_db_id": "", "pages": []})
+    existing_pages = sec_info["pages"]
+
+    for p_idx, p in enumerate(ch["pages"]):
+        sub_id = p["id"]
+        title = p["title"]
+        page_name = f"{title}"
+        fpath = os.path.join(MOODLE_PAGES_DIR, f"page_{sub_id.replace('.', '_')}.html")
+        with open(fpath, "r", encoding="utf-8") as f:
+            content_html = f.read()
+
+        # Check if already exists in this section
+        matched_cmid = None
+        if p_idx < len(existing_pages):
+            matched_cmid = existing_pages[p_idx]["cmid"]
+        else:
+            for ep in existing_pages:
+                if sub_id in ep["name"]:
+                    matched_cmid = ep["cmid"]
+                    break
+
+        if matched_cmid:
+            # Update existing page
+            edit_url = f"{BASE_URL}/course/modedit.php?update={matched_cmid}&return=0&sr=0"
+            r_edit = session.get(edit_url)
+            if r_edit.status_code == 200:
+                data = {}
+                for m in re.finditer(r'<input[^>]*name=[\"\']([^\"\']+)[\"\'][^>]*value=[\"\']([^\"\']*)[\"\']', r_edit.text):
+                    k, v = m.group(1), m.group(2)
+                    if k in ['cancel', 'submitbutton', 'q', 'search']:
+                        continue
+                    data[k] = v
+                data['availabilityconditionsjson'] = '{"op":"&","c":[],"showc":[]}'
+                data['name'] = page_name
+                data['introeditor[text]'] = f"บทเรียนรายวิชานาโนเทคโนโลยีเชิงฟิสิกส์: {title}"
+                data['introeditor[format]'] = "1"
+                data['page[text]'] = content_html
+                data['page[format]'] = "1"
+                data['submitbutton2'] = "บันทึกและกลับไปยังรายวิชา"
+                session.post(f"{BASE_URL}/course/modedit.php", data=data)
+                print(f"  ✅ Updated Page {sub_id} (CMID: {matched_cmid}): {page_name}")
+        else:
+            # Create new page
+            add_url = f"{BASE_URL}/course/modedit.php?add=page&type=&course={COURSE_ID}&section={ch_id}&return=0&sr=0"
+            r_add = session.get(add_url)
+            if r_add.status_code == 200:
+                data = {}
+                for m in re.finditer(r'<input[^>]*name=[\"\']([^\"\']+)[\"\'][^>]*value=[\"\']([^\"\']*)[\"\']', r_add.text):
+                    k, v = m.group(1), m.group(2)
+                    if k in ['cancel', 'submitbutton', 'q', 'search']:
+                        continue
+                    data[k] = v
+                data['availabilityconditionsjson'] = '{"op":"&","c":[],"showc":[]}'
+                data['name'] = page_name
+                data['introeditor[text]'] = f"บทเรียนรายวิชานาโนเทคโนโลยีเชิงฟิสิกส์: {title}"
+                data['introeditor[format]'] = "1"
+                data['page[text]'] = content_html
+                data['page[format]'] = "1"
+                data['submitbutton2'] = "บันทึกและกลับไปยังรายวิชา"
+                resp_create = session.post(f"{BASE_URL}/course/modedit.php", data=data)
+                print(f"  ✨ Created New Page {sub_id}: {page_name}")
+                time.sleep(0.3)
+
+# 3. Refresh Catalog after page creations
+print("\n📡 Re-fetching full catalog from Course 263...")
+r_course = session.get(f"{BASE_URL}/course/view.php?id={COURSE_ID}")
+sections_raw = re.findall(r'<li[^>]*id=\"section-(\d+)\"[^>]*>(.*?)</li>\s*(?=<li[^>]*id=\"section-|\Z)', r_course.text, re.DOTALL)
+moodle_catalog = {}
+
+for s_num_str, s_html in sections_raw:
+    s_num = int(s_num_str)
+    sec_id_m = re.search(r'editsection\.php\?id=(\d+)', s_html)
+    sec_db_id = sec_id_m.group(1) if sec_id_m else ''
+    acts = re.findall(r'<li[^>]*class=\"activity\s+page[^>]*id=\"module-(\d+)\"[^>]*>(.*?)</li>', s_html, re.DOTALL)
+    pages = []
+    for m_id, m_html in acts:
+        inst = re.search(r'<span class=\"instancename\"[^>]*>(.*?)</span>', m_html, re.DOTALL)
+        name = re.sub(r'<[^>]+>', '', inst.group(1)).strip() if inst else ''
+        name = re.sub(r'\s*หน้า\s*$', '', name).strip()
+        pages.append({"cmid": m_id, "name": name, "url": f"{BASE_URL}/mod/page/view.php?id={m_id}"})
+    moodle_catalog[s_num] = {"section_num": s_num, "sec_db_id": sec_db_id, "pages": pages}
+
+total_pages_created = sum(len(s["pages"]) for s in moodle_catalog.values())
+print(f"Total Page activities on Course 263: {total_pages_created} / 40")
 
 with open(os.path.join(NANO_DIR, "moodle_catalog_263.json"), "w", encoding="utf-8") as f:
     json.dump(moodle_catalog, f, ensure_ascii=False, indent=2)
 
-# 2. Deploy 3D Animated Covers and Topic Cards to Sections 1 through 8
+# 4. Deploy Section 0 Hero Banner
+print("\n🎨 Deploying Section 0 Course Hero Banner...")
+sec0_db_id = moodle_catalog.get(0, {}).get("sec_db_id", "2540")
+sec0_html = """
+<div class="course-panoramic-hero" style="font-family: 'Sarabun', -apple-system, sans-serif; background: linear-gradient(135deg, #090e1a 0%, #0f172a 100%); border: 1px solid rgba(0, 240, 255, 0.4); border-radius: 16px; padding: 28px; margin-bottom: 24px; color: #ffffff; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7); position: relative; overflow: hidden;">
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+    <div>
+      <span style="background: rgba(0, 240, 255, 0.15); border: 1px solid #00f0ff; color: #00f0ff; padding: 4px 12px; border-radius: 9999px; font-size: 0.82rem; font-weight: 700; font-family: 'JetBrains Mono', monospace;">⚛️ RBRU MOOC 4014971</span>
+      <h1 style="font-size: 1.85rem; font-weight: 800; color: #ffffff; margin: 10px 0 6px 0; letter-spacing: -0.5px;">รายวิชา นาโนเทคโนโลยีเชิงฟิสิกส์</h1>
+      <p style="font-size: 1.05rem; color: #38bdf8; font-weight: 600; margin-bottom: 12px;">Nanotechnological Physics & Quantum Nanomaterials</p>
+      <p style="font-size: 0.92rem; color: #cbd5e1; max-width: 850px; line-height: 1.7;">
+        ยินดีต้อนรับสู่หลักสูตรออนไลน์เชิงปฏิบัติการระดับพรีเมียม ศึกษาฟิสิกส์ของสสารในระดับ 1 ถึง 100 นาโนเมตร การกักขังเชิงควอนตัม (Quantum Confinement) การสั่นพลาสมอนพื้นผิวเฉพาะที่ (LSPR) กล้องจุลทรรศน์อิเล็กตรอนและโพรบสแกน (SEM/TEM/AFM/STM) กราฟีน ท่อคาร์บอนนาโน โซลาร์เซลล์รุ่นใหม่ และการนำส่งยาตรงเป้าหมาย พร้อมห้องปฏิบัติการจำลอง 60 FPS และระบบควบคุมไร้สัมผัส AR MediaPipe Hands
+      </p>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 18px;">
+    <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid #1e293b; border-radius: 10px; padding: 12px 16px;">
+      <div style="font-size: 0.78rem; color: #94a3b8; font-weight: 700;">📚 โครงสร้างรายวิชา</div>
+      <div style="font-size: 1.05rem; color: #facc15; font-weight: 700;">8 บทเรียน 40 หัวข้อย่อย</div>
+    </div>
+    <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid #1e293b; border-radius: 10px; padding: 12px 16px;">
+      <div style="font-size: 0.78rem; color: #94a3b8; font-weight: 700;">🔬 ปฏิบัติการจำลอง</div>
+      <div style="font-size: 1.05rem; color: #00f0ff; font-weight: 700;">40 AR Interactive Labs</div>
+    </div>
+    <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid #1e293b; border-radius: 10px; padding: 12px 16px;">
+      <div style="font-size: 0.78rem; color: #94a3b8; font-weight: 700;">🎯 ผลลัพธ์การเรียนรู้</div>
+      <div style="font-size: 1.05rem; color: #10b981; font-weight: 700;">CLO 1 – CLO 7</div>
+    </div>
+  </div>
+</div>
+"""
+
+edit_url0 = f"{BASE_URL}/course/editsection.php?id={sec0_db_id}"
+r_edit0 = session.get(edit_url0)
+if r_edit0.status_code == 200:
+    payload0 = {
+        "context": get_input_val("context", r_edit0.text) or "19158",
+        "id": sec0_db_id,
+        "course": COURSE_ID,
+        "sesskey": sesskey,
+        "_qf__editsection_form": "1",
+        "mform_isexpanded_id_generalhdr": "1",
+        "mform_isexpanded_id_availabilityconditions": "0",
+        "name": "ภาพรวมรายวิชาและคำแนะนำการเรียนรู้",
+        "summary_editor[text]": sec0_html,
+        "summary_editor[format]": "1",
+        "summary_editor[itemid]": get_input_val("summary_editor[itemid]", r_edit0.text),
+        "submitbutton": "บันทึกการเปลี่ยนแปลง"
+    }
+    session.post(edit_url0, data=payload0)
+    print("  ✅ Deployed Section 0 Course Hero Banner!")
+
+# 5. Deploy 3D Animated Covers and Topic Cards with exact CMID links to Sections 1 through 8
 print("\n🎨 Deploying 3D Animated Covers & Topic Cards to Sections 1-8...")
 
 from deploy_animated_covers_and_section_cards import get_chapter_animated_cover_svg
@@ -331,4 +472,4 @@ for ch in chapters:
         session.post(edit_url, data=payload)
         print(f"  ✅ Deployed 3D Animated Cover & Topic Cards to Chapter {ch_id} (Section ID: {sec_db_id})")
 
-print(f"\n🎉 Successfully configured and deployed Course ID {COURSE_ID} (นาโนเทคโนโลยีเชิงฟิสิกส์) to RBRU Moodle LMS!")
+print(f"\n🎉 Successfully created and deployed Course ID {COURSE_ID} (นาโนเทคโนโลยีเชิงฟิสิกส์) to RBRU Moodle LMS!")
