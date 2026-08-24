@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 4.5 4.5 แบบฝึกหัดและปฏิบัติการจำลอง AR</title>
+  <title>4.5 ปฏิบัติการควอนตัม & ชิปแฟลช</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,33 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
+      margin: 0;
+      padding: 6px;
       overflow-x: hidden;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -48,33 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -88,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -101,9 +96,9 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
@@ -116,107 +111,196 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 4.5 4.5 แบบฝึกหัดและปฏิบัติการจำลอง AR
-      </div>
+      <div class="sim-title"><span>🔬</span> 4.5 ปฏิบัติการควอนตัม: การซ้อนทับสถานะ (Superposition Sloshing) & ชิป Flash Memory</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
-    
-        <div class="control-grid">
-          <div class="ctrl-box" style="grid-column: 1 / -1;">
-            <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="val_param" class="val-display">50</span>%</label>
-            <input type="range" id="slider_param" min="1" max="100" value="50">
-          </div>
-        </div>
-        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
-        
-
-    
-        <div class="readout-grid">
-          <div class="readout-card"><div class="readout-val" id="val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_status" style="color:#10b981;">Ready 2D/3D</div><div class="readout-lbl">โหมดประมวลผล</div></div>
-        </div>
-        
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tabSuper" onclick="setMode('super')">🌊 การซ้อนทับควอนตัม (Wave Sloshing)</button>
+      <button class="tab-btn" id="tabFlash" onclick="setMode('flash')">💾 ชิป Flash Memory (Floating Gate)</button>
+    </div>
+    <div id="controlsSuper" class="control-grid">
+      <div class="ctrl-box">
+        <label>สัดส่วนสถานะพื้น c₁ (n=1): <span id="val_c1" class="val-display">0.71</span></label>
+        <input type="range" id="slider_c1" min="0.0" max="1.0" step="0.05" value="0.71">
+      </div>
+      <div class="ctrl-box">
+        <label>สัดส่วนสถานะกระตุ้น c₂ (n=2): <span id="val_c2" class="val-display">0.71</span></label>
+        <div style="color:#94a3b8; font-size:0.80rem; margin-top:4px;">เงื่อนไขนอร์มัลไลซ์: |c₁|² + |c₂|² = 1.00</div>
+      </div>
+    </div>
+    <div id="controlsFlash" class="control-grid" style="display:none;">
+      <div class="ctrl-box">
+        <label>แรงดันพัลส์เขียนข้อมูล (V_prog): <span id="val_vprog" class="val-display">12.0</span> V</label>
+        <input type="range" id="slider_vprog" min="0.0" max="20.0" step="1.0" value="12.0">
+      </div>
+      <div class="ctrl-box">
+        <label>สถานะบิตข้อมูล (Bit State): <span id="val_bit" class="val-display" style="color:#10b981;">Programmed (Bit 0)</span></label>
+        <div style="color:#94a3b8; font-size:0.80rem; margin-top:4px;">Fowler-Nordheim Tunneling ผ่านชั้น Oxide</div>
+      </div>
+    </div>
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+    <div class="readout-grid" id="readoutsSuper">
+      <div class="readout-card"><div class="readout-val" id="val_beat_freq">1.13 × 10¹⁵ Hz</div><div class="readout-lbl">ความถี่การแกว่งบีต (ω = (E₂-E₁)/ℏ)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_pos_expect">กึ่งกลางกล่อง</div><div class="readout-lbl">ค่าคาดหวังตำแหน่ง ⟨x(t)⟩ แกว่งไป-มา</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_super_stat" style="color:#00f0ff;">การแทรกสอดควอนตัม</div><div class="readout-lbl">สถานะไม่นิ่ง (Non-stationary)</div></div>
+    </div>
+    <div class="readout-grid" id="readoutsFlash" style="display:none;">
+      <div class="readout-card"><div class="readout-val" id="val_inj_rate">8.4 × 10⁶ e⁻/s</div><div class="readout-lbl">อัตราการฉีดอิเล็กตรอนทะลุกำแพง</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_fg_charge">-15.4 fC</div><div class="readout-lbl">ประจุสะสมใน Floating Gate</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_flash_stat" style="color:#10b981;">กักเก็บประจุได้ > 10 ปี</div><div class="readout-lbl">ความคงทนหน่วยความจำ</div></div>
+    </div>
   </div>
 
   <script>
-    
-        const cv = document.getElementById("simCanvas");
-        const ctx = cv.getContext("2d");
-        const slider = document.getElementById("slider_param") || { value: 50 };
-        let tick = 0;
 
-        function animate() {
-          const val = +slider.value || 50;
-          const valEl = document.getElementById("val_param");
-          if (valEl) valEl.textContent = val;
-          const coeff = (val / 50).toFixed(3);
-          const mEl = document.getElementById("val_metric");
-          if (mEl) mEl.textContent = coeff;
+    const cv = document.getElementById("simCanvas");
+    const ctx = cv.getContext("2d");
+    let currentMode = "super";
+    let tick = 0;
 
-          ctx.clearRect(0, 0, cv.width, cv.height);
+    function setMode(mode) {
+      currentMode = mode;
+      document.getElementById("tabSuper").classList.toggle("active", mode === "super");
+      document.getElementById("tabFlash").classList.toggle("active", mode === "flash");
+      document.getElementById("controlsSuper").style.display = mode === "super" ? "grid" : "none";
+      document.getElementById("controlsFlash").style.display = mode === "flash" ? "grid" : "none";
+      document.getElementById("readoutsSuper").style.display = mode === "super" ? "grid" : "none";
+      document.getElementById("readoutsFlash").style.display = mode === "flash" ? "grid" : "none";
+    }
 
-          // Waveform 1 (Neon Cyan)
-          ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=2) {
-            const norm = (x-40)/560;
-            const y = 115 + 45 * Math.sin(norm * Math.PI * 4 * coeff + tick*0.06) * Math.cos(norm * Math.PI * 2);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+    function animate() {
+      ctx.clearRect(0, 0, cv.width, cv.height);
 
-          // Waveform 2 (Amber Field)
-          ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=4) {
-            const norm = (x-40)/560;
-            const y = 115 + 50 * Math.sin(norm * Math.PI * 2 * coeff - tick*0.04);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+      if (currentMode === "super") {
+        const c1 = +document.getElementById("slider_c1").value;
+        const c2 = Math.sqrt(Math.max(0, 1 - c1*c1));
 
-          // Particle Field
-          for(let i=0; 10 > i; i++) {
-            const px = 40 + ((tick*3 + i*56) % 560);
-            const py = 115 + 30 * Math.sin(px*0.02 + tick*0.05);
-            ctx.fillStyle = "#10b981";
-            ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI*2); ctx.fill();
-          }
+        document.getElementById("val_c1").textContent = c1.toFixed(2);
+        document.getElementById("val_c2").textContent = c2.toFixed(2);
 
-          ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
-          ctx.fillText("จำลองผลลัพธ์พลวัตเชิงฟิสิกส์เรียลไทม์ (Live 60 FPS Engine)", 50, 30);
+        const ox = 120, oy = 115, boxW = 400;
 
-          tick++;
-          requestAnimationFrame(animate);
+        // Hard Walls
+        ctx.fillStyle = "#334155";
+        ctx.fillRect(ox - 10, 30, 10, 160); ctx.fillRect(ox + boxW, 30, 10, 160);
+
+        // Superposition state: Psi(x,t) = c1*psi1*e^(-iE1 t) + c2*psi2*e^(-iE2 t)
+        // |Psi(x,t)|^2 = c1^2*psi1^2 + c2^2*psi2^2 + 2*c1*c2*psi1*psi2*cos((E2-E1)t/hbar)
+        const beatAngle = tick * 0.06;
+
+        ctx.fillStyle = "rgba(0, 240, 255, 0.35)";
+        ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
+        ctx.beginPath(); ctx.moveTo(ox, oy + 65);
+        for(let px = 0; boxW >= px; px += 2) {
+          const normX = px / boxW;
+          const psi1 = Math.sin(Math.PI * normX);
+          const psi2 = Math.sin(2 * Math.PI * normX);
+          const prob = c1*c1*psi1*psi1 + c2*c2*psi2*psi2 + 2*c1*c2*psi1*psi2*Math.cos(beatAngle);
+          const y = oy + 65 - prob * 70;
+          ctx.lineTo(ox + px, y);
         }
-        animate();
-        
+        ctx.lineTo(ox + boxW, oy + 65); ctx.closePath(); ctx.fill(); ctx.stroke();
+
+        ctx.fillStyle = "#ffffff"; ctx.font = "11px sans-serif";
+        ctx.fillText("ความหนาแน่นความน่าจะเป็น |Ψ(x,t)|² แกว่งสลับซ้าย-ขวา (Quantum Beating)", ox + 25, 20);
+      }
+      else {
+        // Flash Memory Floating Gate Mode
+        const vprog = +document.getElementById("slider_vprog").value;
+        document.getElementById("val_vprog").textContent = vprog.toFixed(1);
+
+        const isWritten = vprog >= 10.0;
+        const bitEl = document.getElementById("val_bit");
+        if (isWritten) {
+          bitEl.textContent = "Programmed (Bit 0)"; bitEl.style.color = "#10b981";
+        } else {
+          bitEl.textContent = "Erased (Bit 1)"; bitEl.style.color = "#38bdf8";
+        }
+
+        // Flash Memory Architecture Diagram
+        // Control Gate (Top)
+        ctx.fillStyle = "#334155"; ctx.fillRect(160, 30, 320, 24);
+        ctx.fillStyle = "#38bdf8"; ctx.font = "11px sans-serif"; ctx.fillText("Control Gate (CG: " + vprog + " V)", 240, 46);
+
+        // Interpoly Dielectric (Oxide)
+        ctx.fillStyle = "rgba(239, 68, 68, 0.3)"; ctx.fillRect(160, 54, 320, 14);
+
+        // Floating Gate (Isolated Quantum Well)
+        ctx.fillStyle = "#0f172a"; ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 1.5;
+        ctx.fillRect(180, 68, 280, 30); ctx.strokeRect(180, 68, 280, 30);
+        ctx.fillStyle = "#00f0ff"; ctx.fillText("Floating Gate (บ่อศักย์กักเก็บประจุ)", 240, 87);
+
+        // Tunnel Oxide Layer
+        ctx.fillStyle = "rgba(245, 158, 11, 0.35)"; ctx.fillRect(160, 98, 320, 16);
+        ctx.fillStyle = "#f59e0b"; ctx.font = "9px sans-serif"; ctx.fillText("Tunnel Oxide (10 nm)", 270, 110);
+
+        // Silicon Substrate (Bottom)
+        ctx.fillStyle = "#1e293b"; ctx.fillRect(160, 114, 320, 65);
+        ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif"; ctx.fillText("Silicon Substrate (p-type Channel)", 240, 155);
+
+        // Tunneling Electron Arrows
+        if (isWritten) {
+          ctx.strokeStyle = "#10b981"; ctx.lineWidth = 2;
+          for(let i=0; 6 > i; i++) {
+            const ex = 200 + i * 45;
+            const ey = 114 - ((tick * 2 + i * 15) % 18);
+            ctx.fillStyle = "#10b981";
+            ctx.beginPath(); ctx.arc(ex, ey, 3.5, 0, Math.PI*2); ctx.fill();
+          }
+        }
+      }
+
+      tick++;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
   </script>
 </body>
 </html>
