@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 5.4 5.4 สเปกตรัมของอะตอมและการวิเคราะห์ธาตุ</title>
+  <title>5.4 สเปกตรัมของอะตอม & การวิเคราะห์ธาตุ</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,33 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
+      margin: 0;
+      padding: 6px;
       overflow-x: hidden;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -48,33 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -88,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -101,9 +96,9 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
@@ -116,107 +111,214 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 5.4 5.4 สเปกตรัมของอะตอมและการวิเคราะห์ธาตุ
-      </div>
+      <div class="sim-title"><span>🔬</span> 5.4 สเปกตรัมของอะตอม & ลายพิมพ์นิ้วมือของธาตุ (Atomic Spectroscopy & Fingerprints)</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
-    
-        <div class="control-grid">
-          <div class="ctrl-box" style="grid-column: 1 / -1;">
-            <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="val_param" class="val-display">50</span>%</label>
-            <input type="range" id="slider_param" min="1" max="100" value="50">
-          </div>
-        </div>
-        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
-        
-
-    
-        <div class="readout-grid">
-          <div class="readout-card"><div class="readout-val" id="val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_status" style="color:#10b981;">Ready 2D/3D</div><div class="readout-lbl">โหมดประมวลผล</div></div>
-        </div>
-        
+    <div class="control-grid">
+      <div class="ctrl-box">
+        <label>เลือกธาตุสารตัวอย่าง (Element Sample):</label>
+        <select id="sel_element">
+          <option value="H" selected>ไฮโดรเจน Hydrogen (Balmer Lines: 656, 486, 434, 410 nm)</option>
+          <option value="He">ฮีเลียม Helium (D₃ Line 587.6 nm - การค้นพบบนดวงอาทิตย์)</option>
+          <option value="Na">โซเดียม Sodium (Yellow Doublet D-lines: 589.0 & 589.6 nm)</option>
+          <option value="Ne">นีออน Neon (Red-Orange Discharge Glow)</option>
+          <option value="Hg">ปรอท Mercury (UV-Violet-Green Triplet: 404, 436, 546 nm)</option>
+        </select>
+      </div>
+      <div class="ctrl-box">
+        <label>โหมดสเปกโตรสโคปี (Spectroscopy Mode):</label>
+        <select id="sel_mode">
+          <option value="emission" selected>สเปกตรัมการเปล่งแสง (Emission - เส้นสว่างบนพื้นมืด)</option>
+          <option value="absorption">สเปกตรัมการดูดกลืน (Absorption / Fraunhofer Lines)</option>
+        </select>
+      </div>
+    </div>
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+    <div class="readout-grid">
+      <div class="readout-card"><div class="readout-val" id="val_color_glow">สีม่วงอมชมพู</div><div class="readout-lbl">สีพลาสมาในหลอดคายประจุ</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_key_line">656.3 nm (Hα)</div><div class="readout-lbl">เส้นสเปกตรัมเด่นประจำธาตุ</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_app_stat" style="color:#00f0ff;">ยืนยันองค์ประกอบธาตุ 100%</div><div class="readout-lbl">การวิเคราะห์ดาราศาสตร์ฟิสิกส์</div></div>
+    </div>
   </div>
 
   <script>
-    
-        const cv = document.getElementById("simCanvas");
-        const ctx = cv.getContext("2d");
-        const slider = document.getElementById("slider_param") || { value: 50 };
-        let tick = 0;
 
-        function animate() {
-          const val = +slider.value || 50;
-          const valEl = document.getElementById("val_param");
-          if (valEl) valEl.textContent = val;
-          const coeff = (val / 50).toFixed(3);
-          const mEl = document.getElementById("val_metric");
-          if (mEl) mEl.textContent = coeff;
+    const cv = document.getElementById("simCanvas");
+    const ctx = cv.getContext("2d");
+    const selEl = document.getElementById("sel_element");
+    const selMod = document.getElementById("sel_mode");
+    let tick = 0;
 
-          ctx.clearRect(0, 0, cv.width, cv.height);
+    const spectralData = {
+      H: {
+        glow: "rgba(239, 68, 68, 0.8)", glowName: "ม่วง-ชมพู (Lavender-Red)", key: "656.3 nm (Hα)",
+        lines: [
+          { lam: 656.3, col: "#ef4444", name: "H-alpha" },
+          { lam: 486.1, col: "#06b6d4", name: "H-beta" },
+          { lam: 434.0, col: "#3b82f6", name: "H-gamma" },
+          { lam: 410.2, col: "#8b5cf6", name: "H-delta" }
+        ]
+      },
+      He: {
+        glow: "rgba(245, 158, 11, 0.8)", glowName: "ส้ม-เหลืองนวล (Amber-Yellow)", key: "587.6 nm (D₃ Line)",
+        lines: [
+          { lam: 706.5, col: "#dc2626", name: "He 706" },
+          { lam: 587.6, col: "#f59e0b", name: "D3 Yellow" },
+          { lam: 501.6, col: "#10b981", name: "He Green" },
+          { lam: 447.1, col: "#3b82f6", name: "He Blue" },
+          { lam: 388.9, col: "#7c3aed", name: "He Violet" }
+        ]
+      },
+      Na: {
+        glow: "rgba(234, 179, 8, 0.9)", glowName: "เหลืองอำพันสด (Bright Yellow)", key: "589.0 & 589.6 nm (D-lines)",
+        lines: [
+          { lam: 589.0, col: "#eab308", name: "Na D2" },
+          { lam: 589.6, col: "#facc15", name: "Na D1" }
+        ]
+      },
+      Ne: {
+        glow: "rgba(239, 68, 68, 0.9)", glowName: "ส้ม-แดงนีออน (Vibrant Red-Orange)", key: "640.2 nm (Ne Red)",
+        lines: [
+          { lam: 640.2, col: "#ef4444", name: "Ne Red" },
+          { lam: 614.3, col: "#f97316", name: "Ne Orange" },
+          { lam: 585.2, col: "#facc15", name: "Ne Yellow" }
+        ]
+      },
+      Hg: {
+        glow: "rgba(56, 189, 248, 0.85)", glowName: "ฟ้าอมเขียว (Cyan-Blue)", key: "546.1 nm (Hg Green)",
+        lines: [
+          { lam: 579.0, col: "#eab308", name: "Hg Yellow" },
+          { lam: 546.1, col: "#22c55e", name: "Hg Green" },
+          { lam: 435.8, col: "#3b82f6", name: "Hg Blue" },
+          { lam: 404.7, col: "#8b5cf6", name: "Hg Violet" }
+        ]
+      }
+    };
 
-          // Waveform 1 (Neon Cyan)
-          ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=2) {
-            const norm = (x-40)/560;
-            const y = 115 + 45 * Math.sin(norm * Math.PI * 4 * coeff + tick*0.06) * Math.cos(norm * Math.PI * 2);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    function animate() {
+      const elCode = selEl.value;
+      const mode = selMod.value;
+      const data = spectralData[elCode];
+
+      document.getElementById("val_color_glow").textContent = data.glowName;
+      document.getElementById("val_key_line").textContent = data.key;
+
+      ctx.clearRect(0, 0, cv.width, cv.height);
+
+      // Left Panel: Gas Discharge Tube
+      const tx = 50, ty = 40, tw = 35, th = 145;
+      ctx.fillStyle = "#0f172a"; ctx.strokeStyle = "#334155"; ctx.lineWidth = 1.5;
+      ctx.fillRect(tx, ty, tw, th); ctx.strokeRect(tx, ty, tw, th);
+
+      // Plasma glow inside tube
+      const plasGrad = ctx.createLinearGradient(tx, 0, tx + tw, 0);
+      plasGrad.addColorStop(0, "rgba(255, 255, 255, 0.2)");
+      plasGrad.addColorStop(0.5, data.glow);
+      plasGrad.addColorStop(1, "rgba(255, 255, 255, 0.2)");
+      ctx.fillStyle = plasGrad;
+      ctx.fillRect(tx + 4, ty + 10, tw - 8, th - 20);
+
+      ctx.fillStyle = "#ffffff"; ctx.font = "bold 11px sans-serif";
+      ctx.fillText(elCode + " Tube", tx - 6, ty + th + 18);
+
+      // Right Panel: Spectrograph Film Strip
+      const specX = 140, specY = 40, specW = 460, specH = 90;
+
+      if (mode === "emission") {
+        // Dark background with bright emission lines
+        ctx.fillStyle = "#030712"; ctx.strokeStyle = "#1e293b"; ctx.lineWidth = 2;
+        ctx.fillRect(specX, specY, specW, specH); ctx.strokeRect(specX, specY, specW, specH);
+
+        // Draw emission lines
+        data.lines.forEach(line => {
+          const lx = specX + ((line.lam - 380) / (720 - 380)) * specW;
+          if (lx >= specX && specX + specW >= lx) {
+            ctx.strokeStyle = line.col; ctx.lineWidth = 3.5;
+            ctx.beginPath(); ctx.moveTo(lx, specY); ctx.lineTo(lx, specY + specH); ctx.stroke();
+
+            ctx.fillStyle = line.col; ctx.font = "bold 9px sans-serif";
+            ctx.fillText(line.lam.toFixed(0), lx - 10, specY + specH + 16);
           }
-          ctx.stroke();
+        });
+      } else {
+        // Continuous rainbow with dark absorption Fraunhofer gaps
+        const rainbow = ctx.createLinearGradient(specX, 0, specX + specW, 0);
+        rainbow.addColorStop(0, "#7c3aed"); // Violet (380 nm)
+        rainbow.addColorStop(0.2, "#3b82f6"); // Blue
+        rainbow.addColorStop(0.4, "#10b981"); // Green
+        rainbow.addColorStop(0.65, "#facc15"); // Yellow
+        rainbow.addColorStop(0.85, "#f97316"); // Orange
+        rainbow.addColorStop(1, "#ef4444"); // Red (720 nm)
+        ctx.fillStyle = rainbow;
+        ctx.fillRect(specX, specY, specW, specH);
 
-          // Waveform 2 (Amber Field)
-          ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=4) {
-            const norm = (x-40)/560;
-            const y = 115 + 50 * Math.sin(norm * Math.PI * 2 * coeff - tick*0.04);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        // Dark Fraunhofer absorption lines
+        data.lines.forEach(line => {
+          const lx = specX + ((line.lam - 380) / (720 - 380)) * specW;
+          if (lx >= specX && specX + specW >= lx) {
+            ctx.strokeStyle = "#020617"; ctx.lineWidth = 4.0;
+            ctx.beginPath(); ctx.moveTo(lx, specY); ctx.lineTo(lx, specY + specH); ctx.stroke();
+
+            ctx.fillStyle = "#f8fafc"; ctx.font = "bold 9px sans-serif";
+            ctx.fillText(line.lam.toFixed(0), lx - 10, specY + specH + 16);
           }
-          ctx.stroke();
+        });
+      }
 
-          // Particle Field
-          for(let i=0; 10 > i; i++) {
-            const px = 40 + ((tick*3 + i*56) % 560);
-            const py = 115 + 30 * Math.sin(px*0.02 + tick*0.05);
-            ctx.fillStyle = "#10b981";
-            ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI*2); ctx.fill();
-          }
+      ctx.fillStyle = "#94a3b8"; ctx.font = "10px sans-serif";
+      ctx.fillText("สเปกโตรกราฟ: 380 nm (UV/Violet) ------------------------------------------------ 720 nm (Red/IR)", specX, 28);
 
-          ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
-          ctx.fillText("จำลองผลลัพธ์พลวัตเชิงฟิสิกส์เรียลไทม์ (Live 60 FPS Engine)", 50, 30);
+      tick++;
+      requestAnimationFrame(animate);
+    }
+    animate();
 
-          tick++;
-          requestAnimationFrame(animate);
-        }
-        animate();
-        
   </script>
 </body>
 </html>

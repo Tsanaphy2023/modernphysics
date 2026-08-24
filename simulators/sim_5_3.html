@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 5.3 5.3 หลักการกีดกันของเพาลีและตารางธาตุ</title>
+  <title>5.3 หลักการกีดกันของเพาลี</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,33 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
+      margin: 0;
+      padding: 6px;
       overflow-x: hidden;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -48,33 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -88,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -101,9 +96,9 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
@@ -116,107 +111,168 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 5.3 5.3 หลักการกีดกันของเพาลีและตารางธาตุ
-      </div>
+      <div class="sim-title"><span>🔬</span> 5.3 หลักการกีดกันของเพาลี & การจัดเรียงอิเล็กตรอน (Pauli Principle & Aufbau)</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
-    
-        <div class="control-grid">
-          <div class="ctrl-box" style="grid-column: 1 / -1;">
-            <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="val_param" class="val-display">50</span>%</label>
-            <input type="range" id="slider_param" min="1" max="100" value="50">
-          </div>
-        </div>
-        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
-        
-
-    
-        <div class="readout-grid">
-          <div class="readout-card"><div class="readout-val" id="val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_status" style="color:#10b981;">Ready 2D/3D</div><div class="readout-lbl">โหมดประมวลผล</div></div>
-        </div>
-        
+    <div class="control-grid">
+      <div class="ctrl-box">
+        <label>เลขอะตอมธาตุ (Atomic Number Z): <span id="val_z" class="val-display">6</span> (<span id="val_el_name">Carbon - คาร์บอน</span>)</label>
+        <input type="range" id="slider_z" min="1" max="20" step="1" value="6">
+      </div>
+      <div class="ctrl-box">
+        <label>การจัดเรียงอิเล็กตรอน (Electronic Configuration):</label>
+        <div id="val_config" style="color:#00f0ff; font-weight:700; font-family:'JetBrains Mono', monospace; font-size:0.92rem; margin-top:4px;">1s² 2s² 2p²</div>
+      </div>
+    </div>
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+    <div class="readout-grid">
+      <div class="readout-card"><div class="readout-val" id="val_valence">4 ตัว</div><div class="readout-lbl">เวเลนซ์อิเล็กตรอน (Valence e⁻)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_group">หมู่ 4A (Group 14)</div><div class="readout-lbl">ตำแหน่งในตารางธาตุ</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_pauli_stat" style="color:#10b981;">สอดคล้องตามกฎเพาลี 100%</div><div class="readout-lbl">ไม่มีคู่อิเล็กตรอนที่มี 4 ควอนตัมซ้ำกัน</div></div>
+    </div>
   </div>
 
   <script>
-    
-        const cv = document.getElementById("simCanvas");
-        const ctx = cv.getContext("2d");
-        const slider = document.getElementById("slider_param") || { value: 50 };
-        let tick = 0;
 
-        function animate() {
-          const val = +slider.value || 50;
-          const valEl = document.getElementById("val_param");
-          if (valEl) valEl.textContent = val;
-          const coeff = (val / 50).toFixed(3);
-          const mEl = document.getElementById("val_metric");
-          if (mEl) mEl.textContent = coeff;
+    const cv = document.getElementById("simCanvas");
+    const ctx = cv.getContext("2d");
+    const sliderZ = document.getElementById("slider_z");
+    let tick = 0;
 
-          ctx.clearRect(0, 0, cv.width, cv.height);
+    const elements = [
+      "", "Hydrogen (H)", "Helium (He)", "Lithium (Li)", "Beryllium (Be)", "Boron (B)",
+      "Carbon (C)", "Nitrogen (N)", "Oxygen (O)", "Fluorine (F)", "Neon (Ne)",
+      "Sodium (Na)", "Magnesium (Mg)", "Aluminium (Al)", "Silicon (Si)", "Phosphorus (P)",
+      "Sulfur (S)", "Chlorine (Cl)", "Argon (Ar)", "Potassium (K)", "Calcium (Ca)"
+    ];
 
-          // Waveform 1 (Neon Cyan)
-          ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=2) {
-            const norm = (x-40)/560;
-            const y = 115 + 45 * Math.sin(norm * Math.PI * 4 * coeff + tick*0.06) * Math.cos(norm * Math.PI * 2);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    function getSubshellCapacities(Z) {
+      // subshells: 1s(2), 2s(2), 2p(6), 3s(2), 3p(6), 4s(2)
+      let rem = Z;
+      const c1s = Math.min(2, rem); rem -= c1s;
+      const c2s = Math.min(2, rem); rem -= c2s;
+      const c2p = Math.min(6, rem); rem -= c2p;
+      const c3s = Math.min(2, rem); rem -= c3s;
+      const c3p = Math.min(6, rem); rem -= c3p;
+      const c4s = Math.min(2, rem); rem -= c4s;
+      return { s1: c1s, s2: c2s, p2: c2p, s3: c3s, p3: c3p, s4: c4s };
+    }
+
+    function animate() {
+      const Z = +sliderZ.value;
+      document.getElementById("val_z").textContent = Z;
+      document.getElementById("val_el_name").textContent = elements[Z];
+
+      const caps = getSubshellCapacities(Z);
+      let cfgStr = "";
+      if (caps.s1 > 0) cfgStr += "1s" + (caps.s1 > 1 ? "²" : "¹") + " ";
+      if (caps.s2 > 0) cfgStr += "2s" + (caps.s2 > 1 ? "²" : "¹") + " ";
+      if (caps.p2 > 0) cfgStr += "2p" + (caps.p2) + " ";
+      if (caps.s3 > 0) cfgStr += "3s" + (caps.s3 > 1 ? "²" : "¹") + " ";
+      if (caps.p3 > 0) cfgStr += "3p" + (caps.p3) + " ";
+      if (caps.s4 > 0) cfgStr += "4s" + (caps.s4 > 1 ? "²" : "¹");
+      document.getElementById("val_config").textContent = cfgStr;
+
+      ctx.clearRect(0, 0, cv.width, cv.height);
+
+      // Energy Level Orbital Boxes (Aufbau Diagram)
+      const boxes = [
+        { name: "1s", x: 60, y: 170, count: 1, cap: caps.s1 },
+        { name: "2s", x: 130, y: 130, count: 1, cap: caps.s2 },
+        { name: "2p", x: 200, y: 110, count: 3, cap: caps.p2 },
+        { name: "3s", x: 330, y: 80, count: 1, cap: caps.s3 },
+        { name: "3p", x: 400, y: 60, count: 3, cap: caps.p3 },
+        { name: "4s", x: 530, y: 35, count: 1, cap: caps.s4 }
+      ];
+
+      boxes.forEach(sub => {
+        ctx.fillStyle = "#94a3b8"; ctx.font = "bold 11px sans-serif";
+        ctx.fillText(sub.name, sub.x, sub.y + 36);
+
+        let eLeft = sub.cap;
+        // Draw individual boxes
+        for(let b=0; sub.count > b; b++) {
+          const bx = sub.x + b * 32, by = sub.y;
+          ctx.fillStyle = "#0f172a"; ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 1.5;
+          ctx.fillRect(bx, by, 26, 24); ctx.strokeRect(bx, by, 26, 24);
+
+          // Hund's rule: fill up-arrows first across subshell!
+          let hasUp = false, hasDown = false;
+          if (sub.count === 1) {
+            if (eLeft >= 1) hasUp = true;
+            if (eLeft >= 2) hasDown = true;
+          } else {
+            // p subshell (3 boxes): 1->b0 up, 2->b1 up, 3->b2 up, 4->b0 down, 5->b1 down, 6->b2 down
+            if (sub.cap > b) hasUp = true;
+            if (sub.cap > b + 3) hasDown = true;
           }
-          ctx.stroke();
 
-          // Waveform 2 (Amber Field)
-          ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=4) {
-            const norm = (x-40)/560;
-            const y = 115 + 50 * Math.sin(norm * Math.PI * 2 * coeff - tick*0.04);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          if (hasUp) {
+            ctx.fillStyle = "#10b981"; ctx.font = "bold 12px monospace";
+            ctx.fillText("↑", bx + 4, by + 16);
           }
-          ctx.stroke();
-
-          // Particle Field
-          for(let i=0; 10 > i; i++) {
-            const px = 40 + ((tick*3 + i*56) % 560);
-            const py = 115 + 30 * Math.sin(px*0.02 + tick*0.05);
-            ctx.fillStyle = "#10b981";
-            ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI*2); ctx.fill();
+          if (hasDown) {
+            ctx.fillStyle = "#f43f5e"; ctx.font = "bold 12px monospace";
+            ctx.fillText("↓", bx + 14, by + 16);
           }
-
-          ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
-          ctx.fillText("จำลองผลลัพธ์พลวัตเชิงฟิสิกส์เรียลไทม์ (Live 60 FPS Engine)", 50, 30);
-
-          tick++;
-          requestAnimationFrame(animate);
         }
-        animate();
-        
+      });
+
+      // Bottom info
+      ctx.fillStyle = "#f59e0b"; ctx.font = "11px sans-serif";
+      ctx.fillText("★ หลักการกีดกันของเพาลี: อิเล็กตรอน 2 ตัวในออร์บิทัลเดียวกันต้องมี 'สปินตรงข้ามกัน' เสมอ (↑↓)", 40, 215);
+
+      tick++;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
   </script>
 </body>
 </html>

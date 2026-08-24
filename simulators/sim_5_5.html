@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 5.5 5.5 แบบฝึกหัดและปฏิบัติการจำลอง AR</title>
+  <title>5.5 ปฏิบัติการเลเซอร์ & การเปล่งแสงเหนี่ยวนำ</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,33 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
+      margin: 0;
+      padding: 6px;
       overflow-x: hidden;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -48,33 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -88,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -101,9 +96,9 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
@@ -116,107 +111,211 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 5.5 5.5 แบบฝึกหัดและปฏิบัติการจำลอง AR
-      </div>
+      <div class="sim-title"><span>🔬</span> 5.5 ปฏิบัติการเลเซอร์ & การเปล่งแสงแบบเหนี่ยวนำ (Laser & Population Inversion)</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
-    
-        <div class="control-grid">
-          <div class="ctrl-box" style="grid-column: 1 / -1;">
-            <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="val_param" class="val-display">50</span>%</label>
-            <input type="range" id="slider_param" min="1" max="100" value="50">
-          </div>
-        </div>
-        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
-        
-
-    
-        <div class="readout-grid">
-          <div class="readout-card"><div class="readout-val" id="val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_status" style="color:#10b981;">Ready 2D/3D</div><div class="readout-lbl">โหมดประมวลผล</div></div>
-        </div>
-        
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tabLaser" onclick="setMode('laser')">⚡ ระบบเลเซอร์ 3 ระดับ (3-Level Laser)</button>
+      <button class="tab-btn" id="tabCavity" onclick="setMode('cavity')">🔴 ท่อกำทอนแสงและลำแสงเลเซอร์ (Optical Cavity)</button>
+    </div>
+    <div id="controlsLaser" class="control-grid">
+      <div class="ctrl-box">
+        <label>กำลังปั๊มแสง (Pump Energy Rate): <span id="val_pump" class="val-display">75</span> %</label>
+        <input type="range" id="slider_pump" min="0" max="100" step="5" value="75">
+      </div>
+      <div class="ctrl-box">
+        <label>สถานะการสลับประชากร (Population Inversion): <span id="val_inv" class="val-display" style="color:#10b981;">N₂ > N₁ (เลซิ่งเกิดขึ้น!)</span></label>
+        <div style="color:#94a3b8; font-size:0.80rem; margin-top:4px;">Metastable State กักเก็บอะตอมนานกว่าสถานะอื่น 10,000 เท่า</div>
+      </div>
+    </div>
+    <div id="controlsCavity" class="control-grid" style="display:none;">
+      <div class="ctrl-box">
+        <label>ความสะท้อนกระจกเอาต์พุต (Mirror Reflectance R₂): <span id="val_r2" class="val-display">95</span> %</label>
+        <input type="range" id="slider_r2" min="80" max="99" step="1" value="95">
+      </div>
+      <div class="ctrl-box">
+        <label>ความยาวคลื่นแสงเลเซอร์: 632.8 nm (He-Ne Laser)</label>
+        <div style="color:#94a3b8; font-size:0.80rem; margin-top:4px;">ลำแสงความเชื่อมโยงสูง 100% (Coherent Photons)</div>
+      </div>
+    </div>
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+    <div class="readout-grid" id="readoutsLaser">
+      <div class="readout-card"><div class="readout-val" id="val_n2_pop">72 %</div><div class="readout-lbl">ประชากรในสถานะกึ่งเสถียร (N₂)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_stim_rate">8.4 × 10⁸ /s</div><div class="readout-lbl">อัตราการเปล่งแสงแบบเหนี่ยวนำ</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_gain_stat" style="color:#10b981;">Optical Gain > Loss</div><div class="readout-lbl">การขยายสัญญาณแสง</div></div>
+    </div>
+    <div class="readout-grid" id="readoutsCavity" style="display:none;">
+      <div class="readout-card"><div class="readout-val" id="val_pout">15.2 mW</div><div class="readout-lbl">กำลังขับเลเซอร์ขาออก (Output Power)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_coherence">100 %</div><div class="readout-lbl">ความเชื่อมโยงทางเฟส (Coherence)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_beam_stat" style="color:#ef4444;">ลำแสงสีแดงเข้มขนานสมบูรณ์</div><div class="readout-lbl">คุณลักษณะแสงเลเซอร์</div></div>
+    </div>
   </div>
 
   <script>
-    
-        const cv = document.getElementById("simCanvas");
-        const ctx = cv.getContext("2d");
-        const slider = document.getElementById("slider_param") || { value: 50 };
-        let tick = 0;
 
-        function animate() {
-          const val = +slider.value || 50;
-          const valEl = document.getElementById("val_param");
-          if (valEl) valEl.textContent = val;
-          const coeff = (val / 50).toFixed(3);
-          const mEl = document.getElementById("val_metric");
-          if (mEl) mEl.textContent = coeff;
+    const cv = document.getElementById("simCanvas");
+    const ctx = cv.getContext("2d");
+    let currentMode = "laser";
+    let tick = 0;
 
-          ctx.clearRect(0, 0, cv.width, cv.height);
+    function setMode(mode) {
+      currentMode = mode;
+      document.getElementById("tabLaser").classList.toggle("active", mode === "laser");
+      document.getElementById("tabCavity").classList.toggle("active", mode === "cavity");
+      document.getElementById("controlsLaser").style.display = mode === "laser" ? "grid" : "none";
+      document.getElementById("controlsCavity").style.display = mode === "cavity" ? "grid" : "none";
+      document.getElementById("readoutsLaser").style.display = mode === "laser" ? "grid" : "none";
+      document.getElementById("readoutsCavity").style.display = mode === "cavity" ? "grid" : "none";
+    }
 
-          // Waveform 1 (Neon Cyan)
-          ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=2) {
-            const norm = (x-40)/560;
-            const y = 115 + 45 * Math.sin(norm * Math.PI * 4 * coeff + tick*0.06) * Math.cos(norm * Math.PI * 2);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+    let photons = [];
+    for(let i=0; 25 > i; i++) {
+      photons.push({
+        x: 80 + Math.random()*460,
+        y: 80 + Math.random()*70,
+        vx: 4.5,
+        phase: Math.random()*Math.PI*2
+      });
+    }
 
-          // Waveform 2 (Amber Field)
-          ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=4) {
-            const norm = (x-40)/560;
-            const y = 115 + 50 * Math.sin(norm * Math.PI * 2 * coeff - tick*0.04);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+    function animate() {
+      ctx.clearRect(0, 0, cv.width, cv.height);
 
-          // Particle Field
-          for(let i=0; 10 > i; i++) {
-            const px = 40 + ((tick*3 + i*56) % 560);
-            const py = 115 + 30 * Math.sin(px*0.02 + tick*0.05);
-            ctx.fillStyle = "#10b981";
-            ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI*2); ctx.fill();
-          }
+      if (currentMode === "laser") {
+        const pump = +document.getElementById("slider_pump").value;
+        document.getElementById("val_pump").textContent = pump;
 
-          ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
-          ctx.fillText("จำลองผลลัพธ์พลวัตเชิงฟิสิกส์เรียลไทม์ (Live 60 FPS Engine)", 50, 30);
+        const isLasing = pump >= 50;
+        const n2 = Math.min(85, Math.round(pump * 0.85));
+        document.getElementById("val_n2_pop").textContent = n2 + " %";
 
-          tick++;
-          requestAnimationFrame(animate);
+        const invEl = document.getElementById("val_inv");
+        if (isLasing) {
+          invEl.textContent = "N₂ > N₁ (เลซิ่งเกิดขึ้น!)"; invEl.style.color = "#10b981";
+        } else {
+          invEl.textContent = "N₂ < N₁ (ต่ำกว่าเทรชโฮลด์)"; invEl.style.color = "#f43f5e";
         }
-        animate();
-        
+
+        // 3-Level Energy Diagram
+        const ex = 120, ew = 380;
+        const yE1 = 175, yE2 = 110, yE3 = 50;
+
+        // Energy Levels
+        ctx.strokeStyle = "#475569"; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(ex, yE1); ctx.lineTo(ex + ew, yE1); ctx.stroke(); // E1 Ground
+        ctx.beginPath(); ctx.moveTo(ex, yE2); ctx.lineTo(ex + ew, yE2); ctx.stroke(); // E2 Metastable
+        ctx.beginPath(); ctx.moveTo(ex, yE3); ctx.lineTo(ex + ew, yE3); ctx.stroke(); // E3 Pump Level
+
+        ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
+        ctx.fillText("E₃ (สถานะกระตุ้นสลายตัวเร็ว)", ex + ew + 10, yE3 + 4);
+        ctx.fillStyle = "#00f0ff";
+        ctx.fillText("E₂ (สถานะกึ่งเสถียร Metastable)", ex + ew + 10, yE2 + 4);
+        ctx.fillStyle = "#94a3b8";
+        ctx.fillText("E₁ (สถานะพื้น Ground State)", ex + ew + 10, yE1 + 4);
+
+        // Pump Arrow 1 -> 3
+        ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2.5;
+        ctx.beginPath(); ctx.moveTo(ex + 60, yE1); ctx.lineTo(ex + 60, yE3); ctx.stroke();
+        ctx.fillStyle = "#f59e0b"; ctx.font = "10px sans-serif"; ctx.fillText("ปั๊มแสง (Pump)", ex + 25, (yE1+yE3)/2);
+
+        // Fast Radiationless Decay 3 -> 2
+        ctx.strokeStyle = "rgba(148, 163, 184, 0.7)"; ctx.lineWidth = 1.5; ctx.setLineDash([3, 3]);
+        ctx.beginPath(); ctx.moveTo(ex + 160, yE3); ctx.lineTo(ex + 200, yE2); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillText("สลายตัวเร็ว", ex + 175, (yE3+yE2)/2);
+
+        // Stimulated Laser Emission 2 -> 1 (Laser Photon)
+        ctx.strokeStyle = "#ef4444"; ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.moveTo(ex + 280, yE2); ctx.lineTo(ex + 280, yE1); ctx.stroke();
+        ctx.fillStyle = "#ef4444"; ctx.font = "bold 11px sans-serif";
+        ctx.fillText("⚡ เลเซอร์ 632.8 nm (Stimulated)", ex + 225, (yE2+yE1)/2);
+      }
+      else {
+        // Optical Cavity Simulation
+        const R2 = +document.getElementById("slider_r2").value;
+        document.getElementById("val_r2").textContent = R2;
+
+        const Pout = ((100 - R2) * 3.0).toFixed(1);
+        document.getElementById("val_pout").textContent = Pout + " mW";
+
+        // Mirrors: Left 100% HR, Right 95% Output Coupler
+        ctx.fillStyle = "#64748b";
+        ctx.fillRect(60, 40, 14, 140); // 100% Mirror
+        ctx.fillRect(520, 40, 14, 140); // Output Mirror
+
+        ctx.fillStyle = "#ffffff"; ctx.font = "10px sans-serif";
+        ctx.fillText("100% HR", 48, 195);
+        ctx.fillText(R2 + "% OC", 510, 195);
+
+        // Lasing medium tube
+        ctx.fillStyle = "rgba(239, 68, 68, 0.15)"; ctx.strokeStyle = "#ef4444"; ctx.lineWidth = 1.5;
+        ctx.fillRect(80, 60, 435, 100); ctx.strokeRect(80, 60, 435, 100);
+
+        // Bouncing Coherent Laser Photons
+        photons.forEach(p => {
+          ctx.fillStyle = "#ef4444";
+          ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI*2); ctx.fill();
+          p.x += p.vx;
+          if (p.x > 515 || 75 > p.x) p.vx *= -1;
+        });
+
+        // Emerging Laser Beam out of right mirror
+        ctx.strokeStyle = "rgba(239, 68, 68, 0.9)"; ctx.lineWidth = 8;
+        ctx.beginPath(); ctx.moveTo(534, 110); ctx.lineTo(630, 110); ctx.stroke();
+        ctx.fillStyle = "#ef4444"; ctx.font = "bold 11px sans-serif";
+        ctx.fillText("ลำแสงเลเซอร์ →", 545, 100);
+      }
+
+      tick++;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
   </script>
 </body>
 </html>

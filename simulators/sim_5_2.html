@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 5.2 5.2 เลขควอนตัมและสถานะของอิเล็กตรอน</title>
+  <title>5.2 เลขควอนตัม 4 ตัว & เมฆหมอกออร์บิทัล</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,33 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
+      margin: 0;
+      padding: 6px;
       overflow-x: hidden;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -48,33 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -88,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -101,9 +96,9 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
@@ -116,107 +111,187 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 5.2 5.2 เลขควอนตัมและสถานะของอิเล็กตรอน
-      </div>
+      <div class="sim-title"><span>🔬</span> 5.2 เลขควอนตัม 4 ตัว & เมฆหมอกออร์บิทัล (Quantum Numbers & Orbital Shapes)</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
-    
-        <div class="control-grid">
-          <div class="ctrl-box" style="grid-column: 1 / -1;">
-            <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="val_param" class="val-display">50</span>%</label>
-            <input type="range" id="slider_param" min="1" max="100" value="50">
-          </div>
-        </div>
-        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
-        
-
-    
-        <div class="readout-grid">
-          <div class="readout-card"><div class="readout-val" id="val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_status" style="color:#10b981;">Ready 2D/3D</div><div class="readout-lbl">โหมดประมวลผล</div></div>
-        </div>
-        
+    <div class="control-grid">
+      <div class="ctrl-box">
+        <label>เลือกออร์บิทัล (State Selector):</label>
+        <select id="sel_orbital">
+          <option value="1,0,0" selected>1s (n=1, l=0, ml=0) ทรงกลมสมบูรณ์</option>
+          <option value="2,0,0">2s (n=2, l=0, ml=0) ทรงกลม 2 ชั้น</option>
+          <option value="2,1,0">2p_z (n=2, l=1, ml=0) ดัมเบลล์แนวตั้ง</option>
+          <option value="2,1,1">2p_x/y (n=2, l=1, ml=±1) ดัมเบลล์แนวนอน</option>
+          <option value="3,2,0">3d_z² (n=3, l=2, ml=0) โดนัทควอนตัม</option>
+          <option value="3,2,2">3d_xy (n=3, l=2, ml=±2) ดอกแคมป์ 4 กลีบ</option>
+        </select>
+      </div>
+      <div class="ctrl-box">
+        <label>สปินอิเล็กตรอน (m_s):</label>
+        <select id="sel_spin">
+          <option value="up" selected>Spin-Up (m_s = +½ ↑ เข็มทิศชี้ขึ้น)</option>
+          <option value="down">Spin-Down (m_s = -½ ↓ เข็มทิศชี้ลง)</option>
+        </select>
+      </div>
+    </div>
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+    <div class="readout-grid">
+      <div class="readout-card"><div class="readout-val" id="val_qn">n=1, l=0, mₗ=0</div><div class="readout-lbl">ชุดเลขควอนตัม (n, l, mₗ, mₛ)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_degen">2 สถานะ</div><div class="readout-lbl">ความซ้ำซ้อนระดับพลังงาน (Degeneracy = 2n²)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_shape" style="color:#10b981;">Spherical Shell</div><div class="readout-lbl">สมมาตรของฟังก์ชันคลื่น</div></div>
+    </div>
   </div>
 
   <script>
-    
-        const cv = document.getElementById("simCanvas");
-        const ctx = cv.getContext("2d");
-        const slider = document.getElementById("slider_param") || { value: 50 };
-        let tick = 0;
 
-        function animate() {
-          const val = +slider.value || 50;
-          const valEl = document.getElementById("val_param");
-          if (valEl) valEl.textContent = val;
-          const coeff = (val / 50).toFixed(3);
-          const mEl = document.getElementById("val_metric");
-          if (mEl) mEl.textContent = coeff;
+    const cv = document.getElementById("simCanvas");
+    const ctx = cv.getContext("2d");
+    const selOrb = document.getElementById("sel_orbital");
+    const selSpin = document.getElementById("sel_spin");
+    let tick = 0;
 
-          ctx.clearRect(0, 0, cv.width, cv.height);
+    function animate() {
+      const parts = selOrb.value.split(",");
+      const n = +parts[0], l = +parts[1], ml = +parts[2];
+      const spin = selSpin.value;
 
-          // Waveform 1 (Neon Cyan)
-          ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=2) {
-            const norm = (x-40)/560;
-            const y = 115 + 45 * Math.sin(norm * Math.PI * 4 * coeff + tick*0.06) * Math.cos(norm * Math.PI * 2);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+      const spinStr = spin === "up" ? "+½ ↑" : "-½ ↓";
+      document.getElementById("val_qn").textContent = "n=" + n + ", l=" + l + ", mₗ=" + ml + ", mₛ=" + (spin === "up" ? "+½" : "-½");
+      document.getElementById("val_degen").textContent = (2 * n * n) + " สถานะ";
 
-          // Waveform 2 (Amber Field)
-          ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=4) {
-            const norm = (x-40)/560;
-            const y = 115 + 50 * Math.sin(norm * Math.PI * 2 * coeff - tick*0.04);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+      let shapeName = "ทรงกลม (Spherical)";
+      if (l === 1) shapeName = "ดัมเบลล์ (Dumbbell 2 Lobes)";
+      else if (l === 2) shapeName = ml === 0 ? "ดัมเบลล์+วงแหวน (Toroid)" : "โคลเวอร์ 4 กลีบ (4-Lobes)";
+      document.getElementById("val_shape").textContent = shapeName;
 
-          // Particle Field
-          for(let i=0; 10 > i; i++) {
-            const px = 40 + ((tick*3 + i*56) % 560);
-            const py = 115 + 30 * Math.sin(px*0.02 + tick*0.05);
-            ctx.fillStyle = "#10b981";
-            ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI*2); ctx.fill();
-          }
+      ctx.clearRect(0, 0, cv.width, cv.height);
 
-          ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
-          ctx.fillText("จำลองผลลัพธ์พลวัตเชิงฟิสิกส์เรียลไทม์ (Live 60 FPS Engine)", 50, 30);
+      const cx = 220, cy = 115;
 
-          tick++;
-          requestAnimationFrame(animate);
+      // Coordinate Axes
+      ctx.strokeStyle = "rgba(71, 85, 105, 0.4)"; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(cx - 150, cy); ctx.lineTo(cx + 150, cy); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx, cy - 90); ctx.lineTo(cx, cy + 90); ctx.stroke();
+      ctx.fillStyle = "#64748b"; ctx.font = "10px sans-serif";
+      ctx.fillText("z-axis", cx + 8, cy - 80); ctx.fillText("x-axis", cx + 135, cy - 8);
+
+      // Render 3D Probability Cloud Contour
+      if (l === 0) {
+        // s-orbital: Spherical
+        const rMax = n * 45;
+        const grad = ctx.createRadialGradient(cx, cy, 2, cx, cy, rMax);
+        grad.addColorStop(0, "rgba(0, 240, 255, 0.85)");
+        grad.addColorStop(0.6, "rgba(0, 240, 255, 0.35)");
+        grad.addColorStop(1, "transparent");
+        ctx.fillStyle = grad;
+        ctx.beginPath(); ctx.arc(cx, cy, rMax, 0, Math.PI*2); ctx.fill();
+      }
+      else if (l === 1) {
+        // p-orbital: Dumbbell Lobes
+        const lobeLen = 65;
+        const ang = (ml === 0) ? Math.PI/2 : 0; // z or x aligned
+
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(ang);
+
+        // Positive lobe (Cyan)
+        const g1 = ctx.createRadialGradient(0, -lobeLen/2, 2, 0, -lobeLen/2, 35);
+        g1.addColorStop(0, "rgba(0, 240, 255, 0.9)"); g1.addColorStop(1, "transparent");
+        ctx.fillStyle = g1;
+        ctx.beginPath(); ctx.ellipse(0, -lobeLen/2, 24, 34, 0, 0, Math.PI*2); ctx.fill();
+
+        // Negative lobe (Pink)
+        const g2 = ctx.createRadialGradient(0, lobeLen/2, 2, 0, lobeLen/2, 35);
+        g2.addColorStop(0, "rgba(244, 63, 94, 0.9)"); g2.addColorStop(1, "transparent");
+        ctx.fillStyle = g2;
+        ctx.beginPath(); ctx.ellipse(0, lobeLen/2, 24, 34, 0, 0, Math.PI*2); ctx.fill();
+
+        ctx.restore();
+      }
+      else if (l === 2) {
+        // d-orbital
+        for(let a=0; 4 > a; a++) {
+          ctx.save();
+          ctx.translate(cx, cy);
+          ctx.rotate(a * Math.PI/2 + Math.PI/4);
+          const gd = ctx.createRadialGradient(0, -35, 2, 0, -35, 25);
+          gd.addColorStop(0, a % 2 === 0 ? "rgba(0, 240, 255, 0.85)" : "rgba(244, 63, 94, 0.85)");
+          gd.addColorStop(1, "transparent");
+          ctx.fillStyle = gd;
+          ctx.beginPath(); ctx.ellipse(0, -35, 16, 26, 0, 0, Math.PI*2); ctx.fill();
+          ctx.restore();
         }
-        animate();
-        
+      }
+
+      // Right Panel: Quantum Numbers Summary Card
+      const rx = 400, ry = 25, rw = 220, rh = 175;
+      ctx.fillStyle = "#0f172a"; ctx.strokeStyle = "#1e293b"; ctx.lineWidth = 1.5;
+      ctx.fillRect(rx, ry, rw, rh); ctx.strokeRect(rx, ry, rw, rh);
+
+      ctx.fillStyle = "#00f0ff"; ctx.font = "bold 11px sans-serif";
+      ctx.fillText("สมบัติของเลขควอนตัม 4 ตัว", rx + 14, ry + 22);
+
+      ctx.fillStyle = "#f8fafc"; ctx.font = "10px sans-serif";
+      ctx.fillText("1. n (หลัก): ขนาดและพลังงานหลัก (n ≥ 1)", rx + 14, ry + 48);
+      ctx.fillText("2. l (โมเมนตัม): รูปร่างออร์บิทัล (0 ถึง n-1)", rx + 14, ry + 72);
+      ctx.fillText("3. m_l (แม่เหล็ก): การวางตัวในอวกาศ (-l ถึง +l)", rx + 14, ry + 96);
+      ctx.fillText("4. m_s (สปิน): การหมุนภายใน (±½)", rx + 14, ry + 120);
+
+      ctx.fillStyle = "#10b981"; ctx.font = "bold 10px 'JetBrains Mono', monospace";
+      ctx.fillText("สถานะปัจจุบัน: " + (spin === "up" ? "↑ Spin Up" : "↓ Spin Down"), rx + 14, ry + 152);
+
+      tick++;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
   </script>
 </body>
 </html>
