@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 2.3 2.3 การยืดออกของเวลาและการหดสั้นของระยะทาง</title>
+  <title>2.3 การยืดออกของเวลา & มิวออน</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,33 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
+      margin: 0;
+      padding: 6px;
       overflow-x: hidden;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -48,33 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -88,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -101,9 +96,9 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
@@ -116,107 +111,238 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 2.3 2.3 การยืดออกของเวลาและการหดสั้นของระยะทาง
-      </div>
+      <div class="sim-title"><span>🔬</span> 2.3 การยืดออกของเวลา การหดสั้นของระยะทาง & มิวออนในชั้นบรรยากาศ</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
-    
-        <div class="control-grid">
-          <div class="ctrl-box" style="grid-column: 1 / -1;">
-            <label>ความเร็วการเดินทาง (v): <span id="val_v" class="val-display">0.90</span> c</label>
-            <input type="range" id="slider_v" min="0" max="0.99" step="0.01" value="0.90">
-          </div>
-        </div>
-        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
-        
-
-    
-        <div class="readout-grid">
-          <div class="readout-card"><div class="readout-val" id="val_gamma">2.294</div><div class="readout-lbl">Lorentz Factor (γ)</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_len">43.6%</div><div class="readout-lbl">ความยาวหดสั้น (L = L₀/γ)</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_life">2.294 เท่า</div><div class="readout-lbl">อายุขัยอนุภาคยืดออก (Δt)</div></div>
-        </div>
-        
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tabClock" onclick="setMode('clock')">⏱️ นาฬิกาแสง (Light Clock Dilation)</button>
+      <button class="tab-btn" id="tabMuon" onclick="setMode('muon')">🌌 การทดลองมิวออน (Muon Decay)</button>
+    </div>
+    <div id="controlsClock" class="control-grid">
+      <div class="ctrl-box">
+        <label>ความเร็วของยานอวกาศ (v/c): <span id="val_clock_v" class="val-display">0.80</span> c</label>
+        <input type="range" id="slider_clock_v" min="0.00" max="0.95" step="0.01" value="0.80">
+      </div>
+      <div class="ctrl-box">
+        <label>ความสูงของนาฬิกาแสง (L₀): 1.0 เมตร (คงตัว)</label>
+        <div style="color:#94a3b8; font-size:0.80rem; margin-top:4px;">โฟตอนวิ่งด้วยความเร็วคงที่ c ในทุกกรอบอ้างอิง</div>
+      </div>
+    </div>
+    <div id="controlsMuon" class="control-grid" style="display:none;">
+      <div class="ctrl-box">
+        <label>ความเร็วอนุภาคมิวออน (v/c): <span id="val_muon_v" class="val-display">0.995</span> c</label>
+        <input type="range" id="slider_muon_v" min="0.500" max="0.999" step="0.001" value="0.995">
+      </div>
+      <div class="ctrl-box">
+        <label>ความสูงจุดกำเนิดมิวออน: 10.0 km (ยอดชั้นบรรยากาศ)</label>
+        <div style="color:#94a3b8; font-size:0.80rem; margin-top:4px;">อายุขัยแท้จริง τ₀ = 2.2 µs</div>
+      </div>
+    </div>
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+    <div class="readout-grid" id="readoutsClock">
+      <div class="readout-card"><div class="readout-val" id="val_gamma_clock">1.667</div><div class="readout-lbl">ตัวประกอบลอเรนซ์ (γ)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_t0_clock">6.67 ns</div><div class="readout-lbl">เวลาเฉพาะบนยาน (Δt₀ = 2L/c)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_t_clock" style="color:#f59e0b;">11.11 ns</div><div class="readout-lbl">เวลาบนโลก (Δt = γΔt₀) ยืดออก!</div></div>
+    </div>
+    <div class="readout-grid" id="readoutsMuon" style="display:none;">
+      <div class="readout-card"><div class="readout-val" id="val_gamma_muon">10.01</div><div class="readout-lbl">ตัวประกอบลอเรนซ์ (γ)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_hprime_muon">1.00 km</div><div class="readout-lbl">ระยะทางหดสั้นในกรอบมิวออน (H')</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_survive_muon" style="color:#10b981;">รอดถึงพื้น 49.2 %</div><div class="readout-lbl">ตรวจพบที่ระดับน้ำทะเล (Relativity)</div></div>
+    </div>
   </div>
 
   <script>
-    
-        const cv = document.getElementById("simCanvas");
-        const ctx = cv.getContext("2d");
-        const slider = document.getElementById("slider_param") || { value: 50 };
-        let tick = 0;
 
-        function animate() {
-          const val = +slider.value || 50;
-          const valEl = document.getElementById("val_param");
-          if (valEl) valEl.textContent = val;
-          const coeff = (val / 50).toFixed(3);
-          const mEl = document.getElementById("val_metric");
-          if (mEl) mEl.textContent = coeff;
+    const cv = document.getElementById("simCanvas");
+    const ctx = cv.getContext("2d");
+    let currentMode = "clock";
+    let tick = 0;
 
-          ctx.clearRect(0, 0, cv.width, cv.height);
+    function setMode(mode) {
+      currentMode = mode;
+      document.getElementById("tabClock").classList.toggle("active", mode === "clock");
+      document.getElementById("tabMuon").classList.toggle("active", mode === "muon");
+      document.getElementById("controlsClock").style.display = mode === "clock" ? "grid" : "none";
+      document.getElementById("controlsMuon").style.display = mode === "muon" ? "grid" : "none";
+      document.getElementById("readoutsClock").style.display = mode === "clock" ? "grid" : "none";
+      document.getElementById("readoutsMuon").style.display = mode === "muon" ? "grid" : "none";
+    }
 
-          // Waveform 1 (Neon Cyan)
-          ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=2) {
-            const norm = (x-40)/560;
-            const y = 115 + 45 * Math.sin(norm * Math.PI * 4 * coeff + tick*0.06) * Math.cos(norm * Math.PI * 2);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    let muons = [];
+    for(let i=0; 30 > i; i++) {
+      muons.push({
+        x: 40 + Math.random()*220,
+        y: 20 + Math.random()*150,
+        alive: true
+      });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, cv.width, cv.height);
+
+      if (currentMode === "clock") {
+        const v = +document.getElementById("slider_clock_v").value;
+        document.getElementById("val_clock_v").textContent = v.toFixed(2);
+        const gamma = 1 / Math.sqrt(1 - v*v);
+        document.getElementById("val_gamma_clock").textContent = gamma.toFixed(3);
+
+        const dt0 = 6.67;
+        const dt = dt0 * gamma;
+        document.getElementById("val_t0_clock").textContent = dt0.toFixed(2) + " ns";
+        document.getElementById("val_t_clock").textContent = dt.toFixed(2) + " ns";
+
+        // Left: Ship Frame S' (Stationary Light Clock)
+        const s1x = 90, s1y = 40, s1w = 120, s1h = 140;
+        ctx.fillStyle = "#0f172a"; ctx.strokeStyle = "#1e293b"; ctx.lineWidth = 1.5;
+        ctx.fillRect(s1x, s1y, s1w, s1h); ctx.strokeRect(s1x, s1y, s1w, s1h);
+
+        ctx.fillStyle = "#00f0ff"; ctx.font = "11px sans-serif";
+        ctx.fillText("กรอบบนยาน (S' พักนิ่ง)", s1x + 10, s1y - 10);
+
+        // Mirrors
+        ctx.fillStyle = "#64748b"; ctx.fillRect(s1x + 20, s1y + 15, 80, 8); ctx.fillRect(s1x + 20, s1y + s1h - 23, 80, 8);
+
+        // Bouncing photon S'
+        const prog0 = (tick * 0.05) % 2;
+        const photY0 = prog0 < 1 ? s1y + 25 + prog0 * 90 : s1y + 115 - (prog0 - 1) * 90;
+        ctx.fillStyle = "#fbbf24"; ctx.beginPath(); ctx.arc(s1x + 60, photY0, 4.5, 0, Math.PI*2); ctx.fill();
+
+        ctx.strokeStyle = "rgba(251, 191, 36, 0.4)"; ctx.lineWidth = 1.5; ctx.setLineDash([2, 2]);
+        ctx.beginPath(); ctx.moveTo(s1x + 60, s1y + 25); ctx.lineTo(s1x + 60, s1y + 115); ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Right: Earth Frame S (Moving Light Clock - Diagonal Zig-Zag)
+        const s2x = 270, s2y = 40, s2w = 340, s2h = 140;
+        ctx.fillStyle = "#0f172a"; ctx.strokeStyle = "#1e293b"; ctx.lineWidth = 1.5;
+        ctx.fillRect(s2x, s2y, s2w, s2h); ctx.strokeRect(s2x, s2y, s2w, s2h);
+
+        ctx.fillStyle = "#f59e0b"; ctx.font = "11px sans-serif";
+        ctx.fillText("กรอบบนโลก (S มองเห็นยานแล่น v = " + v.toFixed(2) + "c)", s2x + 10, s2y - 10);
+
+        // Moving Rocket & Diagonal Path
+        const cycle = (tick * 0.05 / gamma) % 2;
+        const shipShift = ((tick * 1.5 * v) % 200);
+
+        // Path Zigzag
+        ctx.strokeStyle = "rgba(245, 158, 11, 0.5)"; ctx.lineWidth = 2; ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        ctx.moveTo(s2x + 30, s2y + 25);
+        ctx.lineTo(s2x + 30 + 70 * v * gamma, s2y + 115);
+        ctx.lineTo(s2x + 30 + 140 * v * gamma, s2y + 25);
+        ctx.stroke(); ctx.setLineDash([]);
+
+        // Photon in S
+        const photX1 = s2x + 30 + cycle * 70 * v * gamma;
+        const photY1 = cycle < 1 ? s2y + 25 + cycle * 90 : s2y + 115 - (cycle - 1) * 90;
+        ctx.fillStyle = "#fbbf24"; ctx.beginPath(); ctx.arc(photX1, photY1, 4.5, 0, Math.PI*2); ctx.fill();
+
+        ctx.fillStyle = "#94a3b8"; ctx.font = "10px sans-serif";
+        ctx.fillText("เส้นทางแสงยาวขึ้น → เวลายืดออก: Δt = γ·Δt₀", s2x + 15, s2y + s2h - 8);
+      }
+      else {
+        // Muon Decay Mode
+        const v = +document.getElementById("slider_muon_v").value;
+        document.getElementById("val_muon_v").textContent = v.toFixed(3);
+        const gamma = 1 / Math.sqrt(1 - v*v);
+        document.getElementById("val_gamma_muon").textContent = gamma.toFixed(2);
+
+        const hPrime = (10.0 / gamma).toFixed(2);
+        document.getElementById("val_hprime_muon").textContent = hPrime + " km";
+
+        // Survival probability: P = exp(- H / (gamma * v * c * tau0))
+        const d_decay = gamma * v * 3e5 * 2.2e-6; // km
+        const p_survive = Math.exp(-10.0 / d_decay) * 100;
+        document.getElementById("val_survive_muon").textContent = "รอดถึงพื้น " + p_survive.toFixed(1) + " %";
+
+        // Atmosphere Box
+        ctx.fillStyle = "#0f172a"; ctx.strokeStyle = "#1e293b"; ctx.lineWidth = 1.5;
+        ctx.fillRect(50, 20, 260, 185); ctx.strokeRect(50, 20, 260, 185);
+
+        ctx.fillStyle = "rgba(59, 130, 246, 0.15)"; ctx.fillRect(51, 21, 258, 183);
+
+        ctx.fillStyle = "#38bdf8"; ctx.font = "10px sans-serif";
+        ctx.fillText("ชั้นบรรยากาศโลก (H = 10 km)", 60, 36);
+        ctx.fillStyle = "#10b981";
+        ctx.fillText("ระดับน้ำทะเล (Sea Level)", 60, 196);
+
+        // Muon rain
+        muons.forEach(m => {
+          ctx.fillStyle = "#a855f7"; ctx.beginPath(); ctx.arc(m.x + 40, m.y, 3, 0, Math.PI*2); ctx.fill();
+          m.y += v * 3.5;
+          if (m.y > 195) {
+            m.y = 30; m.x = 40 + Math.random()*200;
           }
-          ctx.stroke();
+        });
 
-          // Waveform 2 (Amber Field)
-          ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=4) {
-            const norm = (x-40)/560;
-            const y = 115 + 50 * Math.sin(norm * Math.PI * 2 * coeff - tick*0.04);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+        // Comparison Graph (Right)
+        const gx = 350, gy = 20, gw = 260, gh = 185;
+        ctx.fillStyle = "#090e1a"; ctx.strokeStyle = "#1e293b";
+        ctx.fillRect(gx, gy, gw, gh); ctx.strokeRect(gx, gy, gw, gh);
 
-          // Particle Field
-          for(let i=0; 10 > i; i++) {
-            const px = 40 + ((tick*3 + i*56) % 560);
-            const py = 115 + 30 * Math.sin(px*0.02 + tick*0.05);
-            ctx.fillStyle = "#10b981";
-            ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI*2); ctx.fill();
-          }
+        ctx.fillStyle = "#f8fafc"; ctx.font = "11px sans-serif";
+        ctx.fillText("การเปรียบเทียบการรอดชีวิตของมิวออน", gx + 15, gy + 24);
 
-          ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
-          ctx.fillText("จำลองผลลัพธ์พลวัตเชิงฟิสิกส์เรียลไทม์ (Live 60 FPS Engine)", 50, 30);
+        // Classical bar (almost 0%)
+        ctx.fillStyle = "#f43f5e"; ctx.fillRect(gx + 20, gy + 55, 12, 110);
+        ctx.fillStyle = "#f43f5e"; ctx.font = "10px sans-serif"; ctx.fillText("Classical (0.3%)", gx + 38, gy + 115);
 
-          tick++;
-          requestAnimationFrame(animate);
-        }
-        animate();
-        
+        // Relativistic bar
+        const rBarH = Math.min(110, (p_survive / 100) * 110);
+        ctx.fillStyle = "#10b981"; ctx.fillRect(gx + 140, gy + 55 + (110 - rBarH), 12, rBarH);
+        ctx.fillStyle = "#10b981"; ctx.fillText("Relativity (" + p_survive.toFixed(1) + "%)", gx + 158, gy + 115);
+      }
+
+      tick++;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
   </script>
 </body>
 </html>

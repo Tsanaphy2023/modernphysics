@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 2.2 2.2 การแปลงแบบลอเรนซ์</title>
+  <title>2.2 การแปลงแบบลอเรนซ์</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,33 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
+      margin: 0;
+      padding: 6px;
       overflow-x: hidden;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -48,33 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -88,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -101,9 +96,9 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
@@ -116,111 +111,177 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 2.2 2.2 การแปลงแบบลอเรนซ์
-      </div>
+      <div class="sim-title"><span>🔬</span> 2.2 การแปลงแบบลอเรนซ์ & แผนภาพกาลอวกาศมินคอฟสกี (Spacetime Diagram)</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
-    
-        <div class="control-grid">
-          <div class="ctrl-box">
-            <label>ความเร็วสัมพัทธ์ (v): <span id="val_v" class="val-display">0.80</span> c</label>
-            <input type="range" id="slider_v" min="0" max="0.99" step="0.01" value="0.80">
-          </div>
-          <div class="ctrl-box">
-            <label>ตำแหน่งกรอบ S (x): <span id="val_x" class="val-display">10</span> m</label>
-            <input type="range" id="slider_x" min="0" max="100" value="10">
-          </div>
-        </div>
-        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
-        
-
-    
-        <div class="readout-grid">
-          <div class="readout-card"><div class="readout-val" id="val_gamma">1.667</div><div class="readout-lbl">Lorentz Factor (γ)</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_xp">16.67 m</div><div class="readout-lbl">พิกัดตำแหน่งกรอบ S' (x')</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_tp">-4.44 × 10⁻⁸ s</div><div class="readout-lbl">พิกัดเวลากรอบ S' (t')</div></div>
-        </div>
-        
+    <div class="control-grid">
+      <div class="ctrl-box">
+        <label>ความเร็วสัมพัทธ์ของกรอบ S' (v/c): <span id="val_v" class="val-display">0.60</span> c</label>
+        <input type="range" id="slider_v" min="0.00" max="0.95" step="0.01" value="0.60">
+      </div>
+      <div class="ctrl-box">
+        <label>ตำแหน่งเหตุการณ์ในกรอบ S (x, ct):</label>
+        <select id="sel_event">
+          <option value="4,3" selected>เหตุการณ์ A: x = 4 ly, ct = 3 yr (สเปซไลก์)</option>
+          <option value="2,4">เหตุการณ์ B: x = 2 ly, ct = 4 yr (ไทม์ไลก์)</option>
+          <option value="3,3">เหตุการณ์ C: x = 3 ly, ct = 3 yr (แสง/ไลต์ไลก์)</option>
+        </select>
+      </div>
+    </div>
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+    <div class="readout-grid">
+      <div class="readout-card"><div class="readout-val" id="val_gamma">1.250</div><div class="readout-lbl">ตัวประกอบลอเรนซ์ (γ = 1/√(1-v²/c²))</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_xprime">2.75 ly</div><div class="readout-lbl">พิกัด x' = γ(x - vt)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_tprime">0.75 yr</div><div class="readout-lbl">พิกัด ct' = γ(ct - vx/c)</div></div>
+    </div>
   </div>
 
   <script>
-    
-        const cv = document.getElementById("simCanvas");
-        const ctx = cv.getContext("2d");
-        const slider = document.getElementById("slider_param") || { value: 50 };
-        let tick = 0;
 
-        function animate() {
-          const val = +slider.value || 50;
-          const valEl = document.getElementById("val_param");
-          if (valEl) valEl.textContent = val;
-          const coeff = (val / 50).toFixed(3);
-          const mEl = document.getElementById("val_metric");
-          if (mEl) mEl.textContent = coeff;
+    const cv = document.getElementById("simCanvas");
+    const ctx = cv.getContext("2d");
+    const sliderV = document.getElementById("slider_v");
+    const selEvent = document.getElementById("sel_event");
+    let tick = 0;
 
-          ctx.clearRect(0, 0, cv.width, cv.height);
+    function animate() {
+      const v = +sliderV.value;
+      const beta = v;
+      const gamma = 1 / Math.sqrt(1 - beta*beta);
 
-          // Waveform 1 (Neon Cyan)
-          ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=2) {
-            const norm = (x-40)/560;
-            const y = 115 + 45 * Math.sin(norm * Math.PI * 4 * coeff + tick*0.06) * Math.cos(norm * Math.PI * 2);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+      document.getElementById("val_v").textContent = v.toFixed(2);
+      document.getElementById("val_gamma").textContent = gamma.toFixed(3);
 
-          // Waveform 2 (Amber Field)
-          ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=4) {
-            const norm = (x-40)/560;
-            const y = 115 + 50 * Math.sin(norm * Math.PI * 2 * coeff - tick*0.04);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+      const evParts = selEvent.value.split(",");
+      const x = +evParts[0], ct = +evParts[1];
 
-          // Particle Field
-          for(let i=0; 10 > i; i++) {
-            const px = 40 + ((tick*3 + i*56) % 560);
-            const py = 115 + 30 * Math.sin(px*0.02 + tick*0.05);
-            ctx.fillStyle = "#10b981";
-            ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI*2); ctx.fill();
-          }
+      // Lorentz Transform
+      const xPrime = gamma * (x - beta * ct);
+      const ctPrime = gamma * (ct - beta * x);
 
-          ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
-          ctx.fillText("จำลองผลลัพธ์พลวัตเชิงฟิสิกส์เรียลไทม์ (Live 60 FPS Engine)", 50, 30);
+      document.getElementById("val_xprime").textContent = xPrime.toFixed(2) + " ly";
+      document.getElementById("val_tprime").textContent = ctPrime.toFixed(2) + " yr";
 
-          tick++;
-          requestAnimationFrame(animate);
-        }
-        animate();
-        
+      ctx.clearRect(0, 0, cv.width, cv.height);
+
+      // Minkowski Spacetime Graph (Left-Center)
+      const ox = 190, oy = 190, scale = 26;
+
+      // Light Cone (x = ct and x = -ct)
+      ctx.fillStyle = "rgba(245, 158, 11, 0.08)";
+      ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(ox + 160, oy - 160); ctx.lineTo(ox - 160, oy - 160); ctx.closePath(); ctx.fill();
+
+      ctx.strokeStyle = "rgba(245, 158, 11, 0.45)"; ctx.lineWidth = 1.5; ctx.setLineDash([4, 4]);
+      ctx.beginPath(); ctx.moveTo(ox - 160, oy + 160); ctx.lineTo(ox + 160, oy - 160); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(ox - 160, oy - 160); ctx.lineTo(ox + 160, oy + 160); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = "#f59e0b"; ctx.font = "10px sans-serif"; ctx.fillText("Light Cone (x = ±ct)", ox + 80, oy - 145);
+
+      // Grid Axes S (Rest Frame)
+      ctx.strokeStyle = "#475569"; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(ox - 160, oy); ctx.lineTo(ox + 160, oy); ctx.stroke(); // x-axis
+      ctx.beginPath(); ctx.moveTo(ox, oy + 20); ctx.lineTo(ox, oy - 170); ctx.stroke(); // ct-axis
+
+      ctx.fillStyle = "#94a3b8"; ctx.font = "11px 'JetBrains Mono', monospace";
+      ctx.fillText("x (ly)", ox + 145, oy + 15);
+      ctx.fillText("ct (yr)", ox + 8, oy - 158);
+
+      // Boosted Axes S' (Moving Frame tilted by angle alpha = arctan(v/c))
+      const alpha = Math.atan(beta);
+      ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2;
+      // x' axis (tilted up by alpha)
+      ctx.beginPath(); ctx.moveTo(ox - 150 * Math.cos(alpha), oy + 150 * Math.sin(alpha)); ctx.lineTo(ox + 150 * Math.cos(alpha), oy - 150 * Math.sin(alpha)); ctx.stroke();
+      // ct' axis (tilted right by alpha)
+      ctx.beginPath(); ctx.moveTo(ox - 150 * Math.sin(alpha), oy + 150 * Math.cos(alpha)); ctx.lineTo(ox + 150 * Math.sin(alpha), oy - 150 * Math.cos(alpha)); ctx.stroke();
+
+      ctx.fillStyle = "#00f0ff";
+      ctx.fillText("x'", ox + 150 * Math.cos(alpha) + 5, oy - 150 * Math.sin(alpha) + 4);
+      ctx.fillText("ct'", ox + 150 * Math.sin(alpha) + 5, oy - 150 * Math.cos(alpha) - 5);
+
+      // Event Point E(x, ct)
+      const ex = ox + x * scale;
+      const ey = oy - ct * scale;
+
+      ctx.fillStyle = "#f43f5e";
+      ctx.beginPath(); ctx.arc(ex, ey, 6, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 1.5; ctx.stroke();
+
+      ctx.fillStyle = "#ffffff"; ctx.font = "bold 11px sans-serif";
+      ctx.fillText("E (" + x + ", " + ct + ")", ex + 8, ey - 6);
+
+      // Right Panel: Formulas & Transformation Readouts
+      const rBoxX = 390, rBoxY = 25, rBoxW = 230, rBoxH = 175;
+      ctx.fillStyle = "#0f172a"; ctx.strokeStyle = "#1e293b"; ctx.lineWidth = 1.5;
+      ctx.fillRect(rBoxX, rBoxY, rBoxW, rBoxH); ctx.strokeRect(rBoxX, rBoxY, rBoxW, rBoxH);
+
+      ctx.fillStyle = "#00f0ff"; ctx.font = "bold 11px sans-serif";
+      ctx.fillText("สมการการแปลงแบบลอเรนซ์", rBoxX + 14, rBoxY + 22);
+
+      ctx.fillStyle = "#f8fafc"; ctx.font = "11px 'JetBrains Mono', monospace";
+      ctx.fillText("x'  = γ (x - β·ct)", rBoxX + 14, rBoxY + 50);
+      ctx.fillText("ct' = γ (ct - β·x)", rBoxX + 14, rBoxY + 72);
+      ctx.fillText("γ   = " + gamma.toFixed(3), rBoxX + 14, rBoxY + 96);
+
+      ctx.strokeStyle = "#334155";
+      ctx.beginPath(); ctx.moveTo(rBoxX + 14, rBoxY + 110); ctx.lineTo(rBoxX + rBoxW - 14, rBoxY + 110); ctx.stroke();
+
+      const s2 = ct*ct - x*x;
+      let intervalType = s2 > 0 ? "Timelike (เป็นไปได้เชิงเหตุผล)" : (0 > s2 ? "Spacelike (ไม่สามารถส่งสัญญาณถึงกัน)" : "Lightlike (เชื่อมโยงด้วยแสง)");
+      ctx.fillStyle = s2 >= 0 ? "#10b981" : "#f59e0b"; ctx.font = "10px sans-serif";
+      ctx.fillText("ช่วงกาลอวกาศคงตัว (s²): " + s2.toFixed(1), rBoxX + 14, rBoxY + 132);
+      ctx.fillText(intervalType, rBoxX + 14, rBoxY + 152);
+
+      tick++;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
   </script>
 </body>
 </html>

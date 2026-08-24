@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 2.5 2.5 แบบฝึกหัดและปฏิบัติการจำลอง AR</title>
+  <title>2.5 ปฏิบัติการกาลอวกาศ & ปริศนาฝาแฝด</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,33 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
+      margin: 0;
+      padding: 6px;
       overflow-x: hidden;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -48,33 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -88,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -101,9 +96,9 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
@@ -116,107 +111,219 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 2.5 2.5 แบบฝึกหัดและปฏิบัติการจำลอง AR
-      </div>
+      <div class="sim-title"><span>🔬</span> 2.5 ปฏิบัติการกาลอวกาศ: ปริศนาฝาแฝด (Twin Paradox) & ดอปเปลอร์สัมพัทธภาพ</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
-    
-        <div class="control-grid">
-          <div class="ctrl-box" style="grid-column: 1 / -1;">
-            <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="val_param" class="val-display">50</span>%</label>
-            <input type="range" id="slider_param" min="1" max="100" value="50">
-          </div>
-        </div>
-        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
-        
-
-    
-        <div class="readout-grid">
-          <div class="readout-card"><div class="readout-val" id="val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_status" style="color:#10b981;">Ready 2D/3D</div><div class="readout-lbl">โหมดประมวลผล</div></div>
-        </div>
-        
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tabTwin" onclick="setMode('twin')">🚀 ปริศนาฝาแฝด (Twin Paradox Journey)</button>
+      <button class="tab-btn" id="tabDoppler" onclick="setMode('doppler')">🌌 ดอปเปลอร์ & ทัศนศาสตร์ความเร็วสูง</button>
+    </div>
+    <div id="controlsTwin" class="control-grid">
+      <div class="ctrl-box">
+        <label>ความเร็วยานของแฝดอวกาศ (v/c): <span id="val_twin_v" class="val-display">0.80</span> c</label>
+        <input type="range" id="slider_twin_v" min="0.50" max="0.95" step="0.05" value="0.80">
+      </div>
+      <div class="ctrl-box">
+        <label>ระยะทางไป-กลับยังดาวอัลฟาเซนทอรี: 4.0 ปีแสง (ไป 4 + กลับ 4 ly)</label>
+        <div style="color:#94a3b8; font-size:0.80rem; margin-top:4px;">กรอบบนโลกเป็นกรอบเฉื่อยแท้จริง ขณะที่ยานมีความเร่งตอนเลี้ยวกลับ</div>
+      </div>
+    </div>
+    <div id="controlsDoppler" class="control-grid" style="display:none;">
+      <div class="ctrl-box">
+        <label>ความเร็วและทิศทางการพุ่งชน (v/c): <span id="val_dop_v" class="val-display">+0.75</span> c</label>
+        <input type="range" id="slider_dop_v" min="-0.90" max="0.90" step="0.05" value="0.75">
+      </div>
+      <div class="ctrl-box">
+        <label>ความถี่ดั้งเดิมของดวงดาว: f₀ = 500 THz (แสงสีเขียว 600 nm)</label>
+        <div style="color:#94a3b8; font-size:0.80rem; margin-top:4px;">f_obs = f₀ √((1+β)/(1-β)) (การเลื่อนไปทางน้ำเงิน/แดง)</div>
+      </div>
+    </div>
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+    <div class="readout-grid" id="readoutsTwin">
+      <div class="readout-card"><div class="readout-val" id="val_earth_age">10.0 ปี</div><div class="readout-lbl">เวลาที่ผ่านไปบนโลก (Earth Twin)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_ship_age">6.0 ปี</div><div class="readout-lbl">เวลาบนยานอวกาศ (Rocket Twin)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_age_diff" style="color:#10b981;">แฝดบนยานเด็กกว่า 4.0 ปี</div><div class="readout-lbl">ความต่างของอายุเมื่อพบกัน</div></div>
+    </div>
+    <div class="readout-grid" id="readoutsDoppler" style="display:none;">
+      <div class="readout-card"><div class="readout-val" id="val_dop_factor">2.65 ×</div><div class="readout-lbl">อัตราส่วนความถี่ (f_obs / f₀)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_dop_lam">226 nm (UV)</div><div class="readout-lbl">ความยาวคลื่นที่ปรากฏ</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_dop_shift" style="color:#00f0ff;">Blueshift (เลื่อนไปทางน้ำเงิน)</div><div class="readout-lbl">ปรากฏการณ์ดอปเปลอร์</div></div>
+    </div>
   </div>
 
   <script>
-    
-        const cv = document.getElementById("simCanvas");
-        const ctx = cv.getContext("2d");
-        const slider = document.getElementById("slider_param") || { value: 50 };
-        let tick = 0;
 
-        function animate() {
-          const val = +slider.value || 50;
-          const valEl = document.getElementById("val_param");
-          if (valEl) valEl.textContent = val;
-          const coeff = (val / 50).toFixed(3);
-          const mEl = document.getElementById("val_metric");
-          if (mEl) mEl.textContent = coeff;
+    const cv = document.getElementById("simCanvas");
+    const ctx = cv.getContext("2d");
+    let currentMode = "twin";
+    let tick = 0;
 
-          ctx.clearRect(0, 0, cv.width, cv.height);
+    function setMode(mode) {
+      currentMode = mode;
+      document.getElementById("tabTwin").classList.toggle("active", mode === "twin");
+      document.getElementById("tabDoppler").classList.toggle("active", mode === "doppler");
+      document.getElementById("controlsTwin").style.display = mode === "twin" ? "grid" : "none";
+      document.getElementById("controlsDoppler").style.display = mode === "doppler" ? "grid" : "none";
+      document.getElementById("readoutsTwin").style.display = mode === "twin" ? "grid" : "none";
+      document.getElementById("readoutsDoppler").style.display = mode === "doppler" ? "grid" : "none";
+    }
 
-          // Waveform 1 (Neon Cyan)
-          ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=2) {
-            const norm = (x-40)/560;
-            const y = 115 + 45 * Math.sin(norm * Math.PI * 4 * coeff + tick*0.06) * Math.cos(norm * Math.PI * 2);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+    let stars = [];
+    for(let i=0; 50 > i; i++) {
+      stars.push({
+        x: Math.random() * 640,
+        y: Math.random() * 230,
+        z: 0.2 + Math.random()*0.8
+      });
+    }
 
-          // Waveform 2 (Amber Field)
-          ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=4) {
-            const norm = (x-40)/560;
-            const y = 115 + 50 * Math.sin(norm * Math.PI * 2 * coeff - tick*0.04);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+    function animate() {
+      ctx.clearRect(0, 0, cv.width, cv.height);
 
-          // Particle Field
-          for(let i=0; 10 > i; i++) {
-            const px = 40 + ((tick*3 + i*56) % 560);
-            const py = 115 + 30 * Math.sin(px*0.02 + tick*0.05);
-            ctx.fillStyle = "#10b981";
-            ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI*2); ctx.fill();
-          }
+      if (currentMode === "twin") {
+        const v = +document.getElementById("slider_twin_v").value;
+        document.getElementById("val_twin_v").textContent = v.toFixed(2);
+        const gamma = 1 / Math.sqrt(1 - v*v);
 
-          ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
-          ctx.fillText("จำลองผลลัพธ์พลวัตเชิงฟิสิกส์เรียลไทม์ (Live 60 FPS Engine)", 50, 30);
+        const d_one_way = 4.0; // ly
+        const t_earth = (2 * d_one_way) / v;
+        const t_ship = t_earth / gamma;
+        const diff = t_earth - t_ship;
 
-          tick++;
-          requestAnimationFrame(animate);
+        document.getElementById("val_earth_age").textContent = t_earth.toFixed(1) + " ปี";
+        document.getElementById("val_ship_age").textContent = t_ship.toFixed(1) + " ปี";
+        document.getElementById("val_age_diff").textContent = "แฝดบนยานเด็กกว่า " + diff.toFixed(1) + " ปี";
+
+        // Journey Animation
+        const ox = 70, starX = 540, y = 115;
+
+        // Earth
+        ctx.fillStyle = "#38bdf8"; ctx.beginPath(); ctx.arc(ox, y, 16, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle = "#ffffff"; ctx.font = "11px sans-serif"; ctx.fillText("โลก (Earth)", ox - 24, y + 32);
+
+        // Alpha Centauri Star
+        ctx.fillStyle = "#f59e0b"; ctx.beginPath(); ctx.arc(starX, y, 18, 0, Math.PI*2); ctx.fill();
+        ctx.fillText("Alpha Centauri (4 ly)", starX - 45, y + 32);
+
+        // Flight Path
+        ctx.strokeStyle = "rgba(148, 163, 184, 0.3)"; ctx.lineWidth = 1.5; ctx.setLineDash([4, 4]);
+        ctx.beginPath(); ctx.moveTo(ox, y); ctx.lineTo(starX, y); ctx.stroke(); ctx.setLineDash([]);
+
+        // Rocket position
+        const prog = (tick * 0.008 * v) % 2;
+        let rx = prog < 1 ? ox + prog * (starX - ox) : starX - (prog - 1) * (starX - ox);
+        let headingRight = prog < 1;
+
+        // Rocket
+        ctx.fillStyle = "#00f0ff";
+        ctx.beginPath(); ctx.arc(rx, y, 7, 0, Math.PI*2); ctx.fill();
+
+        // Exhaust plume
+        ctx.fillStyle = "#f43f5e";
+        ctx.beginPath();
+        const plumeX = headingRight ? rx - 10 : rx + 10;
+        ctx.arc(plumeX, y, 3.5, 0, Math.PI*2); ctx.fill();
+
+        // Current Age Display above heads
+        const curEarthT = prog * (t_earth / 2);
+        const curShipT = prog * (t_ship / 2);
+        ctx.fillStyle = "#38bdf8"; ctx.font = "10px 'JetBrains Mono', monospace";
+        ctx.fillText("Earth: " + curEarthT.toFixed(1) + " yr", ox - 20, y - 24);
+
+        ctx.fillStyle = "#00f0ff";
+        ctx.fillText("Rocket: " + curShipT.toFixed(1) + " yr", rx - 25, y - 18);
+      }
+      else {
+        // Relativistic Doppler Effect Mode
+        const beta = +document.getElementById("slider_dop_v").value;
+        document.getElementById("val_dop_v").textContent = (beta >= 0 ? "+" : "") + beta.toFixed(2);
+
+        // Doppler Factor: sqrt((1+beta)/(1-beta))
+        const dopFactor = Math.sqrt((1 + beta) / (1 - beta));
+        const lam_obs = 600 / dopFactor;
+
+        document.getElementById("val_dop_factor").textContent = dopFactor.toFixed(2) + " ×";
+        document.getElementById("val_dop_lam").textContent = lam_obs.toFixed(1) + " nm";
+
+        const shiftEl = document.getElementById("val_dop_shift");
+        if (beta > 0.05) {
+          shiftEl.textContent = "Blueshift (เลื่อนไปทางน้ำเงิน/UV)"; shiftEl.style.color = "#00f0ff";
+        } else if (-0.05 > beta) {
+          shiftEl.textContent = "Redshift (เลื่อนไปทางแดง/IR)"; shiftEl.style.color = "#f43f5e";
+        } else {
+          shiftEl.textContent = "ไม่มีการเลื่อน (v ≈ 0)"; shiftEl.style.color = "#10b981";
         }
-        animate();
-        
+
+        // Warp Starfield
+        let starCol = beta > 0 ? "rgba(56, 189, 248, " : "rgba(244, 63, 94, ";
+        stars.forEach(s => {
+          ctx.fillStyle = starCol + s.z + ")";
+          ctx.beginPath(); ctx.arc(s.x, s.y, s.z * (2 + Math.abs(beta)*3), 0, Math.PI*2); ctx.fill();
+          s.x += beta * 6 * s.z;
+          if (s.x > 640) s.x = 0;
+          if (0 > s.x) s.x = 640;
+        });
+
+        // Cockpit Reticle
+        ctx.strokeStyle = "rgba(0, 240, 255, 0.4)"; ctx.lineWidth = 1.5;
+        ctx.strokeRect(260, 65, 120, 100);
+        ctx.beginPath(); ctx.moveTo(320, 100); ctx.lineTo(320, 130); ctx.moveTo(305, 115); ctx.lineTo(335, 115); ctx.stroke();
+
+        ctx.fillStyle = "#ffffff"; ctx.font = "11px sans-serif";
+        ctx.fillText("มุมมองหน้ารถ/ยานอวกาศ (Headlight Effect)", 200, 35);
+      }
+
+      tick++;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
   </script>
 </body>
 </html>

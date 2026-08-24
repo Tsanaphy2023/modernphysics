@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 2.1 2.1 หลักการพื้นฐานของทฤษฎีสัมพัทธภาพพิเศษ</title>
+  <title>2.1 การทดลองไมเคิลสัน-มอร์ลีย์</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,33 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
+      margin: 0;
+      padding: 6px;
       overflow-x: hidden;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -48,33 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -88,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -101,9 +96,9 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
@@ -116,116 +111,187 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 2.1 2.1 หลักการพื้นฐานของทฤษฎีสัมพัทธภาพพิเศษ
-      </div>
+      <div class="sim-title"><span>🔬</span> 2.1 การทดลองไมเคิลสัน-มอร์ลีย์: ลมอีเธอร์ & สัจพจน์ความเร็วแสงคงที่</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
-    
-        <div class="control-grid">
-          <div class="ctrl-box" style="grid-column: 1 / -1;">
-            <label>ความเร็วสัมพัทธ์ของยาน (v): <span id="val_v" class="val-display">0.60</span> c</label>
-            <input type="range" id="slider_v" min="0" max="0.99" step="0.01" value="0.60">
-          </div>
-        </div>
-        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
-        
-
-    
-        <div class="readout-grid">
-          <div class="readout-card"><div class="readout-val" id="val_gamma">1.250</div><div class="readout-lbl">Lorentz Factor (γ)</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_t">1.250 s</div><div class="readout-lbl">เวลาสังเกตภายนอก (Δt)</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_path">แนวทแยง (Z-path)</div><div class="readout-lbl">วิถีเดินแสงในกรอบเคลื่อนที่</div></div>
-        </div>
-        
+    <div class="control-grid">
+      <div class="ctrl-box">
+        <label>สมมติฐานความเร็วลมอีเธอร์ (v/c): <span id="val_v" class="val-display">0.00</span> c</label>
+        <input type="range" id="slider_v" min="0.00" max="0.80" step="0.02" value="0.00">
+      </div>
+      <div class="ctrl-box">
+        <label>มุมการหมุนของแท่นทดลอง (θ): <span id="val_theta" class="val-display">0</span>°</label>
+        <input type="range" id="slider_theta" min="0" max="90" step="15" value="0">
+      </div>
+    </div>
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+    <div class="readout-grid">
+      <div class="readout-card"><div class="readout-val" id="val_fringe_pred">0.00 ริ้ว</div><div class="readout-lbl">การเลื่อนริ้วตามทฤษฎีอีเธอร์ (Classical)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_fringe_obs" style="color:#10b981;">0.00 ริ้ว (Null Result)</div><div class="readout-lbl">ผลการทดลองจริง (สัจพจน์ c คงที่)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_status" style="color:#00f0ff;">ไม่มีอีเธอร์ (c คงที่)</div><div class="readout-lbl">ข้อสรุปสัมพัทธภาพพิเศษ</div></div>
+    </div>
   </div>
 
   <script>
-    
-        const cv = document.getElementById("simCanvas");
-        const ctx = cv.getContext("2d");
-        const slider = document.getElementById("slider_v");
-        let tick = 0;
 
-        function animate() {
-          const v = +slider.value;
-          document.getElementById("val_v").textContent = v.toFixed(2);
-          const gamma = 1 / Math.sqrt(Math.max(0.001, 1 - v*v));
-          document.getElementById("val_gamma").textContent = gamma.toFixed(3);
-          document.getElementById("val_t").textContent = gamma.toFixed(3) + " s";
+    const cv = document.getElementById("simCanvas");
+    const ctx = cv.getContext("2d");
+    const sliderV = document.getElementById("slider_v");
+    const sliderTheta = document.getElementById("slider_theta");
+    let tick = 0;
 
-          ctx.clearRect(0, 0, cv.width, cv.height);
+    function animate() {
+      const v = +sliderV.value;
+      const theta = +sliderTheta.value;
 
-          // Rest Frame (S')
-          ctx.strokeStyle = "#334155"; ctx.strokeRect(30, 20, 240, 185);
-          ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
-          ctx.fillText("กรอบนิ่งของผู้สังเกตในยาน (Δt₀)", 45, 40);
-          ctx.fillStyle = "#00f0ff";
-          ctx.fillRect(100, 60, 100, 6);
-          ctx.fillRect(100, 165, 100, 6);
-          const yPulse = 66 + 99 * (0.5 + 0.5*Math.sin(tick*0.08));
-          ctx.fillStyle = "#f59e0b";
-          ctx.beginPath(); ctx.arc(150, yPulse, 5, 0, Math.PI*2); ctx.fill();
-          ctx.strokeStyle = "rgba(245, 158, 11, 0.4)"; ctx.lineWidth = 2;
-          ctx.beginPath(); ctx.moveTo(150, 66); ctx.lineTo(150, 165); ctx.stroke();
+      document.getElementById("val_v").textContent = v.toFixed(2);
+      document.getElementById("val_theta").textContent = theta;
 
-          // Moving Frame (S)
-          ctx.strokeStyle = "#334155"; ctx.strokeRect(330, 20, 280, 185);
-          ctx.fillStyle = "#00f0ff";
-          ctx.fillText("กรอบสังเกตภายนอก (Δt = γΔt₀)", 345, 40);
-          ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          ctx.moveTo(360, 66);
-          ctx.lineTo(460 + v*80, 165);
-          ctx.lineTo(560, 66);
-          ctx.stroke();
+      // Classical ether predicted fringe shift: delta_N = (2L/lambda) * (v/c)^2 * cos(2*theta)
+      const fringePred = (12.0 * v * v * Math.cos(theta * Math.PI / 90)).toFixed(2);
+      document.getElementById("val_fringe_pred").textContent = fringePred + " ริ้ว";
 
-          // Moving Photon on diagonal path
-          const progress = (tick*0.04) % 2;
-          let px = 360, py = 66;
-          if (1 > progress) {
-            px = 360 + progress * (100 + v*80);
-            py = 66 + progress * 99;
-          } else {
-            const p2 = progress - 1;
-            px = (460 + v*80) + p2 * (100 - v*80);
-            py = 165 - p2 * 99;
-          }
-          ctx.fillStyle = "#f59e0b";
-          ctx.beginPath(); ctx.arc(px, py, 6, 0, Math.PI*2); ctx.fill();
+      ctx.clearRect(0, 0, cv.width, cv.height);
 
-          ctx.fillStyle = "#10b981"; ctx.font = "11px sans-serif";
-          ctx.fillText("เส้นทางเดินแสงยาวขึ้น → เวลาขยายตัว", 360, 195);
+      // Left Panel: Interferometer Apparatus
+      const cx = 130, cy = 115, armLen = 70;
 
-          tick++;
-          requestAnimationFrame(animate);
+      // Ether Wind Indicator (Faint Cyan Arrows)
+      if (v > 0) {
+        ctx.strokeStyle = "rgba(0, 240, 255, 0.25)"; ctx.lineWidth = 1.5;
+        for(let row=0; 5 > row; row++) {
+          const arrowY = 30 + row * 40;
+          const shiftX = (tick * v * 4) % 240;
+          ctx.beginPath(); ctx.moveTo(shiftX, arrowY); ctx.lineTo(shiftX + 25, arrowY); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(shiftX + 20, arrowY - 4); ctx.lineTo(shiftX + 25, arrowY); ctx.lineTo(shiftX + 20, arrowY + 4); ctx.stroke();
         }
-        animate();
-        
+        ctx.fillStyle = "rgba(0, 240, 255, 0.6)"; ctx.font = "10px sans-serif";
+        ctx.fillText("ลมอีเธอร์ (v = " + v.toFixed(2) + "c) →", 20, 22);
+      }
+
+      // Laser Source
+      ctx.fillStyle = "#ef4444"; ctx.fillRect(20, cy - 8, 22, 16);
+      ctx.fillStyle = "#ffffff"; ctx.font = "9px sans-serif"; ctx.fillText("Laser", 21, cy + 4);
+
+      // Beam Splitter (Semi-transparent mirror at 45 deg)
+      ctx.strokeStyle = "#38bdf8"; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(cx - 12, cy + 12); ctx.lineTo(cx + 12, cy - 12); ctx.stroke();
+
+      // Mirror 1 (Horizontal Arm)
+      const m1x = cx + armLen, m1y = cy;
+      ctx.fillStyle = "#64748b"; ctx.fillRect(m1x, cy - 12, 6, 24);
+
+      // Mirror 2 (Vertical Arm)
+      const m2x = cx, m2y = cy - armLen;
+      ctx.fillStyle = "#64748b"; ctx.fillRect(cx - 12, m2y - 6, 24, 6);
+
+      // Detector / Screen
+      const detX = cx, detY = cy + armLen;
+      ctx.fillStyle = "#1e293b"; ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 1.5;
+      ctx.fillRect(detX - 16, detY, 32, 14); ctx.strokeRect(detX - 16, detY, 32, 14);
+      ctx.fillStyle = "#00f0ff"; ctx.font = "9px sans-serif"; ctx.fillText("Sensor", detX - 14, detY + 10);
+
+      // Light Beams (Red Monochromatic 632.8 nm Laser)
+      ctx.strokeStyle = "#ef4444"; ctx.lineWidth = 2;
+      // Laser to Splitter
+      ctx.beginPath(); ctx.moveTo(42, cy); ctx.lineTo(cx, cy); ctx.stroke();
+      // Splitter to Mirror 1 and back
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(m1x, cy); ctx.stroke();
+      // Splitter to Mirror 2 and back
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx, m2y); ctx.stroke();
+      // Splitter to Detector
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx, detY); ctx.stroke();
+
+      // Photon packets
+      const p1 = (tick * 4) % (armLen * 2);
+      const px1 = p1 < armLen ? cx + p1 : m1x - (p1 - armLen);
+      ctx.fillStyle = "#fbbf24"; ctx.beginPath(); ctx.arc(px1, cy, 3, 0, Math.PI*2); ctx.fill();
+
+      const p2 = (tick * 4) % (armLen * 2);
+      const py2 = p2 < armLen ? cy - p2 : m2y + (p2 - armLen);
+      ctx.fillStyle = "#fbbf24"; ctx.beginPath(); ctx.arc(cx, py2, 3, 0, Math.PI*2); ctx.fill();
+
+      // Right Panel: Optical Interference Pattern (Fringes)
+      const fBoxX = 270, fBoxY = 25, fBoxW = 345, fBoxH = 175;
+
+      ctx.fillStyle = "#090e1a"; ctx.strokeStyle = "#1e293b"; ctx.lineWidth = 1.5;
+      ctx.fillRect(fBoxX, fBoxY, fBoxW, fBoxH); ctx.strokeRect(fBoxX, fBoxY, fBoxW, fBoxH);
+
+      ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
+      ctx.fillText("ภาพริ้วแทรกสอดจริงบนฉากรับ (Observed Interference Fringes)", fBoxX + 15, fBoxY + 20);
+
+      // Draw Interference Fringes
+      const fringeY = fBoxY + 35, fringeH = 75;
+      const fringeGrad = ctx.createLinearGradient(fBoxX + 15, 0, fBoxX + fBoxW - 15, 0);
+      for(let step=0; 10 >= step; step++) {
+        const stop = step / 10;
+        const bright = step % 2 === 0 ? "rgba(239, 68, 68, 0.9)" : "rgba(15, 23, 42, 0.95)";
+        fringeGrad.addColorStop(stop, bright);
+      }
+      ctx.fillStyle = fringeGrad;
+      ctx.fillRect(fBoxX + 15, fringeY, fBoxW - 30, fringeH);
+      ctx.strokeStyle = "#ef4444"; ctx.strokeRect(fBoxX + 15, fringeY, fBoxW - 30, fringeH);
+
+      // Comparison Box
+      ctx.fillStyle = "#0f172a"; ctx.strokeStyle = "#334155";
+      ctx.fillRect(fBoxX + 15, 145, fBoxW - 30, 45); ctx.strokeRect(fBoxX + 15, 145, fBoxW - 30, 45);
+
+      ctx.fillStyle = "#10b981"; ctx.font = "bold 11px 'JetBrains Mono', monospace";
+      ctx.fillText("✓ สัจพจน์ข้อที่ 2: ความเร็วแสงในสุญญากาศ c มีค่าคงตัวในทุกกรอบอ้างอิงเฉื่อย", fBoxX + 22, 163);
+      ctx.fillStyle = "#94a3b8"; ctx.font = "10px sans-serif";
+      ctx.fillText("ไม่พบการเลื่อนของริ้วแทรกสอดแม้โลกโคจรด้วย v = 30 km/s (Null Result)", fBoxX + 22, 180);
+
+      tick++;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
   </script>
 </body>
 </html>

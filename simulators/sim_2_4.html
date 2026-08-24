@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 2.4 2.4 ความสมมูลระหว่างมวลกับพลังงาน</title>
+  <title>2.4 ความสมมูลมวล-พลังงาน</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,33 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
+      margin: 0;
+      padding: 6px;
       overflow-x: hidden;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -48,33 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -88,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -101,9 +96,9 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
@@ -116,107 +111,173 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 2.4 2.4 ความสมมูลระหว่างมวลกับพลังงาน
-      </div>
+      <div class="sim-title"><span>🔬</span> 2.4 ความสมมูลมวล-พลังงาน: โมเมนตัมสัมพัทธภาพ & ขีดจำกัดความเร็วแสง (c)</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
-    
-        <div class="control-grid">
-          <div class="ctrl-box" style="grid-column: 1 / -1;">
-            <label>ความเร็วอนุภาค (v): <span id="val_v" class="val-display">0.85</span> c</label>
-            <input type="range" id="slider_v" min="0" max="0.99" step="0.01" value="0.85">
-          </div>
-        </div>
-        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
-        
-
-    
-        <div class="readout-grid">
-          <div class="readout-card"><div class="readout-val" id="val_e0">0.511 MeV</div><div class="readout-lbl">พลังงานนิ่ง (E₀ = m₀c²)</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_k">0.459 MeV</div><div class="readout-lbl">พลังงานจลน์ (K)</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_etot">0.970 MeV</div><div class="readout-lbl">พลังงานรวม (E = γm₀c²)</div></div>
-        </div>
-        
+    <div class="control-grid">
+      <div class="ctrl-box">
+        <label>ความเร็วอนุภาค (v/c): <span id="val_v" class="val-display">0.850</span> c</label>
+        <input type="range" id="slider_v" min="0.000" max="0.999" step="0.001" value="0.850">
+      </div>
+      <div class="ctrl-box">
+        <label>อนุภาคเป้าหมาย (มวลนิ่ง m₀):</label>
+        <select id="sel_particle">
+          <option value="0.511" selected>อิเล็กตรอน Electron (m₀c² = 0.511 MeV)</option>
+          <option value="938.3">โปรตอน Proton (m₀c² = 938.3 MeV)</option>
+          <option value="1.0">มวล 1 กรัม (m₀c² = 9.0 × 10¹³ J)</option>
+        </select>
+      </div>
+    </div>
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+    <div class="readout-grid">
+      <div class="readout-card"><div class="readout-val" id="val_gamma">1.898</div><div class="readout-lbl">ตัวประกอบลอเรนซ์ (γ)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_ke">0.459 MeV</div><div class="readout-lbl">พลังงานจลน์ K = (γ-1)m₀c²</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_etot">0.970 MeV</div><div class="readout-lbl">พลังงานรวม E = γm₀c²</div></div>
+    </div>
   </div>
 
   <script>
-    
-        const cv = document.getElementById("simCanvas");
-        const ctx = cv.getContext("2d");
-        const slider = document.getElementById("slider_param") || { value: 50 };
-        let tick = 0;
 
-        function animate() {
-          const val = +slider.value || 50;
-          const valEl = document.getElementById("val_param");
-          if (valEl) valEl.textContent = val;
-          const coeff = (val / 50).toFixed(3);
-          const mEl = document.getElementById("val_metric");
-          if (mEl) mEl.textContent = coeff;
+    const cv = document.getElementById("simCanvas");
+    const ctx = cv.getContext("2d");
+    const sliderV = document.getElementById("slider_v");
+    const selPart = document.getElementById("sel_particle");
+    let tick = 0;
 
-          ctx.clearRect(0, 0, cv.width, cv.height);
+    function animate() {
+      const v = +sliderV.value;
+      const m0 = +selPart.value;
 
-          // Waveform 1 (Neon Cyan)
-          ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=2) {
-            const norm = (x-40)/560;
-            const y = 115 + 45 * Math.sin(norm * Math.PI * 4 * coeff + tick*0.06) * Math.cos(norm * Math.PI * 2);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+      document.getElementById("val_v").textContent = v.toFixed(3);
+      const gamma = 1 / Math.sqrt(1 - v*v);
+      document.getElementById("val_gamma").textContent = gamma.toFixed(3);
 
-          // Waveform 2 (Amber Field)
-          ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=4) {
-            const norm = (x-40)/560;
-            const y = 115 + 50 * Math.sin(norm * Math.PI * 2 * coeff - tick*0.04);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+      const Etot = gamma * m0;
+      const K = (gamma - 1) * m0;
 
-          // Particle Field
-          for(let i=0; 10 > i; i++) {
-            const px = 40 + ((tick*3 + i*56) % 560);
-            const py = 115 + 30 * Math.sin(px*0.02 + tick*0.05);
-            ctx.fillStyle = "#10b981";
-            ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI*2); ctx.fill();
-          }
+      const unit = m0 === 1.0 ? " × 10¹³ J" : " MeV";
+      const scaleVal = m0 === 1.0 ? 9.0 : 1.0;
 
-          ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
-          ctx.fillText("จำลองผลลัพธ์พลวัตเชิงฟิสิกส์เรียลไทม์ (Live 60 FPS Engine)", 50, 30);
+      document.getElementById("val_ke").textContent = (K * scaleVal).toFixed(3) + unit;
+      document.getElementById("val_etot").textContent = (Etot * scaleVal).toFixed(3) + unit;
 
-          tick++;
-          requestAnimationFrame(animate);
-        }
-        animate();
-        
+      ctx.clearRect(0, 0, cv.width, cv.height);
+
+      // Left Panel: Particle in Circular Accelerator
+      const cx = 110, cy = 115, r = 65;
+      ctx.strokeStyle = "#1e293b"; ctx.lineWidth = 12;
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.stroke();
+      ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.stroke();
+
+      const ang = tick * (0.04 + v * 0.15);
+      const px = cx + r * Math.cos(ang), py = cy + r * Math.sin(ang);
+      ctx.fillStyle = "#f59e0b"; ctx.beginPath(); ctx.arc(px, py, 5.5, 0, Math.PI*2); ctx.fill();
+
+      ctx.fillStyle = "#ffffff"; ctx.font = "10px sans-serif";
+      ctx.fillText("เครื่องเร่งอนุภาค", cx - 35, cy - 8);
+      ctx.fillStyle = "#00f0ff"; ctx.fillText("v = " + (v*100).toFixed(1) + "% c", cx - 30, cy + 8);
+
+      // Right Panel: Relativistic vs Classical Curves
+      const ox = 250, oy = 195, gw = 360, gh = 160;
+
+      // Coordinate axes
+      ctx.strokeStyle = "#475569"; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(ox + gw, oy); ctx.lineTo(ox + gw - 6, oy - 4); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(ox, oy - gh); ctx.stroke();
+
+      ctx.fillStyle = "#94a3b8"; ctx.font = "10px sans-serif";
+      ctx.fillText("ความเร็วอนุภาค v/c →", ox + gw - 110, oy + 18);
+      ctx.fillText("โมเมนตัม p", ox - 15, oy - gh - 6);
+
+      // Speed of light asymptote (c Barrier)
+      const cX = ox + gw - 25;
+      ctx.strokeStyle = "#ef4444"; ctx.lineWidth = 1.5; ctx.setLineDash([4, 4]);
+      ctx.beginPath(); ctx.moveTo(cX, oy); ctx.lineTo(cX, oy - gh); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = "#ef4444"; ctx.fillText("c (ขีดจำกัดความเร็วแสง)", cX - 65, oy - gh + 14);
+
+      // Classical Curve p = m0 * v (Linear green)
+      ctx.strokeStyle = "#10b981"; ctx.lineWidth = 2;
+      ctx.beginPath();
+      for(let x=0; (gw - 25) >= x; x+=4) {
+        const vel = x / (gw - 25);
+        const y = oy - (vel * 60);
+        if (x===0) ctx.moveTo(ox + x, y); else ctx.lineTo(ox + x, y);
+      }
+      ctx.stroke();
+
+      // Relativistic Curve p = gamma * m0 * v (Diverging Cyan)
+      ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      for(let x=0; (gw - 26) >= x; x+=2) {
+        const vel = x / (gw - 25);
+        const gam = 1 / Math.sqrt(1 - vel*vel);
+        const y = oy - Math.min(gh - 10, vel * gam * 60);
+        if (x===0) ctx.moveTo(ox + x, y); else ctx.lineTo(ox + x, y);
+      }
+      ctx.stroke();
+
+      // Current position dot
+      const curX = ox + v * (gw - 25);
+      const curY = oy - Math.min(gh - 10, v * gamma * 60);
+      ctx.fillStyle = "#f59e0b"; ctx.beginPath(); ctx.arc(curX, curY, 5, 0, Math.PI*2); ctx.fill();
+
+      // Legends
+      ctx.fillStyle = "#10b981"; ctx.fillText("— Classical: p = mv", ox + 15, oy - gh + 35);
+      ctx.fillStyle = "#00f0ff"; ctx.fillText("— Relativistic: p = γmv → ∞", ox + 15, oy - gh + 52);
+
+      tick++;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
   </script>
 </body>
 </html>
