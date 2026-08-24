@@ -13,7 +13,7 @@ import sys
 CHAPTERS_DIR = "/Users/chewathassana/Downloads/manus_backup2026/ModernPhysics/nanotechnology/textbook_and_lab_manual_2026/scripts/chapters"
 os.makedirs(CHAPTERS_DIR, exist_ok=True)
 
-def create_topic_html(ch, sec, title_th, title_en, intro_p, subtopics, formulas, tables, examples, labs, cases, py_codes):
+def create_topic_html(ch, sec, title_th, title_en, intro_p, subtopics, formulas, tables, examples, labs, cases, py_codes, images=None):
     h = f"""
     <div class="topic-section">
       <h2>{ch}.{sec} {title_th}</h2>
@@ -24,6 +24,26 @@ def create_topic_html(ch, sec, title_th, title_en, intro_p, subtopics, formulas,
     for p in intro_p:
         h += f"    <p>{p}</p>\n"
     h += "  </div>\n"
+
+    if images:
+        for idx, img_item in enumerate(images):
+            if isinstance(img_item, (tuple, list)):
+                img_file, img_cap = img_item[0], img_item[1]
+            else:
+                img_file, img_cap = img_item, f"ภาพประกอบเชิงลึก 3 มิติสำหรับหัวข้อ {ch}.{sec}"
+            
+            # Determine path
+            if img_file.endswith(".svg"):
+                src_path = f"../assets/diagrams/{img_file}"
+            else:
+                src_path = f"../assets/images/{img_file}"
+
+            h += f"""
+      <div class="figure-card">
+        <img src="{src_path}" alt="{img_cap}">
+        <div class="caption"><strong>ภาพที่ {ch}.{sec}.{idx+1}</strong>: {img_cap}</div>
+      </div>
+            """
         
     for sub_title, sub_body in subtopics:
         h += f"""

@@ -117,8 +117,9 @@
     }
     
     .diagram-wrap img {
-      max-width: 90%;
+      max-width: 95%;
       height: auto;
+      border-radius: 4px;
     }
     
     .diagram-wrap .caption {
@@ -127,6 +128,40 @@
       font-style: italic;
       margin-top: 10px;
       text-indent: 0;
+    }
+    
+    .figure-card {
+      text-align: center;
+      margin: 28px 0 32px 0;
+      padding: 16px 18px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      page-break-inside: avoid;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+    
+    .figure-card img {
+      max-width: 95%;
+      height: auto;
+      border-radius: 6px;
+      display: block;
+      margin: 0 auto 12px auto;
+      border: 1px solid #1e293b;
+    }
+    
+    .figure-card .caption {
+      font-size: 9.5pt;
+      color: #cbd5e1;
+      line-height: 1.6;
+      text-align: center;
+      text-indent: 0;
+      margin-top: 6px;
+    }
+    
+    .figure-card .caption strong {
+      color: #38bdf8;
+      font-weight: 700;
     }
     
     .topic-section {
@@ -1343,6 +1378,11 @@ ho_S = 19,300	ext{ kg/m}^3$, $\Delta H_f = 6.37 	imes 10^4	ext{ J/kg}$ จงค
     <p>ความสามารถในการปรับแต่งสถานะควอนตัมได้อย่างอิสระ ทำให้จุดควอนตัมเป็นแพลตฟอร์มชั้นนำในการสร้างบิตควอนตัมแบบสปิน (Spin Qubits), แหล่งกำเนิดโฟตอนเดี่ยว (Single-Photon Sources) สำหรับการสื่อสารควอนตัมเข้ารหัส, และเลเซอร์สารกึ่งตัวนำประสิทธิภาพสูง</p>
   </div>
 
+      <div class="figure-card">
+        <img src="../assets/images/quantum_dots_3d_photoluminescence.jpg" alt="ภาพเสมือนจริง 3 มิติ: การเปล่งแสงเรืองแสงโฟโตลูมิเนสเซนซ์ของจุดควอนตัมคอลลอยด์ CdSe/ZnS หลากสีตามระดับการกักขังควอนตัมภายใต้แสงกระตุ้นเลเซอร์ยูวี (UV Laser Excitation)">
+        <div class="caption"><strong>ภาพที่ 2.3.1</strong>: ภาพเสมือนจริง 3 มิติ: การเปล่งแสงเรืองแสงโฟโตลูมิเนสเซนซ์ของจุดควอนตัมคอลลอยด์ CdSe/ZnS หลากสีตามระดับการกักขังควอนตัมภายใต้แสงกระตุ้นเลเซอร์ยูวี (UV Laser Excitation)</div>
+      </div>
+            
       <div class="subtopic-block">
         <h3>โครงสร้างเปลือกพลังงานและจำนวนมหัศจรรย์ (Magic Numbers in Quantum Dots)</h3>
             <p>สำหรับจุดควอนตัมที่มีศักย์กักขังแบบพาราโบลาสองมิติ: $V(r) = rac{1}{2} m^* \omega_0^2 r^2$ ระดับพลังงานคือ $E_n = \hbar \omega_0 (n + 1)$ โดยมีความเสื่อมของระดับพลังงานเท่ากับ $n+1$</p>
@@ -2268,6 +2308,11 @@ ho = 10.49	ext{ g/cm}^3$)</li><li style='margin-bottom:8px;'>แผ่นทอ�
     <p>กระแสทะลุผ่าน (Tunneling Current: $I_t$) มีความไวต่อระยะห่าง $d$ ในระดับเอกซ์โพเนนเชียลอย่างยิ่งยวด โดยการเปลี่ยนระยะห่างเพียง $0.1	ext{ nm}$ (ประมาณ 1 อังสตรอม) จะทำให้กระแสเปลี่ยนไปถึง 10 เท่า ($1000\%$) ส่งผลให้ STM มีความละเอียดในแนวดิ่งสูงถึง $0.01	ext{ nm}$ ($0.1	ext{ \AA}$) ซึ่งละเอียดกว่าขนาดของอะตอมเดี่ยว</p>
   </div>
 
+      <div class="figure-card">
+        <img src="../assets/images/stm_atomic_metrology_3d.jpg" alt="ภาพเสมือนจริง 3 มิติ: การควบคุมจัดเรียงอะตอมเดี่ยวและการวัดกระแสทะลุผ่านเชิงควอนตัมระดับซับแองสตรอมด้วยกล้องจุลทรรศน์ STM">
+        <div class="caption"><strong>ภาพที่ 4.1.1</strong>: ภาพเสมือนจริง 3 มิติ: การควบคุมจัดเรียงอะตอมเดี่ยวและการวัดกระแสทะลุผ่านเชิงควอนตัมระดับซับแองสตรอมด้วยกล้องจุลทรรศน์ STM</div>
+      </div>
+            
       <div class="subtopic-block">
         <h3>ทฤษฎีของเทอร์ซอฟฟ์-ฮาแมนน์ (Tersoff-Hamann Theory of STM)</h3>
             <p>กระแสอุโมงค์คำนวณจากสูตรของ Tersoff-Hamann: $I_t \propto V 	imes 
@@ -3267,6 +3312,11 @@ ight)}$$</p>
     <p>ในสภาวะ Flat Bands นี้ พลังงานจลน์ของอิเล็กตรอนจะลดลงจนอันตรกิริยาผลักกันของคูลอมบ์ระหว่างอิเล็กตรอนกลายเป็นแรงหลักที่ควบคุมพฤติกรรมของระบบ นำไปสู่การค้นพบ สภาพนำยิ่งยวดแบบไร้แรงต้านทาน (Unconventional Superconductivity ที่อุณหภูมิวิกฤต $T_c pprox 1.7	ext{ K}$) และสถานะฉนวนมอตต์ที่เหนี่ยวนำด้วยสหสัมพันธ์ (Correlated Mott-like Insulator) ซึ่งสามารถสลับเปลี่ยนสถานะกันได้ง่ายดายเพียงแค่ปรับแรงดันไฟฟ้าที่ขั้วเกต</p>
   </div>
 
+      <div class="figure-card">
+        <img src="../assets/images/graphene_twistronics_moire_3d.jpg" alt="ภาพเสมือนจริง 3 มิติ: โครงสร้างซูเปอร์แลตทิซมัวเรในกราฟีนสองชั้นบิดมุมมหัศจรรย์ 1.1 องศา และการเกิดแถบพลังงานแบนราบนำสู่สภาพตัวนำยิ่งยวด">
+        <div class="caption"><strong>ภาพที่ 5.5.1</strong>: ภาพเสมือนจริง 3 มิติ: โครงสร้างซูเปอร์แลตทิซมัวเรในกราฟีนสองชั้นบิดมุมมหัศจรรย์ 1.1 องศา และการเกิดแถบพลังงานแบนราบนำสู่สภาพตัวนำยิ่งยวด</div>
+      </div>
+            
       <div class="subtopic-block">
         <h3>เรขาคณิตของลวดลายมัวเรและมุมมหัศจรรย์ตามแบบจำลอง Bistritzer-MacDonald</h3>
             <p>คาบความยาวของลวดลายมัวเร: $\lambda_M = rac{a}{2 \sin(	heta/2)} pprox rac{a}{	heta}$ เมื่อ $	heta = 1.1^\circ$ จะได้ $\lambda_M pprox 13.4	ext{ nm}$</p>
@@ -3414,6 +3464,11 @@ ight)}$$</p>
     <p>ในระดับฟิสิกส์วัสดุขั้นสูง ทรานซิสเตอร์ท่อคาร์บอนนาโน (CNT-FETs) และทรานซิสเตอร์วัสดุสองมิติ ($	ext{MoS}_2	ext{-FETs}$) เป็นผู้ท้าชิงอันดับหนึ่งสำหรับยุค Sub-1nm เนื่องจากความหนาของช่องนำกระแสที่บางเฉียบระดับโมเลกุล ช่วยป้องกันการรั่วไหลของประจุและให้อัตราการนำกระแสแบบบอลลิสติก (Ballistic Transport) สูงสุด</p>
   </div>
 
+      <div class="figure-card">
+        <img src="../assets/images/spintronics_gaafet_nanodevice_3d.jpg" alt="ภาพเสมือนจริง 3 มิติ: สถาปัตยกรรมทรานซิสเตอร์นาโนชีต GAAFET ระดับต่ำกว่า 2 นาโนเมตร และสแต็กหัวต่ออุโมงค์แม่เหล็ก STT-MRAM ในโรงงานเซมิคอนดักเตอร์ขั้นสูง">
+        <div class="caption"><strong>ภาพที่ 6.1.1</strong>: ภาพเสมือนจริง 3 มิติ: สถาปัตยกรรมทรานซิสเตอร์นาโนชีต GAAFET ระดับต่ำกว่า 2 นาโนเมตร และสแต็กหัวต่ออุโมงค์แม่เหล็ก STT-MRAM ในโรงงานเซมิคอนดักเตอร์ขั้นสูง</div>
+      </div>
+            
       <div class="subtopic-block">
         <h3>ฟิสิกส์การควบคุมไฟฟ้าสถิตและความยาวสเกลธรรมชาติ (Natural Scaling Length)</h3>
             <p>ความยาวสเกลธรรมชาติสำหรับโครงสร้างระนาบ: $\lambda = \sqrt{rac{\epsilon_{	ext{ch}}}{\epsilon_{	ext{ox}}} t_{	ext{ch}} t_{	ext{ox}}}$</p>
@@ -3982,6 +4037,11 @@ ight]$$</p>
     <p>ความมหัศจรรย์ของ Ionizable Lipid อยู่ที่ค่า $	ext{p}K_a pprox 6.0 - 6.8$ ซึ่งจะมีประจุบวกที่สภาวะกรดอ่อน ($	ext{pH} pprox 4.0$) ในกระบวนการผลิตเพื่อจับกับสาย mRNA ที่มีประจุลบ แต่จะเปลี่ยนเป็นกลางทางไฟฟ้าที่ค่า $	ext{pH}$ ปกติของกระแสเลือด ($	ext{pH} pprox 7.4$) เพื่อลดความเป็นพิษต่อเซลล์ และกลับมามีประจุบวกอีกครั้งภายในถุงเอนโดโซม ($	ext{pH} pprox 5.0 - 5.5$) เพื่อทำลายเยื่อหุ้มเอนโดโซมและปลดปล่อย mRNA เข้าสู่ไซโตพลาสซึม (Endosomal Escape)</p>
   </div>
 
+      <div class="figure-card">
+        <img src="../assets/images/nanomedicine_lnp_mrna_3d.jpg" alt="ภาพเสมือนจริง 3 มิติ: ภาคตัดขวางอนุภาคนาโนไขมัน LNP ห่อหุ้มสายรหัสพันธุกรรม mRNA พร้อมลิแกนด์นำวิถีหลอมรวมเข้าสู่เยื่อหุ้มเซลล์เป้าหมาย">
+        <div class="caption"><strong>ภาพที่ 7.1.1</strong>: ภาพเสมือนจริง 3 มิติ: ภาคตัดขวางอนุภาคนาโนไขมัน LNP ห่อหุ้มสายรหัสพันธุกรรม mRNA พร้อมลิแกนด์นำวิถีหลอมรวมเข้าสู่เยื่อหุ้มเซลล์เป้าหมาย</div>
+      </div>
+            
       <div class="subtopic-block">
         <h3>องค์ประกอบและสัดส่วนโมลาร์ของอนุภาค LNP มาตรฐาน</h3>
             <p>1. Ionizable Lipid (เช่น ALC-0315 หรือ SM-102, $\sim 46 - 50	ext{ mol}\%$): ทำหน้าที่ห่อหุ้ม mRNA และช่วยการหลุดรอดจากเอนโดโซม</p>
@@ -4549,6 +4609,11 @@ ho = 1050	ext{ kg/m}^3$, $\eta = 0.003	ext{ Pa}\cdot	ext{s}$) ไหลด้ว
     <p>การผสานเซลล์เพอรอฟสไกต์ที่มีช่องว่างแถบพลังงานกว้าง ($E_{g1} pprox 1.68	ext{ eV}$) เข้ากับเซลล์ซิลิคอนช่องว่างแคบ ($E_{g2} pprox 1.12	ext{ eV}$) ช่วยก้าวข้ามขีดจำกัดช็อกคลีย์-ไควเซอร์สำหรับรอยต่อเดี่ยว (Shockley-Queisser Limit: 33.7%) มุ่งสู่อนาคตพลังงานสะอาดที่มีต้นทุนต่ำและประสิทธิภาพสูงสุด</p>
   </div>
 
+      <div class="figure-card">
+        <img src="../assets/images/perovskite_tandem_solar_3d.jpg" alt="ภาพเสมือนจริง 3 มิติ: เซลล์แสงอาทิตย์เพอรอฟสไกต์แทนเดมร่วมกับเซลล์ซิลิคอนและระบบเร่งปฏิกิริยาแยกน้ำด้วยแสงอาทิตย์แบบซีสกีม">
+        <div class="caption"><strong>ภาพที่ 8.1.1</strong>: ภาพเสมือนจริง 3 มิติ: เซลล์แสงอาทิตย์เพอรอฟสไกต์แทนเดมร่วมกับเซลล์ซิลิคอนและระบบเร่งปฏิกิริยาแยกน้ำด้วยแสงอาทิตย์แบบซีสกีม</div>
+      </div>
+            
       <div class="subtopic-block">
         <h3>โครงสร้างผลึก ABX3 และดัชนีความทนทานของโกลด์ชมิดต์ (Goldschmidt Tolerance Factor)</h3>
             <p>สูตรความเสถียรของโครงสร้างเพอรอฟสไกต์: $t = rac{r_A + r_X}{\sqrt{2}(r_B + r_X)}$ และตัวประกอบแปดหน้า (Octahedral Factor): $\mu = rac{r_B}{r_X}$</p>

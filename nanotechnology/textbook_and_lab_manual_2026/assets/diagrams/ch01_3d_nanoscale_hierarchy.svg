@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090e17"/><stop offset="50%" stop-color="#0f172a"/><stop offset="100%" stop-color="#1e1b4b"/>
+    </linearGradient>
+    <linearGradient id="cubeTop" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#0284c7"/></linearGradient>
+    <linearGradient id="cubeLeft" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0369a1"/><stop offset="100%" stop-color="#075985"/></linearGradient>
+    <linearGradient id="cubeRight" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0284c7"/><stop offset="100%" stop-color="#0c4a6e"/></linearGradient>
+    <linearGradient id="goldSphere" x1="30%" y1="30%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fef08a"/><stop offset="40%" stop-color="#eab308"/><stop offset="80%" stop-color="#ca8a04"/><stop offset="100%" stop-color="#713f12"/></linearGradient>
+    <filter id="glow1" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6" result="blur"/><feComposite in="SourceGraphic" in2="blur" operator="over"/></filter>
+  </defs>
+  <rect width="900" height="450" rx="12" fill="url(#bgGrad1)" stroke="#334155" stroke-width="1.5"/>
+  <g transform="translate(30, 25)">
+    <rect width="360" height="32" rx="16" fill="rgba(56, 189, 248, 0.12)" stroke="#38bdf8" stroke-width="1"/>
+    <text x="180" y="21" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="bold" text-anchor="middle">FIGURE 1.1 • 3D NANOSCALE LENGTH SCALES &amp; S/V SCALING</text>
+  </g>
+  <g transform="translate(60, 90)">
+    <text x="100" y="0" fill="#94a3b8" font-family="'Sarabun', sans-serif" font-size="13" font-weight="700" text-anchor="middle">1. มหภาค (Bulk Crystal: d = 1 cm)</text>
+    <g transform="translate(40, 20)">
+      <polygon points="60,0 120,30 60,60 0,30" fill="url(#cubeTop)" stroke="#e0f2fe" stroke-width="1"/>
+      <polygon points="0,30 60,60 60,130 0,100" fill="url(#cubeLeft)" stroke="#e0f2fe" stroke-width="1"/>
+      <polygon points="60,60 120,30 120,100 60,130" fill="url(#cubeRight)" stroke="#e0f2fe" stroke-width="1"/>
+      <text x="60" y="160" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="11" text-anchor="middle">A/V = 6/d = 600 m⁻¹</text>
+      <text x="60" y="178" fill="#64748b" font-family="'Sarabun', sans-serif" font-size="10" text-anchor="middle">อะตอมที่ผิว &lt; 0.0001%</text>
+    </g>
+    <g transform="translate(250, 0)">
+      <text x="75" y="0" fill="#94a3b8" font-family="'Sarabun', sans-serif" font-size="13" font-weight="700" text-anchor="middle">2. อนุภาคนาโน (d = 2 nm)</text>
+      <circle cx="50" cy="50" r="22" fill="url(#goldSphere)" filter="url(#glow1)"/>
+      <circle cx="85" cy="40" r="16" fill="url(#goldSphere)"/>
+      <circle cx="105" cy="70" r="20" fill="url(#goldSphere)" filter="url(#glow1)"/>
+      <circle cx="45" cy="90" r="18" fill="url(#goldSphere)"/>
+      <circle cx="80" cy="85" r="24" fill="url(#goldSphere)" filter="url(#glow1)"/>
+      <circle cx="80" cy="85" r="32" fill="none" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3 3"/>
+      <text x="75" y="160" fill="#facc15" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold" text-anchor="middle">A/V = 6/d = 3×10⁹ m⁻¹</text>
+      <text x="75" y="178" fill="#10b981" font-family="'Sarabun', sans-serif" font-size="10" font-weight="bold" text-anchor="middle">อะตอมที่ผิว &gt; 50% (Quantum Surface)</text>
+    </g>
+  </g>
+  <g transform="translate(480, 80)">
+    <rect width="380" height="280" rx="8" fill="rgba(15, 23, 42, 0.7)" stroke="#334155" stroke-width="1"/>
+    <text x="190" y="28" fill="#f8fafc" font-family="'Sarabun', sans-serif" font-size="13" font-weight="700" text-anchor="middle">กราฟความสัมพันธ์: อัตราส่วนพื้นที่ผิว &amp; อุณหภูมิหลอมเหลว</text>
+    <line x1="60" y1="230" x2="340" y2="230" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="60" y1="230" x2="60" y2="50" stroke="#64748b" stroke-width="1.5"/>
+    <path d="M 65,210 Q 80,195 110,130 T 200,85 T 330,80" fill="none" stroke="#f43f5e" stroke-width="3" filter="url(#glow1)"/>
+    <path d="M 65,65 Q 85,150 140,195 T 330,225" fill="none" stroke="#38bdf8" stroke-width="3" filter="url(#glow1)"/>
+    <rect x="60" y="50" width="75" height="180" fill="rgba(244, 63, 94, 0.12)" stroke="rgba(244, 63, 94, 0.4)" stroke-dasharray="3 3"/>
+    <text x="97" y="160" fill="#facc15" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="bold" text-anchor="middle" transform="rotate(-90 97 160)">NANOSCALE REGIME (1-10 nm)</text>
+  </g>
+  <g transform="translate(30, 395)">
+    <rect width="840" height="38" rx="6" fill="rgba(30, 41, 59, 0.8)" stroke="#334155" stroke-width="1"/>
+    <circle cx="25" cy="19" r="6" fill="#38bdf8"/><text x="40" y="23" fill="#cbd5e1" font-family="'Sarabun', sans-serif" font-size="10.5">อัตราส่วนพื้นที่ผิวต่อปริมาตรเพิ่มขึ้นแบบไฮเพอร์โบลาเมื่ออนุภาค &lt; 10 nm</text>
+    <circle cx="430" cy="19" r="6" fill="#f43f5e"/><text x="445" y="23" fill="#cbd5e1" font-family="'Sarabun', sans-serif" font-size="10.5">อุณหภูมิหลอมเหลวของทองคำลดลงจาก 1,064 °C เหลือต่ำกว่า 400 °C ที่ขนาด 2 nm</text>
+  </g>
+</svg>

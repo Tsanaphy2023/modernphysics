@@ -487,8 +487,9 @@ def compile_master_textbook():
     }
     
     .diagram-wrap img {
-      max-width: 90%;
+      max-width: 95%;
       height: auto;
+      border-radius: 4px;
     }
     
     .diagram-wrap .caption {
@@ -497,6 +498,40 @@ def compile_master_textbook():
       font-style: italic;
       margin-top: 10px;
       text-indent: 0;
+    }
+    
+    .figure-card {
+      text-align: center;
+      margin: 28px 0 32px 0;
+      padding: 16px 18px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      page-break-inside: avoid;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+    
+    .figure-card img {
+      max-width: 95%;
+      height: auto;
+      border-radius: 6px;
+      display: block;
+      margin: 0 auto 12px auto;
+      border: 1px solid #1e293b;
+    }
+    
+    .figure-card .caption {
+      font-size: 9.5pt;
+      color: #cbd5e1;
+      line-height: 1.6;
+      text-align: center;
+      text-indent: 0;
+      margin-top: 6px;
+    }
+    
+    .figure-card .caption strong {
+      color: #38bdf8;
+      font-weight: 700;
     }
     
     .topic-section {
