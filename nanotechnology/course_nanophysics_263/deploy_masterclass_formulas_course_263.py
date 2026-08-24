@@ -601,7 +601,217 @@ def get_rich_formula_data(sub_id, formula_raw, title):
             "note": "เนื่องจากอนุภาคนาโนออกไซด์ (เช่น ZnO, SnO₂) มีอัตราส่วนพื้นที่ผิวต่อปริมาตรมหาศาล การเกาะของโมเลกุลก๊าซเพียงไม่กี่โมเลกุลจะทำให้ชั้น Depletion Layer หนาขึ้นและเปลี่ยนความต้านทานอย่างรวดเร็ว ตรวจจับได้ถึงระดับ ppb"
         }
 
-    # Fallback for Chapters 7-8 with beautifully formatted clean vector styling
+    # ==================== CHAPTER 7 ====================
+    elif sub_id == "7.1":
+        return {
+            "title": "ปริมาณการรับสัมผัสและการสร้างอนุมูลอิสระของอนุภาคนาโน (Inhalation Dose & Reactive Oxygen Species - ROS)",
+            "badge": "นาโนพิษวิทยา",
+            "math_html": """<span style="display:inline-flex; align-items:center; gap:16px; flex-wrap:wrap; justify-content:center;">
+              <span style="display:inline-flex; align-items:center; gap:6px;">
+                <span style="color:#f43f5e; font-weight:700;">Dose</span> <span style="color:#ffffff;">=</span> 
+                <span style="color:#38bdf8; font-size:1.2rem;">&int;</span><sub style="color:#94a3b8;">0</sub><sup style="color:#94a3b8;">T</sup> 
+                <span style="color:#38bdf8; font-weight:700;">C<sub>nano</sub>(t)</span> <span style="color:#ffffff;">&middot;</span> 
+                <span style="color:#facc15; font-weight:700;">V<sub>resp</sub></span> <span style="color:#34d399; font-weight:700;">dt</span>
+              </span>
+              <span style="color:#ffffff; font-weight:700;">,</span>
+              <span style="display:inline-flex; align-items:center; gap:6px;">
+                <span style="color:#c084fc; font-weight:700;">Rate<sub>ROS</sub></span> <span style="color:#ffffff;">=</span> 
+                <span style="color:#facc15; font-weight:700;">k<sub>ROS</sub></span> 
+                <span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;">
+                  <span style="border-bottom:2px solid #c084fc; padding:0 6px; color:#c084fc; font-weight:700;">A</span>
+                  <span style="color:#c084fc; font-weight:700;">V</span>
+                </span>
+                <span style="color:#38bdf8; font-weight:700;">[NP]</span>
+              </span>
+            </span>""",
+            "vars": [
+                ("Dose", "ปริมาณมวลอนุภาคนาโนสะสมในระบบทางเดินหายใจและถุงลมปอด (Cumulative Inhaled Dose, mg หรือ &mu;g)"),
+                ("C_nano(t)", "ความเข้มข้นของละอองลอยอนุภาคนาโนในอากาศ ณ เวลา t (Airborne Nanoparticle Concentration, mg/m³)"),
+                ("V_resp", "อัตราการระบายอากาศและปริมาตรการหายใจเข้า (Minute Ventilation Rate, L/min หรือ m³/h)"),
+                ("Rate_ROS", "อัตราการเหนี่ยวนำให้เกิดภาวะความเครียดออกซิเดชัน (Reactive Oxygen Species Generation Rate)"),
+                ("A / V", "อัตราส่วนพื้นที่ผิวต่อปริมาตรของอนุภาคนาโน (Specific Surface Area: ยิ่งเล็ก ยิ่งว่องไวในการสร้าง ROS)")
+            ],
+            "note": "อนุภาคนาโนที่มีขนาดเล็กกว่า 100 nm สามารถเดินทางลึกเข้าไปตกสะสมในถุงลมปอด (Alveolar Region) และแทรกซึมผ่านผนังหลอดเลือดเข้าสู่กระแสเลือด ก่อให้เกิดการอักเสบเรื้อรังและความเครียดจากอนุมูลอิสระ (Oxidative Stress)"
+        }
+    elif sub_id == "7.2":
+        return {
+            "title": "สมการประเมินความเสี่ยงและลำดับขั้นการควบคุมตามมาตรฐานคลีนรูม (Risk Equation & Hierarchy of Controls)",
+            "badge": "ความปลอดภัย & คลีนรูม",
+            "math_html": """<span style="display:inline-flex; align-items:center; gap:16px; flex-wrap:wrap; justify-content:center;">
+              <span style="display:inline-flex; align-items:center; gap:6px;">
+                <span style="color:#f43f5e; font-weight:700;">Risk</span> <span style="color:#ffffff;">=</span> 
+                <span style="color:#facc15; font-weight:700;">Hazard</span> <span style="color:#ffffff;">&times;</span> 
+                <span style="color:#38bdf8; font-weight:700;">Exposure</span>
+              </span>
+              <span style="color:#ffffff; font-weight:700;">,</span>
+              <span style="display:inline-flex; align-items:center; gap:6px;">
+                <span style="color:#34d399; font-weight:700;">C<sub>n</sub></span> <span style="color:#ffffff;">=</span> 
+                <span style="color:#ffffff;">10<sup>N</sup></span> <span style="color:#ffffff;">&times;</span> 
+                <span style="color:#cbd5e1;">(</span><span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;"><span style="border-bottom:2px solid #34d399; padding:0 6px; color:#34d399; font-weight:700;">0.1</span><span style="color:#facc15; font-weight:700;">D</span></span><span style="color:#cbd5e1;">)<sup>2.08</sup></span>
+              </span>
+            </span>""",
+            "vars": [
+                ("Risk", "ระดับความเสี่ยงอันตรายต่อสุขภาพของผู้ปฏิบัติงานในห้องปฏิบัติการนาโน (Occupational Health Risk)"),
+                ("Hazard", "ความเป็นอันตรายโดยธรรมชาติของสารนาโน (Intrinsic Toxicity & Reactivity of Nanomaterial)"),
+                ("Exposure", "ระดับและระยะเวลาการเปิดรับสัมผัสของผู้ปฏิบัติงาน (Exposure Frequency & Duration)"),
+                ("C_n", "ขีดจำกัดความเข้มข้นสูงสุดของอนุภาคในอากาศตามมาตรฐาน ISO 14644 Cleanroom Class N (อนุภาค/m³)"),
+                ("N, D", "ระดับชั้นคลีนรูม (ISO Class 1-9) และขนาดเส้นผ่านศูนย์กลางอนุภาค (Particle Threshold Diameter, &mu;m)")
+            ],
+            "note": "การควบคุมความเสี่ยงตามลำดับขั้น (Hierarchy of Controls) ต้องเริ่มจากการควบคุมทางวิศวกรรม (ตู้ดูดควันไอระเหยนาโนและแผ่นกรอง HEPA/ULPA 99.999%) ร่วมกับอุปกรณ์ PPE (หน้ากาก N100 / ถุงมือไนไตรล์สองชั้น)"
+        }
+    elif sub_id == "7.3":
+        return {
+            "title": "แฟกเตอร์การสะสมทางชีวภาพและอัตราส่วนความเสี่ยงต่อสิ่งแวดล้อม (Bioconcentration Factor & Risk Quotient)",
+            "badge": "นิเวศพิษวิทยา",
+            "math_html": """<span style="display:inline-flex; align-items:center; gap:16px; flex-wrap:wrap; justify-content:center;">
+              <span style="display:inline-flex; align-items:center; gap:6px;">
+                <span style="color:#38bdf8; font-weight:700;">BCF</span> <span style="color:#ffffff;">=</span> 
+                <span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;">
+                  <span style="border-bottom:2px solid #38bdf8; padding:0 6px; color:#38bdf8; font-weight:700;">C<sub>biota</sub></span>
+                  <span style="color:#facc15; font-weight:700;">C<sub>water</sub></span>
+                </span>
+              </span>
+              <span style="color:#ffffff; font-weight:700;">,</span>
+              <span style="display:inline-flex; align-items:center; gap:6px;">
+                <span style="color:#f43f5e; font-weight:700;">RQ</span> <span style="color:#ffffff;">=</span> 
+                <span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;">
+                  <span style="border-bottom:2px solid #f43f5e; padding:0 6px; color:#f43f5e; font-weight:700;">PEC</span>
+                  <span style="color:#34d399; font-weight:700;">PNEC</span>
+                </span>
+              </span>
+            </span>""",
+            "vars": [
+                ("BCF", "ปัจจัยการสะสมความเข้มข้นทางชีวภาพในสิ่งมีชีวิตในน้ำ (Bioconcentration Factor, L/kg)"),
+                ("C_biota", "ความเข้มข้นของอนุภาคนาโนที่ตรวจพบในเนื้อเยื่อสิ่งมีชีวิต เช่น สาหร่าย ไรน้ำ หรือปลา (mg/kg)"),
+                ("C_water", "ความเข้มข้นของอนุภาคนาโนที่ละลายหรือแขวนลอยในแหล่งน้ำธรรมชาติ (mg/L)"),
+                ("RQ", "อัตราส่วนความเสี่ยงต่อระบบนิเวศ (Ecotoxicological Risk Quotient: หาก RQ > 1 แสดงว่ามีความเสี่ยงสูง)"),
+                ("PEC, PNEC", "ความเข้มข้นที่คาดว่าจะพบในสิ่งแวดล้อม (PEC) และความเข้มข้นสูงสุดที่ไม่ก่อผลกระทบ (PNEC)")
+            ],
+            "note": "อนุภาคนาโนโลหะ เช่น นาโนเงิน (AgNPs) หรือซิงก์ออกไซด์ (ZnO NPs) สามารถสะสมผ่านห่วงโซ่อาหาร (Biomagnification) และปล่อยไอออนพิษทำลายสิ่งมีชีวิตขนาดเล็กในระบบนิเวศแหล่งน้ำ"
+        }
+    elif sub_id == "7.4":
+        return {
+            "title": "ดัชนีความเสี่ยงตามหลักจริยธรรมและการกำกับดูแลวิจัย (Failure Mode Risk Priority Number - RPN)",
+            "badge": "จริยธรรม & กฎระเบียบ",
+            "math_html": """<span style="color:#38bdf8; font-weight:700;">RPN</span> <span style="color:#ffffff;">=</span> <span style="color:#f43f5e; font-weight:700;">S</span> <span style="color:#ffffff;">&times;</span> <span style="color:#facc15; font-weight:700;">O</span> <span style="color:#ffffff;">&times;</span> <span style="color:#34d399; font-weight:700;">D</span><span style="color:#ffffff;">,</span> &emsp; <span style="color:#38bdf8; font-weight:700;">Integrity</span> <span style="color:#ffffff;">=</span> <span style="display:inline-flex; align-items:center; gap:6px;"><span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;"><span style="border-bottom:2px solid #38bdf8; padding:0 8px; color:#38bdf8; font-weight:700;">Reproducible Data</span><span style="color:#facc15; font-weight:700;">Total Experiments</span></span> <span style="color:#ffffff;">=</span> <span style="color:#10b981; font-weight:700;">1.00</span></span>""",
+            "vars": [
+                ("RPN", "คะแนนลำดับความสำคัญของความเสี่ยงในกระบวนการวิจัย (Risk Priority Number: 1 - 1000)"),
+                ("S (Severity)", "ระดับความรุนแรงของผลกระทบหากเกิดข้อผิดพลาดหรือการรั่วไหล (คะแนน 1-10)"),
+                ("O (Occurrence)", "โอกาสหรือความถี่ที่จะเกิดเหตุการณ์ไม่พึงประสงค์ (คะแนน 1-10)"),
+                ("D (Detection)", "ความยากง่ายในการตรวจจับก่อนที่จะเกิดอันตราย (คะแนน 1-10: ยิ่งตรวจยาก คะแนนยิ่งสูง)"),
+                ("Integrity", "ดัชนีความซื่อสัตย์สุจริตทางวิชาการและความสามารถในการทำซ้ำได้ของผลการทดลอง (FAIR Data)")
+            ],
+            "note": "การวิจัยและพัฒนาผลิตภัณฑ์นาโนเทคโนโลยีต้องปฏิบัติตามกรอบกฎหมายสากล เช่น EU REACH Regulation, OECD Guidelines และหลักการ Safety-by-Design เพื่อรับประกันความปลอดภัยต่อผู้บริโภคและสังคม"
+        }
+    elif sub_id == "7.5":
+        return {
+            "title": "ดัชนีความปลอดภัยรวมของห้องปฏิบัติการนาโน (Integrated Laboratory Safety Index)",
+            "badge": "การประเมินความปลอดภัย",
+            "math_html": """<span style="color:#38bdf8; font-weight:700;">Safety Index</span> <span style="color:#ffffff;">=</span> <span style="color:#ffffff;">1 &minus;</span> <span style="color:#38bdf8; font-size:1.15rem;">&sum;</span><sub style="color:#94a3b8;">i</sub> <span style="color:#facc15; font-weight:700;">w<sub>i</sub></span> <span style="color:#f43f5e; font-weight:700;">P<sub>i</sub></span><span style="color:#ffffff;">,</span> &emsp; <span style="color:#34d399; font-weight:700;">Safety Index</span> <span style="color:#ffffff;">&ge;</span> <span style="color:#10b981; font-weight:700;">0.95 (Safe Zone)</span>""",
+            "vars": [
+                ("Safety Index", "ดัชนีความปลอดภัยรวมของสถานปฏิบัติการวิจัยนาโนเทคโนโลยี (เป้าหมาย &ge; 0.95 หรือ 95%)"),
+                ("w_i", "ค่าน้ำหนักความสำคัญของมาตรการด้านต่างๆ (ตู้ดูดควัน, PPE, ระบบบำบัดของเสีย, การฝึกอบรม)"),
+                ("P_i", "ความน่าจะเป็นหรือสัดส่วนข้อบกพร่องที่ตรวจพบในการตรวจสอบความปลอดภัย (Defect Probability)")
+            ],
+            "note": "การจัดทำแผนตอบโต้เหตุฉุกเฉินสารนาโนหกรั่วไหล (Nanomaterial Spill Response Kit) และการตรวจเช็คอัตราการไหลเวียนของอากาศในตู้ดูดควัน (Fume Hood Face Velocity 0.5 m/s) เป็นหัวใจสำคัญของการป้องกันอุบัติเหตุ"
+        }
+
+    # ==================== CHAPTER 8 ====================
+    elif sub_id == "8.1":
+        return {
+            "title": "ศักย์เลนนาร์ด-โจนส์และสมการการเคลื่อนที่พลวัตโมเลกุล (Lennard-Jones Potential & Molecular Dynamics)",
+            "badge": "พลวัตโมเลกุล MD",
+            "math_html": """<span style="display:inline-flex; align-items:center; gap:16px; flex-wrap:wrap; justify-content:center;">
+              <span style="display:inline-flex; align-items:center; gap:6px;">
+                <span style="color:#38bdf8; font-weight:700;">V<sub>LJ</sub>(r)</span> <span style="color:#ffffff;">=</span> 
+                <span style="color:#facc15; font-weight:700;">4 &epsilon;</span> 
+                <span style="color:#cbd5e1;">[</span><span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;"><span style="border-bottom:2px solid #38bdf8; padding:0 6px; color:#38bdf8; font-weight:700;">&sigma;</span><span style="color:#facc15; font-weight:700;">r</span></span><span style="color:#cbd5e1;">)<sup>12</sup></span> <span style="color:#ffffff;">&minus;</span> 
+                <span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;"><span style="border-bottom:2px solid #f43f5e; padding:0 6px; color:#f43f5e; font-weight:700;">&sigma;</span><span style="color:#facc15; font-weight:700;">r</span></span><span style="color:#cbd5e1;">)<sup>6</sup></span><span style="color:#cbd5e1;">]</span>
+              </span>
+              <span style="color:#ffffff; font-weight:700;">,</span>
+              <span style="display:inline-flex; align-items:center; gap:6px;">
+                <span style="color:#34d399; font-weight:700;"><span style="text-decoration:overline;">F</span><sub>i</sub></span> <span style="color:#ffffff;">=</span> 
+                <span style="color:#facc15; font-weight:700;">m<sub>i</sub></span> 
+                <span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;">
+                  <span style="border-bottom:2px solid #34d399; padding:0 6px; color:#34d399; font-weight:700;">d<sup>2</sup> <span style="text-decoration:overline;">r</span><sub>i</sub></span>
+                  <span style="color:#34d399; font-weight:700;">dt<sup>2</sup></span>
+                </span>
+              </span>
+            </span>""",
+            "vars": [
+                ("V_LJ(r)", "พลังงานศักย์อันตรกิริยาระหว่างคู่อะตอมตามแบบจำลองเลนนาร์ด-โจนส์ (หน่วย: eV หรือ J)"),
+                ("&epsilon;", "ความลึกของบ่อพลังงานศักย์ที่ระยะเสถียร (Potential Well Depth, eV)"),
+                ("&sigma;", "ระยะห่างระหว่างจุดศูนย์กลางของอะตอมที่ทำให้ศักย์มีค่าเป็นศูนย์ (Finite Distance where V=0, &Aring;)"),
+                ("r", "ระยะห่างระหว่างคู่อะตอม (Interatomic Distance: r⁻¹² คือแรงผลักเปาลี และ r⁻⁶ คือแรงดึงดูดแวนเดอร์วาลส์)"),
+                ("F_i, m_i", "เวกเตอร์แรงลัพธ์และมวลของอะตอมที่ i ตามระเบียบวิธีอินทิเกรตแบบแวร์เลต์ (Verlet Integration)")
+            ],
+            "note": "การจำลองพลวัตโมเลกุล (Molecular Dynamics - MD) ช่วยให้นักวิจัยมองเห็นการจัดเรียงตัวของอะตอม การหลอมเหลวที่จุดต่ำกว่าบัลค์ (Melting Point Depression) และการแพร่กระจายตัวของโครงสร้างนาโนในระดับเฟมโตวินาที"
+        }
+    elif sub_id == "8.2":
+        return {
+            "title": "สมการแมกซ์เวลล์และระเบียบวิธีไฟไนต์ดิฟเฟอเรนซ์ไทม์โดเมน (FDTD Maxwell Electrodynamics)",
+            "badge": "การจำลอง FDTD",
+            "math_html": """<span style="display:inline-flex; align-items:center; gap:16px; flex-wrap:wrap; justify-content:center;">
+              <span style="display:inline-flex; align-items:center; gap:6px;">
+                <span style="color:#38bdf8; font-weight:700;">&nabla; &times; <span style="text-decoration:overline;">E</span></span> <span style="color:#ffffff;">=</span> 
+                <span style="color:#f43f5e; font-weight:700;">&minus;</span><span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;"><span style="border-bottom:2px solid #f43f5e; padding:0 6px; color:#f43f5e; font-weight:700;">&part; <span style="text-decoration:overline;">B</span></span><span style="color:#f43f5e; font-weight:700;">&part;t</span></span>
+              </span>
+              <span style="color:#ffffff; font-weight:700;">,</span>
+              <span style="display:inline-flex; align-items:center; gap:6px;">
+                <span style="color:#34d399; font-weight:700;">&nabla; &times; <span style="text-decoration:overline;">H</span></span> <span style="color:#ffffff;">=</span> 
+                <span style="color:#facc15; font-weight:700;"><span style="text-decoration:overline;">J</span></span> <span style="color:#ffffff;">+</span> 
+                <span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;"><span style="border-bottom:2px solid #34d399; padding:0 6px; color:#34d399; font-weight:700;">&part; <span style="text-decoration:overline;">D</span></span><span style="color:#34d399; font-weight:700;">&part;t</span></span>
+              </span>
+            </span>""",
+            "vars": [
+                ("E, B", "เวกเตอร์สนามไฟฟ้า (Electric Field, V/m) และสนามแม่เหล็ก (Magnetic Induction, T)"),
+                ("H, D", "เวกเตอร์ความเข้มสนามแม่เหล็ก (Magnetic Field, A/m) และการกระจัดไฟฟ้า (Displacement Field, C/m²)"),
+                ("J", "ความหนาแน่นกระแสไฟฟ้านำในตัวกลางพลาสมอนิก (Conduction Current Density, A/m²)"),
+                ("&part;/&part;t", "อนุพันธ์ย่อยเทียบกับเวลาตามโครงตาข่ายแบบยี้ (Yee Cell Grid Staggered in Space-Time)")
+            ],
+            "note": "ระเบียบวิธี FDTD สามารถจำลองจุดร้อนพลาสมอนิก (Plasmonic Hotspots) ระหว่างอนุภาคนาโนคู่ (Nanoparticle Dimer) ที่มีการขยายความเข้มสนามไฟฟ้าสูงกว่า 10,000 เท่าสำหรับเทคนิค SERS"
+        }
+    elif sub_id == "8.3":
+        return {
+            "title": "แบบจำลองพื้นผิวตอบสนองและการออกแบบการทดลองนาโน (Response Surface Methodology - RSM)",
+            "badge": "การออกแบบการทดลอง",
+            "math_html": """<span style="color:#38bdf8; font-weight:700;">Y</span> <span style="color:#ffffff;">=</span> <span style="color:#facc15; font-weight:700;">&beta;<sub>0</sub></span> <span style="color:#ffffff;">+</span> <span style="color:#38bdf8; font-size:1.1rem;">&sum;</span> <span style="color:#38bdf8; font-weight:700;">&beta;<sub>i</sub> X<sub>i</sub></span> <span style="color:#ffffff;">+</span> <span style="color:#34d399; font-size:1.1rem;">&sum;</span> <span style="color:#34d399; font-weight:700;">&beta;<sub>ij</sub> X<sub>i</sub> X<sub>j</sub></span> <span style="color:#ffffff;">+</span> <span style="color:#c084fc; font-size:1.1rem;">&sum;</span> <span style="color:#c084fc; font-weight:700;">&beta;<sub>ii</sub> X<sub>i</sub><sup>2</sup></span>""",
+            "vars": [
+                ("Y", "ตัวแปรตอบสนองเป้าหมาย เช่น ขนาดอนุภาคเฉลี่ย (nm), ความสม่ำเสมอ PDI หรือร้อยละผลผลิต (%)"),
+                ("&beta;₀", "ค่าคงที่จุดตัดแกนของการถดถอยพหุนามอันดับสอง (Second-Order Intercept Constant)"),
+                ("&beta;_i, X_i", "สัมประสิทธิ์และตัวแปรปัจจัยหลัก (Linear Main Effect: อุณหภูมิ, เวลา, ความเข้มข้นสารตั้งต้น)"),
+                ("&beta;_ij, &beta;_ii", "สัมประสิทธิ์อันตรกิริยาร่วม (Interaction Effect) และสัมประสิทธิ์กำลังสอง (Quadratic Curvature)")
+            ],
+            "note": "การใช้เทคนิค Central Composite Design (CCD) ร่วมกับ RSM ช่วยลดจำนวนรอบการทดลองในห้องปฏิบัติการลงมากกว่า 70% พร้อมหาจุดสภาวะที่เหมาะสมที่สุด (Global Optimum) ได้อย่างแม่นยำ"
+        }
+    elif sub_id == "8.4":
+        return {
+            "title": "ฟังก์ชันการสูญเสียของโมเดลปัญญาประดิษฐ์ทำนายสมบัติวัสดุนาโน (AI Loss Function & Property Prediction)",
+            "badge": "AI & Machine Learning",
+            "math_html": """<span style="color:#38bdf8; font-weight:700;">&Lscr;<sub>MSE</sub></span> <span style="color:#ffffff;">=</span> <span style="display:inline-flex; align-items:center; gap:6px;"><span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;"><span style="border-bottom:2px solid #38bdf8; padding:0 6px; color:#38bdf8; font-weight:700;">1</span><span style="color:#38bdf8; font-weight:700;">N</span></span> <span style="color:#38bdf8; font-size:1.1rem;">&sum;</span><sub style="color:#94a3b8;">i=1</sub><sup style="color:#94a3b8;">N</sup> <span style="color:#cbd5e1;">(</span><span style="color:#34d399; font-weight:700;">y<sub>i</sub></span> <span style="color:#ffffff;">&minus;</span> <span style="color:#facc15; font-weight:700;">y&#770;<sub>i</sub></span><span style="color:#cbd5e1;">)<sup>2</sup></span> <span style="color:#ffffff;">+</span> <span style="color:#c084fc; font-weight:700;">&lambda; ||W||<sup>2</sup></span></span>""",
+            "vars": [
+                ("&Lscr;_MSE", "ฟังก์ชันการสูญเสียกำลังสองเฉลี่ยของการทำนายสมบัติวัสดุ (Mean Squared Error Loss)"),
+                ("y_i", "ค่าสมบัติทางกายภาพจริงจากการทดลองหรือการคำนวณ DFT (Ground Truth Target: Bandgap, Formation Energy)"),
+                ("ŷ_i", "ค่าสมบัติที่ทำนายได้จากโครงข่ายประสาทเทียมกราฟ (Graph Neural Network Prediction: CGCNN)"),
+                ("&lambda; ||W||²", "เทอมควบคุมความซับซ้อนเพื่อป้องกันการเรียนรู้เกิน (L2 Weight Regularization Penalty)")
+            ],
+            "note": "ปัญญาประดิษฐ์สำหรับการออกแบบย้อนกลับ (Inverse Materials Design) สามารถสแกนและคัดกรองโครงสร้างผลึกนาโนกว่า 100,000 ชนิดในฐานข้อมูล Materials Project ได้ภายในไม่กี่นาที"
+        }
+    elif sub_id == "8.5":
+        return {
+            "title": "ดัชนีผลกระทบงานวิจัยและระดับความพร้อมทางเทคโนโลยี (Research Impact & Technology Readiness Level)",
+            "badge": "โครงงานวิจัย & TRL",
+            "math_html": """<span style="color:#38bdf8; font-weight:700;">Impact Factor</span> <span style="color:#ffffff;">=</span> <span style="display:inline-flex; align-items:center; gap:6px;"><span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;"><span style="border-bottom:2px solid #38bdf8; padding:0 8px; color:#38bdf8; font-weight:700;">Citations<sub>(t-1, t-2)</sub></span><span style="color:#facc15; font-weight:700;">Publications<sub>(t-1, t-2)</sub></span></span></span><span style="color:#ffffff;">,</span> &emsp; <span style="color:#34d399; font-weight:700;">TRL</span> <span style="color:#ffffff;">:</span> <span style="color:#10b981; font-weight:700;">1 &xrarr; 9</span>""",
+            "vars": [
+                ("Impact Factor", "ดัชนีผลกระทบการอ้างอิงของผลงานวิจัยและวารสารวิชาการนานาชาติระดับ Q1/Q2"),
+                ("Citations", "จำนวนครั้งที่บทความวิจัยนาโนเทคโนโลยีได้รับการอ้างอิงในฐานข้อมูล Scopus / Web of Science"),
+                ("Publications", "จำนวนบทความวิจัยที่ได้รับการตีพิมพ์เผยแพร่ในรอบ 2 ปีที่ผ่านมา"),
+                ("TRL 1 &rarr; 9", "ระดับความพร้อมทางเทคโนโลยี ตั้งแต่ระดับแนวคิดพื้นฐาน (TRL 1) จนถึงการผลิตเชิงพาณิชย์ (TRL 9)")
+            ],
+            "note": "การนำเสนอผลงานโครงงานวิจัยนาโนฟิสิกส์ต้องบูรณาการทั้งระเบียบวิธีวิจัยที่เข้มงวด การวิเคราะห์สถิติที่น่าเชื่อถือ และการประเมินศักยภาพการต่อยอดเชิงอุตสาหกรรมตามเกณฑ์มาตรฐานสากล"
+        }
+
+    # Fallback with beautifully formatted clean vector styling
     return {
         "title": f"กฎและสมการสำคัญประจำหัวข้อ {sub_id}",
         "badge": "ฟิสิกส์นาโน",
@@ -662,7 +872,7 @@ def render_rich_formula_card(sub_id, formula_raw, title):
 
 def build_moodle_page_html(ch_id, sub_id, title, summary, formula):
     sim_fname = f"sim_nano_{sub_id.replace('.', '_')}.html"
-    sim_url = f"{CDN_BASE}/simulators/{sim_fname}?v=2026_masterclass_v6"
+    sim_url = f"{CDN_BASE}/simulators/{sim_fname}?v=2026_masterclass_v8_live"
     standalone_url = f"{CDN_BASE}/simulators/{sim_fname}"
     sub_key = sub_id.replace('.', '_')
 
