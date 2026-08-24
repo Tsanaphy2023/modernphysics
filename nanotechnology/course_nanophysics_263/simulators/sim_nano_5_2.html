@@ -3,256 +3,137 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nanophysics Simulator 5.2 — 5.2 ท่อคาร์บอนนาโนและสมบัติการนำส่งทางไฟฟ้า</title>
+  <title>Lab 5.2: Carbon Nanotube Chirality (n,m) Roller</title>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
   <style>
     :root {
-      --bg-dark: #020617;
-      --card-bg: #090e1a;
+      --bg: #020617;
+      --panel: #090e1a;
       --cyan: #00f0ff;
+      --amber: #facc15;
       --emerald: #10b981;
-      --amber: #f59e0b;
-      --rose: #f43f5e;
-      --purple: #a855f7;
+      --purple: #c084fc;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: var(--bg-dark);
-      color: #f8fafc;
-      font-family: 'Sarabun', -apple-system, sans-serif;
-      padding: 10px;
-      overflow-x: hidden;
-    }
-    .sim-card {
-      background: var(--card-bg);
-      border: 1px solid #1e293b;
-      border-radius: 12px;
-      padding: 16px;
-      max-width: 100%;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-      position: relative;
-    }
-    .sim-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 12px;
-      border-bottom: 1px solid #1e293b;
-      padding-bottom: 8px;
-    }
-    .sim-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--cyan);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .status-badge {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid var(--emerald);
-      color: var(--emerald);
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 9999px;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .sim-canvas-container {
-      position: relative;
-      width: 100%;
-      height: 280px;
-      background: #000000;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      overflow: hidden;
-      margin-bottom: 12px;
-    }
-    canvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-    .controls-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 10px;
-      margin-bottom: 10px;
-      background: #0f172a;
-      padding: 10px 14px;
-      border-radius: 8px;
-      border: 1px solid #1e293b;
-    }
-    .ctrl-item {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .ctrl-label {
-      font-size: 0.78rem;
-      color: #94a3b8;
-      display: flex;
-      justify-content: space-between;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    input[type=range] {
-      width: 100%;
-      accent-color: var(--cyan);
-      cursor: pointer;
-    }
-    .hud-readout {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      font-size: 0.82rem;
-      color: #cbd5e1;
-      background: #020617;
-      border: 1px solid #334155;
-      border-radius: 6px;
-      padding: 6px 12px;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .hud-val {
-      color: var(--amber);
-      font-weight: 700;
-    }
-    .btn-action {
-      background: linear-gradient(135deg, #0284c7, var(--cyan));
-      color: #020617;
-      border: none;
-      border-radius: 6px;
-      padding: 6px 14px;
-      font-weight: 700;
-      font-size: 0.80rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-action:hover {
-      box-shadow: 0 0 10px var(--cyan);
-      transform: scale(1.02);
-    }
+    body { background: var(--bg); color: #f8fafc; font-family: 'Sarabun', sans-serif; padding: 12px; }
+    .sim-card { background: var(--panel); border: 1px solid #1e293b; border-radius: 14px; padding: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
+    .sim-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 10px; margin-bottom: 12px; }
+    .sim-title { font-size: 1.1rem; font-weight: 700; color: var(--purple); display: flex; align-items: center; gap: 8px; }
+    .badge { background: rgba(192,132,252,0.15); border: 1px solid var(--purple); color: var(--purple); padding: 3px 10px; border-radius: 9999px; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; }
+    .canvas-box { position: relative; width: 100%; height: 320px; background: #000; border: 1px solid #334155; border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
+    canvas { width: 100%; height: 100%; display: block; }
+    .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; background: #0f172a; padding: 12px 16px; border-radius: 10px; border: 1px solid #1e293b; margin-bottom: 12px; }
+    .ctrl-group { display: flex; flex-direction: column; gap: 6px; }
+    .ctrl-lbl { font-size: 0.8rem; color: #94a3b8; display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; }
+    input[type=range] { width: 100%; accent-color: var(--purple); cursor: pointer; }
+    .hud { display: flex; justify-content: space-between; align-items: center; background: #020617; border: 1px solid #334155; border-radius: 8px; padding: 10px 16px; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; flex-wrap: wrap; gap: 10px; }
+    .hud-val { color: var(--cyan); font-weight: 700; }
   </style>
 </head>
 <body>
   <div class="sim-card">
     <div class="sim-header">
       <div class="sim-title">
-        <span>🔬</span>
-        <span>แล็บจำลอง 5.2: 5.2 ท่อคาร์บอนนาโนและสมบัติการนำส่งทางไฟฟ้า</span>
+        <span>🌀</span>
+        <span>แล็บ 5.2: การม้วนท่อนาโนคาร์บอนและดัชนีไครัลลิตี (CNT Chirality (n,m) Roller)</span>
       </div>
-      <div class="status-badge">● 60 FPS REAL-TIME</div>
+      <div class="badge">● METALLIC VS SEMICONDUCTING SOLVER</div>
     </div>
 
-    <div class="sim-canvas-container">
-      <canvas id="nanoCanvas"></canvas>
+    <div class="canvas-box">
+      <canvas id="cntCanvas"></canvas>
     </div>
 
-    <div class="controls-grid">
-      <div class="ctrl-item">
-        <div class="ctrl-label">
-          <span>ขนาดอนุภาค (Diameter)</span>
-          <span id="valD">10.0 nm</span>
+    <div class="controls">
+      <div class="ctrl-group">
+        <div class="ctrl-lbl">
+          <span>ดัชนีไครัล n (Chiral Index: \(n\))</span>
+          <span id="txtN">n = 10</span>
         </div>
-        <input type="range" id="sliderD" min="1" max="100" step="0.5" value="10">
+        <input type="range" id="sliderN" min="3" max="20" step="1" value="10">
       </div>
-      <div class="ctrl-item">
-        <div class="ctrl-label">
-          <span>อุณหภูมิ (Temperature)</span>
-          <span id="valT">300 K</span>
+      <div class="ctrl-group">
+        <div class="ctrl-lbl">
+          <span>ดัชนีไครัล m (Chiral Index: \(m\))</span>
+          <span id="txtM">m = 10 (Armchair Metallic)</span>
         </div>
-        <input type="range" id="sliderT" min="10" max="600" step="5" value="300">
-      </div>
-      <div class="ctrl-item">
-        <div class="ctrl-label">
-          <span>พารามิเตอร์จำลอง (Parameter)</span>
-          <span id="valP">1.00</span>
-        </div>
-        <input type="range" id="sliderP" min="0.1" max="5.0" step="0.05" value="1.0">
+        <input type="range" id="sliderM" min="0" max="20" step="1" value="10">
       </div>
     </div>
 
-    <div class="hud-readout">
-      <div>สมการหลัก: <span class="hud-val">C_h = n\vec{a}_1 + m\vec{a}_2, \quad (n-m)\equiv 0\!\pmod 3</span></div>
-      <div>สถานะ: <span class="hud-val" id="hudStatus">Active Simulation</span></div>
-      <button type="button" class="btn-action" id="btnReset" onclick="resetSim()">↺ รีเซ็ตการทดลอง</button>
+    <div class="hud">
+      <div>เส้นผ่านศูนย์กลางท่อ: <span class="hud-val" id="hudDiam">1.36 nm</span> | มุมไครัล (\(\theta\)): <span class="hud-val" id="hudAngle">30.0° (Armchair)</span></div>
+      <div>สมบัติทางไฟฟ้า: <span class="hud-val" id="hudType">⚡ ตัวนำโลหะ (Metallic CNT, Eg = 0 eV)</span></div>
+      <button type="button" onclick="setPresetZigzag()" style="background:#c084fc; color:#020617; border:none; padding:6px 14px; border-radius:6px; font-weight:700; cursor:pointer;">🔄 สลับแบบซิกแซก (10, 0) Semiconducting</button>
     </div>
   </div>
 
   <script src="ar_mediapipe_controller.js"></script>
   <script>
-    const canvas = document.getElementById("nanoCanvas");
+    const canvas = document.getElementById("cntCanvas");
     const ctx = canvas.getContext("2d");
 
-    function resizeCanvas() {
+    function resize() {
       canvas.width = canvas.parentElement.clientWidth;
       canvas.height = canvas.parentElement.clientHeight;
     }
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
+    window.addEventListener("resize", resize);
+    resize();
 
-    let d = 10.0;
-    let temp = 300;
-    let param = 1.0;
+    let n = 10, m = 10;
     let animTime = 0;
 
-    const sliderD = document.getElementById("sliderD");
-    const sliderT = document.getElementById("sliderT");
-    const sliderP = document.getElementById("sliderP");
-    const valD = document.getElementById("valD");
-    const valT = document.getElementById("valT");
-    const valP = document.getElementById("valP");
-    const hudStatus = document.getElementById("hudStatus");
+    const sliderN = document.getElementById("sliderN");
+    const sliderM = document.getElementById("sliderM");
+    const txtN = document.getElementById("txtN");
+    const txtM = document.getElementById("txtM");
+    const hudDiam = document.getElementById("hudDiam");
+    const hudAngle = document.getElementById("hudAngle");
+    const hudType = document.getElementById("hudType");
 
-    sliderD.addEventListener("input", (e) => {
-      d = parseFloat(e.target.value);
-      valD.textContent = d.toFixed(1) + " nm";
-      updateReadout();
+    sliderN.addEventListener("input", (e) => {
+      n = parseInt(e.target.value);
+      if (m > n) { m = n; sliderM.value = m; }
+      updateCNT();
     });
 
-    sliderT.addEventListener("input", (e) => {
-      temp = parseFloat(e.target.value);
-      valT.textContent = temp.toFixed(0) + " K";
-      updateReadout();
+    sliderM.addEventListener("input", (e) => {
+      m = parseInt(e.target.value);
+      if (m > n) { n = m; sliderN.value = n; }
+      updateCNT();
     });
 
-    sliderP.addEventListener("input", (e) => {
-      param = parseFloat(e.target.value);
-      valP.textContent = param.toFixed(2);
-      updateReadout();
-    });
-
-    function resetSim() {
-      sliderD.value = 10;
-      sliderT.value = 300;
-      sliderP.value = 1.0;
-      d = 10; temp = 300; param = 1.0;
-      valD.textContent = "10.0 nm";
-      valT.textContent = "300 K";
-      valP.textContent = "1.00";
-      animTime = 0;
+    function setPresetZigzag() {
+      n = 10; m = 0;
+      sliderN.value = n; sliderM.value = m;
+      updateCNT();
     }
 
-    function updateReadout() {
-      const ratio = (6.0 / d).toFixed(2);
-      hudStatus.textContent = "A/V Ratio = " + ratio + " nm⁻¹";
+    function calculateCNT() {
+      const a = 0.246; // nm (graphene lattice constant)
+      const Ch = a * Math.sqrt(n * n + n * m + m * m);
+      const diam = Ch / Math.PI;
+      const angleRad = Math.atan((Math.sqrt(3) * m) / (2 * n + m));
+      const angleDeg = angleRad * (180 / Math.PI);
+      const isMetallic = (n - m) % 3 === 0;
+      const Eg = isMetallic ? 0.0 : (0.8 / diam);
+      return { diam, angleDeg, isMetallic, Eg };
     }
 
-    // Particles for Simulation
-    const particles = [];
-    for (let i = 0; i < 40; i++) {
-      particles.push({
-        x: Math.random() * 400 + 50,
-        y: Math.random() * 200 + 40,
-        vx: (Math.random() - 0.5) * 1.5,
-        vy: (Math.random() - 0.5) * 1.5,
-        color: i % 2 === 0 ? "#00f0ff" : "#f59e0b"
-      });
+    function updateCNT() {
+      txtN.textContent = "n = " + n;
+      txtM.textContent = "m = " + m;
+      const res = calculateCNT();
+      hudDiam.textContent = res.diam.toFixed(2) + " nm";
+      hudAngle.textContent = res.angleDeg.toFixed(1) + "° (" + (n === m ? "Armchair" : m === 0 ? "Zigzag" : "Chiral") + ")";
+
+      if (res.isMetallic) {
+        hudType.textContent = "⚡ ตัวนำโลหะ (Metallic CNT, Eg = 0 eV)";
+      } else {
+        hudType.textContent = "🟦 สารกึ่งตัวนำ (Semiconducting, Eg = " + res.Eg.toFixed(2) + " eV)";
+      }
     }
 
     function draw() {
@@ -261,109 +142,75 @@
       const h = canvas.height;
       animTime += 0.03;
 
-      // Draw Perspective Grid
-      ctx.strokeStyle = "rgba(0, 240, 255, 0.15)";
-      ctx.lineWidth = 1;
-      for (let x = 0; x < w; x += 40) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, h);
-        ctx.stroke();
-      }
-      for (let y = 0; y < h; y += 40) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(w, y);
-        ctx.stroke();
-      }
-
-      // Dynamic Nanoscale Entity Render
-      const cx = w * 0.45;
+      const simW = w * 0.55;
+      const cx = simW * 0.5;
       const cy = h * 0.5;
-      const visualR = Math.max(15, Math.min(90, d * 1.8));
 
-      // Glow Halo
-      const grad = ctx.createRadialGradient(cx, cy, 5, cx, cy, visualR * 1.6);
-      grad.addColorStop(0, "rgba(0, 240, 255, 0.8)");
-      grad.addColorStop(0.5, "rgba(168, 85, 247, 0.3)");
-      grad.addColorStop(1, "rgba(0, 0, 0, 0)");
-      ctx.fillStyle = grad;
-      ctx.beginPath();
-      ctx.arc(cx, cy, visualR * 1.6, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Main Core Nanoparticle
-      ctx.fillStyle = "#0f172a";
-      ctx.strokeStyle = "#00f0ff";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.arc(cx, cy, visualR, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.stroke();
-
-      // Atomic Shells inside Nanoparticle
-      const numRings = Math.max(2, Math.floor(visualR / 15));
-      ctx.strokeStyle = "rgba(245, 158, 11, 0.5)";
-      ctx.lineWidth = 1.5;
-      for (let r = 1; r <= numRings; r++) {
-        ctx.beginPath();
-        ctx.arc(cx, cy, (visualR / numRings) * r, 0, Math.PI * 2);
-        ctx.stroke();
-      }
-
-      // Orbiting Surface Atoms
-      const numAtoms = Math.floor(d * 1.5);
-      for (let a = 0; a < numAtoms; a++) {
-        const angle = (a / numAtoms) * Math.PI * 2 + animTime * 0.5;
-        const ax = cx + Math.cos(angle) * visualR;
-        const ay = cy + Math.sin(angle) * visualR;
-        ctx.fillStyle = a % 2 === 0 ? "#f43f5e" : "#38bdf8";
-        ctx.beginPath();
-        ctx.arc(ax, ay, 4, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      // Real-time Graph Overlay (Right side)
-      const gx = w * 0.72;
-      const gy = 30;
-      const gw = w * 0.25;
-      const gh = h - 60;
-      ctx.fillStyle = "rgba(15, 23, 42, 0.85)";
+      // 3D Tube Viewport
+      ctx.fillStyle = "#020617";
       ctx.strokeStyle = "#334155";
-      ctx.lineWidth = 1.5;
+      ctx.lineWidth = 2;
+      ctx.fillRect(15, 15, simW - 15, h - 30);
+      ctx.strokeRect(15, 15, simW - 15, h - 30);
+
+      const res = calculateCNT();
+      const tubeR = Math.max(25, Math.min(80, res.diam * 35));
+
+      // Draw 3D Cylindrical Carbon Nanotube Rings
+      const numRings = 10;
+      for (let r = 0; r < numRings; r++) {
+        const ringX = 50 + r * 28;
+        const col = res.isMetallic ? "#00f0ff" : "#c084fc";
+
+        ctx.strokeStyle = col;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.ellipse(ringX, cy, tubeR * 0.3, tubeR, 0, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Carbon atoms on ring
+        for (let a = 0; a < 8; a++) {
+          const ang = (a / 8) * Math.PI * 2 + animTime * 2 + r * (res.angleDeg * 0.05);
+          const ay = cy + Math.sin(ang) * tubeR;
+          const ax = ringX + Math.cos(ang) * (tubeR * 0.3);
+
+          ctx.fillStyle = "#ffffff";
+          ctx.beginPath(); ctx.arc(ax, ay, 4, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+
+      // Right Side: Graphene 2D Hexagonal Roll Map
+      const gx = w * 0.58;
+      const gy = 25;
+      const gw = w * 0.39;
+      const gh = h - 50;
+
+      ctx.fillStyle = "rgba(15, 23, 42, 0.9)";
+      ctx.strokeStyle = "#334155";
       ctx.fillRect(gx, gy, gw, gh);
       ctx.strokeRect(gx, gy, gw, gh);
 
-      ctx.fillStyle = "#38bdf8";
+      ctx.fillStyle = "#c084fc";
       ctx.font = "11px 'JetBrains Mono', monospace";
-      ctx.fillText("A/V vs Diameter (nm)", gx + 10, gy + 18);
+      ctx.fillText("Chiral Vector C_h = (" + n + ", " + m + ")", gx + 10, gy + 18);
 
-      // Plot A/V curve
+      // Chiral vector line
       ctx.strokeStyle = "#facc15";
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 3;
       ctx.beginPath();
-      for (let px = 0; px < gw - 20; px += 2) {
-        const simD = 1 + (px / (gw - 20)) * 100;
-        const simAV = 6.0 / simD;
-        const py = gy + gh - 15 - (simAV / 6.0) * (gh - 40);
-        if (px === 0) ctx.moveTo(gx + 10 + px, py);
-        else ctx.lineTo(gx + 10 + px, py);
-      }
+      ctx.moveTo(gx + 20, gy + gh - 30);
+      const vx = gx + 20 + (n / 20) * (gw - 50);
+      const vy = gy + gh - 30 - (m / 20) * (gh - 60);
+      ctx.lineTo(vx, vy);
       ctx.stroke();
 
-      // Plot current point
-      const curPX = ((d - 1) / 99) * (gw - 20);
-      const curAV = 6.0 / d;
-      const curPY = gy + gh - 15 - (curAV / 6.0) * (gh - 40);
-      ctx.fillStyle = "#f43f5e";
-      ctx.beginPath();
-      ctx.arc(gx + 10 + curPX, curPY, 5, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.fillStyle = "#facc15";
+      ctx.beginPath(); ctx.arc(vx, vy, 6, 0, Math.PI * 2); ctx.fill();
 
       requestAnimationFrame(draw);
     }
-
     draw();
+    updateCNT();
   </script>
 </body>
 </html>

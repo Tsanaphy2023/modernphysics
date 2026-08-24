@@ -3,367 +3,206 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nanophysics Simulator 5.4 — 5.4 สปินทรอนิกส์และเทคโนโลยีหัวอ่านแม่เหล็ก</title>
+  <title>Lab 5.4: GMR Spin-Valve & Spintronics MRAM</title>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
   <style>
     :root {
-      --bg-dark: #020617;
-      --card-bg: #090e1a;
+      --bg: #020617;
+      --panel: #090e1a;
       --cyan: #00f0ff;
-      --emerald: #10b981;
-      --amber: #f59e0b;
+      --amber: #facc15;
       --rose: #f43f5e;
-      --purple: #a855f7;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: var(--bg-dark);
-      color: #f8fafc;
-      font-family: 'Sarabun', -apple-system, sans-serif;
-      padding: 10px;
-      overflow-x: hidden;
-    }
-    .sim-card {
-      background: var(--card-bg);
-      border: 1px solid #1e293b;
-      border-radius: 12px;
-      padding: 16px;
-      max-width: 100%;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-      position: relative;
-    }
-    .sim-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 12px;
-      border-bottom: 1px solid #1e293b;
-      padding-bottom: 8px;
-    }
-    .sim-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--cyan);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .status-badge {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid var(--emerald);
-      color: var(--emerald);
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 9999px;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .sim-canvas-container {
-      position: relative;
-      width: 100%;
-      height: 280px;
-      background: #000000;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      overflow: hidden;
-      margin-bottom: 12px;
-    }
-    canvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-    .controls-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 10px;
-      margin-bottom: 10px;
-      background: #0f172a;
-      padding: 10px 14px;
-      border-radius: 8px;
-      border: 1px solid #1e293b;
-    }
-    .ctrl-item {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .ctrl-label {
-      font-size: 0.78rem;
-      color: #94a3b8;
-      display: flex;
-      justify-content: space-between;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    input[type=range] {
-      width: 100%;
-      accent-color: var(--cyan);
-      cursor: pointer;
-    }
-    .hud-readout {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      font-size: 0.82rem;
-      color: #cbd5e1;
-      background: #020617;
-      border: 1px solid #334155;
-      border-radius: 6px;
-      padding: 6px 12px;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .hud-val {
-      color: var(--amber);
-      font-weight: 700;
-    }
-    .btn-action {
-      background: linear-gradient(135deg, #0284c7, var(--cyan));
-      color: #020617;
-      border: none;
-      border-radius: 6px;
-      padding: 6px 14px;
-      font-weight: 700;
-      font-size: 0.80rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-action:hover {
-      box-shadow: 0 0 10px var(--cyan);
-      transform: scale(1.02);
-    }
+    body { background: var(--bg); color: #f8fafc; font-family: 'Sarabun', sans-serif; padding: 12px; }
+    .sim-card { background: var(--panel); border: 1px solid #1e293b; border-radius: 14px; padding: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
+    .sim-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 10px; margin-bottom: 12px; }
+    .sim-title { font-size: 1.1rem; font-weight: 700; color: var(--rose); display: flex; align-items: center; gap: 8px; }
+    .badge { background: rgba(244,63,94,0.15); border: 1px solid var(--rose); color: var(--rose); padding: 3px 10px; border-radius: 9999px; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; }
+    .canvas-box { position: relative; width: 100%; height: 320px; background: #000; border: 1px solid #334155; border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
+    canvas { width: 100%; height: 100%; display: block; }
+    .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; background: #0f172a; padding: 12px 16px; border-radius: 10px; border: 1px solid #1e293b; margin-bottom: 12px; }
+    .ctrl-group { display: flex; flex-direction: column; gap: 6px; }
+    .ctrl-lbl { font-size: 0.8rem; color: #94a3b8; display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; }
+    input[type=range] { width: 100%; accent-color: var(--rose); cursor: pointer; }
+    .hud { display: flex; justify-content: space-between; align-items: center; background: #020617; border: 1px solid #334155; border-radius: 8px; padding: 10px 16px; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; flex-wrap: wrap; gap: 10px; }
+    .hud-val { color: var(--cyan); font-weight: 700; }
   </style>
 </head>
 <body>
   <div class="sim-card">
     <div class="sim-header">
       <div class="sim-title">
-        <span>🔬</span>
-        <span>แล็บจำลอง 5.4: 5.4 สปินทรอนิกส์และเทคโนโลยีหัวอ่านแม่เหล็ก</span>
+        <span>🧲</span>
+        <span>แล็บ 5.4: วาล์วสปินและสปินทรอนิกส์ GMR/TMR (Giant Magnetoresistance Spin-Valve)</span>
       </div>
-      <div class="status-badge">● 60 FPS REAL-TIME</div>
+      <div class="badge">● NOBEL PRIZE PHYSICS 2007</div>
     </div>
 
-    <div class="sim-canvas-container">
-      <canvas id="nanoCanvas"></canvas>
+    <div class="canvas-box">
+      <canvas id="gmrCanvas"></canvas>
     </div>
 
-    <div class="controls-grid">
-      <div class="ctrl-item">
-        <div class="ctrl-label">
-          <span>ขนาดอนุภาค (Diameter)</span>
-          <span id="valD">10.0 nm</span>
+    <div class="controls">
+      <div class="ctrl-group">
+        <div class="ctrl-lbl">
+          <span>สนามแม่เหล็กภายนอกควบคุม (External B-Field: \(H\))</span>
+          <span id="txtH">H = +50 Oe (Parallel Alignment)</span>
         </div>
-        <input type="range" id="sliderD" min="1" max="100" step="0.5" value="10">
+        <input type="range" id="sliderH" min="-100" max="100" step="5" value="50">
       </div>
-      <div class="ctrl-item">
-        <div class="ctrl-label">
-          <span>อุณหภูมิ (Temperature)</span>
-          <span id="valT">300 K</span>
+      <div class="ctrl-group">
+        <div class="ctrl-lbl">
+          <span>สถานะการเรียงตัวของสปิน (Magnetic Alignment)</span>
+          <span id="txtAlign">Parallel (Low Resistance State: Bit '0')</span>
         </div>
-        <input type="range" id="sliderT" min="10" max="600" step="5" value="300">
-      </div>
-      <div class="ctrl-item">
-        <div class="ctrl-label">
-          <span>พารามิเตอร์จำลอง (Parameter)</span>
-          <span id="valP">1.00</span>
-        </div>
-        <input type="range" id="sliderP" min="0.1" max="5.0" step="0.05" value="1.0">
+        <select id="selAlign" style="background:#020617; color:#f8fafc; border:1px solid #334155; padding:6px; border-radius:6px; font-family:inherit; font-size:0.85rem;">
+          <option value="p" selected>1. ขนานกัน (Parallel: R_low = 12.5 Ω, Bit '0')</option>
+          <option value="ap">2. สวนทางกัน (Anti-Parallel: R_high = 24.8 Ω, Bit '1')</option>
+        </select>
       </div>
     </div>
 
-    <div class="hud-readout">
-      <div>สมการหลัก: <span class="hud-val">\text{GMR} = \frac{R_{AP} - R_P}{R_P} \times 100\%</span></div>
-      <div>สถานะ: <span class="hud-val" id="hudStatus">Active Simulation</span></div>
-      <button type="button" class="btn-action" id="btnReset" onclick="resetSim()">↺ รีเซ็ตการทดลอง</button>
+    <div class="hud">
+      <div>ความต้านทานไฟฟ้า: <span class="hud-val" id="hudR">12.5 Ω (Low R)</span> | อัตราส่วน GMR: <span class="hud-val" id="hudGMR">98.4% MR Ratio</span></div>
+      <div>สถานะบิตหน่วยความจำ: <span class="hud-val" id="hudBit">Logic '0' (MRAM Readout)</span></div>
+      <button type="button" onclick="toggleSpinPolarization()" style="background:#f43f5e; color:#ffffff; border:none; padding:6px 14px; border-radius:6px; font-weight:700; cursor:pointer;">⚡ สลับทิศสปินชั้นอิสระ (Toggle Free Layer)</button>
     </div>
   </div>
 
   <script src="ar_mediapipe_controller.js"></script>
   <script>
-    const canvas = document.getElementById("nanoCanvas");
+    const canvas = document.getElementById("gmrCanvas");
     const ctx = canvas.getContext("2d");
 
-    function resizeCanvas() {
+    function resize() {
       canvas.width = canvas.parentElement.clientWidth;
       canvas.height = canvas.parentElement.clientHeight;
     }
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
+    window.addEventListener("resize", resize);
+    resize();
 
-    let d = 10.0;
-    let temp = 300;
-    let param = 1.0;
+    let isParallel = true;
+    let bField = 50;
     let animTime = 0;
 
-    const sliderD = document.getElementById("sliderD");
-    const sliderT = document.getElementById("sliderT");
-    const sliderP = document.getElementById("sliderP");
-    const valD = document.getElementById("valD");
-    const valT = document.getElementById("valT");
-    const valP = document.getElementById("valP");
-    const hudStatus = document.getElementById("hudStatus");
+    const sliderH = document.getElementById("sliderH");
+    const selAlign = document.getElementById("selAlign");
+    const txtH = document.getElementById("txtH");
+    const hudR = document.getElementById("hudR");
+    const hudBit = document.getElementById("hudBit");
 
-    sliderD.addEventListener("input", (e) => {
-      d = parseFloat(e.target.value);
-      valD.textContent = d.toFixed(1) + " nm";
-      updateReadout();
+    sliderH.addEventListener("input", (e) => {
+      bField = parseFloat(e.target.value);
+      isParallel = bField >= 0;
+      updateGMR();
     });
 
-    sliderT.addEventListener("input", (e) => {
-      temp = parseFloat(e.target.value);
-      valT.textContent = temp.toFixed(0) + " K";
-      updateReadout();
+    selAlign.addEventListener("change", (e) => {
+      isParallel = e.target.value === "p";
+      updateGMR();
     });
 
-    sliderP.addEventListener("input", (e) => {
-      param = parseFloat(e.target.value);
-      valP.textContent = param.toFixed(2);
-      updateReadout();
-    });
-
-    function resetSim() {
-      sliderD.value = 10;
-      sliderT.value = 300;
-      sliderP.value = 1.0;
-      d = 10; temp = 300; param = 1.0;
-      valD.textContent = "10.0 nm";
-      valT.textContent = "300 K";
-      valP.textContent = "1.00";
-      animTime = 0;
+    function toggleSpinPolarization() {
+      isParallel = !isParallel;
+      updateGMR();
     }
 
-    function updateReadout() {
-      const ratio = (6.0 / d).toFixed(2);
-      hudStatus.textContent = "A/V Ratio = " + ratio + " nm⁻¹";
-    }
-
-    // Particles for Simulation
-    const particles = [];
-    for (let i = 0; i < 40; i++) {
-      particles.push({
-        x: Math.random() * 400 + 50,
-        y: Math.random() * 200 + 40,
-        vx: (Math.random() - 0.5) * 1.5,
-        vy: (Math.random() - 0.5) * 1.5,
-        color: i % 2 === 0 ? "#00f0ff" : "#f59e0b"
-      });
+    function updateGMR() {
+      txtH.textContent = "H = " + (bField >= 0 ? "+" : "") + bField.toFixed(0) + " Oe";
+      if (isParallel) {
+        hudR.textContent = "12.5 Ω (Low Resistance)";
+        hudBit.textContent = "Logic '0' (Parallel Alignment)";
+      } else {
+        hudR.textContent = "24.8 Ω (High Resistance)";
+        hudBit.textContent = "Logic '1' (Anti-Parallel Alignment)";
+      }
     }
 
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const w = canvas.width;
       const h = canvas.height;
-      animTime += 0.03;
+      animTime += 0.04;
 
-      // Draw Perspective Grid
-      ctx.strokeStyle = "rgba(0, 240, 255, 0.15)";
-      ctx.lineWidth = 1;
-      for (let x = 0; x < w; x += 40) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, h);
-        ctx.stroke();
-      }
-      for (let y = 0; y < h; y += 40) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(w, y);
-        ctx.stroke();
-      }
+      const simW = w * 0.55;
+      const cx = simW * 0.5;
 
-      // Dynamic Nanoscale Entity Render
-      const cx = w * 0.45;
-      const cy = h * 0.5;
-      const visualR = Math.max(15, Math.min(90, d * 1.8));
-
-      // Glow Halo
-      const grad = ctx.createRadialGradient(cx, cy, 5, cx, cy, visualR * 1.6);
-      grad.addColorStop(0, "rgba(0, 240, 255, 0.8)");
-      grad.addColorStop(0.5, "rgba(168, 85, 247, 0.3)");
-      grad.addColorStop(1, "rgba(0, 0, 0, 0)");
-      ctx.fillStyle = grad;
-      ctx.beginPath();
-      ctx.arc(cx, cy, visualR * 1.6, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Main Core Nanoparticle
-      ctx.fillStyle = "#0f172a";
-      ctx.strokeStyle = "#00f0ff";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.arc(cx, cy, visualR, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.stroke();
-
-      // Atomic Shells inside Nanoparticle
-      const numRings = Math.max(2, Math.floor(visualR / 15));
-      ctx.strokeStyle = "rgba(245, 158, 11, 0.5)";
-      ctx.lineWidth = 1.5;
-      for (let r = 1; r <= numRings; r++) {
-        ctx.beginPath();
-        ctx.arc(cx, cy, (visualR / numRings) * r, 0, Math.PI * 2);
-        ctx.stroke();
-      }
-
-      // Orbiting Surface Atoms
-      const numAtoms = Math.floor(d * 1.5);
-      for (let a = 0; a < numAtoms; a++) {
-        const angle = (a / numAtoms) * Math.PI * 2 + animTime * 0.5;
-        const ax = cx + Math.cos(angle) * visualR;
-        const ay = cy + Math.sin(angle) * visualR;
-        ctx.fillStyle = a % 2 === 0 ? "#f43f5e" : "#38bdf8";
-        ctx.beginPath();
-        ctx.arc(ax, ay, 4, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      // Real-time Graph Overlay (Right side)
-      const gx = w * 0.72;
-      const gy = 30;
-      const gw = w * 0.25;
-      const gh = h - 60;
-      ctx.fillStyle = "rgba(15, 23, 42, 0.85)";
+      // Trilayer Spin Valve Viewport
+      ctx.fillStyle = "#020617";
       ctx.strokeStyle = "#334155";
-      ctx.lineWidth = 1.5;
+      ctx.lineWidth = 2;
+      ctx.fillRect(15, 15, simW - 15, h - 30);
+      ctx.strokeRect(15, 15, simW - 15, h - 30);
+
+      // Layer 1: Free Ferromagnetic Layer (Top)
+      ctx.fillStyle = isParallel ? "rgba(56, 189, 248, 0.4)" : "rgba(244, 63, 94, 0.4)";
+      ctx.fillRect(35, 45, simW - 60, 45);
+      ctx.strokeStyle = isParallel ? "#38bdf8" : "#f43f5e";
+      ctx.strokeRect(35, 45, simW - 60, 45);
+
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "12px 'JetBrains Mono', monospace";
+      ctx.fillText(isParallel ? "Free Layer: Magnetization ➔ Right" : "Free Layer: Magnetization ⬅ Left", 45, 72);
+
+      // Layer 2: Non-Magnetic Metal Spacer (Cu / Al2O3)
+      ctx.fillStyle = "rgba(234, 179, 8, 0.3)";
+      ctx.fillRect(35, 95, simW - 60, 25);
+      ctx.strokeStyle = "#eab308";
+      ctx.strokeRect(35, 95, simW - 60, 25);
+      ctx.fillStyle = "#facc15";
+      ctx.fillText("Non-Magnetic Spacer (Cu / Ru)", 45, 112);
+
+      // Layer 3: Pinned Ferromagnetic Layer (Bottom)
+      ctx.fillStyle = "rgba(56, 189, 248, 0.4)";
+      ctx.fillRect(35, 125, simW - 60, 45);
+      ctx.strokeStyle = "#38bdf8";
+      ctx.strokeRect(35, 125, simW - 60, 45);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillText("Pinned Layer: Fixed Magnetization ➔ Right", 45, 152);
+
+      // Spin electrons passing through
+      const electronCount = isParallel ? 25 : 8; // high transmission in parallel
+      ctx.fillStyle = "#00f0ff";
+      for (let e = 0; e < electronCount; e++) {
+        const ex = 40 + ((e * 20 + animTime * 60) % (simW - 80));
+        const ey = 55 + (e % 3) * 35;
+        ctx.beginPath(); ctx.arc(ex, ey, 4, 0, Math.PI * 2); ctx.fill();
+      }
+
+      // Right Side: Magnetoresistance Hysteresis Curve R(H)
+      const gx = w * 0.58;
+      const gy = 25;
+      const gw = w * 0.39;
+      const gh = h - 50;
+
+      ctx.fillStyle = "rgba(15, 23, 42, 0.9)";
+      ctx.strokeStyle = "#334155";
       ctx.fillRect(gx, gy, gw, gh);
       ctx.strokeRect(gx, gy, gw, gh);
 
-      ctx.fillStyle = "#38bdf8";
-      ctx.font = "11px 'JetBrains Mono', monospace";
-      ctx.fillText("A/V vs Diameter (nm)", gx + 10, gy + 18);
-
-      // Plot A/V curve
-      ctx.strokeStyle = "#facc15";
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      for (let px = 0; px < gw - 20; px += 2) {
-        const simD = 1 + (px / (gw - 20)) * 100;
-        const simAV = 6.0 / simD;
-        const py = gy + gh - 15 - (simAV / 6.0) * (gh - 40);
-        if (px === 0) ctx.moveTo(gx + 10 + px, py);
-        else ctx.lineTo(gx + 10 + px, py);
-      }
-      ctx.stroke();
-
-      // Plot current point
-      const curPX = ((d - 1) / 99) * (gw - 20);
-      const curAV = 6.0 / d;
-      const curPY = gy + gh - 15 - (curAV / 6.0) * (gh - 40);
       ctx.fillStyle = "#f43f5e";
+      ctx.font = "11px 'JetBrains Mono', monospace";
+      ctx.fillText("GMR Hysteresis Loop R(H)", gx + 10, gy + 18);
+
+      // Plot square GMR curve
+      ctx.strokeStyle = "#00f0ff";
+      ctx.lineWidth = 2.5;
       ctx.beginPath();
-      ctx.arc(gx + 10 + curPX, curPY, 5, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.moveTo(gx + 15, gy + gh - 20);
+      ctx.lineTo(gx + gw * 0.35, gy + gh - 20);
+      ctx.lineTo(gx + gw * 0.35, gy + 45);
+      ctx.lineTo(gx + gw * 0.65, gy + 45);
+      ctx.lineTo(gx + gw * 0.65, gy + gh - 20);
+      ctx.lineTo(gx + gw - 15, gy + gh - 20);
+      ctx.stroke();
 
       requestAnimationFrame(draw);
     }
-
     draw();
+    updateGMR();
   </script>
 </body>
 </html>
