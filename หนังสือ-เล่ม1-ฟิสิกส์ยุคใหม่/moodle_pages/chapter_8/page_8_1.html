@@ -157,88 +157,18 @@
   <div class="content">
     <div class="theory-section"><h3>🌌 การขยายตัวของกาลอวกาศและกฎของฮับเบิล (ค.ศ. 1929)</h3><p>เอ็ดวิน ฮับเบิล ค้นพบว่าแสงจากกาแล็กซีที่อยู่ห่างไกลเกิด <b>การเลื่อนไปทางแดง (Redshift: z)</b> และความเร็วถอยห่างแปรผันตรงกับระยะห่าง:</p><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 กฎของฮับเบิล-เลอแมทร์ (Hubble-Lemaître Law)</span><span class="formula-category">สมการเอกภพวิทยา</span></div><div class="formula-math">\[v = H_0 \cdot d\]</div><p>โดยที่ H0 ประมาณ 70 (km/s)/Mpc (ค่าคงตัวของฮับเบิล)</p><p>การประมาณอายุของเอกภพ: \(t_0 \approx 1/H_0 \approx 13.8 \text{ พันล้านปี}\)</p></div></div>
 
-    <!-- Interactive Real-Time Simulator -->
-    <div class="interactive-sim-container">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
-        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
-        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+    <!-- Interactive 60 FPS Real-Time Physics Simulator -->
+    <div class="interactive-sim-container" style="background:#090e1a; border:1px solid #1e293b; border-radius:14px; padding:18px; margin:24px 0; box-shadow:0 8px 30px rgba(0,0,0,0.5);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #1e293b; padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>🔬</span> <span>ห้องปฏิบัติการเสมือนจริง (60 FPS Real-Time Simulation)</span>
+        </h3>
+        <a href="https://tsanaphy2023.github.io/modernphysics/simulators/sim_8_1.html" target="_blank" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; text-decoration:none; padding:6px 14px; border-radius:8px; font-size:0.82rem; font-weight:700; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 8px rgba(2,132,199,0.3);">
+          🚀 ขยายเต็มจอ ↗
+        </a>
       </div>
-      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
-      
-        <div class="sim-panel" id="sim_8_1_panel">
-          <div class="sim-control-group">
-            <label>ระยะห่างกาแล็กซี (Distance d): <span id="sim_8_1_val_d" class="readout-val">100</span> ล้านปีแสง (Mpc)</label>
-            <input type="range" class="sim-slider" id="sim_8_1_slider_d" min="10" max="500" step="5" value="100">
-          </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_8_1_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
-          <div class="sim-readout-grid">
-            <div class="readout-card"><div class="readout-val" id="sim_8_1_val_v">7,000 km/s</div><div class="readout-lbl">ความเร็วการถอยห่าง (v = H₀ d)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_8_1_val_z">0.023</div><div class="readout-lbl">ค่าการเลื่อนทางแดง (Redshift z)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_8_1_val_h0">70 km/s/Mpc</div><div class="readout-lbl">ค่าคงตัวฮับเบิล (H₀)</div></div>
-          </div>
-        </div>
-        <script>
-        (function() {
-          function initSim() {
-            const cv = document.getElementById("sim_8_1_canvas");
-            if (!cv) return false;
-            const ctx = cv.getContext("2d");
-            const slider = document.getElementById("sim_8_1_slider_d");
-            if (!slider) return false;
-
-            function draw() {
-              const d = +slider.value;
-              const dEl = document.getElementById("sim_8_1_val_d");
-              if (dEl) dEl.textContent = d;
-              const H0 = 70; // km/s/Mpc
-              const v = H0 * d;
-              const c = 300000;
-              const z = v / c;
-
-              const vEl = document.getElementById("sim_8_1_val_v");
-              if (vEl) vEl.textContent = v.toLocaleString() + " km/s";
-              const zEl = document.getElementById("sim_8_1_val_z");
-              if (zEl) zEl.textContent = z.toFixed(4);
-
-              ctx.clearRect(0, 0, cv.width, cv.height);
-              // Milky Way Observer (Left)
-              ctx.fillStyle = "#00f0ff";
-              ctx.beginPath(); ctx.arc(80, 105, 12, 0, Math.PI*2); ctx.fill();
-              ctx.fillStyle = "#ffffff"; ctx.font = "11px sans-serif";
-              ctx.fillText("ทางช้างเผือก (เรา)", 40, 135);
-
-              // Distant Galaxy (Right)
-              const galX = Math.min(560, 80 + (d / 500) * 440);
-              ctx.fillStyle = "#ef4444";
-              ctx.beginPath(); ctx.arc(galX, 105, 10, 0, Math.PI*2); ctx.fill();
-              ctx.fillStyle = "#ef4444";
-              ctx.fillText("กาแล็กซี่ไกล (d = " + d + " Mpc)", galX - 40, 135);
-
-              // Redshifted Light Wave
-              ctx.strokeStyle = "#ef4444"; ctx.lineWidth = 2.5;
-              ctx.beginPath();
-              const waveLam = 12 + z * 80;
-              for(let x=80; galX >= x; x+=2) {
-                const y = 105 + 20 * Math.sin((x-80) * (Math.PI*2 / waveLam));
-                ctx.lineTo(x, y);
-              }
-              ctx.stroke();
-
-              ctx.fillStyle = "#f59e0b"; ctx.font = "12px sans-serif";
-              ctx.fillText("แสงถูกยืดเป็นคลื่นสีแดง (Cosmological Redshift z = " + z.toFixed(3) + ")", 120, 45);
-            }
-            slider.addEventListener("input", draw);
-            draw();
-            return true;
-          }
-          function run() { if (!initSim()) setTimeout(run, 80); }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
-          else run();
-          setTimeout(run, 150);
-          setTimeout(run, 500);
-        })();
-        </script>
-        
+      <p style="color:#94a3b8; font-size:0.88rem; margin-bottom:12px;">ปรับเปลี่ยนตัวแปรและทดลองแบบเรียลไทม์ (60 FPS Interactive Dynamic Engine):</p>
+      <iframe src="https://tsanaphy2023.github.io/modernphysics/simulators/sim_8_1.html" style="width:100%; height:480px; border:1px solid #1e293b; border-radius:10px; background:#020617;" allow="accelerometer; autoplay; camera; gyroscope;"></iframe>
     </div>
 
     <!-- Worked Example with Toggleable Hidden Solution -->

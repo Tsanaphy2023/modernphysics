@@ -157,107 +157,18 @@
   <div class="content">
     <div class="theory-section"><h3>📦 บ่อศักย์อนันต์ 1 มิติ (Infinite Potential Well)</h3><p>พิจารณาอนุภาคมวล m ถูกขังอยู่ในกล่องความกว้าง L โดยศักย์ไฟฟ้า V(x) = 0 เมื่อ 0 < x < L และศักย์เป็นอนันต์ภายนอกกล่อง</p><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 ฟังก์ชันคลื่นและระดับพลังงาน (Eigenfunctions & Eigenvalues)</span><span class="formula-category">สมการสถานะคงตัว</span></div><div class="formula-math">\[\psi_n(x) = \sqrt{\frac{2}{L}} \sin\left( \frac{n\pi x}{L} \right) \quad (n = 1, 2, 3, ...)\]</div><div class="formula-math">\[E_n = \frac{n^2 \pi^2 \hbar^2}{2mL^2} = \frac{n^2 h^2}{8mL^2}\]</div><p>จำนวนโหนด (จุดตัดศูนย์ภายในกล่อง) เท่ากับ \(n - 1\) โหนด</p></div></div>
 
-    <!-- Interactive Real-Time Simulator -->
-    <div class="interactive-sim-container">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
-        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
-        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+    <!-- Interactive 60 FPS Real-Time Physics Simulator -->
+    <div class="interactive-sim-container" style="background:#090e1a; border:1px solid #1e293b; border-radius:14px; padding:18px; margin:24px 0; box-shadow:0 8px 30px rgba(0,0,0,0.5);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #1e293b; padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>🔬</span> <span>ห้องปฏิบัติการเสมือนจริง (60 FPS Real-Time Simulation)</span>
+        </h3>
+        <a href="https://tsanaphy2023.github.io/modernphysics/simulators/sim_4_2.html" target="_blank" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; text-decoration:none; padding:6px 14px; border-radius:8px; font-size:0.82rem; font-weight:700; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 8px rgba(2,132,199,0.3);">
+          🚀 ขยายเต็มจอ ↗
+        </a>
       </div>
-      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
-      
-        <div class="sim-panel" id="sim_4_2_panel">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
-            <div class="sim-control-group">
-              <label>ระดับควอนตัม (Quantum Number n): <span id="sim_4_2_val_n" class="readout-val">1</span></label>
-              <input type="range" class="sim-slider" id="sim_4_2_slider_n" min="1" max="5" value="1">
-            </div>
-            <div class="sim-control-group">
-              <label>ความกว้างกล่องศักย์ (L): <span id="sim_4_2_val_l" class="readout-val">1.0</span> nm</label>
-              <input type="range" class="sim-slider" id="sim_4_2_slider_l" min="0.5" max="3.0" step="0.1" value="1.0">
-            </div>
-          </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_4_2_canvas" width="640" height="220" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
-          <div class="sim-readout-grid">
-            <div class="readout-card"><div class="readout-val" id="sim_4_2_val_en">0.376 eV</div><div class="readout-lbl">ระดับพลังงาน (E_n)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_4_2_val_nodes">0 โหนด</div><div class="readout-lbl">จำนวนบัพภายใน (Nodes)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_4_2_val_prob" style="color:#10b981;">|ψ(x)|² สมบูรณ์</div><div class="readout-lbl">ความหนาแน่นความน่าจะเป็น</div></div>
-          </div>
-        </div>
-        <script>
-        (function() {
-          function initSim() {
-            const cv = document.getElementById("sim_4_2_canvas");
-            if (!cv) return false;
-            const ctx = cv.getContext("2d");
-            const sliderN = document.getElementById("sim_4_2_slider_n");
-            const sliderL = document.getElementById("sim_4_2_slider_l");
-            if (!sliderN || !sliderL) return false;
-
-            function draw() {
-              const n = +sliderN.value;
-              const L = +sliderL.value;
-              const nEl = document.getElementById("sim_4_2_val_n");
-              if (nEl) nEl.textContent = n;
-              const lEl = document.getElementById("sim_4_2_val_l");
-              if (lEl) lEl.textContent = L.toFixed(1);
-
-              const E1 = 0.376 / (L*L);
-              const En = n * n * E1;
-
-              const enEl = document.getElementById("sim_4_2_val_en");
-              if (enEl) enEl.textContent = En.toFixed(3) + " eV";
-              const ndEl = document.getElementById("sim_4_2_val_nodes");
-              if (ndEl) ndEl.textContent = (n - 1) + " โหนด";
-
-              ctx.clearRect(0, 0, cv.width, cv.height);
-              // Potential Walls (x = 100, x = 540)
-              ctx.fillStyle = "#334155";
-              ctx.fillRect(80, 20, 20, 170);
-              ctx.fillRect(540, 20, 20, 170);
-              ctx.fillStyle = "#f43f5e"; ctx.font = "11px sans-serif";
-              ctx.fillText("V = ∞", 72, 198); ctx.fillText("V = ∞", 532, 198);
-
-              // Wavefunction psi(x) (Cyan)
-              ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
-              ctx.beginPath();
-              for(let x=100; 540 >= x; x+=2) {
-                const norm = (x - 100) / 440;
-                const psi = Math.sin(n * Math.PI * norm);
-                const y = 105 - 60 * psi;
-                if (x === 100) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-              }
-              ctx.stroke();
-
-              // Probability density |psi(x)|^2 (Filled Amber)
-              ctx.fillStyle = "rgba(245, 158, 11, 0.25)";
-              ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2;
-              ctx.beginPath();
-              ctx.moveTo(100, 185);
-              for(let x=100; 540 >= x; x+=2) {
-                const norm = (x - 100) / 440;
-                const prob = Math.pow(Math.sin(n * Math.PI * norm), 2);
-                const y = 185 - 75 * prob;
-                ctx.lineTo(x, y);
-              }
-              ctx.lineTo(540, 185); ctx.closePath();
-              ctx.fill(); ctx.stroke();
-
-              ctx.fillStyle = "#00f0ff"; ctx.fillText("ฟังก์ชันคลื่น ψ_" + n + "(x)", 120, 40);
-              ctx.fillStyle = "#f59e0b"; ctx.fillText("ความหนาแน่นความน่าจะเป็น |ψ_" + n + "(x)|²", 120, 58);
-            }
-            sliderN.addEventListener("input", draw);
-            sliderL.addEventListener("input", draw);
-            draw();
-            return true;
-          }
-          function run() { if (!initSim()) setTimeout(run, 80); }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
-          else run();
-          setTimeout(run, 150);
-          setTimeout(run, 500);
-        })();
-        </script>
-        
+      <p style="color:#94a3b8; font-size:0.88rem; margin-bottom:12px;">ปรับเปลี่ยนตัวแปรและทดลองแบบเรียลไทม์ (60 FPS Interactive Dynamic Engine):</p>
+      <iframe src="https://tsanaphy2023.github.io/modernphysics/simulators/sim_4_2.html" style="width:100%; height:480px; border:1px solid #1e293b; border-radius:10px; background:#020617;" allow="accelerometer; autoplay; camera; gyroscope;"></iframe>
     </div>
 
     <!-- Worked Example with Toggleable Hidden Solution -->

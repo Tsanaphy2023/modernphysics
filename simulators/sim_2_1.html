@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RBRU Physics Lab: 2.1 2.1 หลักการพื้นฐานของทฤษฎีสัมพัทธภาพพิเศษ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #020617;
+      color: #f8fafc;
+      font-family: 'Sarabun', -apple-system, sans-serif;
+      overflow-x: hidden;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .sim-card {
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 16px;
+      width: 100%;
+      max-width: 680px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+    .sim-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+    }
+    .sim-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #00f0ff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .badge-fps {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #10b981;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.5px;
+    }
+    .control-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    @media (max-width: 540px) {
+      .control-grid { grid-template-columns: 1fr; }
+    }
+    .ctrl-box {
+      background: #090e1a;
+      border: 1px solid #1e293b;
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+    .ctrl-box label {
+      display: block;
+      font-size: 0.82rem;
+      color: #94a3b8;
+      margin-bottom: 4px;
+    }
+    .ctrl-box .val-display {
+      color: #00f0ff;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    input[type=range] {
+      width: 100%;
+      accent-color: #00f0ff;
+      cursor: pointer;
+    }
+    select {
+      width: 100%;
+      background: #0f172a;
+      color: #00f0ff;
+      border: 1px solid #334155;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-family: 'Sarabun', sans-serif;
+    }
+    .canvas-box {
+      position: relative;
+      width: 100%;
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 230px;
+    }
+    .readout-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .readout-card {
+      background: #090e1a;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .readout-val {
+      font-size: 1.0rem;
+      font-weight: 700;
+      color: #00f0ff;
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 2px;
+    }
+    .readout-lbl {
+      font-size: 0.72rem;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sim-card">
+    <div class="sim-header">
+      <div class="sim-title">
+        <span>🔬</span> 2.1 2.1 หลักการพื้นฐานของทฤษฎีสัมพัทธภาพพิเศษ
+      </div>
+      <div class="badge-fps">● 60 FPS REAL-TIME</div>
+    </div>
+
+    
+        <div class="control-grid">
+          <div class="ctrl-box" style="grid-column: 1 / -1;">
+            <label>ความเร็วสัมพัทธ์ของยาน (v): <span id="val_v" class="val-display">0.60</span> c</label>
+            <input type="range" id="slider_v" min="0" max="0.99" step="0.01" value="0.60">
+          </div>
+        </div>
+        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+        
+
+    
+        <div class="readout-grid">
+          <div class="readout-card"><div class="readout-val" id="val_gamma">1.250</div><div class="readout-lbl">Lorentz Factor (γ)</div></div>
+          <div class="readout-card"><div class="readout-val" id="val_t">1.250 s</div><div class="readout-lbl">เวลาสังเกตภายนอก (Δt)</div></div>
+          <div class="readout-card"><div class="readout-val" id="val_path">แนวทแยง (Z-path)</div><div class="readout-lbl">วิถีเดินแสงในกรอบเคลื่อนที่</div></div>
+        </div>
+        
+  </div>
+
+  <script>
+    
+        const cv = document.getElementById("simCanvas");
+        const ctx = cv.getContext("2d");
+        const slider = document.getElementById("slider_v");
+        let tick = 0;
+
+        function animate() {
+          const v = +slider.value;
+          document.getElementById("val_v").textContent = v.toFixed(2);
+          const gamma = 1 / Math.sqrt(Math.max(0.001, 1 - v*v));
+          document.getElementById("val_gamma").textContent = gamma.toFixed(3);
+          document.getElementById("val_t").textContent = gamma.toFixed(3) + " s";
+
+          ctx.clearRect(0, 0, cv.width, cv.height);
+
+          // Rest Frame (S')
+          ctx.strokeStyle = "#334155"; ctx.strokeRect(30, 20, 240, 185);
+          ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
+          ctx.fillText("กรอบนิ่งของผู้สังเกตในยาน (Δt₀)", 45, 40);
+          ctx.fillStyle = "#00f0ff";
+          ctx.fillRect(100, 60, 100, 6);
+          ctx.fillRect(100, 165, 100, 6);
+          const yPulse = 66 + 99 * (0.5 + 0.5*Math.sin(tick*0.08));
+          ctx.fillStyle = "#f59e0b";
+          ctx.beginPath(); ctx.arc(150, yPulse, 5, 0, Math.PI*2); ctx.fill();
+          ctx.strokeStyle = "rgba(245, 158, 11, 0.4)"; ctx.lineWidth = 2;
+          ctx.beginPath(); ctx.moveTo(150, 66); ctx.lineTo(150, 165); ctx.stroke();
+
+          // Moving Frame (S)
+          ctx.strokeStyle = "#334155"; ctx.strokeRect(330, 20, 280, 185);
+          ctx.fillStyle = "#00f0ff";
+          ctx.fillText("กรอบสังเกตภายนอก (Δt = γΔt₀)", 345, 40);
+          ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          ctx.moveTo(360, 66);
+          ctx.lineTo(460 + v*80, 165);
+          ctx.lineTo(560, 66);
+          ctx.stroke();
+
+          // Moving Photon on diagonal path
+          const progress = (tick*0.04) % 2;
+          let px = 360, py = 66;
+          if (1 > progress) {
+            px = 360 + progress * (100 + v*80);
+            py = 66 + progress * 99;
+          } else {
+            const p2 = progress - 1;
+            px = (460 + v*80) + p2 * (100 - v*80);
+            py = 165 - p2 * 99;
+          }
+          ctx.fillStyle = "#f59e0b";
+          ctx.beginPath(); ctx.arc(px, py, 6, 0, Math.PI*2); ctx.fill();
+
+          ctx.fillStyle = "#10b981"; ctx.font = "11px sans-serif";
+          ctx.fillText("เส้นทางเดินแสงยาวขึ้น → เวลาขยายตัว", 360, 195);
+
+          tick++;
+          requestAnimationFrame(animate);
+        }
+        animate();
+        
+  </script>
+</body>
+</html>

@@ -157,104 +157,18 @@
   <div class="content">
     <div class="theory-section"><h3>🐾 จากอะตอมสู่ 'สวนสัตว์อนุภาค' (Particle Zoo)</h3><p>ในปี ค.ศ. 1928 พอล ดิแรก ทำนายการมีอยู่ของ <b>ปฏิสสาร (Antimatter)</b> เช่น โพซิตรอน ต่อมานักฟิสิกส์ค้นพบอนุภาคใหม่อีกหลายร้อยชนิด</p><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 การจำแนกอนุภาคตามสปิน (Spin Statistics)</span><span class="formula-category">การจัดกลุ่มสากล</span></div><ul><li><b>เฟอร์มิออน (Fermions: Spin 1/2, 3/2):</b> อนุภาคสสาร (ควาร์ก, เลปตอน) ปฏิบัติตามกฎเพาลี</li><li><b>โบซอน (Bosons: Spin 0, 1, 2):</b> อนุภาคสื่อนำแรง (โฟตอน, กลูออน, W/Z, ฮิกส์)</li></ul></div></div>
 
-    <!-- Interactive Real-Time Simulator -->
-    <div class="interactive-sim-container">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
-        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
-        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+    <!-- Interactive 60 FPS Real-Time Physics Simulator -->
+    <div class="interactive-sim-container" style="background:#090e1a; border:1px solid #1e293b; border-radius:14px; padding:18px; margin:24px 0; box-shadow:0 8px 30px rgba(0,0,0,0.5);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #1e293b; padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>🔬</span> <span>ห้องปฏิบัติการเสมือนจริง (60 FPS Real-Time Simulation)</span>
+        </h3>
+        <a href="https://tsanaphy2023.github.io/modernphysics/simulators/sim_7_1.html" target="_blank" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; text-decoration:none; padding:6px 14px; border-radius:8px; font-size:0.82rem; font-weight:700; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 8px rgba(2,132,199,0.3);">
+          🚀 ขยายเต็มจอ ↗
+        </a>
       </div>
-      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
-      
-        <div class="sim-panel" id="sim_7_1_panel">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
-            <div class="sim-control-group">
-              <label>สนามแม่เหล็ก (B): <span id="sim_7_1_val_b" class="readout-val">1.5</span> Tesla</label>
-              <input type="range" class="sim-slider" id="sim_7_1_slider_b" min="0.2" max="3.0" step="0.1" value="1.5">
-            </div>
-            <div class="sim-control-group">
-              <label>ชนิดอนุภาคที่ยิงเข้าห้องฟองสบู่:</label>
-              <select id="sim_7_1_sel_p" style="width:100%; background:#0f172a; color:#00f0ff; border:1px solid #334155; padding:8px; border-radius:6px;">
-                <option value="e_minus">อิเล็กตรอน (e⁻: ประจุลบ รัศมีโค้งเล็ก)</option>
-                <option value="e_plus">โพซิตรอน (e⁺: ปฏิยานุภาค ประจุบวก)</option>
-                <option value="proton">โปรตอน (p⁺: มวลมาก รัศมีโค้งใหญ่)</option>
-                <option value="muon">มิวออน (μ⁻: รอยทางทะลุผ่านยาว)</option>
-              </select>
-            </div>
-          </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_7_1_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
-          <div class="sim-readout-grid">
-            <div class="readout-card"><div class="readout-val" id="sim_7_1_val_r">3.8 cm</div><div class="readout-lbl">รัศมีความโค้งรอยทาง (r = p/qB)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_7_1_val_dir">เบนตามเข็มนาฬิกา</div><div class="readout-lbl">ทิศทางการเบนตามกฎมือขวา</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_7_1_val_type" style="color:#10b981;">Lepton Charged</div><div class="readout-lbl">การจำแนกชนิดอนุภาค</div></div>
-          </div>
-        </div>
-        <script>
-        (function() {
-          function initSim() {
-            const cv = document.getElementById("sim_7_1_canvas");
-            if (!cv) return false;
-            const ctx = cv.getContext("2d");
-            const sliderB = document.getElementById("sim_7_1_slider_b");
-            const selP = document.getElementById("sim_7_1_sel_p");
-            if (!sliderB || !selP) return false;
-
-            function draw() {
-              const B = +sliderB.value;
-              const pType = selP.value;
-              const bEl = document.getElementById("sim_7_1_val_b");
-              if (bEl) bEl.textContent = B.toFixed(1);
-
-              let q = -1, m = 1, col = "#00f0ff", name = "e⁻";
-              if (pType === "e_minus") { q = -1; m = 1; col = "#00f0ff"; name = "e⁻ (Electron)"; }
-              else if (pType === "e_plus") { q = 1; m = 1; col = "#f59e0b"; name = "e⁺ (Positron)"; }
-              else if (pType === "proton") { q = 1; m = 1836; col = "#ef4444"; name = "p⁺ (Proton)"; }
-              else if (pType === "muon") { q = -1; m = 207; col = "#a855f7"; name = "μ⁻ (Muon)"; }
-
-              const r_cm = (m / (Math.abs(q) * B * 20)).toFixed(1);
-              const rEl = document.getElementById("sim_7_1_val_r");
-              if (rEl) rEl.textContent = r_cm + " cm";
-              const dEl = document.getElementById("sim_7_1_val_dir");
-              if (dEl) dEl.textContent = q > 0 ? "เบนทวนเข็มนาฬิกา (+)" : "เบนตามเข็มนาฬิกา (-)";
-
-              ctx.clearRect(0, 0, cv.width, cv.height);
-              // B-field dots (out of page)
-              ctx.fillStyle = "rgba(255,255,255,0.15)";
-              for(let x=40; 600 > x; x+=40) {
-                for(let y=30; 190 > y; y+=30) {
-                  ctx.beginPath(); ctx.arc(x, y, 1.5, 0, Math.PI*2); ctx.fill();
-                }
-              }
-              ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
-              ctx.fillText("สนามแม่เหล็ก B ทิศพุ่งออกจากหน้ากระดาษ (⊙)", 40, 25);
-
-              // Particle Spiral / Arc Track
-              ctx.strokeStyle = col; ctx.lineWidth = 3;
-              ctx.beginPath();
-              ctx.moveTo(60, 105);
-              const curveFactor = (q * B * 0.008) / Math.sqrt(m);
-              for(let s=0; 180 > s; s+=2) {
-                const x = 60 + s * 2.8;
-                const y = 105 + curveFactor * s * s * 0.35;
-                ctx.lineTo(x, y);
-              }
-              ctx.stroke();
-
-              ctx.fillStyle = col; ctx.font = "12px sans-serif";
-              ctx.fillText(name + " Track (r = " + r_cm + " cm)", 340, 60);
-            }
-            sliderB.addEventListener("input", draw);
-            selP.addEventListener("change", draw);
-            draw();
-            return true;
-          }
-          function run() { if (!initSim()) setTimeout(run, 80); }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
-          else run();
-          setTimeout(run, 150);
-          setTimeout(run, 500);
-        })();
-        </script>
-        
+      <p style="color:#94a3b8; font-size:0.88rem; margin-bottom:12px;">ปรับเปลี่ยนตัวแปรและทดลองแบบเรียลไทม์ (60 FPS Interactive Dynamic Engine):</p>
+      <iframe src="https://tsanaphy2023.github.io/modernphysics/simulators/sim_7_1.html" style="width:100%; height:480px; border:1px solid #1e293b; border-radius:10px; background:#020617;" allow="accelerometer; autoplay; camera; gyroscope;"></iframe>
     </div>
 
     <!-- Worked Example with Toggleable Hidden Solution -->

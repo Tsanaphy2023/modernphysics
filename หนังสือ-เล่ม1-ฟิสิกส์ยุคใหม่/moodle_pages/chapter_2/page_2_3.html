@@ -157,78 +157,18 @@
   <div class="content">
     <div class="theory-section"><h3>⏳ ปรากฏการณ์การยืดออกของเวลา (Time Dilation)</h3><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 สมการการยืดออกของเวลา</span><span class="formula-category">Time Dilation</span></div><div class="formula-math">\[\Delta t = \gamma \Delta t_0 = \frac{\Delta t_0}{\sqrt{1 - v^2/c^2}}\]</div><p>\(\Delta t_0\) คือ <b>เวลาแท้ (Proper Time)</b> ซึ่งวัดในกรอบที่เหตุการณ์เกิด ณ ตำแหน่งเดิม สำหรับผู้สังเกตที่เคลื่อนที่ เวลาจะเดินช้ากว่า</p></div><h3>📏 ปรากฏการณ์การหดสั้นของระยะทาง (Length Contraction)</h3><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 สมการการหดสั้นของระยะทาง</span><span class="formula-category">Length Contraction</span></div><div class="formula-math">\[L = \frac{L_0}{\gamma} = L_0 \sqrt{1 - v^2/c^2}\]</div><p>\(L_0\) คือ <b>ความยาวแท้ (Proper Length)</b> ซึ่งวัดเมื่อวัตถุอยู่นิ่ง วัตถุจะหดสั้นลงเฉพาะในทิศทางที่เคลื่อนที่เท่านั้น</p></div></div>
 
-    <!-- Interactive Real-Time Simulator -->
-    <div class="interactive-sim-container">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
-        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
-        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+    <!-- Interactive 60 FPS Real-Time Physics Simulator -->
+    <div class="interactive-sim-container" style="background:#090e1a; border:1px solid #1e293b; border-radius:14px; padding:18px; margin:24px 0; box-shadow:0 8px 30px rgba(0,0,0,0.5);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #1e293b; padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>🔬</span> <span>ห้องปฏิบัติการเสมือนจริง (60 FPS Real-Time Simulation)</span>
+        </h3>
+        <a href="https://tsanaphy2023.github.io/modernphysics/simulators/sim_2_3.html" target="_blank" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; text-decoration:none; padding:6px 14px; border-radius:8px; font-size:0.82rem; font-weight:700; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 8px rgba(2,132,199,0.3);">
+          🚀 ขยายเต็มจอ ↗
+        </a>
       </div>
-      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
-      
-        <div class="sim-panel" id="sim_2_3_panel">
-          <div class="sim-control-group">
-            <label>ความเร็วการเดินทาง (v): <span id="sim_2_3_val_v" class="readout-val">0.90</span> c</label>
-            <input type="range" class="sim-slider" id="sim_2_3_slider_v" min="0" max="0.99" step="0.01" value="0.90">
-          </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_2_3_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
-          <div class="sim-readout-grid">
-            <div class="readout-card"><div class="readout-val" id="sim_2_3_val_gamma">2.294</div><div class="readout-lbl">Lorentz Factor (γ)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_2_3_val_len">43.6%</div><div class="readout-lbl">ความยาวหดสั้น (L = L₀/γ)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_2_3_val_life">2.294 เท่า</div><div class="readout-lbl">อายุขัยอนุภาคยืดออก (Δt = γΔt₀)</div></div>
-          </div>
-        </div>
-        <script>
-        (function() {
-          function initSim() {
-            const cv = document.getElementById("sim_2_3_canvas");
-            if (!cv) return false;
-            const ctx = cv.getContext("2d");
-            const slider = document.getElementById("sim_2_3_slider_v");
-            if (!slider) return false;
-
-            function draw() {
-              const v = +slider.value;
-              const vEl = document.getElementById("sim_2_3_val_v");
-              if (vEl) vEl.textContent = v.toFixed(2);
-              const gamma = 1 / Math.sqrt(Math.max(0.001, 1 - v*v));
-              const lenPct = (100 / gamma).toFixed(1);
-              const gEl = document.getElementById("sim_2_3_val_gamma");
-              if (gEl) gEl.textContent = gamma.toFixed(3);
-              const lEl = document.getElementById("sim_2_3_val_len");
-              if (lEl) lEl.textContent = lenPct + "%";
-              const lfEl = document.getElementById("sim_2_3_val_life");
-              if (lfEl) lfEl.textContent = gamma.toFixed(3) + " เท่า";
-
-              ctx.clearRect(0, 0, cv.width, cv.height);
-              // Proper Length Spaceship (Rest S')
-              ctx.fillStyle = "#334155";
-              ctx.fillRect(80, 40, 240, 40);
-              ctx.fillStyle = "#00f0ff";
-              ctx.fillRect(80, 40, 30, 40);
-              ctx.fillStyle = "#f8fafc"; ctx.font = "12px sans-serif";
-              ctx.fillText("ยานในกรอบนิ่ง L₀ = 100 เมตร (100%)", 90, 65);
-
-              // Contracted Spaceship (Moving S)
-              const contractedW = Math.max(10, 240 / gamma);
-              ctx.fillStyle = "#475569";
-              ctx.fillRect(80, 120, contractedW, 40);
-              ctx.fillStyle = "#f59e0b";
-              ctx.fillRect(80, 120, Math.min(30, contractedW*0.2), 40);
-              ctx.fillStyle = "#f8fafc";
-              ctx.fillText("ยานเคลื่อนที่สังเกตภายนอก L = " + (100/gamma).toFixed(1) + " ม. (" + lenPct + "%)", 90, 145);
-            }
-            slider.addEventListener("input", draw);
-            draw();
-            return true;
-          }
-          function run() { if (!initSim()) setTimeout(run, 80); }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
-          else run();
-          setTimeout(run, 150);
-          setTimeout(run, 500);
-        })();
-        </script>
-        
+      <p style="color:#94a3b8; font-size:0.88rem; margin-bottom:12px;">ปรับเปลี่ยนตัวแปรและทดลองแบบเรียลไทม์ (60 FPS Interactive Dynamic Engine):</p>
+      <iframe src="https://tsanaphy2023.github.io/modernphysics/simulators/sim_2_3.html" style="width:100%; height:480px; border:1px solid #1e293b; border-radius:10px; background:#020617;" allow="accelerometer; autoplay; camera; gyroscope;"></iframe>
     </div>
 
     <!-- Worked Example with Toggleable Hidden Solution -->

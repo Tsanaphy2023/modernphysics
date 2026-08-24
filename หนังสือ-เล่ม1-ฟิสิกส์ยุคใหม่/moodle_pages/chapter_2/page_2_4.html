@@ -157,82 +157,18 @@
   <div class="content">
     <div class="theory-section"><h3>💥 ความสมมูลมวล-พลังงาน (Mass-Energy Equivalence)</h3><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 สมการอันเลื่องชื่อของไอน์สไตน์</span><span class="formula-category">สมการระดับโลก</span></div><div class="formula-math">\[E = mc^2 = \gamma m_0 c^2 = K + m_0 c^2\]</div><p>พลังงานนิ่ง (Rest Energy): \(E_0 = m_0 c^2\)<br>พลังงานจลน์สัมพัทธภาพ: \(K = (\gamma - 1) m_0 c^2\)</p></div><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 ความสัมพันธ์ระหว่างพลังงานรวมและโมเมนตัม</span><span class="formula-category">Energy-Momentum Relation</span></div><div class="formula-math">\[E^2 = (pc)^2 + (m_0 c^2)^2\]</div><p>สำหรับอนุภาคไร้มวล เช่น โฟตอน (\(m_0 = 0\)): จะได้ \(E = pc\)</p></div></div>
 
-    <!-- Interactive Real-Time Simulator -->
-    <div class="interactive-sim-container">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
-        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
-        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+    <!-- Interactive 60 FPS Real-Time Physics Simulator -->
+    <div class="interactive-sim-container" style="background:#090e1a; border:1px solid #1e293b; border-radius:14px; padding:18px; margin:24px 0; box-shadow:0 8px 30px rgba(0,0,0,0.5);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #1e293b; padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>🔬</span> <span>ห้องปฏิบัติการเสมือนจริง (60 FPS Real-Time Simulation)</span>
+        </h3>
+        <a href="https://tsanaphy2023.github.io/modernphysics/simulators/sim_2_4.html" target="_blank" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; text-decoration:none; padding:6px 14px; border-radius:8px; font-size:0.82rem; font-weight:700; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 8px rgba(2,132,199,0.3);">
+          🚀 ขยายเต็มจอ ↗
+        </a>
       </div>
-      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
-      
-        <div class="sim-panel" id="sim_2_4_panel">
-          <div class="sim-control-group">
-            <label>ความเร็วอนุภาค (v): <span id="sim_2_4_val_v" class="readout-val">0.85</span> c (อิเล็กตรอน m₀ = 0.511 MeV/c²)</label>
-            <input type="range" class="sim-slider" id="sim_2_4_slider_v" min="0" max="0.99" step="0.01" value="0.85">
-          </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_2_4_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
-          <div class="sim-readout-grid">
-            <div class="readout-card"><div class="readout-val" id="sim_2_4_val_e0">0.511 MeV</div><div class="readout-lbl">พลังงานนิ่ง (E₀ = m₀c²)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_2_4_val_k">0.459 MeV</div><div class="readout-lbl">พลังงานจลน์ (K = (γ-1)m₀c²)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_2_4_val_etot">0.970 MeV</div><div class="readout-lbl">พลังงานรวมสัมพัทธภาพ (E = γm₀c²)</div></div>
-          </div>
-        </div>
-        <script>
-        (function() {
-          function initSim() {
-            const cv = document.getElementById("sim_2_4_canvas");
-            if (!cv) return false;
-            const ctx = cv.getContext("2d");
-            const slider = document.getElementById("sim_2_4_slider_v");
-            if (!slider) return false;
-
-            function draw() {
-              const v = +slider.value;
-              const vEl = document.getElementById("sim_2_4_val_v");
-              if (vEl) vEl.textContent = v.toFixed(2);
-              const m0 = 0.511; // MeV
-              const gamma = 1 / Math.sqrt(Math.max(0.001, 1 - v*v));
-              const K = (gamma - 1) * m0;
-              const Etot = gamma * m0;
-
-              const kEl = document.getElementById("sim_2_4_val_k");
-              if (kEl) kEl.textContent = K.toFixed(3) + " MeV";
-              const etEl = document.getElementById("sim_2_4_val_etot");
-              if (etEl) etEl.textContent = Etot.toFixed(3) + " MeV";
-
-              ctx.clearRect(0, 0, cv.width, cv.height);
-              // Energy Bar Chart
-              ctx.fillStyle = "#3b82f6";
-              ctx.fillRect(80, 60, 200, 35);
-              ctx.fillStyle = "#ffffff"; ctx.font = "12px sans-serif";
-              ctx.fillText("Rest Energy E₀ = 0.511 MeV", 90, 82);
-
-              const kWidth = Math.min(260, (K / m0) * 100);
-              ctx.fillStyle = "#10b981";
-              ctx.fillRect(280, 60, kWidth, 35);
-              ctx.fillStyle = "#ffffff";
-              ctx.fillText("Kinetic K = " + K.toFixed(2) + " MeV", 290, 82);
-
-              // Relativistic Triangle p*c, m0*c^2, E
-              ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
-              ctx.beginPath();
-              ctx.moveTo(100, 180); ctx.lineTo(100 + 120, 180); ctx.lineTo(100 + 120, 120); ctx.closePath();
-              ctx.stroke();
-              ctx.fillStyle = "#00f0ff";
-              ctx.fillText("E² = (pc)² + (m₀c²)²", 250, 155);
-            }
-            slider.addEventListener("input", draw);
-            draw();
-            return true;
-          }
-          function run() { if (!initSim()) setTimeout(run, 80); }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
-          else run();
-          setTimeout(run, 150);
-          setTimeout(run, 500);
-        })();
-        </script>
-        
+      <p style="color:#94a3b8; font-size:0.88rem; margin-bottom:12px;">ปรับเปลี่ยนตัวแปรและทดลองแบบเรียลไทม์ (60 FPS Interactive Dynamic Engine):</p>
+      <iframe src="https://tsanaphy2023.github.io/modernphysics/simulators/sim_2_4.html" style="width:100%; height:480px; border:1px solid #1e293b; border-radius:10px; background:#020617;" allow="accelerometer; autoplay; camera; gyroscope;"></iframe>
     </div>
 
     <!-- Worked Example with Toggleable Hidden Solution -->

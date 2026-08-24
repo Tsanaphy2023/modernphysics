@@ -157,121 +157,18 @@
   <div class="content">
     <div class="theory-section"><h3>🌈 อนุกรมเส้นสเปกตรัมของไฮโดรเจน</h3><p>เมื่อกระตุ้นอะตอมไฮโดรเจนด้วยไฟฟ้า แสงที่เปล่งออกมาจะแยกออกเป็นเส้นสเปกตรัมเฉพาะค่า โยฮันเนส ริดเบิร์ก ได้สรุปความสัมพันธ์ของความยาวคลื่นเป็นสูตรสากล:</p><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 สูตรริดเบิร์ก (Rydberg Formula)</span><span class="formula-category">สมการสเปกโทรสโกปี</span></div><div class="formula-math">\[\frac{1}{\lambda} = R_H \left( \frac{1}{n_1^2} - \frac{1}{n_2^2} \right) \quad (n_2 > n_1)\]</div><p>โดยที่ \(R_H = 1.097373 \times 10^7 \text{ m}^{-1}\) (ค่าคงตัวของริดเบิร์ก)</p><ul><li><b>อนุกรมไลมาน (Lyman):</b> \(n_1 = 1, n_2 = 2, 3, 4, ...\) (ย่านอัลตราไวโอเลต)</li><li><b>อนุกรมบาลเมอร์ (Balmer):</b> \(n_1 = 2, n_2 = 3, 4, 5, ...\) (ย่านแสงขาวที่ตามองเห็น)</li><li><b>อนุกรมพาสเชน (Paschen):</b> \(n_1 = 3, n_2 = 4, 5, 6, ...\) (ย่านอินฟราเรดใกล้)</li><li><b>อนุกรมแบรกเกต (Brackett):</b> \(n_1 = 4, n_2 = 5, 6, ...\) (ย่านอินฟราเรด)</li></ul></div></div>
 
-    <!-- Interactive Real-Time Simulator -->
-    <div class="interactive-sim-container">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
-        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
-        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+    <!-- Interactive 60 FPS Real-Time Physics Simulator -->
+    <div class="interactive-sim-container" style="background:#090e1a; border:1px solid #1e293b; border-radius:14px; padding:18px; margin:24px 0; box-shadow:0 8px 30px rgba(0,0,0,0.5);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #1e293b; padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>🔬</span> <span>ห้องปฏิบัติการเสมือนจริง (60 FPS Real-Time Simulation)</span>
+        </h3>
+        <a href="https://tsanaphy2023.github.io/modernphysics/simulators/sim_1_4.html" target="_blank" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; text-decoration:none; padding:6px 14px; border-radius:8px; font-size:0.82rem; font-weight:700; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 8px rgba(2,132,199,0.3);">
+          🚀 ขยายเต็มจอ ↗
+        </a>
       </div>
-      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
-      
-        <div class="sim-panel" id="sim_1_4_panel">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
-            <div class="sim-control-group">
-              <label>อนุกรมสเปกตรัม (Lower Level n₁):</label>
-              <select id="sim_1_4_sel_series" style="width:100%; background:#0f172a; color:#00f0ff; border:1px solid #334155; padding:8px; border-radius:6px;">
-                <option value="1">Lyman (n₁ = 1, ย่าน UV)</option>
-                <option value="2" selected>Balmer (n₁ = 2, ย่านแสงขาวที่ตามองเห็น)</option>
-                <option value="3">Paschen (n₁ = 3, ย่าน Infrared)</option>
-                <option value="4">Brackett (n₁ = 4, ย่าน Far IR)</option>
-              </select>
-            </div>
-            <div class="sim-control-group">
-              <label>ระดับพลังงานเริ่มต้น (Upper Level n₂): <span id="sim_1_4_val_n2" class="readout-val">3</span></label>
-              <input type="range" class="sim-slider" id="sim_1_4_slider_n2" min="2" max="7" value="3">
-            </div>
-          </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_1_4_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
-          <div class="sim-readout-grid">
-            <div class="readout-card"><div class="readout-val" id="sim_1_4_val_lam">656.3 nm</div><div class="readout-lbl">ความยาวคลื่นโฟตอน (λ)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_1_4_val_de">1.89 eV</div><div class="readout-lbl">พลังงานที่ปลดปล่อย (ΔE)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_1_4_val_line">H-alpha (สีแดง)</div><div class="readout-lbl">ชื่อและสีของเส้นสเปกตรัม</div></div>
-          </div>
-        </div>
-        <script>
-        (function() {
-          function initSim() {
-            const cv = document.getElementById("sim_1_4_canvas");
-            if (!cv) return false;
-            const ctx = cv.getContext("2d");
-            const sel = document.getElementById("sim_1_4_sel_series");
-            const slider = document.getElementById("sim_1_4_slider_n2");
-            if (!sel || !slider) return false;
-
-            function draw() {
-              const n1 = +sel.value;
-              slider.min = n1 + 1;
-              if (n1 >= +slider.value) slider.value = n1 + 1;
-              const n2 = +slider.value;
-              const n2El = document.getElementById("sim_1_4_val_n2");
-              if (n2El) n2El.textContent = n2;
-
-              const invLam = 1.097373e7 * (1/(n1*n1) - 1/(n2*n2));
-              const lam_nm = (1 / invLam) * 1e9;
-              const dE = 13.6 * (1/(n1*n1) - 1/(n2*n2));
-
-              const lEl = document.getElementById("sim_1_4_val_lam");
-              if (lEl) lEl.textContent = lam_nm.toFixed(1) + " nm";
-              const deEl = document.getElementById("sim_1_4_val_de");
-              if (deEl) deEl.textContent = dE.toFixed(2) + " eV";
-
-              let lineName = "สเปกตรัม";
-              let color = "#00f0ff";
-              if (n1 === 1) { lineName = "Lyman (" + n2 + "→1 UV)"; color = "#a855f7"; }
-              else if (n1 === 2) {
-                if (n2 === 3) { lineName = "H-alpha (สีแดง 656.3 nm)"; color = "#ef4444"; }
-                else if (n2 === 4) { lineName = "H-beta (สีฟ้าคราม 486.1 nm)"; color = "#06b6d4"; }
-                else if (n2 === 5) { lineName = "H-gamma (สีน้ำเงิน 434.0 nm)"; color = "#3b82f6"; }
-                else { lineName = "H-delta (สีม่วง 410.2 nm)"; color = "#8b5cf6"; }
-              } else if (n1 === 3) { lineName = "Paschen (" + n2 + "→3 IR)"; color = "#f97316"; }
-              else { lineName = "Brackett (" + n2 + "→4 Far-IR)"; color = "#e11d48"; }
-              const lnEl = document.getElementById("sim_1_4_val_line");
-              if (lnEl) lnEl.textContent = lineName;
-
-              ctx.clearRect(0, 0, cv.width, cv.height);
-              // Draw Energy Levels
-              for(let n=1; 7 > n; n++) {
-                const y = 190 - 160 * (1 - 1/(n*n));
-                ctx.strokeStyle = n === n1 ? "#00f0ff" : "#475569";
-                ctx.lineWidth = n === n1 ? 2.5 : 1;
-                ctx.beginPath(); ctx.moveTo(60, y); ctx.lineTo(340, y); ctx.stroke();
-                ctx.fillStyle = n === n1 ? "#00f0ff" : "#94a3b8";
-                ctx.font = "11px sans-serif";
-                ctx.fillText("n=" + n + " (" + (-13.6/(n*n)).toFixed(2) + " eV)", 348, y + 4);
-              }
-
-              // Draw Transition Arrow
-              const yStart = 190 - 160 * (1 - 1/(n2*n2));
-              const yEnd = 190 - 160 * (1 - 1/(n1*n1));
-              ctx.strokeStyle = color; ctx.lineWidth = 3;
-              ctx.beginPath(); ctx.moveTo(200, yStart); ctx.lineTo(200, yEnd); ctx.stroke();
-              // Arrowhead
-              ctx.fillStyle = color;
-              ctx.beginPath(); ctx.moveTo(195, yEnd - 6); ctx.lineTo(205, yEnd - 6); ctx.lineTo(200, yEnd); ctx.fill();
-
-              // Emission Photon Wave packet
-              ctx.strokeStyle = color; ctx.lineWidth = 2.5;
-              ctx.beginPath();
-              for(let x=220; 580 > x; x+=2) {
-                const waveY = (yStart + yEnd)/2 + 12 * Math.sin((x-220)*0.15);
-                if (x === 220) ctx.moveTo(x, waveY); else ctx.lineTo(x, waveY);
-              }
-              ctx.stroke();
-              ctx.fillStyle = color; ctx.fillText("Photon hf (λ = " + lam_nm.toFixed(1) + " nm)", 420, (yStart + yEnd)/2 - 10);
-            }
-            sel.addEventListener("change", draw);
-            slider.addEventListener("input", draw);
-            draw();
-            return true;
-          }
-          function run() { if (!initSim()) setTimeout(run, 80); }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
-          else run();
-          setTimeout(run, 150);
-          setTimeout(run, 500);
-        })();
-        </script>
-        
+      <p style="color:#94a3b8; font-size:0.88rem; margin-bottom:12px;">ปรับเปลี่ยนตัวแปรและทดลองแบบเรียลไทม์ (60 FPS Interactive Dynamic Engine):</p>
+      <iframe src="https://tsanaphy2023.github.io/modernphysics/simulators/sim_1_4.html" style="width:100%; height:480px; border:1px solid #1e293b; border-radius:10px; background:#020617;" allow="accelerometer; autoplay; camera; gyroscope;"></iframe>
     </div>
 
     <!-- Worked Example with Toggleable Hidden Solution -->

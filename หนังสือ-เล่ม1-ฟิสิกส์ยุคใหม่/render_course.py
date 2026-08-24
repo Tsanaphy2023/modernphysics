@@ -446,14 +446,18 @@ def build_standalone_moodle_html(ch, page):
   <div class="content">
     {page["content_html"]}
 
-    <!-- Interactive Real-Time Simulator -->
-    <div class="interactive-sim-container">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
-        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
-        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+    <!-- Interactive 60 FPS Real-Time Physics Simulator -->
+    <div class="interactive-sim-container" style="background:#090e1a; border:1px solid #1e293b; border-radius:14px; padding:18px; margin:24px 0; box-shadow:0 8px 30px rgba(0,0,0,0.5);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #1e293b; padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>🔬</span> <span>ห้องปฏิบัติการเสมือนจริง (60 FPS Real-Time Simulation)</span>
+        </h3>
+        <a href="https://tsanaphy2023.github.io/modernphysics/simulators/sim_{page['id'].replace('.', '_')}.html" target="_blank" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; text-decoration:none; padding:6px 14px; border-radius:8px; font-size:0.82rem; font-weight:700; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 8px rgba(2,132,199,0.3);">
+          🚀 ขยายเต็มจอ ↗
+        </a>
       </div>
-      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
-      {get_simulator_html_and_js(page["id"], page.get("sim_type", ""), page["title"], standalone=True)}
+      <p style="color:#94a3b8; font-size:0.88rem; margin-bottom:12px;">ปรับเปลี่ยนตัวแปรและทดลองแบบเรียลไทม์ (60 FPS Interactive Dynamic Engine):</p>
+      <iframe src="https://tsanaphy2023.github.io/modernphysics/simulators/sim_{page['id'].replace('.', '_')}.html" style="width:100%; height:480px; border:1px solid #1e293b; border-radius:10px; background:#020617;" allow="accelerometer; autoplay; camera; gyroscope;"></iframe>
     </div>
 
     <!-- Worked Example with Toggleable Hidden Solution -->
@@ -613,15 +617,18 @@ def build_subtopic_page_html(ch, page, all_pages, current_idx):
     """
 
     # Simulator HTML container
-    sim_content = get_simulator_html_and_js(page["id"], page.get("sim_type", ""), page["title"], standalone=False)
     sim_html = f"""
-    <div class="simulator-container" id="sim-box-{page["id"]}">
-      <div class="sim-header">
-        <span class="sim-title">⚡ Interactive Simulator: {page["title"]}</span>
-        <span class="sim-badge">Live Computation</span>
+    <div class="simulator-container" id="sim-box-{page["id"]}" style="margin:24px 0;">
+      <div class="sim-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <span class="sim-title" style="color:#00f0ff; font-weight:700; font-size:1.1rem; display:flex; align-items:center; gap:8px;">
+          <span>⚡</span> ห้องปฏิบัติการเสมือนจริง: {page["title"]} (60 FPS)
+        </span>
+        <a href="simulators/sim_{page['id'].replace('.', '_')}.html" target="_blank" style="background:rgba(0,240,255,0.12); color:#00f0ff; border:1px solid rgba(0,240,255,0.3); text-decoration:none; padding:4px 12px; border-radius:20px; font-size:0.75rem; font-weight:700;">
+          🚀 เปิดหน้าต่างใหม่ ↗
+        </a>
       </div>
       <div class="sim-body" id="sim-body-{page["id"]}">
-        {sim_content}
+        <iframe src="simulators/sim_{page['id'].replace('.', '_')}.html" style="width:100%; height:480px; border:1px solid #1e293b; border-radius:10px; background:#020617;" allow="accelerometer; autoplay; camera; gyroscope;"></iframe>
       </div>
     </div>
     """

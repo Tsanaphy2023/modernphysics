@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RBRU Physics Lab: 5.1 5.1 แบบจำลองอะตอมของบอร์-ซอมเมอร์เฟลด์</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #020617;
+      color: #f8fafc;
+      font-family: 'Sarabun', -apple-system, sans-serif;
+      overflow-x: hidden;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .sim-card {
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 16px;
+      width: 100%;
+      max-width: 680px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+    .sim-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+    }
+    .sim-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #00f0ff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .badge-fps {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #10b981;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.5px;
+    }
+    .control-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    @media (max-width: 540px) {
+      .control-grid { grid-template-columns: 1fr; }
+    }
+    .ctrl-box {
+      background: #090e1a;
+      border: 1px solid #1e293b;
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+    .ctrl-box label {
+      display: block;
+      font-size: 0.82rem;
+      color: #94a3b8;
+      margin-bottom: 4px;
+    }
+    .ctrl-box .val-display {
+      color: #00f0ff;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    input[type=range] {
+      width: 100%;
+      accent-color: #00f0ff;
+      cursor: pointer;
+    }
+    select {
+      width: 100%;
+      background: #0f172a;
+      color: #00f0ff;
+      border: 1px solid #334155;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-family: 'Sarabun', sans-serif;
+    }
+    .canvas-box {
+      position: relative;
+      width: 100%;
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 230px;
+    }
+    .readout-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .readout-card {
+      background: #090e1a;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .readout-val {
+      font-size: 1.0rem;
+      font-weight: 700;
+      color: #00f0ff;
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 2px;
+    }
+    .readout-lbl {
+      font-size: 0.72rem;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sim-card">
+    <div class="sim-header">
+      <div class="sim-title">
+        <span>🔬</span> 5.1 5.1 แบบจำลองอะตอมของบอร์-ซอมเมอร์เฟลด์
+      </div>
+      <div class="badge-fps">● 60 FPS REAL-TIME</div>
+    </div>
+
+    
+        <div class="control-grid">
+          <div class="ctrl-box" style="grid-column: 1 / -1;">
+            <label>วงโคจรระดับควอนตัม (Bohr Orbit n): <span id="val_n" class="val-display">2</span></label>
+            <input type="range" id="slider_n" min="1" max="5" value="2">
+          </div>
+        </div>
+        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+        
+
+    
+        <div class="readout-grid">
+          <div class="readout-card"><div class="readout-val" id="val_rad">0.212 nm</div><div class="readout-lbl">รัศมีวงโคจร (r_n = n² a₀)</div></div>
+          <div class="readout-card"><div class="readout-val" id="val_en">-3.40 eV</div><div class="readout-lbl">ระดับพลังงาน (E_n)</div></div>
+          <div class="readout-card"><div class="readout-val" id="val_l">2 ℏ</div><div class="readout-lbl">โมเมนตัมเชิงมุม (L = nℏ)</div></div>
+        </div>
+        
+  </div>
+
+  <script>
+    
+        const cv = document.getElementById("simCanvas");
+        const ctx = cv.getContext("2d");
+        const slider = document.getElementById("slider_n");
+        let angle = 0;
+
+        function animate() {
+          const n = +slider.value;
+          document.getElementById("val_n").textContent = n;
+          const a0 = 0.0529;
+          const rn = n * n * a0;
+          const En = -13.6 / (n * n);
+
+          document.getElementById("val_rad").textContent = rn.toFixed(3) + " nm";
+          document.getElementById("val_en").textContent = En.toFixed(2) + " eV";
+          document.getElementById("val_l").textContent = n + " ℏ";
+
+          ctx.clearRect(0, 0, cv.width, cv.height);
+          const cx = 320, cy = 115;
+
+          // Nucleus Proton Glow
+          const grad = ctx.createRadialGradient(cx, cy, 3, cx, cy, 18);
+          grad.addColorStop(0, "#ef4444");
+          grad.addColorStop(1, "rgba(239, 68, 68, 0)");
+          ctx.fillStyle = grad;
+          ctx.beginPath(); ctx.arc(cx, cy, 18, 0, Math.PI*2); ctx.fill();
+          ctx.fillStyle = "#ffffff"; ctx.font = "10px sans-serif";
+          ctx.fillText("+e", cx - 6, cy + 3);
+
+          // Concentric Bohr Orbits
+          for(let i=1; 6 > i; i++) {
+            const r = 24 + i*i * 4;
+            ctx.strokeStyle = i === n ? "#00f0ff" : "rgba(255,255,255,0.12)";
+            ctx.lineWidth = i === n ? 2.5 : 1;
+            ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.stroke();
+          }
+
+          // Orbiting Electron with de Broglie standing wave envelope
+          const currentR = 24 + n*n * 4;
+          const ex = cx + currentR * Math.cos(angle);
+          const ey = cy + currentR * Math.sin(angle);
+
+          // Electron Particle
+          ctx.fillStyle = "#10b981";
+          ctx.beginPath(); ctx.arc(ex, ey, 6, 0, Math.PI*2); ctx.fill();
+          ctx.fillStyle = "#10b981"; ctx.font = "11px sans-serif";
+          ctx.fillText("e⁻ (n=" + n + ")", ex + 10, ey + 4);
+
+          angle += 0.05 / Math.sqrt(n);
+          requestAnimationFrame(animate);
+        }
+        animate();
+        
+  </script>
+</body>
+</html>

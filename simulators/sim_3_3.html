@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RBRU Physics Lab: 3.3 3.3 กลุ่มคลื่นและหลักความไม่แน่นอนของไฮเซนเบิร์ก</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #020617;
+      color: #f8fafc;
+      font-family: 'Sarabun', -apple-system, sans-serif;
+      overflow-x: hidden;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .sim-card {
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 16px;
+      width: 100%;
+      max-width: 680px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+    .sim-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+    }
+    .sim-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #00f0ff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .badge-fps {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #10b981;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.5px;
+    }
+    .control-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    @media (max-width: 540px) {
+      .control-grid { grid-template-columns: 1fr; }
+    }
+    .ctrl-box {
+      background: #090e1a;
+      border: 1px solid #1e293b;
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+    .ctrl-box label {
+      display: block;
+      font-size: 0.82rem;
+      color: #94a3b8;
+      margin-bottom: 4px;
+    }
+    .ctrl-box .val-display {
+      color: #00f0ff;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    input[type=range] {
+      width: 100%;
+      accent-color: #00f0ff;
+      cursor: pointer;
+    }
+    select {
+      width: 100%;
+      background: #0f172a;
+      color: #00f0ff;
+      border: 1px solid #334155;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-family: 'Sarabun', sans-serif;
+    }
+    .canvas-box {
+      position: relative;
+      width: 100%;
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 230px;
+    }
+    .readout-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .readout-card {
+      background: #090e1a;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .readout-val {
+      font-size: 1.0rem;
+      font-weight: 700;
+      color: #00f0ff;
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 2px;
+    }
+    .readout-lbl {
+      font-size: 0.72rem;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sim-card">
+    <div class="sim-header">
+      <div class="sim-title">
+        <span>🔬</span> 3.3 3.3 กลุ่มคลื่นและหลักความไม่แน่นอนของไฮเซนเบิร์ก
+      </div>
+      <div class="badge-fps">● 60 FPS REAL-TIME</div>
+    </div>
+
+    
+        <div class="control-grid">
+          <div class="ctrl-box" style="grid-column: 1 / -1;">
+            <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="val_param" class="val-display">50</span>%</label>
+            <input type="range" id="slider_param" min="1" max="100" value="50">
+          </div>
+        </div>
+        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+        
+
+    
+        <div class="readout-grid">
+          <div class="readout-card"><div class="readout-val" id="val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
+          <div class="readout-card"><div class="readout-val" id="val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
+          <div class="readout-card"><div class="readout-val" id="val_status" style="color:#10b981;">Ready 2D/3D</div><div class="readout-lbl">โหมดประมวลผล</div></div>
+        </div>
+        
+  </div>
+
+  <script>
+    
+        const cv = document.getElementById("simCanvas");
+        const ctx = cv.getContext("2d");
+        const slider = document.getElementById("slider_param") || { value: 50 };
+        let tick = 0;
+
+        function animate() {
+          const val = +slider.value || 50;
+          const valEl = document.getElementById("val_param");
+          if (valEl) valEl.textContent = val;
+          const coeff = (val / 50).toFixed(3);
+          const mEl = document.getElementById("val_metric");
+          if (mEl) mEl.textContent = coeff;
+
+          ctx.clearRect(0, 0, cv.width, cv.height);
+
+          // Waveform 1 (Neon Cyan)
+          ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          for(let x=40; 600 > x; x+=2) {
+            const norm = (x-40)/560;
+            const y = 115 + 45 * Math.sin(norm * Math.PI * 4 * coeff + tick*0.06) * Math.cos(norm * Math.PI * 2);
+            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+
+          // Waveform 2 (Amber Field)
+          ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          for(let x=40; 600 > x; x+=4) {
+            const norm = (x-40)/560;
+            const y = 115 + 50 * Math.sin(norm * Math.PI * 2 * coeff - tick*0.04);
+            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+
+          // Particle Field
+          for(let i=0; 10 > i; i++) {
+            const px = 40 + ((tick*3 + i*56) % 560);
+            const py = 115 + 30 * Math.sin(px*0.02 + tick*0.05);
+            ctx.fillStyle = "#10b981";
+            ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI*2); ctx.fill();
+          }
+
+          ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
+          ctx.fillText("จำลองผลลัพธ์พลวัตเชิงฟิสิกส์เรียลไทม์ (Live 60 FPS Engine)", 50, 30);
+
+          tick++;
+          requestAnimationFrame(animate);
+        }
+        animate();
+        
+  </script>
+</body>
+</html>

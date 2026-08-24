@@ -157,93 +157,18 @@
   <div class="content">
     <div class="theory-section"><h3>🚀 สัจพจน์ 2 ประการของไอน์สไตน์ (ค.ศ. 1905)</h3><p>ทฤษฎีสัมพัทธภาพพิเศษสร้างขึ้นบนรากฐานของหลักการ 2 ข้อที่เรียบง่ายแต่ลึกซึ้ง:</p><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 1. หลักการสัมพัทธภาพ (Principle of Relativity)</span><span class="formula-category">Postulate 1</span></div><p>กฎทางฟิสิกส์ทั้งหมดมีรูปแบบเหมือนกันในทุก <b>กรอบอ้างอิงเฉื่อย (Inertial Reference Frame)</b> ไม่มีการทดลองใดบอกได้ว่ากรอบใดอยู่นิ่งสัมบูรณ์</p></div><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 2. หลักความคงที่ของความเร็วแสง (Constancy of Speed of Light)</span><span class="formula-category">Postulate 2</span></div><div class="formula-math">\[c = 299,792,458 \text{ m/s} \approx 3 \times 10^8 \text{ m/s}\]</div><p>ความเร็วของแสงในสุญญากาศมีค่าคงที่เสมอสำหรับผู้สังเกตทุกคน โดยไม่ขึ้นกับความเร็วของแหล่งกำเนิดแสงหรือผู้สังเกต</p></div></div>
 
-    <!-- Interactive Real-Time Simulator -->
-    <div class="interactive-sim-container">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
-        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
-        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+    <!-- Interactive 60 FPS Real-Time Physics Simulator -->
+    <div class="interactive-sim-container" style="background:#090e1a; border:1px solid #1e293b; border-radius:14px; padding:18px; margin:24px 0; box-shadow:0 8px 30px rgba(0,0,0,0.5);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #1e293b; padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>🔬</span> <span>ห้องปฏิบัติการเสมือนจริง (60 FPS Real-Time Simulation)</span>
+        </h3>
+        <a href="https://tsanaphy2023.github.io/modernphysics/simulators/sim_2_1.html" target="_blank" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; text-decoration:none; padding:6px 14px; border-radius:8px; font-size:0.82rem; font-weight:700; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 8px rgba(2,132,199,0.3);">
+          🚀 ขยายเต็มจอ ↗
+        </a>
       </div>
-      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
-      
-        <div class="sim-panel" id="sim_2_1_panel">
-          <div class="sim-control-group">
-            <label>ความเร็วสัมพัทธ์ของยาน (v): <span id="sim_2_1_val_v" class="readout-val">0.60</span> c</label>
-            <input type="range" class="sim-slider" id="sim_2_1_slider_v" min="0" max="0.99" step="0.01" value="0.60">
-          </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_2_1_canvas" width="640" height="220" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
-          <div class="sim-readout-grid">
-            <div class="readout-card"><div class="readout-val" id="sim_2_1_val_gamma">1.250</div><div class="readout-lbl">Lorentz Factor (γ)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_2_1_val_t">1.250 s</div><div class="readout-lbl">เวลาที่สังเกตจากภายนอก (Δt)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_2_1_val_path">แนวทแยง (Z-path)</div><div class="readout-lbl">วิถีเดินแสงในกรอบเคลื่อนที่</div></div>
-          </div>
-        </div>
-        <script>
-        (function() {
-          function initSim() {
-            const cv = document.getElementById("sim_2_1_canvas");
-            if (!cv) return false;
-            const ctx = cv.getContext("2d");
-            const slider = document.getElementById("sim_2_1_slider_v");
-            if (!slider) return false;
-            let tick = 0;
-
-            function draw() {
-              const v = +slider.value;
-              const vEl = document.getElementById("sim_2_1_val_v");
-              if (vEl) vEl.textContent = v.toFixed(2);
-              const gamma = 1 / Math.sqrt(Math.max(0.001, 1 - v*v));
-              const gEl = document.getElementById("sim_2_1_val_gamma");
-              if (gEl) gEl.textContent = gamma.toFixed(3);
-              const tEl = document.getElementById("sim_2_1_val_t");
-              if (tEl) tEl.textContent = gamma.toFixed(3) + " s";
-
-              ctx.clearRect(0, 0, cv.width, cv.height);
-
-              // Left Frame: Rest Clock (S')
-              ctx.strokeStyle = "#475569"; ctx.lineWidth = 1;
-              ctx.strokeRect(30, 20, 240, 180);
-              ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
-              ctx.fillText("กรอบนิ่งของผู้สังเกตในยาน (Proper Time Δt₀)", 40, 40);
-              // Mirrors
-              ctx.fillStyle = "#00f0ff";
-              ctx.fillRect(100, 60, 100, 6);
-              ctx.fillRect(100, 160, 100, 6);
-              // Vertical bouncing light
-              const yPulse = 66 + 94 * (0.5 + 0.5*Math.sin(tick*0.1));
-              ctx.fillStyle = "#f59e0b";
-              ctx.beginPath(); ctx.arc(150, yPulse, 5, 0, Math.PI*2); ctx.fill();
-              ctx.strokeStyle = "rgba(245, 158, 11, 0.4)"; ctx.lineWidth = 2;
-              ctx.beginPath(); ctx.moveTo(150, 66); ctx.lineTo(150, 160); ctx.stroke();
-
-              // Right Frame: Moving Observer (S)
-              ctx.strokeStyle = "#475569";
-              ctx.strokeRect(330, 20, 280, 180);
-              ctx.fillStyle = "#00f0ff";
-              ctx.fillText("กรอบสังเกตภายนอก (เวลาขยายตัว Δt = γΔt₀)", 340, 40);
-              // Zig-zag light path
-              ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2.5;
-              ctx.beginPath();
-              ctx.moveTo(360, 66);
-              ctx.lineTo(460 + v*80, 160);
-              ctx.lineTo(560, 66);
-              ctx.stroke();
-              ctx.fillStyle = "#10b981"; ctx.fillText("ระยะทางแสงเดินไกลขึ้น → เวลาเดินช้าลง", 360, 190);
-
-              tick++;
-              requestAnimationFrame(draw);
-            }
-            slider.addEventListener("input", draw);
-            draw();
-            return true;
-          }
-          function run() { if (!initSim()) setTimeout(run, 80); }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
-          else run();
-          setTimeout(run, 150);
-          setTimeout(run, 500);
-        })();
-        </script>
-        
+      <p style="color:#94a3b8; font-size:0.88rem; margin-bottom:12px;">ปรับเปลี่ยนตัวแปรและทดลองแบบเรียลไทม์ (60 FPS Interactive Dynamic Engine):</p>
+      <iframe src="https://tsanaphy2023.github.io/modernphysics/simulators/sim_2_1.html" style="width:100%; height:480px; border:1px solid #1e293b; border-radius:10px; background:#020617;" allow="accelerometer; autoplay; camera; gyroscope;"></iframe>
     </div>
 
     <!-- Worked Example with Toggleable Hidden Solution -->

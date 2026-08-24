@@ -157,90 +157,18 @@
   <div class="content">
     <div class="theory-section"><h3>🌊 คลื่นสสาร (Matter Wave) ของหลุยส์ เดอบรอยล์ (ค.ศ. 1924)</h3><p>หลุยส์ เดอบรอยล์ เสนอแนวคิดที่สมมาตรอย่างงดงามว่า <i>"ถ้าคลื่นแม่เหล็กไฟฟ้าสามารถแสดงพฤติกรรมเป็นอนุภาค (โฟตอน) ได้ สสารหรืออนุภาคที่มีโมเมนตัม p ก็ย่อมแสดงพฤติกรรมเป็นคลื่นได้เช่นกัน"</i></p><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 ความยาวคลื่นเดอบรอยล์ (de Broglie Wavelength)</span><span class="formula-category">สมการคลื่นสสาร</span></div><div class="formula-math">\[\lambda = \frac{h}{p} = \frac{h}{mv} = \frac{h}{\sqrt{2mK}}\]</div><p>สำหรับอิเล็กตรอนที่ถูกเร่งด้วยความต่างศักย์ V โวลต์: \(\lambda = \frac{1.228}{\sqrt{V}} \text{ nm}\)</p></div></div>
 
-    <!-- Interactive Real-Time Simulator -->
-    <div class="interactive-sim-container">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
-        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
-        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+    <!-- Interactive 60 FPS Real-Time Physics Simulator -->
+    <div class="interactive-sim-container" style="background:#090e1a; border:1px solid #1e293b; border-radius:14px; padding:18px; margin:24px 0; box-shadow:0 8px 30px rgba(0,0,0,0.5);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #1e293b; padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>🔬</span> <span>ห้องปฏิบัติการเสมือนจริง (60 FPS Real-Time Simulation)</span>
+        </h3>
+        <a href="https://tsanaphy2023.github.io/modernphysics/simulators/sim_3_1.html" target="_blank" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; text-decoration:none; padding:6px 14px; border-radius:8px; font-size:0.82rem; font-weight:700; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 8px rgba(2,132,199,0.3);">
+          🚀 ขยายเต็มจอ ↗
+        </a>
       </div>
-      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
-      
-        <div class="sim-panel" id="sim_3_1_panel">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
-            <div class="sim-control-group">
-              <label>ชนิดอนุภาค:</label>
-              <select id="sim_3_1_sel_p" style="width:100%; background:#0f172a; color:#00f0ff; border:1px solid #334155; padding:8px; border-radius:6px;">
-                <option value="9.109e-31">อิเล็กตรอน (Electron m = 9.1×10⁻³¹ kg)</option>
-                <option value="1.673e-27">โปรตอน (Proton m = 1.67×10⁻²⁷ kg)</option>
-                <option value="6.646e-27">อนุภาคแอลฟา (Alpha m = 6.6×10⁻²⁷ kg)</option>
-              </select>
-            </div>
-            <div class="sim-control-group">
-              <label>ความต่างศักย์เร่งอนุภาค (V): <span id="sim_3_1_val_v" class="readout-val">100</span> V</label>
-              <input type="range" class="sim-slider" id="sim_3_1_slider_v" min="10" max="5000" step="10" value="100">
-            </div>
-          </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_3_1_canvas" width="640" height="210" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
-          <div class="sim-readout-grid">
-            <div class="readout-card"><div class="readout-val" id="sim_3_1_val_lam">0.123 nm</div><div class="readout-lbl">ความยาวคลื่นเดอบรอยล์ (λ)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_3_1_val_scale">ขนาดอะตอมผลึก</div><div class="readout-lbl">ระดับสเกลทางฟิสิกส์</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_3_1_val_diff">เลี้ยวเบนชัดเจน</div><div class="readout-lbl">พฤติกรรมความเป็นคลื่น</div></div>
-          </div>
-        </div>
-        <script>
-        (function() {
-          function initSim() {
-            const cv = document.getElementById("sim_3_1_canvas");
-            if (!cv) return false;
-            const ctx = cv.getContext("2d");
-            const sel = document.getElementById("sim_3_1_sel_p");
-            const slider = document.getElementById("sim_3_1_slider_v");
-            if (!sel || !slider) return false;
-
-            function draw() {
-              const m = +sel.value;
-              const V = +slider.value;
-              const vEl = document.getElementById("sim_3_1_val_v");
-              if (vEl) vEl.textContent = V;
-
-              const h = 6.626e-34;
-              const q = 1.602e-19;
-              const p = Math.sqrt(2 * m * q * V);
-              const lam_m = h / p;
-              const lam_nm = lam_m * 1e9;
-              const lam_pm = lam_m * 1e12;
-
-              const lEl = document.getElementById("sim_3_1_val_lam");
-              if (lEl) lEl.textContent = lam_nm >= 0.01 ? lam_nm.toFixed(3) + " nm" : lam_pm.toFixed(1) + " pm";
-
-              ctx.clearRect(0, 0, cv.width, cv.height);
-              // Matter Wave packet animation/display
-              ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 3;
-              ctx.beginPath();
-              const freq = Math.max(0.04, Math.min(0.4, 0.05 / Math.max(0.01, lam_nm)));
-              for(let x=40; 600 > x; x+=2) {
-                const env = Math.exp(-Math.pow((x-320)/120, 2));
-                const y = 105 + 65 * env * Math.sin((x-40)*freq);
-                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-              }
-              ctx.stroke();
-
-              ctx.fillStyle = "#f59e0b"; ctx.font = "12px sans-serif";
-              ctx.fillText("กลุ่มคลื่นสสารเดอบรอยล์: λ = h/p = " + (lam_nm >= 0.01 ? lam_nm.toFixed(3) + " nm" : lam_pm.toFixed(1) + " pm"), 60, 40);
-            }
-            sel.addEventListener("change", draw);
-            slider.addEventListener("input", draw);
-            draw();
-            return true;
-          }
-          function run() { if (!initSim()) setTimeout(run, 80); }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
-          else run();
-          setTimeout(run, 150);
-          setTimeout(run, 500);
-        })();
-        </script>
-        
+      <p style="color:#94a3b8; font-size:0.88rem; margin-bottom:12px;">ปรับเปลี่ยนตัวแปรและทดลองแบบเรียลไทม์ (60 FPS Interactive Dynamic Engine):</p>
+      <iframe src="https://tsanaphy2023.github.io/modernphysics/simulators/sim_3_1.html" style="width:100%; height:480px; border:1px solid #1e293b; border-radius:10px; background:#020617;" allow="accelerometer; autoplay; camera; gyroscope;"></iframe>
     </div>
 
     <!-- Worked Example with Toggleable Hidden Solution -->

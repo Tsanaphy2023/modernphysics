@@ -157,126 +157,18 @@
   <div class="content">
     <div class="theory-section"><h3>⚡ แสงในฐานะอนุภาคพลังงาน (Photon)</h3><p>ในปี ค.ศ. 1905 <b>อัลเบิร์ต ไอน์สไตน์</b> ได้ต่อยอดแนวคิดของพลังค์ โดยเสนอว่าแสงไม่ได้เพียงแค่ถูกดูดกลืนหรือแผ่ออกมาเป็นก้อน แต่แสง <i>เดินทาง</i> เป็นอนุภาคก้อนพลังงานที่เรียกว่า <b>โฟตอน (Photon)</b> แต่ละอนุภาคมีพลังงาน \(E = hf\)</p><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 สมการโฟโตอิเล็กทริกของไอน์สไตน์</span><span class="formula-category">สมการรางวัลโนเบล</span></div><div class="formula-math">\[K_{\max} = hf - \phi = eV_s\]</div><p>เมื่อ:</p><ul><li>\(K_{\max}\) คือ พลังงานจลน์สูงสุดของอิเล็กตรอนที่หลุดออกมา (J หรือ eV)</li><li>\(hf\) คือ พลังงานของโฟตอนที่ตกกระทบ</li><li>\(\phi = hf_0\) คือ <b>ฟังก์ชันงาน (Work Function)</b> ของโลหะ (พลังงานยึดเหนี่ยวขั้นต่ำ)</li><li>\(f_0\) คือ ความถี่ขีดเริ่ม (Threshold Frequency)</li><li>\(V_s\) คือ ความต่างศักย์หยุดยั้ง (Stopping Potential)</li></ul></div></div>
 
-    <!-- Interactive Real-Time Simulator -->
-    <div class="interactive-sim-container">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
-        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
-        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+    <!-- Interactive 60 FPS Real-Time Physics Simulator -->
+    <div class="interactive-sim-container" style="background:#090e1a; border:1px solid #1e293b; border-radius:14px; padding:18px; margin:24px 0; box-shadow:0 8px 30px rgba(0,0,0,0.5);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #1e293b; padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>🔬</span> <span>ห้องปฏิบัติการเสมือนจริง (60 FPS Real-Time Simulation)</span>
+        </h3>
+        <a href="https://tsanaphy2023.github.io/modernphysics/simulators/sim_1_3.html" target="_blank" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; text-decoration:none; padding:6px 14px; border-radius:8px; font-size:0.82rem; font-weight:700; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 8px rgba(2,132,199,0.3);">
+          🚀 ขยายเต็มจอ ↗
+        </a>
       </div>
-      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
-      
-        <div class="sim-panel" id="sim_1_3_panel">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
-            <div class="sim-control-group">
-              <label>ชนิดโลหะเป้าหมาย (Work Function φ):</label>
-              <select id="sim_1_3_sel_metal" style="width:100%; background:#0f172a; color:#00f0ff; border:1px solid #334155; padding:8px; border-radius:6px;">
-                <option value="2.14">ซีเซียม (Cs: 2.14 eV)</option>
-                <option value="2.30" selected>โซเดียม (Na: 2.30 eV)</option>
-                <option value="4.30">สังกะสี (Zn: 4.30 eV)</option>
-                <option value="4.70">ทองแดง (Cu: 4.70 eV)</option>
-                <option value="5.65">แพลทินัม (Pt: 5.65 eV)</option>
-              </select>
-            </div>
-            <div class="sim-control-group">
-              <label>ความยาวคลื่นแสงฉาย (λ): <span id="sim_1_3_val_lam" class="readout-val">300</span> nm</label>
-              <input type="range" class="sim-slider" id="sim_1_3_slider_lam" min="150" max="750" value="300">
-            </div>
-          </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_1_3_canvas" width="640" height="200" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
-          <div class="sim-readout-grid">
-            <div class="readout-card"><div class="readout-val" id="sim_1_3_val_ephoton">4.13 eV</div><div class="readout-lbl">พลังงานโฟตอน (E = hf)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_1_3_val_kmax">1.83 eV</div><div class="readout-lbl">พลังงานจลน์สูงสุด (K_max)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_1_3_val_vs">1.83 V</div><div class="readout-lbl">ความต่างศักย์หยุดยั้ง (Vs)</div></div>
-          </div>
-        </div>
-        <script>
-        (function() {
-          function initSim() {
-            const cv = document.getElementById("sim_1_3_canvas");
-            if (!cv) return false;
-            const ctx = cv.getContext("2d");
-            const sel = document.getElementById("sim_1_3_sel_metal");
-            const slider = document.getElementById("sim_1_3_slider_lam");
-            if (!sel || !slider) return false;
-            let particles = [];
-            for(let i=0; 20 > i; i++) particles.push({ x: 120 + Math.random()*20, y: 40 + Math.random()*120, vx: 2 + Math.random()*3 });
-
-            function calc() {
-              const phi = +sel.value;
-              const lam = +slider.value;
-              const lEl = document.getElementById("sim_1_3_val_lam");
-              if (lEl) lEl.textContent = lam;
-              const Ephoton = 1240 / lam;
-              const epEl = document.getElementById("sim_1_3_val_ephoton");
-              if (epEl) epEl.textContent = Ephoton.toFixed(2) + " eV";
-              const Kmax = Ephoton - phi;
-              const kmEl = document.getElementById("sim_1_3_val_kmax");
-              const vsEl = document.getElementById("sim_1_3_val_vs");
-              if (Kmax > 0) {
-                if (kmEl) kmEl.textContent = Kmax.toFixed(2) + " eV";
-                if (vsEl) vsEl.textContent = Kmax.toFixed(2) + " V";
-              } else {
-                if (kmEl) kmEl.textContent = "0 (ไม่หลุด)";
-                if (vsEl) vsEl.textContent = "0 V";
-              }
-            }
-
-            function render() {
-              ctx.clearRect(0, 0, cv.width, cv.height);
-              // Cathode Emitter
-              ctx.fillStyle = "#475569";
-              ctx.fillRect(80, 30, 24, 140);
-              ctx.fillStyle = "#00f0ff";
-              ctx.fillText("Emitter (Target)", 50, 190);
-
-              // Anode Collector
-              ctx.fillStyle = "#334155";
-              ctx.fillRect(520, 30, 24, 140);
-              ctx.fillStyle = "#94a3b8";
-              ctx.fillText("Collector Anode", 480, 190);
-
-              const lam = +slider.value;
-              const Ephoton = 1240 / lam;
-              const phi = +sel.value;
-              const hasElectrons = Ephoton > phi;
-              
-              // Incoming Photons
-              ctx.strokeStyle = 400 > lam ? "#a855f7" : (550 > lam ? "#00f0ff" : "#ef4444");
-              ctx.lineWidth = 2.5;
-              for(let i=0; 3 > i; i++) {
-                ctx.beginPath();
-                ctx.moveTo(10, 40 + i*40);
-                ctx.lineTo(80, 60 + i*40);
-                ctx.stroke();
-              }
-
-              // Emitted photoelectrons
-              if (hasElectrons) {
-                ctx.fillStyle = "#10b981";
-                particles.forEach(p => {
-                  ctx.beginPath();
-                  ctx.arc(p.x, p.y, 4.5, 0, Math.PI*2);
-                  ctx.fill();
-                  p.x += p.vx * Math.min(3, Math.max(0.5, Ephoton - phi));
-                  if (p.x > 520) p.x = 104;
-                });
-              }
-              requestAnimationFrame(render);
-            }
-            sel.addEventListener("change", calc);
-            slider.addEventListener("input", calc);
-            calc();
-            render();
-            return true;
-          }
-          function run() { if (!initSim()) setTimeout(run, 80); }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
-          else run();
-          setTimeout(run, 150);
-          setTimeout(run, 500);
-        })();
-        </script>
-        
+      <p style="color:#94a3b8; font-size:0.88rem; margin-bottom:12px;">ปรับเปลี่ยนตัวแปรและทดลองแบบเรียลไทม์ (60 FPS Interactive Dynamic Engine):</p>
+      <iframe src="https://tsanaphy2023.github.io/modernphysics/simulators/sim_1_3.html" style="width:100%; height:480px; border:1px solid #1e293b; border-radius:10px; background:#020617;" allow="accelerometer; autoplay; camera; gyroscope;"></iframe>
     </div>
 
     <!-- Worked Example with Toggleable Hidden Solution -->

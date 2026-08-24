@@ -157,92 +157,18 @@
   <div class="content">
     <div class="theory-section"><h3>🪐 แบบจำลองอะตอมของนีลส์ บอร์ (ค.ศ. 1913)</h3><p>นีลส์ บอร์ เสนอสัจพจน์ปฏิวัติว่า อิเล็กตรอนโคจรรอบนิวเคลียสได้เฉพาะในวงโคจรคงที่โดยไม่แผ่คลื่นแม่เหล็กไฟฟ้า และมีโมเมนตัมเชิงมุมเป็นควอนตัม:</p><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 สัจพจน์โมเมนตัมเชิงมุมและรัศมีวงโคจรบอร์</span><span class="formula-category">Bohr Postulates</span></div><div class="formula-math">\[L = m v r_n = n \hbar = n \frac{h}{2\pi} \quad (n = 1, 2, 3, ...)\]</div><div class="formula-math">\[r_n = n^2 a_0 \approx 0.0529 n^2 \text{ nm}\]</div><p>ระดับพลังงานของอะตอมไฮโดรเจน: \(E_n = -\frac{13.6 \text{ eV}}{n^2}\)</p></div></div>
 
-    <!-- Interactive Real-Time Simulator -->
-    <div class="interactive-sim-container">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
-        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
-        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+    <!-- Interactive 60 FPS Real-Time Physics Simulator -->
+    <div class="interactive-sim-container" style="background:#090e1a; border:1px solid #1e293b; border-radius:14px; padding:18px; margin:24px 0; box-shadow:0 8px 30px rgba(0,0,0,0.5);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #1e293b; padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>🔬</span> <span>ห้องปฏิบัติการเสมือนจริง (60 FPS Real-Time Simulation)</span>
+        </h3>
+        <a href="https://tsanaphy2023.github.io/modernphysics/simulators/sim_5_1.html" target="_blank" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; text-decoration:none; padding:6px 14px; border-radius:8px; font-size:0.82rem; font-weight:700; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 8px rgba(2,132,199,0.3);">
+          🚀 ขยายเต็มจอ ↗
+        </a>
       </div>
-      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
-      
-        <div class="sim-panel" id="sim_5_1_panel">
-          <div class="sim-control-group">
-            <label>วงโคจรระดับควอนตัม (Bohr Orbit n): <span id="sim_5_1_val_n" class="readout-val">2</span></label>
-            <input type="range" class="sim-slider" id="sim_5_1_slider_n" min="1" max="5" value="2">
-          </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_5_1_canvas" width="640" height="230" style="background:#020617; width:100%; max-width:640px; display:block; margin:0 auto; border-radius:8px;"></canvas></div>
-          <div class="sim-readout-grid">
-            <div class="readout-card"><div class="readout-val" id="sim_5_1_val_rad">0.212 nm</div><div class="readout-lbl">รัศมีวงโคจร (r_n = n² a₀)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_5_1_val_en">-3.40 eV</div><div class="readout-lbl">ระดับพลังงาน (E_n = -13.6/n²)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_5_1_val_l">2 ℏ</div><div class="readout-lbl">โมเมนตัมเชิงมุม (L = nℏ)</div></div>
-          </div>
-        </div>
-        <script>
-        (function() {
-          function initSim() {
-            const cv = document.getElementById("sim_5_1_canvas");
-            if (!cv) return false;
-            const ctx = cv.getContext("2d");
-            const slider = document.getElementById("sim_5_1_slider_n");
-            if (!slider) return false;
-            let angle = 0;
-
-            function draw() {
-              const n = +slider.value;
-              const nEl = document.getElementById("sim_5_1_val_n");
-              if (nEl) nEl.textContent = n;
-              const a0 = 0.0529; // nm
-              const rn = n * n * a0;
-              const En = -13.6 / (n * n);
-
-              const rEl = document.getElementById("sim_5_1_val_rad");
-              if (rEl) rEl.textContent = rn.toFixed(3) + " nm";
-              const enEl = document.getElementById("sim_5_1_val_en");
-              if (enEl) enEl.textContent = En.toFixed(2) + " eV";
-              const lEl = document.getElementById("sim_5_1_val_l");
-              if (lEl) lEl.textContent = n + " ℏ";
-
-              ctx.clearRect(0, 0, cv.width, cv.height);
-              const cx = 320, cy = 115;
-
-              // Nucleus (Proton)
-              ctx.fillStyle = "#ef4444";
-              ctx.beginPath(); ctx.arc(cx, cy, 10, 0, Math.PI*2); ctx.fill();
-              ctx.fillStyle = "#ffffff"; ctx.font = "10px sans-serif";
-              ctx.fillText("+e", cx - 6, cy + 3);
-
-              // Draw All Orbits up to 5
-              for(let i=1; 6 > i; i++) {
-                const r = 20 + i*i * 3.5;
-                ctx.strokeStyle = i === n ? "#00f0ff" : "rgba(255,255,255,0.12)";
-                ctx.lineWidth = i === n ? 2.5 : 1;
-                ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.stroke();
-              }
-
-              // Orbiting Electron
-              const currentR = 20 + n*n * 3.5;
-              const ex = cx + currentR * Math.cos(angle);
-              const ey = cy + currentR * Math.sin(angle);
-              ctx.fillStyle = "#10b981";
-              ctx.beginPath(); ctx.arc(ex, ey, 6, 0, Math.PI*2); ctx.fill();
-              ctx.fillStyle = "#10b981"; ctx.font = "11px sans-serif";
-              ctx.fillText("e⁻ (n=" + n + ")", ex + 8, ey + 4);
-
-              angle += 0.05 / n;
-              requestAnimationFrame(draw);
-            }
-            slider.addEventListener("input", draw);
-            draw();
-            return true;
-          }
-          function run() { if (!initSim()) setTimeout(run, 80); }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
-          else run();
-          setTimeout(run, 150);
-          setTimeout(run, 500);
-        })();
-        </script>
-        
+      <p style="color:#94a3b8; font-size:0.88rem; margin-bottom:12px;">ปรับเปลี่ยนตัวแปรและทดลองแบบเรียลไทม์ (60 FPS Interactive Dynamic Engine):</p>
+      <iframe src="https://tsanaphy2023.github.io/modernphysics/simulators/sim_5_1.html" style="width:100%; height:480px; border:1px solid #1e293b; border-radius:10px; background:#020617;" allow="accelerometer; autoplay; camera; gyroscope;"></iframe>
     </div>
 
     <!-- Worked Example with Toggleable Hidden Solution -->
