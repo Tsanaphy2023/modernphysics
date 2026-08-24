@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 7.3 7.3 แบบจำลองมาตรฐาน (The Standard Model)</title>
+  <title>7.3 แบบจำลองมาตรฐาน & ควาร์ก</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,33 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
+      margin: 0;
+      padding: 6px;
       overflow-x: hidden;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -48,33 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -88,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -101,9 +96,9 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
@@ -116,107 +111,161 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 7.3 7.3 แบบจำลองมาตรฐาน (The Standard Model)
-      </div>
+      <div class="sim-title"><span>🔬</span> 7.3 แบบจำลองมาตรฐาน & เครื่องมือสร้างฮาดรอน (Standard Model Matrix & Hadron Builder)</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
-    
-        <div class="control-grid">
-          <div class="ctrl-box" style="grid-column: 1 / -1;">
-            <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="val_param" class="val-display">50</span>%</label>
-            <input type="range" id="slider_param" min="1" max="100" value="50">
-          </div>
-        </div>
-        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
-        
-
-    
-        <div class="readout-grid">
-          <div class="readout-card"><div class="readout-val" id="val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_status" style="color:#10b981;">Ready 2D/3D</div><div class="readout-lbl">โหมดประมวลผล</div></div>
-        </div>
-        
+    <div class="control-grid">
+      <div class="ctrl-box">
+        <label>เลือกฮาดรอนเป้าหมาย (Hadron Composition):</label>
+        <select id="sel_hadron">
+          <option value="proton" selected>โปรตอน Proton (u + u + d → บาริออน Q = +1)</option>
+          <option value="neutron">นิวตรอน Neutron (u + d + d → บาริออน Q = 0)</option>
+          <option value="pion_plus">ไพออนบวก Pi-Plus π⁺ (u + d̄ → มีซอน Q = +1)</option>
+          <option value="delta_plus_plus">เดลตา-พลัสพลัส Δ⁺⁺ (u + u + u → บาริออน Q = +2)</option>
+        </select>
+      </div>
+      <div class="ctrl-box">
+        <label>ประเภทฮาดรอน (Hadron Family): <span id="val_family" class="val-display">Baryon (3 Quarks)</span></label>
+        <div style="color:#94a3b8; font-size:0.80rem; margin-top:4px;">ยึดเหนี่ยวด้วยแรงนิวเคลียร์อย่างเข้มและประจุสี (Color Charge)</div>
+      </div>
+    </div>
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+    <div class="readout-grid">
+      <div class="readout-card"><div class="readout-val" id="val_tot_charge">+1 e</div><div class="readout-lbl">ประจุไฟฟ้ารวม (Total Charge Q)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_baryon_num">B = 1</div><div class="readout-lbl">เลขบาริออน (Baryon Number)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_color_sum" style="color:#10b981;">ขาว/ไร้สี (White Color Singlet)</div><div class="readout-lbl">สภาวะจำกัดขังควาร์ก (Confinement)</div></div>
+    </div>
   </div>
 
   <script>
-    
-        const cv = document.getElementById("simCanvas");
-        const ctx = cv.getContext("2d");
-        const slider = document.getElementById("slider_param") || { value: 50 };
-        let tick = 0;
 
-        function animate() {
-          const val = +slider.value || 50;
-          const valEl = document.getElementById("val_param");
-          if (valEl) valEl.textContent = val;
-          const coeff = (val / 50).toFixed(3);
-          const mEl = document.getElementById("val_metric");
-          if (mEl) mEl.textContent = coeff;
+    const cv = document.getElementById("simCanvas");
+    const ctx = cv.getContext("2d");
+    const selHad = document.getElementById("sel_hadron");
+    let tick = 0;
 
-          ctx.clearRect(0, 0, cv.width, cv.height);
+    const hadronInfo = {
+      proton: { name: "Proton p (uud)", fam: "Baryon (3 Quarks)", Q: "+1 e", B: "B = 1", quarks: [{name:"u", q:"+⅔", col:"#f43f5e"}, {name:"u", q:"+⅔", col:"#10b981"}, {name:"d", q:"-⅓", col:"#38bdf8"}] },
+      neutron: { name: "Neutron n (udd)", fam: "Baryon (3 Quarks)", Q: "0 e", B: "B = 1", quarks: [{name:"u", q:"+⅔", col:"#f43f5e"}, {name:"d", q:"-⅓", col:"#10b981"}, {name:"d", q:"-⅓", col:"#38bdf8"}] },
+      pion_plus: { name: "Pion π⁺ (ud̄)", fam: "Meson (Quark + Antiquark)", Q: "+1 e", B: "B = 0", quarks: [{name:"u", q:"+⅔", col:"#f43f5e"}, {name:"d̄", q:"+⅓", col:"#38bdf8"}] },
+      delta_plus_plus: { name: "Delta Δ⁺⁺ (uuu)", fam: "Baryon (3 Quarks)", Q: "+2 e", B: "B = 1", quarks: [{name:"u", q:"+⅔", col:"#f43f5e"}, {name:"u", q:"+⅔", col:"#10b981"}, {name:"u", q:"+⅔", col:"#38bdf8"}] }
+    };
 
-          // Waveform 1 (Neon Cyan)
-          ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
+    function animate() {
+      const hType = selHad.value;
+      const h = hadronInfo[hType];
+
+      document.getElementById("val_family").textContent = h.fam;
+      document.getElementById("val_tot_charge").textContent = h.Q;
+      document.getElementById("val_baryon_num").textContent = h.B;
+
+      ctx.clearRect(0, 0, cv.width, cv.height);
+
+      const cx = 320, cy = 115;
+
+      // Hadron Confinement Bag (Glowing circle)
+      const bagR = 75 + Math.sin(tick*0.06)*3;
+      const bagGrad = ctx.createRadialGradient(cx, cy, 5, cx, cy, bagR);
+      bagGrad.addColorStop(0, "rgba(255, 255, 255, 0.15)");
+      bagGrad.addColorStop(0.7, "rgba(0, 240, 255, 0.1)");
+      bagGrad.addColorStop(1, "transparent");
+      ctx.fillStyle = bagGrad;
+      ctx.beginPath(); ctx.arc(cx, cy, bagR, 0, Math.PI*2); ctx.fill();
+
+      ctx.strokeStyle = "rgba(0, 240, 255, 0.5)"; ctx.lineWidth = 1.5; ctx.setLineDash([4, 4]);
+      ctx.beginPath(); ctx.arc(cx, cy, bagR, 0, Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
+
+      // Gluon strings connecting quarks (Inter-quark flux tubes)
+      const qCount = h.quarks.length;
+      let qPos = [];
+      for(let i=0; qCount > i; i++) {
+        const ang = (i * 2 * Math.PI / qCount) + tick*0.03;
+        const qx = cx + 42 * Math.cos(ang);
+        const qy = cy + 42 * Math.sin(ang);
+        qPos.push({ x: qx, y: qy });
+      }
+
+      // Draw Gluon Springs between all quark pairs
+      ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2.0;
+      for(let i=0; qCount > i; i++) {
+        for(let j=i+1; qCount > j; j++) {
           ctx.beginPath();
-          for(let x=40; 600 > x; x+=2) {
-            const norm = (x-40)/560;
-            const y = 115 + 45 * Math.sin(norm * Math.PI * 4 * coeff + tick*0.06) * Math.cos(norm * Math.PI * 2);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
-
-          // Waveform 2 (Amber Field)
-          ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=4) {
-            const norm = (x-40)/560;
-            const y = 115 + 50 * Math.sin(norm * Math.PI * 2 * coeff - tick*0.04);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
-
-          // Particle Field
-          for(let i=0; 10 > i; i++) {
-            const px = 40 + ((tick*3 + i*56) % 560);
-            const py = 115 + 30 * Math.sin(px*0.02 + tick*0.05);
-            ctx.fillStyle = "#10b981";
-            ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI*2); ctx.fill();
-          }
-
-          ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
-          ctx.fillText("จำลองผลลัพธ์พลวัตเชิงฟิสิกส์เรียลไทม์ (Live 60 FPS Engine)", 50, 30);
-
-          tick++;
-          requestAnimationFrame(animate);
+          const p1 = qPos[i], p2 = qPos[j];
+          const midX = (p1.x + p2.x)/2 + Math.sin(tick*0.1 + i)*8;
+          const midY = (p1.y + p2.y)/2 + Math.cos(tick*0.1 + i)*8;
+          ctx.moveTo(p1.x, p1.y); ctx.quadraticCurveTo(midX, midY, p2.x, p2.y); ctx.stroke();
         }
-        animate();
-        
+      }
+
+      // Draw Quarks
+      h.quarks.forEach((qk, idx) => {
+        const p = qPos[idx];
+        ctx.fillStyle = qk.col;
+        ctx.beginPath(); ctx.arc(p.x, p.y, 14, 0, Math.PI*2); ctx.fill();
+        ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 2; ctx.stroke();
+
+        ctx.fillStyle = "#ffffff"; ctx.font = "bold 11px sans-serif";
+        ctx.fillText(qk.name, p.x - 4, p.y + 4);
+
+        ctx.fillStyle = "#020617"; ctx.font = "9px 'JetBrains Mono', monospace";
+        ctx.fillText(qk.q, p.x - 6, p.y + 24);
+      });
+
+      // Name & Title
+      ctx.fillStyle = "#ffffff"; ctx.font = "bold 12px sans-serif";
+      ctx.fillText(h.name, cx - 50, 30);
+
+      tick++;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
   </script>
 </body>
 </html>

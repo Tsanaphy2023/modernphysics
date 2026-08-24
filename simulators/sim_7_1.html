@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 7.1 7.1 สวนสัตว์อนุภาคและประวัติการค้นพบ</title>
+  <title>7.1 สวนสัตว์อนุภาค & ห้องหมอกวิลสัน</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,33 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
+      margin: 0;
+      padding: 6px;
       overflow-x: hidden;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -48,33 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -88,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -101,9 +96,9 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
@@ -116,116 +111,161 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 7.1 7.1 สวนสัตว์อนุภาคและประวัติการค้นพบ
-      </div>
+      <div class="sim-title"><span>🔬</span> 7.1 สวนสัตว์อนุภาค & ห้องหมอกวิลสัน (Cloud Chamber & Positron Discovery)</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
-    
-        <div class="control-grid">
-          <div class="ctrl-box">
-            <label>สนามแม่เหล็ก (B): <span id="val_b" class="val-display">1.5</span> T</label>
-            <input type="range" id="slider_b" min="0.2" max="3.0" step="0.1" value="1.5">
-          </div>
-          <div class="ctrl-box">
-            <label>ชนิดอนุภาคยิงเข้าห้องฟองสบู่:</label>
-            <select id="sel_p">
-              <option value="e_minus">อิเล็กตรอน (e⁻: ประจุลบ รัศมีเล็ก)</option>
-              <option value="e_plus">โพซิตรอน (e⁺: ปฏิยานุภาค ประจุบวก)</option>
-              <option value="proton">โปรตอน (p⁺: มวลมาก โค้งใหญ่)</option>
-              <option value="muon">มิวออน (μ⁻: รอยทางทะลุผ่านยาว)</option>
-            </select>
-          </div>
-        </div>
-        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
-        
-
-    
-        <div class="readout-grid">
-          <div class="readout-card"><div class="readout-val" id="val_r">3.8 cm</div><div class="readout-lbl">รัศมีความโค้งรอยทาง (r)</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_dir">เบนตามเข็มนาฬิกา</div><div class="readout-lbl">ทิศทางตามกฎมือขวา</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_type" style="color:#10b981;">Lepton Charged</div><div class="readout-lbl">การจำแนกชนิดอนุภาค</div></div>
-        </div>
-        
+    <div class="control-grid">
+      <div class="ctrl-box">
+        <label>อนุภาคที่วิ่งเข้าห้องหมอก (Incident Particle):</label>
+        <select id="sel_part">
+          <option value="positron" selected>โพซิตรอน Positron (e⁺ - ปฏิยานุภาคของอิเล็กตรอน)</option>
+          <option value="electron">อิเล็กตรอน Electron (e⁻ - ประจุลบ)</option>
+          <option value="muon">มิวออน Muon (µ⁻ - รังสีคอสมิกพลังงานสูง)</option>
+          <option value="alpha">แอลฟา Alpha (⁴He - รอยทางหนาทึบ)</option>
+        </select>
+      </div>
+      <div class="ctrl-box">
+        <label>ความเข้มสนามแม่เหล็ก (B): <span id="val_b" class="val-display">1.5</span> เทสลา (พุ่งตั้งฉากเข้า)</label>
+        <input type="range" id="slider_b" min="0.5" max="3.0" step="0.1" value="1.5">
+      </div>
+    </div>
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+    <div class="readout-grid">
+      <div class="readout-card"><div class="readout-val" id="val_radius">4.2 cm</div><div class="readout-lbl">รัศมีความโค้งก่อนผ่านแผ่นตะกั่ว (r₁)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_radius2">2.1 cm</div><div class="readout-lbl">รัศมีความโค้งหลังผ่านตะกั่ว (r₂) เล็กลง!</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_dir_stat" style="color:#10b981;">เบนขวา (ประจุบวก +e)</div><div class="readout-lbl">การพิสูจน์ปฏิสสารของ Anderson (1932)</div></div>
+    </div>
   </div>
 
   <script>
-    
-        const cv = document.getElementById("simCanvas");
-        const ctx = cv.getContext("2d");
-        const slider = document.getElementById("slider_param") || { value: 50 };
-        let tick = 0;
 
-        function animate() {
-          const val = +slider.value || 50;
-          const valEl = document.getElementById("val_param");
-          if (valEl) valEl.textContent = val;
-          const coeff = (val / 50).toFixed(3);
-          const mEl = document.getElementById("val_metric");
-          if (mEl) mEl.textContent = coeff;
+    const cv = document.getElementById("simCanvas");
+    const ctx = cv.getContext("2d");
+    const selPart = document.getElementById("sel_part");
+    const sliderB = document.getElementById("slider_b");
+    let tick = 0;
 
-          ctx.clearRect(0, 0, cv.width, cv.height);
+    function animate() {
+      const pType = selPart.value;
+      const B = +sliderB.value;
+      document.getElementById("val_b").textContent = B.toFixed(1);
 
-          // Waveform 1 (Neon Cyan)
-          ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=2) {
-            const norm = (x-40)/560;
-            const y = 115 + 45 * Math.sin(norm * Math.PI * 4 * coeff + tick*0.06) * Math.cos(norm * Math.PI * 2);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+      let q = +1, m = 1, col = "#00f0ff", pName = "Positron";
+      if (pType === "electron") { q = -1; col = "#f43f5e"; pName = "Electron"; }
+      else if (pType === "muon") { q = -1; m = 207; col = "#38bdf8"; pName = "Muon"; }
+      else if (pType === "alpha") { q = +2; m = 7300; col = "#f59e0b"; pName = "Alpha"; }
 
-          // Waveform 2 (Amber Field)
-          ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=4) {
-            const norm = (x-40)/560;
-            const y = 115 + 50 * Math.sin(norm * Math.PI * 2 * coeff - tick*0.04);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+      const r1 = (6.0 / B) * (m > 10 ? 3.0 : 1.0);
+      const r2 = r1 * 0.5; // Loses momentum after passing through lead plate!
 
-          // Particle Field
-          for(let i=0; 10 > i; i++) {
-            const px = 40 + ((tick*3 + i*56) % 560);
-            const py = 115 + 30 * Math.sin(px*0.02 + tick*0.05);
-            ctx.fillStyle = "#10b981";
-            ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI*2); ctx.fill();
-          }
+      document.getElementById("val_radius").textContent = r1.toFixed(1) + " cm";
+      document.getElementById("val_radius2").textContent = r2.toFixed(1) + " cm";
 
-          ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
-          ctx.fillText("จำลองผลลัพธ์พลวัตเชิงฟิสิกส์เรียลไทม์ (Live 60 FPS Engine)", 50, 30);
+      const dirEl = document.getElementById("val_dir_stat");
+      if (q > 0) {
+        dirEl.textContent = "เบนขวา (ประจุบวก +" + q + "e)"; dirEl.style.color = "#00f0ff";
+      } else {
+        dirEl.textContent = "เบนซ้าย (ประจุลบ " + q + "e)"; dirEl.style.color = "#f43f5e";
+      }
 
-          tick++;
-          requestAnimationFrame(animate);
+      ctx.clearRect(0, 0, cv.width, cv.height);
+
+      const cx = 320, cy = 115;
+
+      // Cloud Chamber Chamber Rim (Circle)
+      ctx.fillStyle = "#090e1a"; ctx.strokeStyle = "#1e293b"; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.arc(cx, cy, 95, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+
+      // Magnetic field crosses
+      ctx.fillStyle = "rgba(71, 85, 105, 0.4)"; ctx.font = "10px monospace";
+      for(let r=0; 5 > r; r++) {
+        for(let c=0; 7 > c; c++) {
+          ctx.fillText("×", cx - 75 + c * 25, cy - 60 + r * 30);
         }
-        animate();
-        
+      }
+
+      // Middle Lead Plate (Carl Anderson setup: 6 mm Lead)
+      ctx.fillStyle = "#475569"; ctx.strokeStyle = "#94a3b8"; ctx.lineWidth = 1;
+      ctx.fillRect(cx - 95, cy - 5, 190, 10); ctx.strokeRect(cx - 95, cy - 5, 190, 10);
+      ctx.fillStyle = "#ffffff"; ctx.font = "9px sans-serif"; ctx.fillText("แผ่นตะกั่ว Lead Plate (6 mm)", cx - 60, cy + 3);
+
+      // Trajectory of particle moving upward through lead plate
+      // Region 1: Below lead plate (Faster, larger radius r1)
+      ctx.strokeStyle = col; ctx.lineWidth = (pType === "alpha" ? 5 : 2.5);
+      ctx.beginPath();
+      const bend1 = q * (B / 1.5) * 45;
+      ctx.moveTo(cx, cy + 90);
+      ctx.quadraticCurveTo(cx + bend1*0.4, cy + 45, cx + bend1*0.6, cy + 5);
+      ctx.stroke();
+
+      // Region 2: Above lead plate (Slower after energy loss, tighter radius r2)
+      const bend2 = q * (B / 1.5) * 85;
+      ctx.beginPath();
+      ctx.moveTo(cx + bend1*0.6, cy - 5);
+      ctx.quadraticCurveTo(cx + bend1*0.6 + bend2*0.3, cy - 50, cx + bend2, cy - 90);
+      ctx.stroke();
+
+      // Animated vapor droplets along track
+      const prog = (tick * 0.03) % 1;
+      const vy = (cy + 90) - prog * 180;
+      const vx = vy > cy ? cx + (bend1*0.6)*((cy+90-vy)/90) : cx + bend1*0.6 + (bend2 - bend1*0.6)*((cy-vy)/90);
+      ctx.fillStyle = "#ffffff"; ctx.beginPath(); ctx.arc(vx, vy, 4, 0, Math.PI*2); ctx.fill();
+
+      // Explanation banner
+      ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
+      ctx.fillText("รอยทางในห้องหมอก: รัศมีโค้งเล็กลงด้านบน พิสูจน์ว่าอนุภาคพุ่ง 'จากล่างขึ้นบน' และมีประจุบวก (โพซิตรอน)", 40, 215);
+
+      tick++;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
   </script>
 </body>
 </html>
