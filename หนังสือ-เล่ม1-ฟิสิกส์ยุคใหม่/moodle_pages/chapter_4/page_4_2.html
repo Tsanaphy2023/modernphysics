@@ -118,6 +118,26 @@
     border-radius: 6px;
     margin-bottom: 6px;
   }
+  /* Interactive Simulator Styling */
+  .interactive-sim-container {
+    background: #060913;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 14px;
+    padding: 22px;
+    margin: 25px 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    color: #f8fafc;
+  }
+  .sim-panel { display: flex; flex-direction: column; gap: 14px; }
+  .sim-control-group { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 16px; }
+  .sim-control-group label { display: block; font-size: 0.95rem; font-weight: 600; color: #cbd5e1; margin-bottom: 8px; }
+  .readout-val { color: #00f0ff; font-weight: 700; font-family: monospace; }
+  .sim-slider { width: 100%; height: 6px; border-radius: 3px; background: #1e293b; outline: none; -webkit-appearance: none; accent-color: #00f0ff; }
+  .sim-canvas-wrapper { width: 100%; overflow-x: auto; background: #020617; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 10px; text-align: center; }
+  .sim-canvas-wrapper canvas { max-width: 100%; height: auto; border-radius: 6px; display: inline-block; }
+  .sim-readout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 6px; }
+  .readout-card { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px; text-align: center; }
+  .readout-lbl { font-size: 0.78rem; color: #94a3b8; margin-top: 4px; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
@@ -136,6 +156,80 @@
 
   <div class="content">
     <div class="theory-section"><h3>📦 บ่อศักย์อนันต์ 1 มิติ (Infinite Potential Well)</h3><p>พิจารณาอนุภาคมวล m ถูกขังอยู่ในกล่องความกว้าง L โดยศักย์ไฟฟ้า V(x) = 0 เมื่อ 0 < x < L และศักย์เป็นอนันต์ภายนอกกล่อง</p><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 ฟังก์ชันคลื่นและระดับพลังงาน (Eigenfunctions & Eigenvalues)</span><span class="formula-category">สมการสถานะคงตัว</span></div><div class="formula-math">\[\psi_n(x) = \sqrt{\frac{2}{L}} \sin\left( \frac{n\pi x}{L} \right) \quad (n = 1, 2, 3, ...)\]</div><div class="formula-math">\[E_n = \frac{n^2 \pi^2 \hbar^2}{2mL^2} = \frac{n^2 h^2}{8mL^2}\]</div><p>จำนวนโหนด (จุดตัดศูนย์ภายในกล่อง) เท่ากับ \(n - 1\) โหนด</p></div></div>
+
+    <!-- Interactive Real-Time Simulator -->
+    <div class="interactive-sim-container">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
+        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+      </div>
+      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
+      
+        <div class="sim-panel" id="sim_4_2_panel">
+          <div class="sim-control-group">
+            <label>ระดับควอนตัม (Quantum Number n): <span id="sim_4_2_val_n" class="readout-val">2</span></label>
+            <input type="range" class="sim-slider" id="sim_4_2_slider_n" min="1" max="6" value="2">
+          </div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_4_2_canvas" width="640" height="200"></canvas></div>
+          <div class="sim-readout-grid">
+            <div class="readout-card"><div class="readout-val" id="sim_4_2_val_nodes">1 โหนด</div><div class="readout-lbl">จำนวน Node ภายในกล่อง (n-1)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_4_2_val_energy">4.0 E₁</div><div class="readout-lbl">ระดับพลังงาน E_n = n² E₁</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_4_2_val_prob">|ψ|² ความน่าจะเป็น</div><div class="readout-lbl">Probability Density</div></div>
+          </div>
+        </div>
+        <script>
+        (function() {
+          function initSim() {
+            const cv = document.getElementById("sim_4_2_canvas");
+            if (!cv) return;
+            const ctx = cv.getContext("2d");
+            const slider = document.getElementById("sim_4_2_slider_n");
+
+            function draw() {
+              const n = +slider.value;
+              document.getElementById("sim_4_2_val_n").textContent = n;
+              document.getElementById("sim_4_2_val_nodes").textContent = (n - 1) + " โหนด";
+              document.getElementById("sim_4_2_val_energy").textContent = (n*n).toFixed(1) + " E₁";
+
+              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.fillStyle = "#334155";
+              ctx.fillRect(60, 20, 12, 160);
+              ctx.fillRect(568, 20, 12, 160);
+              ctx.fillStyle = "#94a3b8"; ctx.font = "11px Sarabun";
+              ctx.fillText("x = 0 (V=∞)", 40, 195);
+              ctx.fillText("x = L (V=∞)", 550, 195);
+
+              ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
+              ctx.beginPath();
+              for(let x=72; x<=568; x++) {
+                const normX = (x - 72) / (568 - 72);
+                const y = 90 - 55 * Math.sin(n * Math.PI * normX);
+                if (x===72) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+              }
+              ctx.stroke();
+
+              ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2;
+              ctx.beginPath();
+              for(let x=72; x<=568; x++) {
+                const normX = (x - 72) / (568 - 72);
+                const sinVal = Math.sin(n * Math.PI * normX);
+                const y = 175 - 110 * sinVal * sinVal;
+                if (x===72) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+              }
+              ctx.stroke();
+
+              ctx.fillStyle = "#00f0ff"; ctx.fillText("— ฟังก์ชันคลื่น ψ_n(x)", 80, 35);
+              ctx.fillStyle = "#f59e0b"; ctx.fillText("— ความหนาแน่นความน่าจะเป็น |ψ_n|²", 340, 35);
+            }
+            slider.addEventListener("input", draw);
+            draw();
+          }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
+          else initSim();
+        })();
+        </script>
+        
+    </div>
 
     <div class="example-card">
       <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างคำนวณ: พลังงานสถานะพื้นของอิเล็กตรอนในกล่อง 1 nm</h3>

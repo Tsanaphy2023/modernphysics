@@ -118,6 +118,26 @@
     border-radius: 6px;
     margin-bottom: 6px;
   }
+  /* Interactive Simulator Styling */
+  .interactive-sim-container {
+    background: #060913;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 14px;
+    padding: 22px;
+    margin: 25px 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    color: #f8fafc;
+  }
+  .sim-panel { display: flex; flex-direction: column; gap: 14px; }
+  .sim-control-group { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 16px; }
+  .sim-control-group label { display: block; font-size: 0.95rem; font-weight: 600; color: #cbd5e1; margin-bottom: 8px; }
+  .readout-val { color: #00f0ff; font-weight: 700; font-family: monospace; }
+  .sim-slider { width: 100%; height: 6px; border-radius: 3px; background: #1e293b; outline: none; -webkit-appearance: none; accent-color: #00f0ff; }
+  .sim-canvas-wrapper { width: 100%; overflow-x: auto; background: #020617; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 10px; text-align: center; }
+  .sim-canvas-wrapper canvas { max-width: 100%; height: auto; border-radius: 6px; display: inline-block; }
+  .sim-readout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 6px; }
+  .readout-card { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px; text-align: center; }
+  .readout-lbl { font-size: 0.78rem; color: #94a3b8; margin-top: 4px; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
@@ -136,6 +156,119 @@
 
   <div class="content">
     <div class="theory-section"><h3>🌈 อนุกรมเส้นสเปกตรัมของไฮโดรเจน</h3><p>เมื่อกระตุ้นอะตอมไฮโดรเจนด้วยไฟฟ้า แสงที่เปล่งออกมาจะแยกออกเป็นเส้นสเปกตรัมเฉพาะค่า โยฮันเนส ริดเบิร์ก ได้สรุปความสัมพันธ์ของความยาวคลื่นเป็นสูตรสากล:</p><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 สูตรริดเบิร์ก (Rydberg Formula)</span><span class="formula-category">สมการสเปกโทรสโกปี</span></div><div class="formula-math">\[\frac{1}{\lambda} = R_H \left( \frac{1}{n_1^2} - \frac{1}{n_2^2} \right) \quad (n_2 > n_1)\]</div><p>โดยที่ \(R_H = 1.097373 \times 10^7 \text{ m}^{-1}\) (ค่าคงตัวของริดเบิร์ก)</p><ul><li><b>อนุกรมไลมาน (Lyman):</b> \(n_1 = 1, n_2 = 2, 3, 4, ...\) (ย่านอัลตราไวโอเลต)</li><li><b>อนุกรมบาลเมอร์ (Balmer):</b> \(n_1 = 2, n_2 = 3, 4, 5, ...\) (ย่านแสงขาวที่ตามองเห็น)</li><li><b>อนุกรมพาสเชน (Paschen):</b> \(n_1 = 3, n_2 = 4, 5, 6, ...\) (ย่านอินฟราเรดใกล้)</li><li><b>อนุกรมแบรกเกต (Brackett):</b> \(n_1 = 4, n_2 = 5, 6, ...\) (ย่านอินฟราเรด)</li></ul></div></div>
+
+    <!-- Interactive Real-Time Simulator -->
+    <div class="interactive-sim-container">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
+        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+      </div>
+      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
+      
+        <div class="sim-panel" id="sim_1_4_panel">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div class="sim-control-group">
+              <label>อนุกรมสเปกตรัม (Lower Level n₁):</label>
+              <select id="sim_1_4_sel_series" class="search-input" style="padding:6px 10px;">
+                <option value="1">Lyman (n₁ = 1, UV)</option>
+                <option value="2" selected>Balmer (n₁ = 2, Visible แสงขาว)</option>
+                <option value="3">Paschen (n₁ = 3, Infrared)</option>
+                <option value="4">Brackett (n₁ = 4, Far IR)</option>
+              </select>
+            </div>
+            <div class="sim-control-group">
+              <label>ระดับพลังงานเริ่มต้น (Upper Level n₂): <span id="sim_1_4_val_n2" class="readout-val">3</span></label>
+              <input type="range" class="sim-slider" id="sim_1_4_slider_n2" min="2" max="7" value="3">
+            </div>
+          </div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_1_4_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-readout-grid">
+            <div class="readout-card"><div class="readout-val" id="sim_1_4_val_lam">656.3 nm</div><div class="readout-lbl">ความยาวคลื่น (λ)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_1_4_val_de">1.89 eV</div><div class="readout-lbl">พลังงานโฟตอนที่ปล่อย (ΔE)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_1_4_val_line">H-alpha (สีแดง)</div><div class="readout-lbl">ชื่อเส้นสเปกตรัม</div></div>
+          </div>
+        </div>
+        <script>
+        (function() {
+          function initSim() {
+            const cv = document.getElementById("sim_1_4_canvas");
+            if (!cv) return;
+            const ctx = cv.getContext("2d");
+            const sel = document.getElementById("sim_1_4_sel_series");
+            const slider = document.getElementById("sim_1_4_slider_n2");
+
+            function calc() {
+              const n1 = +sel.value;
+              slider.min = n1 + 1;
+              if (+slider.value <= n1) slider.value = n1 + 1;
+              const n2 = +slider.value;
+              document.getElementById("sim_1_4_val_n2").textContent = n2;
+
+              const invLam = 1.097373e7 * (1/(n1*n1) - 1/(n2*n2));
+              const lamM = 1 / invLam;
+              const lamNm = lamM * 1e9;
+              document.getElementById("sim_1_4_val_lam").textContent = lamNm.toFixed(1) + " nm";
+              
+              const dE = 13.6 * (1/(n1*n1) - 1/(n2*n2));
+              document.getElementById("sim_1_4_val_de").textContent = dE.toFixed(2) + " eV";
+
+              let label = "Infrared";
+              if (n1 === 1) label = "Lyman UV";
+              else if (n1 === 2) {
+                if (n2 === 3) label = "H-alpha (แดง 656 nm)";
+                else if (n2 === 4) label = "H-beta (ฟ้า 486 nm)";
+                else if (n2 === 5) label = "H-gamma (น้ำเงิน 434 nm)";
+                else label = "H-delta (ม่วง 410 nm)";
+              }
+              document.getElementById("sim_1_4_val_line").textContent = label;
+
+              ctx.clearRect(0,0,cv.width,cv.height);
+              for(let i=1; i<=6; i++) {
+                const y = 180 - (160 / i);
+                ctx.strokeStyle = i === n1 ? "#00f0ff" : (i === n2 ? "#f59e0b" : "#475569");
+                ctx.lineWidth = i === n1 || i === n2 ? 2.5 : 1;
+                ctx.beginPath(); ctx.moveTo(80, y); ctx.lineTo(340, y); ctx.stroke();
+                ctx.fillStyle = "#94a3b8"; ctx.font = "11px Sarabun";
+                ctx.fillText("n = " + i + " (" + (-13.6/(i*i)).toFixed(2) + " eV)", 15, y+4);
+              }
+
+              const y1 = 180 - (160 / n1);
+              const y2 = 180 - (160 / n2);
+              ctx.strokeStyle = "#f43f5e"; ctx.lineWidth = 3;
+              ctx.beginPath(); ctx.moveTo(210, y2); ctx.lineTo(210, y1); ctx.stroke();
+              ctx.fillStyle = "#f43f5e";
+              ctx.beginPath(); ctx.moveTo(204, y1 - 6); ctx.lineTo(216, y1 - 6); ctx.lineTo(210, y1); ctx.fill();
+
+              ctx.strokeStyle = n1 === 2 ? "#10b981" : "#a855f7";
+              ctx.lineWidth = 2;
+              ctx.beginPath();
+              for(let x=220; x<420; x+=2) {
+                const wy = (y1 + y2)/2 + 8 * Math.sin((x-220)*0.2);
+                if (x===220) ctx.moveTo(x, wy); else ctx.lineTo(x, wy);
+              }
+              ctx.stroke();
+              ctx.fillText("hν (" + lamNm.toFixed(0) + " nm)", 430, (y1+y2)/2 + 4);
+
+              ctx.fillStyle = "#090d16";
+              ctx.fillRect(480, 20, 140, 160);
+              ctx.strokeStyle = "#334155";
+              ctx.strokeRect(480, 20, 140, 160);
+              ctx.fillStyle = "#94a3b8"; ctx.fillText("สเปกตรัมที่สังเกตได้", 495, 40);
+              const lineX = 490 + Math.min(120, Math.max(10, (lamNm - 380)*0.3));
+              ctx.strokeStyle = n1 === 2 && n2 === 3 ? "#ef4444" : (n1 === 2 && n2 === 4 ? "#38bdf8" : "#a855f7");
+              ctx.lineWidth = 4;
+              ctx.beginPath(); ctx.moveTo(lineX, 60); ctx.lineTo(lineX, 150); ctx.stroke();
+            }
+            sel.addEventListener("change", calc);
+            slider.addEventListener("input", calc);
+            calc();
+          }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
+          else initSim();
+        })();
+        </script>
+        
+    </div>
 
     <div class="example-card">
       <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างคำนวณ: เส้นสีแดงของไฮโดรเจน</h3>

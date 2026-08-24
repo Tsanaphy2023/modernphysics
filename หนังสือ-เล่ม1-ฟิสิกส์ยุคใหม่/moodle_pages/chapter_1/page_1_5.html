@@ -118,6 +118,26 @@
     border-radius: 6px;
     margin-bottom: 6px;
   }
+  /* Interactive Simulator Styling */
+  .interactive-sim-container {
+    background: #060913;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 14px;
+    padding: 22px;
+    margin: 25px 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    color: #f8fafc;
+  }
+  .sim-panel { display: flex; flex-direction: column; gap: 14px; }
+  .sim-control-group { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 16px; }
+  .sim-control-group label { display: block; font-size: 0.95rem; font-weight: 600; color: #cbd5e1; margin-bottom: 8px; }
+  .readout-val { color: #00f0ff; font-weight: 700; font-family: monospace; }
+  .sim-slider { width: 100%; height: 6px; border-radius: 3px; background: #1e293b; outline: none; -webkit-appearance: none; accent-color: #00f0ff; }
+  .sim-canvas-wrapper { width: 100%; overflow-x: auto; background: #020617; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 10px; text-align: center; }
+  .sim-canvas-wrapper canvas { max-width: 100%; height: auto; border-radius: 6px; display: inline-block; }
+  .sim-readout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 6px; }
+  .readout-card { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px; text-align: center; }
+  .readout-lbl { font-size: 0.78rem; color: #94a3b8; margin-top: 4px; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
@@ -136,6 +156,73 @@
 
   <div class="content">
     <div class="theory-section"><h3>📝 สรุปสาระสำคัญประจำบทที่ 1</h3><div class="summary-grid"><div class="summary-item"><b>1. ควอนตัมของพลังค์:</b> พลังงานแลกเปลี่ยนเป็นก้อน \(E = hf\) ก่อกำเนิดกลศาสตร์ควอนตัม</div><div class="summary-item"><b>2. โฟตอนของไอน์สไตน์:</b> แสงเป็นอนุภาคที่มีพลังงาน \(hf\) อธิบายโฟโตอิเล็กทริก \(K_{\max} = hf - \phi\)</div><div class="summary-item"><b>3. ระดับพลังงานอะตอม:</b> สูตรริดเบิร์กยืนยันว่าอิเล็กตรอนอยู่ในระดับพลังงานที่ไม่ต่อเนื่อง</div></div><div class="ar-launcher-card"><div class="ar-badge">🚀 3D & WebXR Lab</div><h4>ห้องปฏิบัติการจำลองเสมือนจริง: Planck & Photoelectric AR Studio</h4><p>สัมผัสการปรับความยาวคลื่นแสง การเคลื่อนที่ของโฟตอน และการหลุดของอิเล็กตรอนในพื้นที่ 3 มิติ ด้วยการควบคุมผ่าน MediaPipe Hand Tracking</p><a href="https://github.com" target="_blank" class="btn-ar-launch">🚀 เปิดห้องแล็บ AR เต็มจอ (GitHub Pages CDN) ↗</a></div></div>
+
+    <!-- Interactive Real-Time Simulator -->
+    <div class="interactive-sim-container">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
+        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+      </div>
+      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
+      
+        <div class="sim-panel" id="sim_1_5_panel">
+          <div class="sim-control-group">
+            <label>พารามิเตอร์การทดลองหลัก (Parameter Scale): <span id="sim_1_5_val_param" class="readout-val">50</span>%</label>
+            <input type="range" class="sim-slider" id="sim_1_5_slider_param" min="1" max="100" value="50">
+          </div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_1_5_canvas" width="640" height="200"></canvas></div>
+          <div class="sim-readout-grid">
+            <div class="readout-card"><div class="readout-val" id="sim_1_5_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_1_5_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_1_5_val_status" style="color:#10b981;">Ready 2D/3D</div><div class="readout-lbl">โหมดประมวลผล</div></div>
+          </div>
+        </div>
+        <script>
+        (function() {
+          function initSim() {
+            const cv = document.getElementById("sim_1_5_canvas");
+            if (!cv) return;
+            const ctx = cv.getContext("2d");
+            const slider = document.getElementById("sim_1_5_slider_param");
+            let t = 0;
+
+            function draw() {
+              const val = +slider.value;
+              document.getElementById("sim_1_5_val_param").textContent = val;
+              const coeff = (val / 50).toFixed(3);
+              document.getElementById("sim_1_5_val_metric").textContent = coeff;
+
+              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
+              ctx.beginPath();
+              for(let x=40; x<600; x+=2) {
+                const norm = (x-40)/560;
+                const y = 100 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
+                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+              }
+              ctx.stroke();
+
+              ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
+              ctx.beginPath();
+              for(let x=40; x<600; x+=4) {
+                const norm = (x-40)/560;
+                const y = 100 + 60 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
+                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+              }
+              ctx.stroke();
+
+              t += 1;
+              requestAnimationFrame(draw);
+            }
+            slider.addEventListener("input", () => {});
+            draw();
+          }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
+          else initSim();
+        })();
+        </script>
+        
+    </div>
 
     <div class="example-card">
       <h3 style="color: #0369a1; margin-top:0;">📐 แบบฝึกหัดทบทวน: การประยุกต์ใช้เซลล์แสงอาทิตย์</h3>

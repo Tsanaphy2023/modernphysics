@@ -118,6 +118,26 @@
     border-radius: 6px;
     margin-bottom: 6px;
   }
+  /* Interactive Simulator Styling */
+  .interactive-sim-container {
+    background: #060913;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 14px;
+    padding: 22px;
+    margin: 25px 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    color: #f8fafc;
+  }
+  .sim-panel { display: flex; flex-direction: column; gap: 14px; }
+  .sim-control-group { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 16px; }
+  .sim-control-group label { display: block; font-size: 0.95rem; font-weight: 600; color: #cbd5e1; margin-bottom: 8px; }
+  .readout-val { color: #00f0ff; font-weight: 700; font-family: monospace; }
+  .sim-slider { width: 100%; height: 6px; border-radius: 3px; background: #1e293b; outline: none; -webkit-appearance: none; accent-color: #00f0ff; }
+  .sim-canvas-wrapper { width: 100%; overflow-x: auto; background: #020617; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 10px; text-align: center; }
+  .sim-canvas-wrapper canvas { max-width: 100%; height: auto; border-radius: 6px; display: inline-block; }
+  .sim-readout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 6px; }
+  .readout-card { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px; text-align: center; }
+  .readout-lbl { font-size: 0.78rem; color: #94a3b8; margin-top: 4px; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
@@ -136,6 +156,87 @@
 
   <div class="content">
     <div class="theory-section"><h3>⭐ วิวัฒนาการของดาวฤกษ์ตามมวล</h3><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 วาระสุดท้ายของดาวฤกษ์</span><span class="formula-category">ชะตากรรมดวงดาว</span></div><ul><li><b>มวลต่ำ-ปานกลาง:</b> ดาวแคระขาว (White Dwarf) ค้ำจุนด้วยแรงดันดีเจนเนอเรซีของอิเล็กตรอน (ขีดจำกัด 1.44 เท่าของดวงอาทิตย์)</li><li><b>มวลสูง:</b> ซูเปอร์โนวา -> ดาวนิวตรอน (Neutron Star / Pulsar)</li><li><b>มวลสูงยิ่งยวด:</b> ยุบตัวสมบูรณ์เป็น <b>หลุมดำ (Black Hole)</b></li></ul></div><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 รัศมีชวาร์ซชิลด์ของขอบฟ้าเหตุการณ์ (Schwarzschild Radius)</span><span class="formula-category">Event Horizon</span></div><div class="formula-math">\[R_s = \frac{2GM}{c^2}\]</div><p>สำหรับดวงอาทิตย์ Rs ประมาณ 3 km, สำหรับโลก Rs ประมาณ 9 mm</p></div></div>
+
+    <!-- Interactive Real-Time Simulator -->
+    <div class="interactive-sim-container">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
+        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+      </div>
+      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
+      
+        <div class="sim-panel" id="sim_8_4_panel">
+          <div class="sim-control-group">
+            <label>มวลดาวฤกษ์เริ่มต้น (Mass M): <span id="sim_8_4_val_m" class="readout-val">10</span> มวลดวงอาทิตย์ (M_☉)</label>
+            <input type="range" class="sim-slider" id="sim_8_4_slider_m" min="1" max="50" value="10">
+          </div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_8_4_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-readout-grid">
+            <div class="readout-card"><div class="readout-val" id="sim_8_4_val_rs">29.5 km</div><div class="readout-lbl">รัศมีชวาร์ซชิลด์ (Schwarzschild Radius Rs)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_8_4_val_remnant">หลุมดำดาวฤกษ์ (Stellar Black Hole)</div><div class="readout-lbl">สถานะซากดาวสุดท้าย</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_8_4_val_sphere">44.3 km</div><div class="readout-lbl">โฟตอนสเฟียร์ (Photon Sphere 1.5 Rs)</div></div>
+          </div>
+        </div>
+        <script>
+        (function() {
+          function initSim() {
+            const cv = document.getElementById("sim_8_4_canvas");
+            if (!cv) return;
+            const ctx = cv.getContext("2d");
+            const slider = document.getElementById("sim_8_4_slider_m");
+
+            function draw() {
+              const M = +slider.value;
+              document.getElementById("sim_8_4_val_m").textContent = M;
+              const Rs = 2.95 * M;
+              document.getElementById("sim_8_4_val_rs").textContent = Rs.toFixed(1) + " km";
+              document.getElementById("sim_8_4_val_sphere").textContent = (Rs * 1.5).toFixed(1) + " km";
+
+              let remnant = "ดาวแคระขาว (White Dwarf: มวล < 1.4 M_☉)";
+              if (M >= 1.4 && M < 3.0) remnant = "ดาวนิวตรอน (Neutron Star: 1.4-3.0 M_☉)";
+              else if (M >= 3.0) remnant = "หลุมดำดาวฤกษ์ (Black Hole: มวล > 3.0 M_☉)";
+              document.getElementById("sim_8_4_val_remnant").textContent = remnant;
+
+              ctx.clearRect(0,0,cv.width,cv.height);
+              const cx = cv.width/2, cy = cv.height/2;
+
+              // Gravitational lensing grid distortion
+              ctx.strokeStyle = "rgba(0, 240, 255, 0.15)";
+              ctx.lineWidth = 1;
+              for(let r=20; r<180; r+=20) {
+                ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.stroke();
+              }
+
+              // Accretion disk glow
+              const grad = ctx.createRadialGradient(cx, cy, 15, cx, cy, 90);
+              grad.addColorStop(0, "rgba(245, 158, 11, 0.8)");
+              grad.addColorStop(0.5, "rgba(239, 68, 68, 0.4)");
+              grad.addColorStop(1, "rgba(0, 0, 0, 0)");
+              ctx.fillStyle = grad;
+              ctx.fillRect(cx-100, cy-100, 200, 200);
+
+              // Photon Sphere
+              ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5; ctx.setLineDash([3,3]);
+              ctx.beginPath(); ctx.arc(cx, cy, 38, 0, Math.PI*2); ctx.stroke();
+              ctx.setLineDash([]);
+              ctx.fillStyle = "#f59e0b"; ctx.font = "10px Sarabun";
+              ctx.fillText("Photon Sphere (1.5 Rs)", cx + 44, cy - 25);
+
+              // Black Hole Event Horizon (Schwarzschild radius)
+              ctx.fillStyle = "#000000";
+              ctx.beginPath(); ctx.arc(cx, cy, 25, 0, Math.PI*2); ctx.fill();
+              ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5; ctx.stroke();
+              ctx.fillStyle = "#00f0ff"; ctx.fillText("Event Horizon (Rs)", cx + 30, cy + 20);
+            }
+            slider.addEventListener("input", draw);
+            draw();
+          }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
+          else initSim();
+        })();
+        </script>
+        
+    </div>
 
     <div class="example-card">
       <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างคำนวณ: รัศมีขอบฟ้าเหตุการณ์ของหลุมดำใจกลางทางช้างเผือก (Sgr A*)</h3>

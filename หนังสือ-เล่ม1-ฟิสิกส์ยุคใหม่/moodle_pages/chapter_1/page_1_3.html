@@ -118,6 +118,26 @@
     border-radius: 6px;
     margin-bottom: 6px;
   }
+  /* Interactive Simulator Styling */
+  .interactive-sim-container {
+    background: #060913;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 14px;
+    padding: 22px;
+    margin: 25px 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    color: #f8fafc;
+  }
+  .sim-panel { display: flex; flex-direction: column; gap: 14px; }
+  .sim-control-group { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 16px; }
+  .sim-control-group label { display: block; font-size: 0.95rem; font-weight: 600; color: #cbd5e1; margin-bottom: 8px; }
+  .readout-val { color: #00f0ff; font-weight: 700; font-family: monospace; }
+  .sim-slider { width: 100%; height: 6px; border-radius: 3px; background: #1e293b; outline: none; -webkit-appearance: none; accent-color: #00f0ff; }
+  .sim-canvas-wrapper { width: 100%; overflow-x: auto; background: #020617; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 10px; text-align: center; }
+  .sim-canvas-wrapper canvas { max-width: 100%; height: auto; border-radius: 6px; display: inline-block; }
+  .sim-readout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 6px; }
+  .readout-card { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px; text-align: center; }
+  .readout-lbl { font-size: 0.78rem; color: #94a3b8; margin-top: 4px; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
@@ -136,6 +156,115 @@
 
   <div class="content">
     <div class="theory-section"><h3>⚡ แสงในฐานะอนุภาคพลังงาน (Photon)</h3><p>ในปี ค.ศ. 1905 <b>อัลเบิร์ต ไอน์สไตน์</b> ได้ต่อยอดแนวคิดของพลังค์ โดยเสนอว่าแสงไม่ได้เพียงแค่ถูกดูดกลืนหรือแผ่ออกมาเป็นก้อน แต่แสง <i>เดินทาง</i> เป็นอนุภาคก้อนพลังงานที่เรียกว่า <b>โฟตอน (Photon)</b> แต่ละอนุภาคมีพลังงาน \(E = hf\)</p><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 สมการโฟโตอิเล็กทริกของไอน์สไตน์</span><span class="formula-category">สมการรางวัลโนเบล</span></div><div class="formula-math">\[K_{\max} = hf - \phi = eV_s\]</div><p>เมื่อ:</p><ul><li>\(K_{\max}\) คือ พลังงานจลน์สูงสุดของอิเล็กตรอนที่หลุดออกมา (J หรือ eV)</li><li>\(hf\) คือ พลังงานของโฟตอนที่ตกกระทบ</li><li>\(\phi = hf_0\) คือ <b>ฟังก์ชันงาน (Work Function)</b> ของโลหะ (พลังงานยึดเหนี่ยวขั้นต่ำ)</li><li>\(f_0\) คือ ความถี่ขีดเริ่ม (Threshold Frequency)</li><li>\(V_s\) คือ ความต่างศักย์หยุดยั้ง (Stopping Potential)</li></ul></div></div>
+
+    <!-- Interactive Real-Time Simulator -->
+    <div class="interactive-sim-container">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
+        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+      </div>
+      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
+      
+        <div class="sim-panel" id="sim_1_3_panel">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div class="sim-control-group">
+              <label>ชนิดโลหะ (Work Function φ):</label>
+              <select id="sim_1_3_sel_metal" class="search-input" style="padding:6px 10px;">
+                <option value="2.14">ซีเซียม (Cs: 2.14 eV)</option>
+                <option value="2.30" selected>โซเดียม (Na: 2.30 eV)</option>
+                <option value="4.30">สังกะสี (Zn: 4.30 eV)</option>
+                <option value="4.70">ทองแดง (Cu: 4.70 eV)</option>
+                <option value="5.65">แพลทินัม (Pt: 5.65 eV)</option>
+              </select>
+            </div>
+            <div class="sim-control-group">
+              <label>ความยาวคลื่นแสง (λ): <span id="sim_1_3_val_lam" class="readout-val">300</span> nm</label>
+              <input type="range" class="sim-slider" id="sim_1_3_slider_lam" min="150" max="750" value="300">
+            </div>
+          </div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_1_3_canvas" width="640" height="200"></canvas></div>
+          <div class="sim-readout-grid">
+            <div class="readout-card"><div class="readout-val" id="sim_1_3_val_ephoton">4.13 eV</div><div class="readout-lbl">พลังงานโฟตอน (E = hf)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_1_3_val_kmax">1.83 eV</div><div class="readout-lbl">พลังงานจลน์สูงสุด (K_max)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_1_3_val_vs">1.83 V</div><div class="readout-lbl">ความต่างศักย์หยุดยั้ง (Vs)</div></div>
+          </div>
+        </div>
+        <script>
+        (function() {
+          function initSim() {
+            const cv = document.getElementById("sim_1_3_canvas");
+            if (!cv) return;
+            const ctx = cv.getContext("2d");
+            const sel = document.getElementById("sim_1_3_sel_metal");
+            const slider = document.getElementById("sim_1_3_slider_lam");
+            let particles = [];
+            for(let i=0; i<20; i++) particles.push({ x: 120 + Math.random()*20, y: 40 + Math.random()*120, vx: 2 + Math.random()*3 });
+
+            function calc() {
+              const phi = +sel.value;
+              const lam = +slider.value;
+              document.getElementById("sim_1_3_val_lam").textContent = lam;
+              const Ephoton = 1240 / lam;
+              document.getElementById("sim_1_3_val_ephoton").textContent = Ephoton.toFixed(2) + " eV";
+              const Kmax = Ephoton - phi;
+              if (Kmax > 0) {
+                document.getElementById("sim_1_3_val_kmax").textContent = Kmax.toFixed(2) + " eV";
+                document.getElementById("sim_1_3_val_vs").textContent = Kmax.toFixed(2) + " V";
+              } else {
+                document.getElementById("sim_1_3_val_kmax").textContent = "0 (ไม่หลุด)";
+                document.getElementById("sim_1_3_val_vs").textContent = "0 V";
+              }
+            }
+
+            function render() {
+              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.fillStyle = "#475569";
+              ctx.fillRect(80, 30, 24, 140);
+              ctx.fillStyle = "#00f0ff";
+              ctx.fillText("Emitter (Target)", 50, 190);
+
+              ctx.fillStyle = "#334155";
+              ctx.fillRect(520, 30, 24, 140);
+              ctx.fillStyle = "#94a3b8";
+              ctx.fillText("Collector Anode", 490, 190);
+
+              const lam = +slider.value;
+              const Ephoton = 1240 / lam;
+              const phi = +sel.value;
+              const hasElectrons = Ephoton > phi;
+              
+              ctx.strokeStyle = lam < 400 ? "#a855f7" : (lam < 550 ? "#00f0ff" : "#ef4444");
+              ctx.lineWidth = 2;
+              for(let i=0; i<3; i++) {
+                ctx.beginPath();
+                ctx.moveTo(10, 40 + i*40);
+                ctx.lineTo(80, 60 + i*40);
+                ctx.stroke();
+              }
+
+              if (hasElectrons) {
+                ctx.fillStyle = "#10b981";
+                particles.forEach(p => {
+                  ctx.beginPath();
+                  ctx.arc(p.x, p.y, 4, 0, Math.PI*2);
+                  ctx.fill();
+                  p.x += p.vx * Math.min(3, Math.max(0.5, Ephoton - phi));
+                  if (p.x > 520) p.x = 104;
+                });
+              }
+              requestAnimationFrame(render);
+            }
+            sel.addEventListener("change", calc);
+            slider.addEventListener("input", calc);
+            calc();
+            render();
+          }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
+          else initSim();
+        })();
+        </script>
+        
+    </div>
 
     <div class="example-card">
       <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างคำนวณ: ความต่างศักย์หยุดยั้งของแผ่นโซเดียม</h3>

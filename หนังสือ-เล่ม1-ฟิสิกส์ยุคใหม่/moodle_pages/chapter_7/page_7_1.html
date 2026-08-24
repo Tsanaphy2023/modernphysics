@@ -118,6 +118,26 @@
     border-radius: 6px;
     margin-bottom: 6px;
   }
+  /* Interactive Simulator Styling */
+  .interactive-sim-container {
+    background: #060913;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 14px;
+    padding: 22px;
+    margin: 25px 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    color: #f8fafc;
+  }
+  .sim-panel { display: flex; flex-direction: column; gap: 14px; }
+  .sim-control-group { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 16px; }
+  .sim-control-group label { display: block; font-size: 0.95rem; font-weight: 600; color: #cbd5e1; margin-bottom: 8px; }
+  .readout-val { color: #00f0ff; font-weight: 700; font-family: monospace; }
+  .sim-slider { width: 100%; height: 6px; border-radius: 3px; background: #1e293b; outline: none; -webkit-appearance: none; accent-color: #00f0ff; }
+  .sim-canvas-wrapper { width: 100%; overflow-x: auto; background: #020617; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 10px; text-align: center; }
+  .sim-canvas-wrapper canvas { max-width: 100%; height: auto; border-radius: 6px; display: inline-block; }
+  .sim-readout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 6px; }
+  .readout-card { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px; text-align: center; }
+  .readout-lbl { font-size: 0.78rem; color: #94a3b8; margin-top: 4px; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
@@ -136,6 +156,112 @@
 
   <div class="content">
     <div class="theory-section"><h3>🐾 จากอะตอมสู่ 'สวนสัตว์อนุภาค' (Particle Zoo)</h3><p>ในปี ค.ศ. 1928 พอล ดิแรก ทำนายการมีอยู่ของ <b>ปฏิสสาร (Antimatter)</b> เช่น โพซิตรอน ต่อมานักฟิสิกส์ค้นพบอนุภาคใหม่อีกหลายร้อยชนิด</p><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 การจำแนกอนุภาคตามสปิน (Spin Statistics)</span><span class="formula-category">การจัดกลุ่มสากล</span></div><ul><li><b>เฟอร์มิออน (Fermions: Spin 1/2, 3/2):</b> อนุภาคสสาร (ควาร์ก, เลปตอน) ปฏิบัติตามกฎเพาลี</li><li><b>โบซอน (Bosons: Spin 0, 1, 2):</b> อนุภาคสื่อนำแรง (โฟตอน, กลูออน, W/Z, ฮิกส์)</li></ul></div></div>
+
+    <!-- Interactive Real-Time Simulator -->
+    <div class="interactive-sim-container">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
+        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+      </div>
+      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
+      
+        <div class="sim-panel" id="sim_7_1_panel">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div class="sim-control-group">
+              <label>ชนิดเหตุการณ์อนุภาค (Event):</label>
+              <select id="sim_7_1_sel_event" class="search-input" style="padding:6px 10px;">
+                <option value="pair_prod" selected>Pair Production (γ → e⁺ + e⁻)</option>
+                <option value="muon_decay">Muon Decay (μ⁻ → e⁻ + ν_μ + ν_e)</option>
+                <option value="proton_pion">Proton-Pion Collision</option>
+              </select>
+            </div>
+            <div class="sim-control-group">
+              <label>สนามแม่เหล็ก (B): <span id="sim_7_1_val_bfield" class="readout-val">1.5</span> Tesla</label>
+              <input type="range" class="sim-slider" id="sim_7_1_slider_bfield" min="5" max="30" value="15">
+            </div>
+          </div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_7_1_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-readout-grid">
+            <div class="readout-card"><div class="readout-val" id="sim_7_1_val_curve" style="color:#00f0ff;">Spiral Tracks</div><div class="readout-lbl">ทิศทางความโค้งตามประจุ q</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_7_1_val_radius">r = p / (qB)</div><div class="readout-lbl">รัศมีความโค้งไซโคลตรอน</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_7_1_val_cons" style="color:#10b981;">Charge Conserved (ΔQ=0)</div><div class="readout-lbl">การอนุรักษ์ประจุไฟฟ้า</div></div>
+          </div>
+        </div>
+        <script>
+        (function() {
+          function initSim() {
+            const cv = document.getElementById("sim_7_1_canvas");
+            if (!cv) return;
+            const ctx = cv.getContext("2d");
+            const sel = document.getElementById("sim_7_1_sel_event");
+            const slider = document.getElementById("sim_7_1_slider_bfield");
+
+            function draw() {
+              const B = (+slider.value) / 10;
+              document.getElementById("sim_7_1_val_bfield").textContent = B.toFixed(1);
+              ctx.clearRect(0,0,cv.width,cv.height);
+              
+              // Chamber magnetic field dots
+              ctx.fillStyle = "rgba(255,255,255,0.08)";
+              for(let x=30; x<610; x+=40) {
+                for(let y=20; y<190; y+=35) {
+                  ctx.beginPath(); ctx.arc(x, y, 1.5, 0, Math.PI*2); ctx.fill();
+                }
+              }
+
+              const ev = sel.value;
+              const cx = 200, cy = 105;
+
+              if (ev === "pair_prod") {
+                // Incident gamma photon (dashed line)
+                ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2; ctx.setLineDash([4,4]);
+                ctx.beginPath(); ctx.moveTo(40, cy); ctx.lineTo(cx, cy); ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.fillStyle = "#f59e0b"; ctx.fillText("γ photon", 80, cy - 8);
+
+                // Positron e+ curving up-spiral (Cyan)
+                ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                for(let a=0; a<Math.PI*4; a+=0.05) {
+                  const r = Math.max(2, 60 / B - a * 4);
+                  const x = cx + r * Math.sin(a);
+                  const y = cy - r * (1 - Math.cos(a));
+                  if (a===0) ctx.moveTo(cx, cy); else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+                ctx.fillStyle = "#00f0ff"; ctx.fillText("e⁺ (Positron)", cx + 50, cy - 60);
+
+                // Electron e- curving down-spiral (Emerald)
+                ctx.strokeStyle = "#10b981"; ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                for(let a=0; a<Math.PI*4; a+=0.05) {
+                  const r = Math.max(2, 60 / B - a * 4);
+                  const x = cx + r * Math.sin(a);
+                  const y = cy + r * (1 - Math.cos(a));
+                  if (a===0) ctx.moveTo(cx, cy); else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+                ctx.fillStyle = "#10b981"; ctx.fillText("e⁻ (Electron)", cx + 50, cy + 80);
+              } else {
+                ctx.strokeStyle = "#a855f7"; ctx.lineWidth = 3;
+                ctx.beginPath(); ctx.moveTo(60, 40); ctx.lineTo(cx, cy); ctx.stroke();
+                ctx.fillStyle = "#a855f7"; ctx.fillText("Primary Track", 70, 60);
+                
+                ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2;
+                ctx.beginPath(); ctx.arc(cx+60, cy, 60/B, 0, Math.PI); ctx.stroke();
+                ctx.fillStyle = "#00f0ff"; ctx.fillText("Decay Products", cx+90, cy-10);
+              }
+            }
+            sel.addEventListener("change", draw);
+            slider.addEventListener("input", draw);
+            draw();
+          }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
+          else initSim();
+        })();
+        </script>
+        
+    </div>
 
     <div class="example-card">
       <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างประวัติศาสตร์: การค้นพบโพซิตรอนของ Carl Anderson</h3>

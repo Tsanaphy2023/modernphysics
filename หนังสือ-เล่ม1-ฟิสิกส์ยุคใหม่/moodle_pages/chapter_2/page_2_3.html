@@ -118,6 +118,26 @@
     border-radius: 6px;
     margin-bottom: 6px;
   }
+  /* Interactive Simulator Styling */
+  .interactive-sim-container {
+    background: #060913;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 14px;
+    padding: 22px;
+    margin: 25px 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    color: #f8fafc;
+  }
+  .sim-panel { display: flex; flex-direction: column; gap: 14px; }
+  .sim-control-group { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 16px; }
+  .sim-control-group label { display: block; font-size: 0.95rem; font-weight: 600; color: #cbd5e1; margin-bottom: 8px; }
+  .readout-val { color: #00f0ff; font-weight: 700; font-family: monospace; }
+  .sim-slider { width: 100%; height: 6px; border-radius: 3px; background: #1e293b; outline: none; -webkit-appearance: none; accent-color: #00f0ff; }
+  .sim-canvas-wrapper { width: 100%; overflow-x: auto; background: #020617; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 10px; text-align: center; }
+  .sim-canvas-wrapper canvas { max-width: 100%; height: auto; border-radius: 6px; display: inline-block; }
+  .sim-readout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 6px; }
+  .readout-card { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px; text-align: center; }
+  .readout-lbl { font-size: 0.78rem; color: #94a3b8; margin-top: 4px; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
@@ -136,6 +156,66 @@
 
   <div class="content">
     <div class="theory-section"><h3>⏳ ปรากฏการณ์การยืดออกของเวลา (Time Dilation)</h3><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 สมการการยืดออกของเวลา</span><span class="formula-category">Time Dilation</span></div><div class="formula-math">\[\Delta t = \gamma \Delta t_0 = \frac{\Delta t_0}{\sqrt{1 - v^2/c^2}}\]</div><p>\(\Delta t_0\) คือ <b>เวลาแท้ (Proper Time)</b> ซึ่งวัดในกรอบที่เหตุการณ์เกิด ณ ตำแหน่งเดิม สำหรับผู้สังเกตที่เคลื่อนที่ เวลาจะเดินช้ากว่า</p></div><h3>📏 ปรากฏการณ์การหดสั้นของระยะทาง (Length Contraction)</h3><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 สมการการหดสั้นของระยะทาง</span><span class="formula-category">Length Contraction</span></div><div class="formula-math">\[L = \frac{L_0}{\gamma} = L_0 \sqrt{1 - v^2/c^2}\]</div><p>\(L_0\) คือ <b>ความยาวแท้ (Proper Length)</b> ซึ่งวัดเมื่อวัตถุอยู่นิ่ง วัตถุจะหดสั้นลงเฉพาะในทิศทางที่เคลื่อนที่เท่านั้น</p></div></div>
+
+    <!-- Interactive Real-Time Simulator -->
+    <div class="interactive-sim-container">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
+        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+      </div>
+      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
+      
+        <div class="sim-panel" id="sim_2_3_panel">
+          <div class="sim-control-group">
+            <label>อัตราเร็วสัมพัทธ์ (v/c): <span id="sim_2_3_val_vc" class="readout-val">0.85</span> c</label>
+            <input type="range" class="sim-slider" id="sim_2_3_slider_vc" min="0" max="99" value="85">
+          </div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_2_3_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-readout-grid">
+            <div class="readout-card"><div class="readout-val" id="sim_2_3_val_gamma">1.90</div><div class="readout-lbl">Lorentz Factor (γ)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_2_3_val_lcontract">52.7% (หดสั้น)</div><div class="readout-lbl">ความยาวจรวด L = L₀/γ</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_2_3_val_tdilate">+89.8% (ยืดออก)</div><div class="readout-lbl">เวลาเดินช้าลง Δt = γΔt₀</div></div>
+          </div>
+        </div>
+        <script>
+        (function() {
+          function initSim() {
+            const cv = document.getElementById("sim_2_3_canvas");
+            if (!cv) return;
+            const ctx = cv.getContext("2d");
+            const slider = document.getElementById("sim_2_3_slider_vc");
+
+            function draw() {
+              const beta = (+slider.value) / 100;
+              document.getElementById("sim_2_3_val_vc").textContent = beta.toFixed(2);
+              const gamma = 1 / Math.sqrt(1 - beta*beta);
+              document.getElementById("sim_2_3_val_gamma").textContent = gamma.toFixed(2);
+              document.getElementById("sim_2_3_val_lcontract").textContent = (100 / gamma).toFixed(1) + "% (" + (100 - 100/gamma).toFixed(1) + "% หด)";
+              document.getElementById("sim_2_3_val_tdilate").textContent = "+" + ((gamma - 1)*100).toFixed(1) + "% (ยืดออก)";
+
+              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.fillStyle = "#94a3b8"; ctx.font = "12px Sarabun";
+              ctx.fillText("จรวดอยู่นิ่งบนโลก (ความยาวจริง L₀ = 200 m):", 40, 30);
+              ctx.fillStyle = "#0284c7";
+              ctx.fillRect(40, 45, 200, 35);
+              ctx.fillStyle = "#ffffff"; ctx.fillText("Rocket L₀", 110, 68);
+
+              const contractedW = Math.max(15, 200 / gamma);
+              ctx.fillStyle = "#00f0ff";
+              ctx.fillText("จรวดเคลื่อนที่สัมพัทธ์ v = " + beta.toFixed(2) + " c (ความยาวที่วัดได้ L = " + (200/gamma).toFixed(1) + " m):", 40, 115);
+              ctx.fillStyle = "#f59e0b";
+              ctx.fillRect(40, 130, contractedW, 35);
+              ctx.fillStyle = "#060913"; ctx.fillText("L", 40 + contractedW/2 - 4, 153);
+            }
+            slider.addEventListener("input", draw);
+            draw();
+          }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
+          else initSim();
+        })();
+        </script>
+        
+    </div>
 
     <div class="example-card">
       <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างคำนวณจริง: การตรวจพบอนุภาคมิวออน (Muon)</h3>

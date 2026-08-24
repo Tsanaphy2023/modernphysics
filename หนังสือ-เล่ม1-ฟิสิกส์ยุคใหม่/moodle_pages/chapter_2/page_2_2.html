@@ -118,6 +118,26 @@
     border-radius: 6px;
     margin-bottom: 6px;
   }
+  /* Interactive Simulator Styling */
+  .interactive-sim-container {
+    background: #060913;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 14px;
+    padding: 22px;
+    margin: 25px 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    color: #f8fafc;
+  }
+  .sim-panel { display: flex; flex-direction: column; gap: 14px; }
+  .sim-control-group { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 16px; }
+  .sim-control-group label { display: block; font-size: 0.95rem; font-weight: 600; color: #cbd5e1; margin-bottom: 8px; }
+  .readout-val { color: #00f0ff; font-weight: 700; font-family: monospace; }
+  .sim-slider { width: 100%; height: 6px; border-radius: 3px; background: #1e293b; outline: none; -webkit-appearance: none; accent-color: #00f0ff; }
+  .sim-canvas-wrapper { width: 100%; overflow-x: auto; background: #020617; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 10px; text-align: center; }
+  .sim-canvas-wrapper canvas { max-width: 100%; height: auto; border-radius: 6px; display: inline-block; }
+  .sim-readout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 6px; }
+  .readout-card { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px; text-align: center; }
+  .readout-lbl { font-size: 0.78rem; color: #94a3b8; margin-top: 4px; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
@@ -136,6 +156,79 @@
 
   <div class="content">
     <div class="theory-section"><h3>📐 สมการการแปลงแบบลอเรนซ์ (Lorentz Transformation)</h3><p>เมื่อกรอบ S' เคลื่อนที่ด้วยความเร็ว v สัมพัทธ์กับกรอบ S ตามแนวแกน x:</p><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 ตัวประกอบลอเรนซ์ (Lorentz Factor: \(\gamma\))</span><span class="formula-category">สมการแกนกลาง</span></div><div class="formula-math">\[\gamma = \frac{1}{\sqrt{1 - \frac{v^2}{c^2}}} = \frac{1}{\sqrt{1 - \beta^2}} \quad (\text{โดย } \beta = v/c)\]</div><p>เนื่องจาก \(v < c\) เสมอ ดังนั้น \(\gamma \ge 1\) เสมอ</p></div><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 สมการการแปลงพิกัด Spacetime</span><span class="formula-category">สมการแปลงแกน</span></div><div class="formula-math">\[x' = \gamma (x - vt), \quad y' = y, \quad z' = z, \quad t' = \gamma \left( t - \frac{vx}{c^2} \right)\]</div></div></div>
+
+    <!-- Interactive Real-Time Simulator -->
+    <div class="interactive-sim-container">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
+        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+      </div>
+      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
+      
+        <div class="sim-panel" id="sim_2_2_panel">
+          <div class="sim-control-group">
+            <label>อัตราเร็วสัมพัทธ์ (β = v/c): <span id="sim_2_2_val_beta" class="readout-val">0.60</span></label>
+            <input type="range" class="sim-slider" id="sim_2_2_slider_beta" min="0" max="95" value="60">
+          </div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_2_2_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-readout-grid">
+            <div class="readout-card"><div class="readout-val" id="sim_2_2_val_gamma">1.25</div><div class="readout-lbl">ตัวประกอบลอเรนซ์ (γ)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_2_2_val_xprime">x' = γ(x - vt)</div><div class="readout-lbl">การแปลงพิกัด x'</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_2_2_val_tprime">t' = γ(t - vx/c²)</div><div class="readout-lbl">การแปลงพิกัดเวลา t'</div></div>
+          </div>
+        </div>
+        <script>
+        (function() {
+          function initSim() {
+            const cv = document.getElementById("sim_2_2_canvas");
+            if (!cv) return;
+            const ctx = cv.getContext("2d");
+            const slider = document.getElementById("sim_2_2_slider_beta");
+
+            function draw() {
+              const beta = (+slider.value) / 100;
+              document.getElementById("sim_2_2_val_beta").textContent = beta.toFixed(2);
+              const gamma = 1 / Math.sqrt(1 - beta*beta);
+              document.getElementById("sim_2_2_val_gamma").textContent = gamma.toFixed(2);
+
+              ctx.clearRect(0,0,cv.width,cv.height);
+              const cx = cv.width/2, cy = cv.height/2;
+
+              ctx.strokeStyle = "#475569"; ctx.lineWidth = 1.5;
+              ctx.beginPath(); ctx.moveTo(cx - 200, cy); ctx.lineTo(cx + 200, cy); ctx.stroke();
+              ctx.beginPath(); ctx.moveTo(cx, cy + 90); ctx.lineTo(cx, cy - 90); ctx.stroke();
+              ctx.fillStyle = "#94a3b8"; ctx.font = "11px Sarabun";
+              ctx.fillText("x (ตำแหน่ง)", cx + 205, cy + 4);
+              ctx.fillText("ct (เวลา)", cx - 15, cy - 92);
+
+              ctx.strokeStyle = "rgba(245, 158, 11, 0.4)"; ctx.lineWidth = 1; ctx.setLineDash([3,3]);
+              ctx.beginPath(); ctx.moveTo(cx - 90, cy + 90); ctx.lineTo(cx + 90, cy - 90); ctx.stroke();
+              ctx.beginPath(); ctx.moveTo(cx + 90, cy + 90); ctx.lineTo(cx - 90, cy - 90); ctx.stroke();
+              ctx.setLineDash([]);
+
+              const angle = Math.atan(beta);
+              ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
+              ctx.beginPath();
+              ctx.moveTo(cx - 90*Math.sin(angle), cy + 90*Math.cos(angle));
+              ctx.lineTo(cx + 90*Math.sin(angle), cy - 90*Math.cos(angle));
+              ctx.stroke();
+              ctx.fillStyle = "#00f0ff"; ctx.fillText("ct'", cx + 90*Math.sin(angle) + 4, cy - 90*Math.cos(angle));
+
+              ctx.beginPath();
+              ctx.moveTo(cx - 160*Math.cos(angle), cy + 160*Math.sin(angle));
+              ctx.lineTo(cx + 160*Math.cos(angle), cy - 160*Math.sin(angle));
+              ctx.stroke();
+              ctx.fillText("x'", cx + 160*Math.cos(angle) + 6, cy - 160*Math.sin(angle) + 4);
+            }
+            slider.addEventListener("input", draw);
+            draw();
+          }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
+          else initSim();
+        })();
+        </script>
+        
+    </div>
 
     <div class="example-card">
       <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างคำนวณ: ตัวประกอบลอเรนซ์ที่ความเร็ว 0.8c</h3>

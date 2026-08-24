@@ -118,6 +118,26 @@
     border-radius: 6px;
     margin-bottom: 6px;
   }
+  /* Interactive Simulator Styling */
+  .interactive-sim-container {
+    background: #060913;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 14px;
+    padding: 22px;
+    margin: 25px 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    color: #f8fafc;
+  }
+  .sim-panel { display: flex; flex-direction: column; gap: 14px; }
+  .sim-control-group { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 16px; }
+  .sim-control-group label { display: block; font-size: 0.95rem; font-weight: 600; color: #cbd5e1; margin-bottom: 8px; }
+  .readout-val { color: #00f0ff; font-weight: 700; font-family: monospace; }
+  .sim-slider { width: 100%; height: 6px; border-radius: 3px; background: #1e293b; outline: none; -webkit-appearance: none; accent-color: #00f0ff; }
+  .sim-canvas-wrapper { width: 100%; overflow-x: auto; background: #020617; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 10px; text-align: center; }
+  .sim-canvas-wrapper canvas { max-width: 100%; height: auto; border-radius: 6px; display: inline-block; }
+  .sim-readout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 6px; }
+  .readout-card { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px; text-align: center; }
+  .readout-lbl { font-size: 0.78rem; color: #94a3b8; margin-top: 4px; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
@@ -136,6 +156,94 @@
 
   <div class="content">
     <div class="theory-section"><h3>🌊 คลื่นสสาร (Matter Wave) ของหลุยส์ เดอบรอยล์ (ค.ศ. 1924)</h3><p>หลุยส์ เดอบรอยล์ เสนอแนวคิดที่สมมาตรอย่างงดงามว่า <i>"ถ้าคลื่นแม่เหล็กไฟฟ้าสามารถแสดงพฤติกรรมเป็นอนุภาค (โฟตอน) ได้ สสารหรืออนุภาคที่มีโมเมนตัม p ก็ย่อมแสดงพฤติกรรมเป็นคลื่นได้เช่นกัน"</i></p><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 ความยาวคลื่นเดอบรอยล์ (de Broglie Wavelength)</span><span class="formula-category">สมการคลื่นสสาร</span></div><div class="formula-math">\[\lambda = \frac{h}{p} = \frac{h}{mv} = \frac{h}{\sqrt{2mK}}\]</div><p>สำหรับอิเล็กตรอนที่ถูกเร่งด้วยความต่างศักย์ V โวลต์: \(\lambda = \frac{1.228}{\sqrt{V}} \text{ nm}\)</p></div></div>
+
+    <!-- Interactive Real-Time Simulator -->
+    <div class="interactive-sim-container">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
+        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+      </div>
+      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
+      
+        <div class="sim-panel" id="sim_3_1_panel">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div class="sim-control-group">
+              <label>ชนิดอนุภาค:</label>
+              <select id="sim_3_1_sel_p" class="search-input" style="padding:6px 10px;">
+                <option value="electron" selected>อิเล็กตรอน (Electron: 9.11 × 10⁻³¹ kg)</option>
+                <option value="proton">โปรตอน (Proton: 1.67 × 10⁻²⁷ kg)</option>
+                <option value="alpha">อนุภาคแอลฟา (Alpha: 6.64 × 10⁻²⁷ kg)</option>
+                <option value="baseball">ลูกเบสบอล (Baseball: 0.145 kg)</option>
+              </select>
+            </div>
+            <div class="sim-control-group">
+              <label>พลังงานจลน์ (eV): <span id="sim_3_1_val_ev" class="readout-val">100</span> eV</label>
+              <input type="range" class="sim-slider" id="sim_3_1_slider_ev" min="1" max="1000" value="100">
+            </div>
+          </div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_3_1_canvas" width="640" height="200"></canvas></div>
+          <div class="sim-readout-grid">
+            <div class="readout-card"><div class="readout-val" id="sim_3_1_val_lam">0.123 nm</div><div class="readout-lbl">ความยาวคลื่นเดอบรอยล์ (λ = h/p)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_3_1_val_v">5.93 × 10⁶ m/s</div><div class="readout-lbl">อัตราเร็วอนุภาค (v)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_3_1_val_domain">Atomic X-ray scale</div><div class="readout-lbl">ระดับมิติเชิงควอนตัม</div></div>
+          </div>
+        </div>
+        <script>
+        (function() {
+          function initSim() {
+            const cv = document.getElementById("sim_3_1_canvas");
+            if (!cv) return;
+            const ctx = cv.getContext("2d");
+            const sel = document.getElementById("sim_3_1_sel_p");
+            const slider = document.getElementById("sim_3_1_slider_ev");
+
+            function calc() {
+              const pType = sel.value;
+              const eV = +slider.value;
+              document.getElementById("sim_3_1_val_ev").textContent = eV;
+              
+              let m = 9.10938356e-31;
+              if (pType === "proton") m = 1.6726219e-27;
+              else if (pType === "alpha") m = 6.6446572e-27;
+              else if (pType === "baseball") m = 0.145;
+
+              const E = eV * 1.60217663e-19;
+              const p = Math.sqrt(2 * m * E);
+              const v = p / m;
+              const h = 6.62607015e-34;
+              const lam = h / p;
+              
+              let lamStr = (lam * 1e9).toFixed(3) + " nm";
+              if (lam < 1e-12) lamStr = (lam * 1e15).toFixed(3) + " fm";
+              if (pType === "baseball") lamStr = lam.toExponential(2) + " m (พฤติกรรมคลื่นสลายตัว)";
+              document.getElementById("sim_3_1_val_lam").textContent = lamStr;
+              document.getElementById("sim_3_1_val_v").textContent = v.toExponential(2) + " m/s";
+
+              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
+              ctx.beginPath();
+              const k = Math.min(0.3, Math.max(0.02, 1e-10 / lam));
+              for(let x=40; x<600; x+=2) {
+                const env = Math.exp(-Math.pow((x - 320)/120, 2));
+                const y = 100 + 50 * env * Math.sin((x-40) * (k*15 + 0.1));
+                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+              }
+              ctx.stroke();
+
+              ctx.fillStyle = "#f59e0b"; ctx.beginPath(); ctx.arc(320, 100, 6, 0, Math.PI*2); ctx.fill();
+              ctx.fillStyle = "#ffffff"; ctx.font = "12px Sarabun";
+              ctx.fillText("Particle & Matter Wave (λ = " + lamStr + ")", 230, 180);
+            }
+            sel.addEventListener("change", calc);
+            slider.addEventListener("input", calc);
+            calc();
+          }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
+          else initSim();
+        })();
+        </script>
+        
+    </div>
 
     <div class="example-card">
       <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างคำนวณ: ความยาวคลื่นของอิเล็กตรอนในกล้องจุลทรรศน์</h3>

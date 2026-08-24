@@ -118,6 +118,26 @@
     border-radius: 6px;
     margin-bottom: 6px;
   }
+  /* Interactive Simulator Styling */
+  .interactive-sim-container {
+    background: #060913;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 14px;
+    padding: 22px;
+    margin: 25px 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    color: #f8fafc;
+  }
+  .sim-panel { display: flex; flex-direction: column; gap: 14px; }
+  .sim-control-group { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 16px; }
+  .sim-control-group label { display: block; font-size: 0.95rem; font-weight: 600; color: #cbd5e1; margin-bottom: 8px; }
+  .readout-val { color: #00f0ff; font-weight: 700; font-family: monospace; }
+  .sim-slider { width: 100%; height: 6px; border-radius: 3px; background: #1e293b; outline: none; -webkit-appearance: none; accent-color: #00f0ff; }
+  .sim-canvas-wrapper { width: 100%; overflow-x: auto; background: #020617; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 10px; text-align: center; }
+  .sim-canvas-wrapper canvas { max-width: 100%; height: auto; border-radius: 6px; display: inline-block; }
+  .sim-readout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 6px; }
+  .readout-card { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px; text-align: center; }
+  .readout-lbl { font-size: 0.78rem; color: #94a3b8; margin-top: 4px; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
@@ -136,6 +156,73 @@
 
   <div class="content">
     <div class="theory-section"><h3>🚀 สัจพจน์ 2 ประการของไอน์สไตน์ (ค.ศ. 1905)</h3><p>ทฤษฎีสัมพัทธภาพพิเศษสร้างขึ้นบนรากฐานของหลักการ 2 ข้อที่เรียบง่ายแต่ลึกซึ้ง:</p><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 1. หลักการสัมพัทธภาพ (Principle of Relativity)</span><span class="formula-category">Postulate 1</span></div><p>กฎทางฟิสิกส์ทั้งหมดมีรูปแบบเหมือนกันในทุก <b>กรอบอ้างอิงเฉื่อย (Inertial Reference Frame)</b> ไม่มีการทดลองใดบอกได้ว่ากรอบใดอยู่นิ่งสัมบูรณ์</p></div><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 2. หลักความคงที่ของความเร็วแสง (Constancy of Speed of Light)</span><span class="formula-category">Postulate 2</span></div><div class="formula-math">\[c = 299,792,458 \text{ m/s} \approx 3 \times 10^8 \text{ m/s}\]</div><p>ความเร็วของแสงในสุญญากาศมีค่าคงที่เสมอสำหรับผู้สังเกตทุกคน โดยไม่ขึ้นกับความเร็วของแหล่งกำเนิดแสงหรือผู้สังเกต</p></div></div>
+
+    <!-- Interactive Real-Time Simulator -->
+    <div class="interactive-sim-container">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
+        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+      </div>
+      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
+      
+        <div class="sim-panel" id="sim_2_1_panel">
+          <div class="sim-control-group">
+            <label>อัตราเร็วสัมพัทธ์ (v/c): <span id="sim_2_1_val_vc" class="readout-val">0.70</span> c</label>
+            <input type="range" class="sim-slider" id="sim_2_1_slider_vc" min="0" max="95" value="70">
+          </div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_2_1_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-readout-grid">
+            <div class="readout-card"><div class="readout-val" id="sim_2_1_val_gamma">1.40</div><div class="readout-lbl">ตัวประกอบลอเรนซ์ (γ)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_2_1_val_path">Zig-zag Path</div><div class="readout-lbl">เส้นทางแสงสำหรับผู้สังเกตภายนอก</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_2_1_val_diff">+40.0%</div><div class="readout-lbl">เวลาเดินช้าลง (Dilation)</div></div>
+          </div>
+        </div>
+        <script>
+        (function() {
+          function initSim() {
+            const cv = document.getElementById("sim_2_1_canvas");
+            if (!cv) return;
+            const ctx = cv.getContext("2d");
+            const slider = document.getElementById("sim_2_1_slider_vc");
+            let t = 0;
+
+            function render() {
+              const beta = (+slider.value) / 100;
+              document.getElementById("sim_2_1_val_vc").textContent = beta.toFixed(2);
+              const gamma = 1 / Math.sqrt(1 - beta*beta);
+              document.getElementById("sim_2_1_val_gamma").textContent = gamma.toFixed(2);
+              document.getElementById("sim_2_1_val_diff").textContent = "+" + ((gamma - 1)*100).toFixed(1) + "%";
+
+              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.strokeStyle = "#334155"; ctx.strokeRect(60, 20, 180, 160);
+              ctx.fillStyle = "#94a3b8"; ctx.fillText("นาฬิกาแสงอยู่นิ่ง (Δt₀)", 90, 40);
+              ctx.fillStyle = "#38bdf8"; ctx.fillRect(100, 50, 100, 6); ctx.fillRect(100, 150, 100, 6);
+              const yPulse1 = 56 + Math.abs((t % 60) - 30) * 3;
+              ctx.fillStyle = "#f59e0b"; ctx.beginPath(); ctx.arc(150, yPulse1, 5, 0, Math.PI*2); ctx.fill();
+
+              ctx.strokeStyle = "#0891b2"; ctx.strokeRect(300, 20, 300, 160);
+              ctx.fillStyle = "#00f0ff"; ctx.fillText("นาฬิกาแสงเคลื่อนที่ v = " + beta.toFixed(2) + " c (Δt = γΔt₀)", 320, 40);
+              
+              ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2; ctx.setLineDash([4,4]);
+              ctx.beginPath();
+              ctx.moveTo(340, 56);
+              ctx.lineTo(340 + 60*gamma*0.7, 150);
+              ctx.lineTo(340 + 120*gamma*0.7, 56);
+              ctx.stroke();
+              ctx.setLineDash([]);
+
+              t += 1;
+              requestAnimationFrame(render);
+            }
+            slider.addEventListener("input", render);
+            render();
+          }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
+          else initSim();
+        })();
+        </script>
+        
+    </div>
 
     <div class="example-card">
       <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างเชิงแนวคิด: การยิงไฟฉายบนยานอวกาศ</h3>

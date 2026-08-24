@@ -118,6 +118,26 @@
     border-radius: 6px;
     margin-bottom: 6px;
   }
+  /* Interactive Simulator Styling */
+  .interactive-sim-container {
+    background: #060913;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 14px;
+    padding: 22px;
+    margin: 25px 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    color: #f8fafc;
+  }
+  .sim-panel { display: flex; flex-direction: column; gap: 14px; }
+  .sim-control-group { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 16px; }
+  .sim-control-group label { display: block; font-size: 0.95rem; font-weight: 600; color: #cbd5e1; margin-bottom: 8px; }
+  .readout-val { color: #00f0ff; font-weight: 700; font-family: monospace; }
+  .sim-slider { width: 100%; height: 6px; border-radius: 3px; background: #1e293b; outline: none; -webkit-appearance: none; accent-color: #00f0ff; }
+  .sim-canvas-wrapper { width: 100%; overflow-x: auto; background: #020617; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 10px; text-align: center; }
+  .sim-canvas-wrapper canvas { max-width: 100%; height: auto; border-radius: 6px; display: inline-block; }
+  .sim-readout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 6px; }
+  .readout-card { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px; text-align: center; }
+  .readout-lbl { font-size: 0.78rem; color: #94a3b8; margin-top: 4px; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
@@ -136,6 +156,98 @@
 
   <div class="content">
     <div class="theory-section"><h3>📉 กฎการสลายตัวของสารกัมมันตรังสี</h3><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 กฎการสลายตัวแบบเอกซ์โพเนนเชียลและครึ่งชีวิต</span><span class="formula-category">Decay Law</span></div><div class="formula-math">\[N(t) = N_0 e^{-\lambda t} = N_0 \left( \frac{1}{2} \right)^{t / T_{1/2}}\]</div><div class="formula-math">\[T_{1/2} = \frac{\ln 2}{\lambda} \approx \frac{0.693}{\lambda}\]</div><p>กัมมันตภาพ (Activity: A): \(A = \lambda N\) (หน่วยเบ็กเคอเรล: Bq หรือ คูรี: Ci)</p></div></div>
+
+    <!-- Interactive Real-Time Simulator -->
+    <div class="interactive-sim-container">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
+        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+      </div>
+      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
+      
+        <div class="sim-panel" id="sim_6_2_panel">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div class="sim-control-group">
+              <label>ครึ่งชีวิต (T_1/2): <span id="sim_6_2_val_thalf" class="readout-val">10</span> ปี</label>
+              <input type="range" class="sim-slider" id="sim_6_2_slider_thalf" min="2" max="50" value="10">
+            </div>
+            <div class="sim-control-group">
+              <label>เวลาที่ผ่านไป (t): <span id="sim_6_2_val_tdecay" class="readout-val">20</span> ปี</label>
+              <input type="range" class="sim-slider" id="sim_6_2_slider_tdecay" min="0" max="100" value="20">
+            </div>
+          </div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_6_2_canvas" width="640" height="200"></canvas></div>
+          <div class="sim-readout-grid">
+            <div class="readout-card"><div class="readout-val" id="sim_6_2_val_nremain">25.0%</div><div class="readout-lbl">สารคงเหลือ N(t)/N₀</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_6_2_val_ndecayed">75.0%</div><div class="readout-lbl">สลายตัวไปแล้ว (Daughter)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_6_2_val_halves">2.0 ครึ่งชีวิต</div><div class="readout-lbl">จำนวนรอบครึ่งชีวิต (t / T_1/2)</div></div>
+          </div>
+        </div>
+        <script>
+        (function() {
+          function initSim() {
+            const cv = document.getElementById("sim_6_2_canvas");
+            if (!cv) return;
+            const ctx = cv.getContext("2d");
+            const sHalf = document.getElementById("sim_6_2_slider_thalf");
+            const sTime = document.getElementById("sim_6_2_slider_tdecay");
+
+            function draw() {
+              const h = +sHalf.value;
+              const t = +sTime.value;
+              document.getElementById("sim_6_2_val_thalf").textContent = h;
+              document.getElementById("sim_6_2_val_tdecay").textContent = t;
+              const remain = 100 * Math.pow(0.5, t / h);
+              document.getElementById("sim_6_2_val_nremain").textContent = remain.toFixed(1) + "%";
+              document.getElementById("sim_6_2_val_ndecayed").textContent = (100 - remain).toFixed(1) + "%";
+              document.getElementById("sim_6_2_val_halves").textContent = (t / h).toFixed(1) + " รอบ";
+
+              ctx.clearRect(0,0,cv.width,cv.height);
+              ctx.strokeStyle = "#475569"; ctx.lineWidth = 1.5;
+              ctx.beginPath(); ctx.moveTo(50, 20); ctx.lineTo(50, 170); ctx.lineTo(380, 170); ctx.stroke();
+              ctx.fillStyle = "#94a3b8"; ctx.font = "11px Sarabun";
+              ctx.fillText("เวลา t (ปี) →", 320, 185);
+              ctx.fillText("ปริมาณ N(t)", 10, 25);
+
+              ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
+              ctx.beginPath(); ctx.moveTo(50, 30);
+              for(let x=50; x<=380; x+=2) {
+                const simT = (x - 50) * (100 / 330);
+                const r = Math.pow(0.5, simT / h);
+                const y = 170 - r * 140;
+                ctx.lineTo(x, y);
+              }
+              ctx.stroke();
+
+              const curX = 50 + t * (330 / 100);
+              const curY = 170 - (remain/100) * 140;
+              ctx.fillStyle = "#f59e0b"; ctx.beginPath(); ctx.arc(curX, curY, 6, 0, Math.PI*2); ctx.fill();
+
+              ctx.strokeStyle = "#334155"; ctx.strokeRect(420, 20, 190, 150);
+              ctx.fillStyle = "#94a3b8"; ctx.fillText("แบบจำลองอะตอม (100 อนุภาค)", 435, 36);
+              
+              let seed = 42;
+              function rand() { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+              for(let r=0; r<10; r++) {
+                for(let c=0; c<10; c++) {
+                  const isRemain = rand() * 100 < remain;
+                  ctx.fillStyle = isRemain ? "#00f0ff" : "#334155";
+                  ctx.beginPath();
+                  ctx.arc(435 + c*17, 52 + r*11, 4, 0, Math.PI*2);
+                  ctx.fill();
+                }
+              }
+            }
+            sHalf.addEventListener("input", draw);
+            sTime.addEventListener("input", draw);
+            draw();
+          }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
+          else initSim();
+        })();
+        </script>
+        
+    </div>
 
     <div class="example-card">
       <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างคำนวณ: การหาอายุโบราณคดีด้วยคาร์บอน-14</h3>

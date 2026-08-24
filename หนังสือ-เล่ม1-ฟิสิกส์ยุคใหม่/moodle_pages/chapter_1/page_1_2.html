@@ -118,6 +118,26 @@
     border-radius: 6px;
     margin-bottom: 6px;
   }
+  /* Interactive Simulator Styling */
+  .interactive-sim-container {
+    background: #060913;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 14px;
+    padding: 22px;
+    margin: 25px 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    color: #f8fafc;
+  }
+  .sim-panel { display: flex; flex-direction: column; gap: 14px; }
+  .sim-control-group { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 16px; }
+  .sim-control-group label { display: block; font-size: 0.95rem; font-weight: 600; color: #cbd5e1; margin-bottom: 8px; }
+  .readout-val { color: #00f0ff; font-weight: 700; font-family: monospace; }
+  .sim-slider { width: 100%; height: 6px; border-radius: 3px; background: #1e293b; outline: none; -webkit-appearance: none; accent-color: #00f0ff; }
+  .sim-canvas-wrapper { width: 100%; overflow-x: auto; background: #020617; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 10px; text-align: center; }
+  .sim-canvas-wrapper canvas { max-width: 100%; height: auto; border-radius: 6px; display: inline-block; }
+  .sim-readout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 6px; }
+  .readout-card { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px; text-align: center; }
+  .readout-lbl { font-size: 0.78rem; color: #94a3b8; margin-top: 4px; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
@@ -136,6 +156,93 @@
 
   <div class="content">
     <div class="theory-section"><h3>✨ วัตถุดำ (Black Body) และสมมติฐานควอนตัม</h3><p><b>วัตถุดำ</b> คือ วัตถุอุดมคติที่ดูดกลืนรังสีแม่เหล็กไฟฟ้าทุกความยาวคลื่นที่ตกกระทบได้ 100% โดยไม่มีการสะท้อน และเมื่อได้รับความร้อนจะแผ่รังสีแม่เหล็กไฟฟ้าออกมาอย่างสมบูรณ์แบบตามอุณหภูมิสัมบูรณ์ \(T\)</p><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 กฎการกระจัดของวีน (Wien's Displacement Law)</span><span class="formula-category">สมการสำคัญ</span></div><div class="formula-math">\[\lambda_{\max} \cdot T = b = 2.898 \times 10^{-3} \text{ m}\cdot\text{K}\]</div><p>เมื่ออุณหภูมิ \(T\) สูงขึ้น ยอดคลื่นของการแผ่รังสี \(\lambda_{\max}\) จะเลื่อนไปทางความยาวคลื่นที่สั้นลง (ความถี่สูงขึ้น)</p></div><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 สมมติฐานควอนตัมของมักซ์ พลังค์ (ค.ศ. 1900)</span><span class="formula-category">สมการปฏิวัติฟิสิกส์</span></div><div class="formula-math">\[E = nhf = n \frac{hc}{\lambda} \quad (n = 1, 2, 3, ...)\]</div><p>โดยที่ \(h = 6.626 \times 10^{-34} \text{ J}\cdot\text{s}\) (ค่าคงตัวของพลังค์) พลังงานของการสั่นระดับอะตอมไม่ได้ต่อเนื่อง แต่ถูกจำกัดให้มีค่าเป็นจำนวนเท่าของก้อนพลังงาน \(hf\)</p></div></div>
+
+    <!-- Interactive Real-Time Simulator -->
+    <div class="interactive-sim-container">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
+        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+      </div>
+      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
+      
+        <div class="sim-panel" id="sim_1_2_panel">
+          <div class="sim-control-group">
+            <label>อุณหภูมิสัมบูรณ์ (T): <span id="sim_1_2_val_temp" class="readout-val">5800</span> K (ดวงอาทิตย์)</label>
+            <input type="range" class="sim-slider" id="sim_1_2_slider_temp" min="1000" max="12000" step="100" value="5800">
+          </div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_1_2_canvas" width="640" height="230"></canvas></div>
+          <div class="sim-readout-grid">
+            <div class="readout-card"><div class="readout-val" id="sim_1_2_val_peak">500 nm</div><div class="readout-lbl">ความยาวคลื่นสูงสุด (λ_max)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_1_2_val_color">ขาว-เหลือง</div><div class="readout-lbl">สีของรังสีความร้อน</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_1_2_val_power">6.42 × 10⁷ W/m²</div><div class="readout-lbl">กำลังแผ่รังสีรวม (σT⁴)</div></div>
+          </div>
+        </div>
+        <script>
+        (function() {
+          function initSim() {
+            const cv = document.getElementById("sim_1_2_canvas");
+            if (!cv) return;
+            const ctx = cv.getContext("2d");
+            const slider = document.getElementById("sim_1_2_slider_temp");
+            function draw() {
+              const T = +slider.value;
+              document.getElementById("sim_1_2_val_temp").textContent = T;
+              const peak = Math.round(2898000 / T);
+              document.getElementById("sim_1_2_val_peak").textContent = peak + " nm";
+              
+              const power = (5.67e-8 * Math.pow(T, 4)).toExponential(2);
+              document.getElementById("sim_1_2_val_power").textContent = power + " W/m²";
+              
+              let col = "แดง";
+              if (T > 3500 && T <= 5000) col = "ส้ม-เหลือง";
+              else if (T > 5000 && T <= 7500) col = "ขาวนวล (Yellow-White)";
+              else if (T > 7500 && T <= 10000) col = "ขาวอมฟ้า (Blue-White)";
+              else if (T > 10000) col = "ฟ้าเข้ม (Deep Blue)";
+              document.getElementById("sim_1_2_val_color").textContent = col;
+
+              ctx.clearRect(0,0,cv.width,cv.height);
+              const grad = ctx.createLinearGradient(120, 0, 480, 0);
+              grad.addColorStop(0, "rgba(168, 85, 247, 0.15)");
+              grad.addColorStop(0.2, "rgba(59, 130, 246, 0.15)");
+              grad.addColorStop(0.5, "rgba(34, 197, 94, 0.15)");
+              grad.addColorStop(0.7, "rgba(234, 179, 8, 0.15)");
+              grad.addColorStop(1, "rgba(239, 68, 68, 0.15)");
+              ctx.fillStyle = grad;
+              ctx.fillRect(120, 20, 360, 170);
+
+              ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 3;
+              ctx.beginPath();
+              for(let x=40; x<600; x+=2) {
+                const lam = (x - 30)*3;
+                const p = Math.pow(T/1000, 3) * Math.pow(lam/peak, 5) / (Math.exp((lam?peak/lam:10)*2) - 1 + 0.05);
+                const y = 190 - Math.min(160, p*5.5);
+                if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+              }
+              ctx.stroke();
+
+              const peakX = 30 + (peak / 3);
+              if (peakX >= 40 && peakX <= 600) {
+                ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2; ctx.setLineDash([3,3]);
+                ctx.beginPath(); ctx.moveTo(peakX, 20); ctx.lineTo(peakX, 190); ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.fillStyle = "#f59e0b"; ctx.fillText("λ_max = " + peak + " nm", peakX + 6, 40);
+              }
+
+              ctx.strokeStyle = "#94a3b8"; ctx.lineWidth = 1.5;
+              ctx.beginPath(); ctx.moveTo(40, 20); ctx.lineTo(40, 190); ctx.lineTo(600, 190); ctx.stroke();
+              ctx.fillStyle = "#94a3b8"; ctx.font = "11px Sarabun";
+              ctx.fillText("ความยาวคลื่น λ (nm) →", 470, 208);
+              ctx.fillText("ความเข้ม I(λ)", 10, 25);
+            }
+            slider.addEventListener("input", draw);
+            draw();
+          }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
+          else initSim();
+        })();
+        </script>
+        
+    </div>
 
     <div class="example-card">
       <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างคำนวณ: อุณหภูมิพื้นผิวของดวงอาทิตย์</h3>

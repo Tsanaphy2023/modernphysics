@@ -13,6 +13,7 @@ Reads course_data.json and generates:
 import os
 import json
 import shutil
+from simulators_library import get_simulator_html_and_js
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
@@ -406,6 +407,26 @@ def build_standalone_moodle_html(ch, page):
     border-radius: 6px;
     margin-bottom: 6px;
   }}
+  /* Interactive Simulator Styling */
+  .interactive-sim-container {{
+    background: #060913;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 14px;
+    padding: 22px;
+    margin: 25px 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    color: #f8fafc;
+  }}
+  .sim-panel {{ display: flex; flex-direction: column; gap: 14px; }}
+  .sim-control-group {{ background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 16px; }}
+  .sim-control-group label {{ display: block; font-size: 0.95rem; font-weight: 600; color: #cbd5e1; margin-bottom: 8px; }}
+  .readout-val {{ color: #00f0ff; font-weight: 700; font-family: monospace; }}
+  .sim-slider {{ width: 100%; height: 6px; border-radius: 3px; background: #1e293b; outline: none; -webkit-appearance: none; accent-color: #00f0ff; }}
+  .sim-canvas-wrapper {{ width: 100%; overflow-x: auto; background: #020617; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 10px; text-align: center; }}
+  .sim-canvas-wrapper canvas {{ max-width: 100%; height: auto; border-radius: 6px; display: inline-block; }}
+  .sim-readout-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 6px; }}
+  .readout-card {{ background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px; text-align: center; }}
+  .readout-lbl {{ font-size: 0.78rem; color: #94a3b8; margin-top: 4px; }}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
@@ -424,6 +445,16 @@ def build_standalone_moodle_html(ch, page):
 
   <div class="content">
     {page["content_html"]}
+
+    <!-- Interactive Real-Time Simulator -->
+    <div class="interactive-sim-container">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
+        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+      </div>
+      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
+      {get_simulator_html_and_js(page["id"], page.get("sim_type", ""), page["title"], standalone=True)}
+    </div>
 
     <div class="example-card">
       <h3 style="color: #0369a1; margin-top:0;">📐 {ex["title"]}</h3>
@@ -523,6 +554,7 @@ def build_subtopic_page_html(ch, page, all_pages, current_idx):
     """
 
     # Simulator HTML container
+    sim_content = get_simulator_html_and_js(page["id"], page.get("sim_type", ""), page["title"], standalone=False)
     sim_html = f"""
     <div class="simulator-container" id="sim-box-{page["id"]}">
       <div class="sim-header">
@@ -530,7 +562,7 @@ def build_subtopic_page_html(ch, page, all_pages, current_idx):
         <span class="sim-badge">Live Computation</span>
       </div>
       <div class="sim-body" id="sim-body-{page["id"]}">
-        <!-- Injected via JavaScript based on sim_type: {page["sim_type"]} -->
+        {sim_content}
       </div>
     </div>
     """

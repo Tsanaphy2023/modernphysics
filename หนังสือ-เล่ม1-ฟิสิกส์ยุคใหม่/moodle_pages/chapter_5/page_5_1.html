@@ -118,6 +118,26 @@
     border-radius: 6px;
     margin-bottom: 6px;
   }
+  /* Interactive Simulator Styling */
+  .interactive-sim-container {
+    background: #060913;
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 14px;
+    padding: 22px;
+    margin: 25px 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    color: #f8fafc;
+  }
+  .sim-panel { display: flex; flex-direction: column; gap: 14px; }
+  .sim-control-group { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 16px; }
+  .sim-control-group label { display: block; font-size: 0.95rem; font-weight: 600; color: #cbd5e1; margin-bottom: 8px; }
+  .readout-val { color: #00f0ff; font-weight: 700; font-family: monospace; }
+  .sim-slider { width: 100%; height: 6px; border-radius: 3px; background: #1e293b; outline: none; -webkit-appearance: none; accent-color: #00f0ff; }
+  .sim-canvas-wrapper { width: 100%; overflow-x: auto; background: #020617; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 10px; text-align: center; }
+  .sim-canvas-wrapper canvas { max-width: 100%; height: auto; border-radius: 6px; display: inline-block; }
+  .sim-readout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 6px; }
+  .readout-card { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px; text-align: center; }
+  .readout-lbl { font-size: 0.78rem; color: #94a3b8; margin-top: 4px; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
@@ -136,6 +156,90 @@
 
   <div class="content">
     <div class="theory-section"><h3>🪐 แบบจำลองอะตอมของนีลส์ บอร์ (ค.ศ. 1913)</h3><p>นีลส์ บอร์ เสนอสัจพจน์ปฏิวัติว่า อิเล็กตรอนโคจรรอบนิวเคลียสได้เฉพาะในวงโคจรคงที่โดยไม่แผ่คลื่นแม่เหล็กไฟฟ้า และมีโมเมนตัมเชิงมุมเป็นควอนตัม:</p><div class="formula-box"><div class="formula-header"><span class="formula-title">📌 สัจพจน์โมเมนตัมเชิงมุมและรัศมีวงโคจรบอร์</span><span class="formula-category">Bohr Postulates</span></div><div class="formula-math">\[L = m v r_n = n \hbar = n \frac{h}{2\pi} \quad (n = 1, 2, 3, ...)\]</div><div class="formula-math">\[r_n = n^2 a_0 \approx 0.0529 n^2 \text{ nm}\]</div><p>ระดับพลังงานของอะตอมไฮโดรเจน: \(E_n = -\frac{13.6 \text{ eV}}{n^2}\)</p></div></div>
+
+    <!-- Interactive Real-Time Simulator -->
+    <div class="interactive-sim-container">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
+        <h3 style="margin:0; color:#00f0ff; font-size:1.2rem;">🔬 ห้องปฏิบัติการเสมือนจริง 2D/3D Real-Time Simulator</h3>
+        <span style="background:rgba(0,240,255,0.15); color:#00f0ff; font-size:0.75rem; font-weight:bold; padding:4px 10px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">LIVE INTERACTIVE</span>
+      </div>
+      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
+      
+        <div class="sim-panel" id="sim_5_1_panel">
+          <div class="sim-control-group">
+            <label>เลขควอนตัมหลัก (Principal Quantum Number n): <span id="sim_5_1_val_n" class="readout-val">2</span></label>
+            <input type="range" class="sim-slider" id="sim_5_1_slider_n" min="1" max="5" value="2">
+          </div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_5_1_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-readout-grid">
+            <div class="readout-card"><div class="readout-val" id="sim_5_1_val_r">2.12 Å</div><div class="readout-lbl">รัศมีวงโคจร r_n = n² a₀</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_5_1_val_en">-3.40 eV</div><div class="readout-lbl">พลังงานยึดเหนี่ยว E_n = -13.6/n²</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_5_1_val_vn">1.09 × 10⁶ m/s</div><div class="readout-lbl">อัตราเร็วอิเล็กตรอน (v_n)</div></div>
+          </div>
+        </div>
+        <script>
+        (function() {
+          function initSim() {
+            const cv = document.getElementById("sim_5_1_canvas");
+            if (!cv) return;
+            const ctx = cv.getContext("2d");
+            const slider = document.getElementById("sim_5_1_slider_n");
+            let angle = 0;
+
+            function render() {
+              const n = +slider.value;
+              document.getElementById("sim_5_1_val_n").textContent = n;
+              const a0 = 0.529; // Angstroms
+              const r_ang = n * n * a0;
+              document.getElementById("sim_5_1_val_r").textContent = r_ang.toFixed(2) + " Å";
+              document.getElementById("sim_5_1_val_en").textContent = (-13.6 / (n*n)).toFixed(2) + " eV";
+              const vn = (2.187e6 / n).toExponential(2);
+              document.getElementById("sim_5_1_val_vn").textContent = vn + " m/s";
+
+              ctx.clearRect(0,0,cv.width,cv.height);
+              const cx = cv.width/2, cy = cv.height/2;
+
+              // Nucleus (Proton)
+              ctx.fillStyle = "#ef4444"; ctx.beginPath(); ctx.arc(cx, cy, 9, 0, Math.PI*2); ctx.fill();
+              ctx.fillStyle = "#ffffff"; ctx.font = "10px Sarabun"; ctx.fillText("+e", cx-5, cy+3);
+
+              // Circular orbits
+              for(let i=1; i<=5; i++) {
+                const orbR = i * 18 + 12;
+                ctx.strokeStyle = i === n ? "#00f0ff" : "rgba(255,255,255,0.08)";
+                ctx.lineWidth = i === n ? 2 : 1;
+                ctx.beginPath(); ctx.arc(cx, cy, orbR, 0, Math.PI*2); ctx.stroke();
+              }
+
+              // Orbiting electron
+              const curR = n * 18 + 12;
+              const ex = cx + curR * Math.cos(angle);
+              const ey = cy + curR * Math.sin(angle);
+              ctx.fillStyle = "#10b981"; ctx.beginPath(); ctx.arc(ex, ey, 5, 0, Math.PI*2); ctx.fill();
+
+              // De Broglie standing wave on orbit
+              ctx.strokeStyle = "rgba(0, 240, 255, 0.4)"; ctx.lineWidth = 1.5;
+              ctx.beginPath();
+              for(let a=0; a<=Math.PI*2; a+=0.02) {
+                const waveR = curR + 4 * Math.sin(n * a);
+                const wx = cx + waveR * Math.cos(a);
+                const wy = cy + waveR * Math.sin(a);
+                if (a===0) ctx.moveTo(wx, wy); else ctx.lineTo(wx, wy);
+              }
+              ctx.closePath(); ctx.stroke();
+
+              angle += 0.04 / n;
+              requestAnimationFrame(render);
+            }
+            slider.addEventListener("input", render);
+            render();
+          }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
+          else initSim();
+        })();
+        </script>
+        
+    </div>
 
     <div class="example-card">
       <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างคำนวณ: รัศมีและพลังงานในสถานะกระตุ้นแรก (n=2)</h3>
