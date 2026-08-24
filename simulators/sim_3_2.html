@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 3.2 3.2 การเลี้ยวเบนและการแทรกสอดของอนุภาค</title>
+  <title>3.2 การเลี้ยวเบนของอนุภาค</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,33 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
+      margin: 0;
+      padding: 6px;
       overflow-x: hidden;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -48,33 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -88,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -101,9 +96,9 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
@@ -116,107 +111,264 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 3.2 3.2 การเลี้ยวเบนและการแทรกสอดของอนุภาค
-      </div>
+      <div class="sim-title"><span>🔬</span> 3.2 การเลี้ยวเบนของอนุภาค: การทดลองเดวิสสัน-เกอร์เมอร์ & สลิตคู่ควอนตัม</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
-    
-        <div class="control-grid">
-          <div class="ctrl-box" style="grid-column: 1 / -1;">
-            <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="val_param" class="val-display">50</span>%</label>
-            <input type="range" id="slider_param" min="1" max="100" value="50">
-          </div>
-        </div>
-        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
-        
-
-    
-        <div class="readout-grid">
-          <div class="readout-card"><div class="readout-val" id="val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_status" style="color:#10b981;">Ready 2D/3D</div><div class="readout-lbl">โหมดประมวลผล</div></div>
-        </div>
-        
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tabDG" onclick="setMode('dg')">🎯 การทดลองเดวิสสัน-เกอร์เมอร์ (Davisson-Germer)</button>
+      <button class="tab-btn" id="tabSlit" onclick="setMode('slit')">✨ สลิตคู่อิเล็กตรอนทีละตัว (Double Slit)</button>
+    </div>
+    <div id="controlsDG" class="control-grid">
+      <div class="ctrl-box">
+        <label>ความต่างศักย์เร่งอิเล็กตรอน (V_a): <span id="val_dg_va" class="val-display">54</span> V</label>
+        <input type="range" id="slider_dg_va" min="40" max="68" step="1" value="54">
+      </div>
+      <div class="ctrl-box">
+        <label>มุมตรวจจับการกระเจิง (θ): <span id="val_dg_theta" class="val-display">50</span>°</label>
+        <input type="range" id="slider_dg_theta" min="20" max="85" step="1" value="50">
+      </div>
+    </div>
+    <div id="controlsSlit" class="control-grid" style="display:none;">
+      <div class="ctrl-box">
+        <label>อัตราการยิงอิเล็กตรอน (Electrons/frame): <span id="val_rate" class="val-display">5</span> ตัว/เฟรม</label>
+        <input type="range" id="slider_rate" min="1" max="25" step="1" value="5">
+      </div>
+      <div class="ctrl-box">
+        <button type="button" onclick="resetSlit()" style="background:#0284c7; color:#fff; border:none; padding:8px 16px; border-radius:6px; font-weight:700; cursor:pointer; font-family:'Sarabun', sans-serif; margin-top:10px;">🔄 รีเซ็ตฉากรับ (Clear Screen)</button>
+      </div>
+    </div>
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+    <div class="readout-grid" id="readoutsDG">
+      <div class="readout-card"><div class="readout-val" id="val_dg_lam">0.167 nm</div><div class="readout-lbl">ความยาวคลื่นเดอบรอยล์ (λ)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_dg_bragg">0.165 nm</div><div class="readout-lbl">ความยาวคลื่นจากการเลี้ยวเบน Bragg</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_dg_status" style="color:#10b981;">พีคสูงสุดที่ 54V & 50°</div><div class="readout-lbl">การแทรกสอดแบบเสริมกัน!</div></div>
+    </div>
+    <div class="readout-grid" id="readoutsSlit" style="display:none;">
+      <div class="readout-card"><div class="readout-val" id="val_tot_hits">0</div><div class="readout-lbl">จำนวนอิเล็กตรอนสะสม (Hits)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_slit_status" style="color:#00f0ff;">ริ้วแทรกสอดเริ่มก่อตัว</div><div class="readout-lbl">พฤติกรรมคลื่นของอิเล็กตรอนเดี่ยว</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_pattern" style="color:#10b981;">Wave-Particle Duality</div><div class="readout-lbl">ข้อสรุปทวิภาวะ</div></div>
+    </div>
   </div>
 
   <script>
-    
-        const cv = document.getElementById("simCanvas");
-        const ctx = cv.getContext("2d");
-        const slider = document.getElementById("slider_param") || { value: 50 };
-        let tick = 0;
 
-        function animate() {
-          const val = +slider.value || 50;
-          const valEl = document.getElementById("val_param");
-          if (valEl) valEl.textContent = val;
-          const coeff = (val / 50).toFixed(3);
-          const mEl = document.getElementById("val_metric");
-          if (mEl) mEl.textContent = coeff;
+    const cv = document.getElementById("simCanvas");
+    const ctx = cv.getContext("2d");
+    let currentMode = "dg";
+    let tick = 0;
+    let hitCount = 0;
+    let hitPoints = [];
 
-          ctx.clearRect(0, 0, cv.width, cv.height);
+    function setMode(mode) {
+      currentMode = mode;
+      document.getElementById("tabDG").classList.toggle("active", mode === "dg");
+      document.getElementById("tabSlit").classList.toggle("active", mode === "slit");
+      document.getElementById("controlsDG").style.display = mode === "dg" ? "grid" : "none";
+      document.getElementById("controlsSlit").style.display = mode === "slit" ? "grid" : "none";
+      document.getElementById("readoutsDG").style.display = mode === "dg" ? "grid" : "none";
+      document.getElementById("readoutsSlit").style.display = mode === "slit" ? "grid" : "none";
+    }
 
-          // Waveform 1 (Neon Cyan)
-          ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=2) {
-            const norm = (x-40)/560;
-            const y = 115 + 45 * Math.sin(norm * Math.PI * 4 * coeff + tick*0.06) * Math.cos(norm * Math.PI * 2);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+    function resetSlit() {
+      hitCount = 0;
+      hitPoints = [];
+    }
 
-          // Waveform 2 (Amber Field)
-          ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=4) {
-            const norm = (x-40)/560;
-            const y = 115 + 50 * Math.sin(norm * Math.PI * 2 * coeff - tick*0.04);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+    function animate() {
+      ctx.clearRect(0, 0, cv.width, cv.height);
 
-          // Particle Field
-          for(let i=0; 10 > i; i++) {
-            const px = 40 + ((tick*3 + i*56) % 560);
-            const py = 115 + 30 * Math.sin(px*0.02 + tick*0.05);
-            ctx.fillStyle = "#10b981";
-            ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI*2); ctx.fill();
-          }
+      if (currentMode === "dg") {
+        const Va = +document.getElementById("slider_dg_va").value;
+        const theta = +document.getElementById("slider_dg_theta").value;
 
-          ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
-          ctx.fillText("จำลองผลลัพธ์พลวัตเชิงฟิสิกส์เรียลไทม์ (Live 60 FPS Engine)", 50, 30);
+        document.getElementById("val_dg_va").textContent = Va;
+        document.getElementById("val_dg_theta").textContent = theta;
 
-          tick++;
-          requestAnimationFrame(animate);
+        const lambda_nm = 1.226 / Math.sqrt(Va);
+        // Bragg condition for Nickel (D = 0.215 nm): lambda = D * sin(theta)
+        const D = 0.215; // nm
+        const bragg_lam = D * Math.sin(theta * Math.PI / 180);
+
+        document.getElementById("val_dg_lam").textContent = lambda_nm.toFixed(3) + " nm";
+        document.getElementById("val_dg_bragg").textContent = bragg_lam.toFixed(3) + " nm";
+
+        // Intensity model centered at 54V and 50 deg
+        const diffV = (Va - 54) / 4.0;
+        const diffT = (theta - 50) / 6.0;
+        const intensity = Math.exp(-(diffV*diffV + diffT*diffT));
+
+        const statEl = document.getElementById("val_dg_status");
+        if (intensity > 0.7) {
+          statEl.textContent = "พีคสูงสุดที่ 54V & 50° (ตรงกัน 100%)"; statEl.style.color = "#10b981";
+        } else {
+          statEl.textContent = "ความเข้มต่ำ (" + (intensity*100).toFixed(0) + "%)"; statEl.style.color = "#f59e0b";
         }
-        animate();
-        
+
+        // Left Panel: Apparatus
+        const gunX = 50, targetX = 170, targetY = 115;
+
+        // Electron Gun
+        ctx.fillStyle = "#334155"; ctx.fillRect(gunX, targetY - 12, 35, 24);
+        ctx.fillStyle = "#38bdf8"; ctx.font = "9px sans-serif"; ctx.fillText("Gun (" + Va + "V)", gunX + 2, targetY + 4);
+
+        // Nickel Crystal Target
+        ctx.fillStyle = "#64748b"; ctx.fillRect(targetX, targetY - 40, 20, 80);
+        ctx.fillStyle = "#00f0ff"; ctx.fillText("Nickel Crystal", targetX - 10, targetY + 55);
+
+        // Incoming Beam
+        ctx.strokeStyle = "#38bdf8"; ctx.lineWidth = 2.5;
+        ctx.beginPath(); ctx.moveTo(gunX + 35, targetY); ctx.lineTo(targetX, targetY); ctx.stroke();
+
+        // Scattered Beam at angle theta
+        const rad = theta * Math.PI / 180;
+        const detR = 95;
+        const detX = targetX - detR * Math.cos(rad);
+        const detY = targetY - detR * Math.sin(rad);
+
+        ctx.strokeStyle = "rgba(16, 185, 129, " + (0.3 + intensity*0.7) + ")";
+        ctx.lineWidth = 2 + intensity * 3;
+        ctx.beginPath(); ctx.moveTo(targetX, targetY); ctx.lineTo(detX, detY); ctx.stroke();
+
+        // Movable Detector
+        ctx.fillStyle = "#10b981";
+        ctx.beginPath(); ctx.arc(detX, detY, 6, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle = "#ffffff"; ctx.font = "10px sans-serif"; ctx.fillText(theta + "°", detX - 12, detY - 8);
+
+        // Right Panel: Polar Intensity Plot
+        const ox = 420, oy = 175, pr = 135;
+        ctx.fillStyle = "#0f172a"; ctx.strokeStyle = "#1e293b";
+        ctx.fillRect(290, 20, 330, 185); ctx.strokeRect(290, 20, 330, 185);
+
+        ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
+        ctx.fillText("กราฟเชิงขั้วแสดงความเข้มของอิเล็กตรอนกระเจิง (I vs θ)", 305, 38);
+
+        // Polar curve for current Va
+        ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        for(let a = 20; 85 >= a; a += 1) {
+          const arad = a * Math.PI / 180;
+          const dV = (Va - 54) / 4.0;
+          const dT = (a - 50) / 6.0;
+          const I_a = 0.2 + 0.8 * Math.exp(-(dV*dV + dT*dT));
+          const r_len = I_a * 105;
+          const px = 460 - r_len * Math.cos(arad);
+          const py = oy - r_len * Math.sin(arad);
+          if (a === 20) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+
+        // Target center dot in polar
+        ctx.fillStyle = "#f59e0b"; ctx.beginPath(); ctx.arc(460, oy, 4, 0, Math.PI*2); ctx.fill();
+      }
+      else {
+        // Double-slit electron accumulation mode
+        const rate = +document.getElementById("slider_rate").value;
+        document.getElementById("val_rate").textContent = rate;
+
+        // Add hits based on theoretical wave probability: I(y) ~ cos^2(ky)
+        for(let r=0; rate > r; r++) {
+          hitCount++;
+          // Rejection sampling for double slit fringe distribution
+          let py = 0, prob = 0;
+          while(true) {
+            py = (Math.random() - 0.5) * 160;
+            prob = Math.pow(Math.cos(py * 0.09), 2) * Math.exp(-py*py / 3500);
+            if (Math.random() < prob) break;
+          }
+          hitPoints.push({ x: 540 + Math.random()*25, y: 115 + py });
+        }
+
+        document.getElementById("val_tot_hits").textContent = hitCount.toLocaleString();
+
+        // Left: Electron Gun & Double Slit
+        ctx.fillStyle = "#334155"; ctx.fillRect(30, 100, 30, 30);
+        ctx.fillStyle = "#38bdf8"; ctx.font = "9px sans-serif"; ctx.fillText("Gun", 36, 118);
+
+        // Slits Barrier
+        ctx.fillStyle = "#475569";
+        ctx.fillRect(220, 25, 10, 75);
+        ctx.fillRect(220, 107, 10, 16);
+        ctx.fillRect(220, 130, 10, 75);
+
+        ctx.fillStyle = "#94a3b8"; ctx.font = "10px sans-serif";
+        ctx.fillText("สลิตคู่ (Double Slit)", 180, 20);
+
+        // Incoming matter waves
+        ctx.strokeStyle = "rgba(0, 240, 255, 0.4)"; ctx.lineWidth = 1.5;
+        for(let w=0; 5 > w; w++) {
+          const wx = 65 + ((tick*3 + w*30) % 150);
+          ctx.beginPath(); ctx.moveTo(wx, 50); ctx.lineTo(wx, 180); ctx.stroke();
+        }
+
+        // Emerging circular waves from slits
+        ctx.strokeStyle = "rgba(16, 185, 129, 0.35)"; ctx.lineWidth = 1.2;
+        for(let c=0; 4 > c; c++) {
+          const cr = ((tick*2.5 + c*35) % 180);
+          ctx.beginPath(); ctx.arc(225, 103, cr, -Math.PI/2.5, Math.PI/2.5); ctx.stroke();
+          ctx.beginPath(); ctx.arc(225, 127, cr, -Math.PI/2.5, Math.PI/2.5); ctx.stroke();
+        }
+
+        // Right: Detector Screen with hit points
+        ctx.fillStyle = "#030712"; ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 1.5;
+        ctx.fillRect(530, 25, 80, 180); ctx.strokeRect(530, 25, 80, 180);
+
+        ctx.fillStyle = "#10b981";
+        hitPoints.slice(-1500).forEach(pt => {
+          ctx.fillRect(pt.x, pt.y, 1.8, 1.8);
+        });
+      }
+
+      tick++;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
   </script>
 </body>
 </html>

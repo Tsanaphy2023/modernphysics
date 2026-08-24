@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 3.3 3.3 กลุ่มคลื่นและหลักความไม่แน่นอนของไฮเซนเบิร์ก</title>
+  <title>3.3 กลุ่มคลื่น & ความไม่แน่นอน</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,33 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
+      margin: 0;
+      padding: 6px;
       overflow-x: hidden;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -48,33 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -88,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -101,9 +96,9 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
@@ -116,107 +111,166 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 3.3 3.3 กลุ่มคลื่นและหลักความไม่แน่นอนของไฮเซนเบิร์ก
-      </div>
+      <div class="sim-title"><span>🔬</span> 3.3 กลุ่มคลื่น & หลักความไม่แน่นอนของไฮเซนเบิร์ก (Heisenberg Uncertainty)</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
-    
-        <div class="control-grid">
-          <div class="ctrl-box" style="grid-column: 1 / -1;">
-            <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="val_param" class="val-display">50</span>%</label>
-            <input type="range" id="slider_param" min="1" max="100" value="50">
-          </div>
-        </div>
-        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
-        
-
-    
-        <div class="readout-grid">
-          <div class="readout-card"><div class="readout-val" id="val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_status" style="color:#10b981;">Ready 2D/3D</div><div class="readout-lbl">โหมดประมวลผล</div></div>
-        </div>
-        
+    <div class="control-grid">
+      <div class="ctrl-box">
+        <label>ความไม่แน่นอนของตำแหน่ง (Δx): <span id="val_dx" class="val-display">1.0</span> nm</label>
+        <input type="range" id="slider_dx" min="0.2" max="3.0" step="0.1" value="1.0">
+      </div>
+      <div class="ctrl-box">
+        <label>ความเร็วกลุ่มของอนุภาค (v_group): <span id="val_vg" class="val-display">2.0</span> × 10⁶ m/s</label>
+        <input type="range" id="slider_vg" min="0.5" max="5.0" step="0.1" value="2.0">
+      </div>
+    </div>
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+    <div class="readout-grid">
+      <div class="readout-card"><div class="readout-val" id="val_dp">0.527 × 10⁻²⁴</div><div class="readout-lbl">ความไม่แน่นอนโมเมนตัม (Δp ≥ ℏ/(2Δx))</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_prod">0.527 × 10⁻³⁴</div><div class="readout-lbl">ผลคูณความไม่แน่นอน (Δx·Δp ≥ ℏ/2)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_status" style="color:#10b981;">สอดคล้องกับขีดจำกัดควอนตัม</div><div class="readout-lbl">สถานะหลักความไม่แน่นอน</div></div>
+    </div>
   </div>
 
   <script>
-    
-        const cv = document.getElementById("simCanvas");
-        const ctx = cv.getContext("2d");
-        const slider = document.getElementById("slider_param") || { value: 50 };
-        let tick = 0;
 
-        function animate() {
-          const val = +slider.value || 50;
-          const valEl = document.getElementById("val_param");
-          if (valEl) valEl.textContent = val;
-          const coeff = (val / 50).toFixed(3);
-          const mEl = document.getElementById("val_metric");
-          if (mEl) mEl.textContent = coeff;
+    const cv = document.getElementById("simCanvas");
+    const ctx = cv.getContext("2d");
+    const sliderDx = document.getElementById("slider_dx");
+    const sliderVg = document.getElementById("slider_vg");
+    let tick = 0;
 
-          ctx.clearRect(0, 0, cv.width, cv.height);
+    function animate() {
+      const dx_nm = +sliderDx.value;
+      const vg_unit = +sliderVg.value;
 
-          // Waveform 1 (Neon Cyan)
-          ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=2) {
-            const norm = (x-40)/560;
-            const y = 115 + 45 * Math.sin(norm * Math.PI * 4 * coeff + tick*0.06) * Math.cos(norm * Math.PI * 2);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+      document.getElementById("val_dx").textContent = dx_nm.toFixed(1);
+      document.getElementById("val_vg").textContent = vg_unit.toFixed(1);
 
-          // Waveform 2 (Amber Field)
-          ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=4) {
-            const norm = (x-40)/560;
-            const y = 115 + 50 * Math.sin(norm * Math.PI * 2 * coeff - tick*0.04);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+      // hbar = 1.0545718e-34
+      const dx_m = dx_nm * 1e-9;
+      const dp_min = 1.0545718e-34 / (2 * dx_m);
+      const prod = dx_m * dp_min;
 
-          // Particle Field
-          for(let i=0; 10 > i; i++) {
-            const px = 40 + ((tick*3 + i*56) % 560);
-            const py = 115 + 30 * Math.sin(px*0.02 + tick*0.05);
-            ctx.fillStyle = "#10b981";
-            ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI*2); ctx.fill();
-          }
+      document.getElementById("val_dp").textContent = (dp_min * 1e24).toFixed(3) + " × 10⁻²⁴";
+      document.getElementById("val_prod").textContent = (prod * 1e34).toFixed(3) + " × 10⁻³⁴";
 
-          ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
-          ctx.fillText("จำลองผลลัพธ์พลวัตเชิงฟิสิกส์เรียลไทม์ (Live 60 FPS Engine)", 50, 30);
+      ctx.clearRect(0, 0, cv.width, cv.height);
 
-          tick++;
-          requestAnimationFrame(animate);
-        }
-        animate();
-        
+      // Top Half: Wave Packet in Position Space (Psi(x))
+      const topY = 70;
+      ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
+      ctx.fillText("ฟังก์ชันคลื่นกลุ่มในปริภูมิตำแหน่ง Ψ(x) [ตำแหน่งแน่นอนขึ้น = คลื่นบีบแคบ]", 30, 22);
+
+      // Center position traveling with group velocity vg
+      const packetX = 80 + ((tick * vg_unit * 1.2) % 480);
+      const sigmaX = dx_nm * 25; // pixel width
+
+      // Envelope and Carrier Waves
+      ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      for(let x = 30; 600 >= x; x += 2) {
+        const dist = (x - packetX) / sigmaX;
+        const envelope = Math.exp(-dist * dist / 2);
+        const carrier = Math.sin((x - tick * vg_unit * 2.8) * 0.22);
+        const y = topY - envelope * carrier * 38;
+        if (x === 30) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // Envelope Dotted Line
+      ctx.strokeStyle = "rgba(245, 158, 11, 0.6)"; ctx.lineWidth = 1.5; ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      for(let x = 30; 600 >= x; x += 2) {
+        const dist = (x - packetX) / sigmaX;
+        const envelope = Math.exp(-dist * dist / 2);
+        const y = topY - envelope * 38;
+        if (x === 30) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.stroke(); ctx.setLineDash([]);
+
+      // Width indicator (Delta x)
+      ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(packetX - sigmaX, topY + 42); ctx.lineTo(packetX + sigmaX, topY + 42); ctx.stroke();
+      ctx.fillStyle = "#f59e0b"; ctx.font = "10px sans-serif";
+      ctx.fillText("Δx = " + dx_nm.toFixed(1) + " nm", packetX - 25, topY + 56);
+
+      // Divider line
+      ctx.strokeStyle = "#1e293b"; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(30, 138); ctx.lineTo(610, 138); ctx.stroke();
+
+      // Bottom Half: Momentum Spread in Momentum Space (Phi(p))
+      const botY = 195;
+      ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
+      ctx.fillText("การแจกแจงโมเมนตัม Φ(p) [ยิ่ง Δx แคบ → Δp ยิ่งกว้างขึ้นตามการแปลงฟูเรียร์]", 30, 154);
+
+      const sigmaP = (1.0 / dx_nm) * 45; // pixel width inversely proportional to dx!
+      const pCenterX = 320;
+
+      ctx.fillStyle = "rgba(16, 185, 129, 0.25)"; ctx.strokeStyle = "#10b981"; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(120, botY);
+      for(let px = 120; 520 >= px; px += 2) {
+        const distP = (px - pCenterX) / sigmaP;
+        const envP = Math.exp(-distP * distP / 2);
+        const yP = botY - envP * 34;
+        ctx.lineTo(px, yP);
+      }
+      ctx.lineTo(520, botY); ctx.closePath(); ctx.fill(); ctx.stroke();
+
+      ctx.fillStyle = "#10b981"; ctx.font = "10px sans-serif";
+      ctx.fillText("Δp = " + (dp_min*1e24).toFixed(2) + " × 10⁻²⁴ kg·m/s", pCenterX - 60, botY + 14);
+
+      tick++;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
   </script>
 </body>
 </html>

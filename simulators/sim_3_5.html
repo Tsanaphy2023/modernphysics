@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 3.5 3.5 แบบฝึกหัดและปฏิบัติการจำลอง AR</title>
+  <title>3.5 ปฏิบัติการควอนตัม & คลื่นนิ่ง</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,33 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
+      margin: 0;
+      padding: 6px;
       overflow-x: hidden;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -48,33 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -88,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -101,9 +96,9 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
@@ -116,107 +111,210 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 3.5 3.5 แบบฝึกหัดและปฏิบัติการจำลอง AR
-      </div>
+      <div class="sim-title"><span>🔬</span> 3.5 ปฏิบัติการควอนตัม: ความไม่แน่นอนพลังงาน-เวลา & คลื่นนิ่งของสสาร</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
-    
-        <div class="control-grid">
-          <div class="ctrl-box" style="grid-column: 1 / -1;">
-            <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="val_param" class="val-display">50</span>%</label>
-            <input type="range" id="slider_param" min="1" max="100" value="50">
-          </div>
-        </div>
-        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
-        
-
-    
-        <div class="readout-grid">
-          <div class="readout-card"><div class="readout-val" id="val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_status" style="color:#10b981;">Ready 2D/3D</div><div class="readout-lbl">โหมดประมวลผล</div></div>
-        </div>
-        
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tabVac" onclick="setMode('vac')">🌌 สุญญากาศควอนตัม (Quantum Vacuum Fluctuations)</button>
+      <button class="tab-btn" id="tabWell" onclick="setMode('well')">🌊 คลื่นนิ่งในกล่องศักย์ (Standing Matter Waves)</button>
+    </div>
+    <div id="controlsVac" class="control-grid">
+      <div class="ctrl-box">
+        <label>พลังงานความผันผวนควอนตัม (ΔE): <span id="val_de" class="val-display">1.02</span> MeV (มวลคู่อิเล็กตรอน e⁺e⁻)</label>
+        <input type="range" id="slider_de" min="0.5" max="5.0" step="0.1" value="1.02">
+      </div>
+      <div class="ctrl-box">
+        <label>อนุภาคเสมือน (Virtual Particles):</label>
+        <div style="color:#94a3b8; font-size:0.80rem; margin-top:4px;">กำเนิดและสลายตัวภายในเวลา Δt ≤ ℏ/(2ΔE)</div>
+      </div>
+    </div>
+    <div id="controlsWell" class="control-grid" style="display:none;">
+      <div class="ctrl-box">
+        <label>เลขควอนตัมของคลื่นนิ่ง (n): <span id="val_n" class="val-display">3</span> (มี 3 ลูป)</label>
+        <input type="range" id="slider_n" min="1" max="6" step="1" value="3">
+      </div>
+      <div class="ctrl-box">
+        <label>ความกว้างกล่องศักย์ (L): 1.0 nm</label>
+        <div style="color:#94a3b8; font-size:0.80rem; margin-top:4px;">เงื่อนไขคลื่นนิ่ง: L = n·(λ/2) → ควอนไทเซชันของพลังงาน</div>
+      </div>
+    </div>
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+    <div class="readout-grid" id="readoutsVac">
+      <div class="readout-card"><div class="readout-val" id="val_dt">3.22 × 10⁻²² s</div><div class="readout-lbl">อายุขัยสูงสุดอนุภาคเสมือน (Δt ≤ ℏ/2ΔE)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_pairs">e⁻ + e⁺</div><div class="readout-lbl">คู่อนุภาค-ปฏิยานุภาคที่เกิดขึ้น</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_vac_stat" style="color:#10b981;">อนุรักษ์พลังงานในกรอบ Δt</div><div class="readout-lbl">หลักความไม่แน่นอนพลังงาน-เวลา</div></div>
+    </div>
+    <div class="readout-grid" id="readoutsWell" style="display:none;">
+      <div class="readout-card"><div class="readout-val" id="val_well_lam">0.667 nm</div><div class="readout-lbl">ความยาวคลื่นเดอบรอยล์ (λ = 2L/n)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_well_nodes">4 บัพ (Nodes)</div><div class="readout-lbl">จุดตรึงของฟังก์ชันคลื่น</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_well_e">3.38 eV</div><div class="readout-lbl">ระดับพลังงานควอนไทซ์ (E_n = n²·E₁)</div></div>
+    </div>
   </div>
 
   <script>
-    
-        const cv = document.getElementById("simCanvas");
-        const ctx = cv.getContext("2d");
-        const slider = document.getElementById("slider_param") || { value: 50 };
-        let tick = 0;
 
-        function animate() {
-          const val = +slider.value || 50;
-          const valEl = document.getElementById("val_param");
-          if (valEl) valEl.textContent = val;
-          const coeff = (val / 50).toFixed(3);
-          const mEl = document.getElementById("val_metric");
-          if (mEl) mEl.textContent = coeff;
+    const cv = document.getElementById("simCanvas");
+    const ctx = cv.getContext("2d");
+    let currentMode = "vac";
+    let tick = 0;
 
-          ctx.clearRect(0, 0, cv.width, cv.height);
+    function setMode(mode) {
+      currentMode = mode;
+      document.getElementById("tabVac").classList.toggle("active", mode === "vac");
+      document.getElementById("tabWell").classList.toggle("active", mode === "well");
+      document.getElementById("controlsVac").style.display = mode === "vac" ? "grid" : "none";
+      document.getElementById("controlsWell").style.display = mode === "well" ? "grid" : "none";
+      document.getElementById("readoutsVac").style.display = mode === "vac" ? "grid" : "none";
+      document.getElementById("readoutsWell").style.display = mode === "well" ? "grid" : "none";
+    }
 
-          // Waveform 1 (Neon Cyan)
-          ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=2) {
-            const norm = (x-40)/560;
-            const y = 115 + 45 * Math.sin(norm * Math.PI * 4 * coeff + tick*0.06) * Math.cos(norm * Math.PI * 2);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    let vPairs = [];
+    for(let i=0; 12 > i; i++) {
+      vPairs.push({
+        x: 60 + Math.random()*520,
+        y: 40 + Math.random()*150,
+        birth: Math.random()*60
+      });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, cv.width, cv.height);
+
+      if (currentMode === "vac") {
+        const dE_MeV = +document.getElementById("slider_de").value;
+        document.getElementById("val_de").textContent = dE_MeV.toFixed(2);
+
+        // dt = hbar / (2 * dE)
+        const dE_Joules = dE_MeV * 1e6 * 1.602e-19;
+        const dt_s = 1.0545718e-34 / (2 * dE_Joules);
+
+        document.getElementById("val_dt").textContent = (dt_s * 1e22).toFixed(2) + " × 10⁻²² s";
+
+        // Virtual pairs bubbling
+        ctx.fillStyle = "rgba(148, 163, 184, 0.08)";
+        ctx.fillRect(0, 0, cv.width, cv.height);
+
+        vPairs.forEach(p => {
+          const age = (tick - p.birth) % 40;
+          if (age > 0 && 35 > age) {
+            const sep = (age / 35) * 22;
+            // Electron e- (Cyan)
+            ctx.fillStyle = "#00f0ff";
+            ctx.beginPath(); ctx.arc(p.x - sep, p.y, 4, 0, Math.PI*2); ctx.fill();
+            // Positron e+ (Pink)
+            ctx.fillStyle = "#f43f5e";
+            ctx.beginPath(); ctx.arc(p.x + sep, p.y, 4, 0, Math.PI*2); ctx.fill();
+
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.3)"; ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(p.x - sep, p.y); ctx.lineTo(p.x + sep, p.y); ctx.stroke();
+          } else if (age >= 35) {
+            p.x = 60 + Math.random()*520;
+            p.y = 40 + Math.random()*150;
+            p.birth = tick;
           }
-          ctx.stroke();
+        });
 
-          // Waveform 2 (Amber Field)
-          ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=4) {
-            const norm = (x-40)/560;
-            const y = 115 + 50 * Math.sin(norm * Math.PI * 2 * coeff - tick*0.04);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+        ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
+        ctx.fillText("สุญญากาศควอนตัมไม่เคยว่างเปล่า: คู่อนุภาคเสมือน (e⁻ / e⁺) ผุดขึ้นและสลายตัวภายในเวลา Δt", 40, 25);
+      }
+      else {
+        // Standing Matter Wave in Infinite Well
+        const n = +document.getElementById("slider_n").value;
+        document.getElementById("val_n").textContent = n;
 
-          // Particle Field
-          for(let i=0; 10 > i; i++) {
-            const px = 40 + ((tick*3 + i*56) % 560);
-            const py = 115 + 30 * Math.sin(px*0.02 + tick*0.05);
-            ctx.fillStyle = "#10b981";
-            ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI*2); ctx.fill();
-          }
+        const L = 1.0; // nm
+        const lambda = (2 * L) / n;
+        const E1 = 0.376; // eV for 1 nm well
+        const En = n * n * E1;
 
-          ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
-          ctx.fillText("จำลองผลลัพธ์พลวัตเชิงฟิสิกส์เรียลไทม์ (Live 60 FPS Engine)", 50, 30);
+        document.getElementById("val_well_lam").textContent = lambda.toFixed(3) + " nm";
+        document.getElementById("val_well_nodes").textContent = (n + 1) + " บัพ (Nodes)";
+        document.getElementById("val_well_e").textContent = En.toFixed(2) + " eV";
 
-          tick++;
-          requestAnimationFrame(animate);
+        const ox = 90, oy = 115, boxW = 460;
+
+        // Hard Walls
+        ctx.fillStyle = "#334155";
+        ctx.fillRect(ox - 10, 30, 10, 160);
+        ctx.fillRect(ox + boxW, 30, 10, 160);
+
+        ctx.fillStyle = "#f43f5e"; ctx.font = "10px sans-serif";
+        ctx.fillText("ผนังศักย์อนันต์ (x=0)", ox - 25, 22);
+        ctx.fillText("ผนังศักย์อนันต์ (x=L)", ox + boxW - 25, 22);
+
+        // Standing wave: psi(x, t) = A * sin(n*pi*x/L) * cos(omega*t)
+        ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 3;
+        ctx.beginPath();
+        for(let px = 0; boxW >= px; px += 2) {
+          const normX = px / boxW;
+          const amp = Math.sin(n * Math.PI * normX) * Math.cos(tick * 0.08);
+          const y = oy - amp * 55;
+          if (px === 0) ctx.moveTo(ox + px, y); else ctx.lineTo(ox + px, y);
         }
-        animate();
-        
+        ctx.stroke();
+
+        // Node indicators
+        ctx.fillStyle = "#f59e0b";
+        for(let k=0; n >= k; k++) {
+          const nx = ox + (k / n) * boxW;
+          ctx.beginPath(); ctx.arc(nx, oy, 4, 0, Math.PI*2); ctx.fill();
+        }
+
+        ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
+        ctx.fillText("คลื่นนิ่งสสาร: ความยาวคลื่นที่พอดีขอบเขตนำไปสู่ 'การควอนไทซ์ของระดับพลังงาน' (E_n ∝ n²)", 75, 210);
+      }
+
+      tick++;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
   </script>
 </body>
 </html>

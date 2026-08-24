@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 3.4 3.4 การประยุกต์ใช้ทวิภาวะคลื่นและอนุภาค</title>
+  <title>3.4 การประยุกต์ใช้ & กล้องจุลทรรศน์</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,33 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
+      margin: 0;
+      padding: 6px;
       overflow-x: hidden;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -48,33 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -88,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -101,9 +96,9 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
@@ -116,107 +111,185 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 3.4 3.4 การประยุกต์ใช้ทวิภาวะคลื่นและอนุภาค
-      </div>
+      <div class="sim-title"><span>🔬</span> 3.4 การประยุกต์ใช้: กล้องจุลทรรศน์อิเล็กตรอน (TEM/SEM) & กำลังแยกขยายอะตอม</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
-    
-        <div class="control-grid">
-          <div class="ctrl-box" style="grid-column: 1 / -1;">
-            <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="val_param" class="val-display">50</span>%</label>
-            <input type="range" id="slider_param" min="1" max="100" value="50">
-          </div>
-        </div>
-        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
-        
-
-    
-        <div class="readout-grid">
-          <div class="readout-card"><div class="readout-val" id="val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_status" style="color:#10b981;">Ready 2D/3D</div><div class="readout-lbl">โหมดประมวลผล</div></div>
-        </div>
-        
+    <div class="control-grid">
+      <div class="ctrl-box">
+        <label>แรงดันเร่งลำอิเล็กตรอน (V_acc): <span id="val_vacc" class="val-display">100</span> kV</label>
+        <input type="range" id="slider_vacc" min="10" max="300" step="10" value="100">
+      </div>
+      <div class="ctrl-box">
+        <label>โหมดกล้องเปรียบเทียบ:</label>
+        <select id="sel_microscope">
+          <option value="tem" selected>กล้องจุลทรรศน์อิเล็กตรอน TEM (λ = 0.0037 nm)</option>
+          <option value="optical">กล้องจุลทรรศน์ใช้แสง Optical Light (λ = 500 nm)</option>
+        </select>
+      </div>
+    </div>
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+    <div class="readout-grid">
+      <div class="readout-card"><div class="readout-val" id="val_lam_tem">0.00388 nm</div><div class="readout-lbl">ความยาวคลื่นลำแสง (λ)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_res">0.12 nm (ระดับอะตอม)</div><div class="readout-lbl">ขีดจำกัดกำลังแยกขยาย (Abbe Limit)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_mag" style="color:#10b981;">1,000,000 ×</div><div class="readout-lbl">กำลังขยายสูงสุด (Magnification)</div></div>
+    </div>
   </div>
 
   <script>
-    
-        const cv = document.getElementById("simCanvas");
-        const ctx = cv.getContext("2d");
-        const slider = document.getElementById("slider_param") || { value: 50 };
-        let tick = 0;
 
-        function animate() {
-          const val = +slider.value || 50;
-          const valEl = document.getElementById("val_param");
-          if (valEl) valEl.textContent = val;
-          const coeff = (val / 50).toFixed(3);
-          const mEl = document.getElementById("val_metric");
-          if (mEl) mEl.textContent = coeff;
+    const cv = document.getElementById("simCanvas");
+    const ctx = cv.getContext("2d");
+    const sliderVacc = document.getElementById("slider_vacc");
+    const selMicro = document.getElementById("sel_microscope");
+    let tick = 0;
 
-          ctx.clearRect(0, 0, cv.width, cv.height);
+    function animate() {
+      const mode = selMicro.value;
+      const Vacc_kV = +sliderVacc.value;
+      document.getElementById("val_vacc").textContent = Vacc_kV;
 
-          // Waveform 1 (Neon Cyan)
-          ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=2) {
-            const norm = (x-40)/560;
-            const y = 115 + 45 * Math.sin(norm * Math.PI * 4 * coeff + tick*0.06) * Math.cos(norm * Math.PI * 2);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      let lambda_nm, resolution_nm, magText;
+      if (mode === "tem") {
+        // Relativistic de Broglie: lambda = 1.226 / sqrt(V * (1 + 0.978e-6 * V))
+        const V_volts = Vacc_kV * 1000;
+        lambda_nm = 1.226 / Math.sqrt(V_volts * (1 + 0.978e-6 * V_volts));
+        resolution_nm = 0.61 * lambda_nm / 0.02; // NA ~ 0.02 for EM lenses
+        magText = (Vacc_kV * 10000).toLocaleString() + " ×";
+
+        document.getElementById("val_lam_tem").textContent = lambda_nm.toFixed(5) + " nm";
+        document.getElementById("val_res").textContent = resolution_nm.toFixed(2) + " nm (ระดับอะตอม)";
+        document.getElementById("val_mag").textContent = magText;
+        document.getElementById("val_mag").style.color = "#10b981";
+      } else {
+        lambda_nm = 500;
+        resolution_nm = 0.61 * 500 / 1.4; // NA ~ 1.4 for Oil immersion
+        document.getElementById("val_lam_tem").textContent = "500 nm (แสงเขียว)";
+        document.getElementById("val_res").textContent = resolution_nm.toFixed(0) + " nm (ติดกำแพงเลี้ยวเบน)";
+        document.getElementById("val_mag").textContent = "1,500 × (ขีดจำกัดแสง)";
+        document.getElementById("val_mag").style.color = "#f43f5e";
+      }
+
+      ctx.clearRect(0, 0, cv.width, cv.height);
+
+      // Left Panel: Column Schematic
+      const colX = 100, colY = 20, colW = 60, colH = 185;
+      ctx.fillStyle = "#0f172a"; ctx.strokeStyle = "#334155"; ctx.lineWidth = 1.5;
+      ctx.fillRect(colX, colY, colW, colH); ctx.strokeRect(colX, colY, colW, colH);
+
+      // Electron Gun at top
+      ctx.fillStyle = mode === "tem" ? "#00f0ff" : "#f59e0b";
+      ctx.fillRect(colX + 15, colY + 8, 30, 12);
+      ctx.fillStyle = "#ffffff"; ctx.font = "8px sans-serif"; ctx.fillText(mode === "tem" ? "E-Gun" : "Lamp", colX + 18, colY + 17);
+
+      // Magnetic Lenses
+      ctx.fillStyle = "#475569";
+      ctx.fillRect(colX + 5, colY + 45, 12, 16); ctx.fillRect(colX + colW - 17, colY + 45, 12, 16); // Condenser
+      ctx.fillRect(colX + 5, colY + 115, 12, 16); ctx.fillRect(colX + colW - 17, colY + 115, 12, 16); // Objective
+
+      // Specimen stage
+      ctx.fillStyle = "#ef4444"; ctx.fillRect(colX + 10, colY + 85, 40, 4);
+
+      // Ray beams
+      ctx.strokeStyle = mode === "tem" ? "rgba(0, 240, 255, 0.7)" : "rgba(245, 158, 11, 0.7)";
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      ctx.moveTo(colX + 30, colY + 20);
+      ctx.lineTo(colX + 20, colY + 85); ctx.lineTo(colX + 30, colY + 175);
+      ctx.moveTo(colX + 30, colY + 20);
+      ctx.lineTo(colX + 40, colY + 85); ctx.lineTo(colX + 30, colY + 175);
+      ctx.stroke();
+
+      // Right Panel: Specimen View Screen (Comparison)
+      const scrX = 230, scrY = 25, scrW = 380, scrH = 175;
+      ctx.fillStyle = "#020617"; ctx.strokeStyle = "#1e293b"; ctx.lineWidth = 1.5;
+      ctx.fillRect(scrX, scrY, scrW, scrH); ctx.strokeRect(scrX, scrY, scrW, scrH);
+
+      ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
+      ctx.fillText("ภาพจำลองตัวอย่างผลึกซิลิกอน (Silicon Crystal Lattice View)", scrX + 15, scrY + 20);
+
+      if (mode === "tem") {
+        // TEM mode: Crisp sharp atomic grid
+        for(let r=0; 6 > r; r++) {
+          for(let c=0; 12 > c; c++) {
+            const ax = scrX + 35 + c * 28;
+            const ay = scrY + 45 + r * 22;
+            const glow = ctx.createRadialGradient(ax, ay, 1, ax, ay, 8);
+            glow.addColorStop(0, "#00f0ff");
+            glow.addColorStop(0.5, "rgba(0, 240, 255, 0.4)");
+            glow.addColorStop(1, "transparent");
+            ctx.fillStyle = glow;
+            ctx.beginPath(); ctx.arc(ax, ay, 8, 0, Math.PI*2); ctx.fill();
+
+            ctx.fillStyle = "#ffffff";
+            ctx.beginPath(); ctx.arc(ax, ay, 2.5, 0, Math.PI*2); ctx.fill();
           }
-          ctx.stroke();
-
-          // Waveform 2 (Amber Field)
-          ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=4) {
-            const norm = (x-40)/560;
-            const y = 115 + 50 * Math.sin(norm * Math.PI * 2 * coeff - tick*0.04);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
-
-          // Particle Field
-          for(let i=0; 10 > i; i++) {
-            const px = 40 + ((tick*3 + i*56) % 560);
-            const py = 115 + 30 * Math.sin(px*0.02 + tick*0.05);
-            ctx.fillStyle = "#10b981";
-            ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI*2); ctx.fill();
-          }
-
-          ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
-          ctx.fillText("จำลองผลลัพธ์พลวัตเชิงฟิสิกส์เรียลไทม์ (Live 60 FPS Engine)", 50, 30);
-
-          tick++;
-          requestAnimationFrame(animate);
         }
-        animate();
-        
+        ctx.fillStyle = "#10b981"; ctx.font = "bold 11px sans-serif";
+        ctx.fillText("✓ มองเห็นระนาบอะตอมเดี่ยวคมชัด 100% (Atomic Lattice Resolution)", scrX + 15, scrY + scrH - 12);
+      } else {
+        // Optical mode: Blurred diffraction blob
+        const blurGrad = ctx.createRadialGradient(scrX + scrW/2, scrY + scrH/2, 20, scrX + scrW/2, scrY + scrH/2, 110);
+        blurGrad.addColorStop(0, "rgba(245, 158, 11, 0.8)");
+        blurGrad.addColorStop(0.6, "rgba(239, 68, 68, 0.3)");
+        blurGrad.addColorStop(1, "transparent");
+        ctx.fillStyle = blurGrad;
+        ctx.fillRect(scrX + 15, scrY + 35, scrW - 30, scrH - 55);
+
+        ctx.fillStyle = "#f43f5e"; ctx.font = "bold 11px sans-serif";
+        ctx.fillText("✗ มัวและเบลอเนื่องจากขีดจำกัดการเลี้ยวเบนของแสง (λ แสง > 500 nm)", scrX + 15, scrY + scrH - 12);
+      }
+
+      tick++;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
   </script>
 </body>
 </html>
