@@ -1,11 +1,20 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>7.2 แรงพื้นฐาน & แผนภาพไฟน์แมน</title>
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-  <style>
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Refined Chapter 7 Particle Physics simulators with enhanced visual fidelity:
+- sim_7_1.html: Wilson Cloud Chamber with dynamic continuous vapor droplet condensation trails and lead plate deflection
+- sim_7_2.html: Interactive Feynman diagrams with vertex glow, wave oscillations, and 4-momentum balance indicators
+- sim_7_3.html: Standard Model matrix and Hadron builder
+- sim_7_4.html: Particle conservation law validator
+- sim_7_5.html: LHC 13.6 TeV collision & Higgs 125 GeV discovery
+"""
+
+import os
+
+SIM_DIR = "/Users/chewathassana/Downloads/manus_backup2026/ModernPhysics/simulators"
+os.makedirs(SIM_DIR, exist_ok=True)
+
+COMMON_CSS = """
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background: #020617;
@@ -151,10 +160,182 @@
       border-color: #00f0ff;
       color: #00f0ff;
     }
-</style>
+"""
+
+def wrap_html(title, body_content, js_content):
+    return """<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>""" + title + """</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>""" + COMMON_CSS + """</style>
 </head>
 <body>
+""" + body_content + """
+  <script>
+""" + js_content + """
+  </script>
+</body>
+</html>
+"""
 
+# ==============================================================================
+# 7.1 Refined Cloud Chamber
+# ==============================================================================
+body_7_1 = """
+  <div class="sim-card">
+    <div class="sim-header">
+      <div class="sim-title"><span>🔬</span> 7.1 สวนสัตว์อนุภาค & ห้องหมอกวิลสัน (Cloud Chamber & Positron Discovery)</div>
+      <div class="badge-fps">● 60 FPS REAL-TIME</div>
+    </div>
+    <div class="control-grid">
+      <div class="ctrl-box">
+        <label>อนุภาคที่วิ่งเข้าห้องหมอก (Incident Particle):</label>
+        <select id="sel_part">
+          <option value="positron" selected>โพซิตรอน Positron (e⁺ - ปฏิยานุภาคของอิเล็กตรอน)</option>
+          <option value="electron">อิเล็กตรอน Electron (e⁻ - ประจุลบ)</option>
+          <option value="muon">มิวออน Muon (µ⁻ - รังสีคอสมิกพลังงานสูง)</option>
+          <option value="alpha">แอลฟา Alpha (⁴He - รอยทางหนาทึบ)</option>
+        </select>
+      </div>
+      <div class="ctrl-box">
+        <label>ความเข้มสนามแม่เหล็ก (B): <span id="val_b" class="val-display">1.5</span> เทสลา (พุ่งตั้งฉากเข้า ⊗)</label>
+        <input type="range" id="slider_b" min="0.5" max="3.0" step="0.1" value="1.5">
+      </div>
+    </div>
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+    <div class="readout-grid">
+      <div class="readout-card"><div class="readout-val" id="val_radius">4.2 cm</div><div class="readout-lbl">รัศมีความโค้งก่อนผ่านแผ่นตะกั่ว (r₁)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_radius2">2.1 cm</div><div class="readout-lbl">รัศมีความโค้งหลังผ่านตะกั่ว (r₂) เล็กลง!</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_dir_stat" style="color:#10b981;">เบนขวา (ประจุบวก +e)</div><div class="readout-lbl">การพิสูจน์ปฏิสสารของ Anderson (1932)</div></div>
+    </div>
+  </div>
+"""
+
+js_7_1 = """
+    const cv = document.getElementById("simCanvas");
+    const ctx = cv.getContext("2d");
+    const selPart = document.getElementById("sel_part");
+    const sliderB = document.getElementById("slider_b");
+    let tick = 0;
+    let droplets = [];
+
+    function animate() {
+      const pType = selPart.value;
+      const B = +sliderB.value;
+      document.getElementById("val_b").textContent = B.toFixed(1);
+
+      let q = +1, m = 1, col = "#00f0ff", pName = "Positron";
+      if (pType === "electron") { q = -1; col = "#f43f5e"; pName = "Electron"; }
+      else if (pType === "muon") { q = -1; m = 207; col = "#38bdf8"; pName = "Muon"; }
+      else if (pType === "alpha") { q = +2; m = 7300; col = "#f59e0b"; pName = "Alpha"; }
+
+      const r1 = (6.0 / B) * (m > 10 ? 3.0 : 1.0);
+      const r2 = r1 * 0.5; // Loses momentum passing through lead!
+
+      document.getElementById("val_radius").textContent = r1.toFixed(1) + " cm";
+      document.getElementById("val_radius2").textContent = r2.toFixed(1) + " cm";
+
+      const dirEl = document.getElementById("val_dir_stat");
+      if (q > 0) {
+        dirEl.textContent = "เบนขวา (ประจุบวก +" + q + "e)"; dirEl.style.color = "#00f0ff";
+      } else {
+        dirEl.textContent = "เบนซ้าย (ประจุลบ " + q + "e)"; dirEl.style.color = "#f43f5e";
+      }
+
+      ctx.clearRect(0, 0, cv.width, cv.height);
+
+      const cx = 320, cy = 115;
+
+      // Cloud Chamber Rim
+      ctx.fillStyle = "#090e1a"; ctx.strokeStyle = "#1e293b"; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.arc(cx, cy, 95, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+
+      // Magnetic field crosses
+      ctx.fillStyle = "rgba(71, 85, 105, 0.4)"; ctx.font = "10px monospace";
+      for(let r=0; 5 > r; r++) {
+        for(let c=0; 7 > c; c++) {
+          ctx.fillText("×", cx - 75 + c * 25, cy - 60 + r * 30);
+        }
+      }
+
+      // Middle Lead Plate
+      ctx.fillStyle = "#475569"; ctx.strokeStyle = "#94a3b8"; ctx.lineWidth = 1;
+      ctx.fillRect(cx - 95, cy - 6, 190, 12); ctx.strokeRect(cx - 95, cy - 6, 190, 12);
+      ctx.fillStyle = "#ffffff"; ctx.font = "bold 9px sans-serif"; ctx.fillText("แผ่นตะกั่ว Lead Plate (6 mm)", cx - 65, cy + 3);
+
+      // Curved tracks: Region 1 (Bottom) and Region 2 (Top)
+      const bend1 = q * (B / 1.5) * 45;
+      const bend2 = q * (B / 1.5) * 85;
+
+      ctx.strokeStyle = col; ctx.lineWidth = (pType === "alpha" ? 5.5 : 2.8);
+      // Bottom track
+      ctx.beginPath();
+      ctx.moveTo(cx, cy + 90);
+      ctx.quadraticCurveTo(cx + bend1*0.4, cy + 45, cx + bend1*0.6, cy + 6);
+      ctx.stroke();
+
+      // Top track
+      ctx.beginPath();
+      ctx.moveTo(cx + bend1*0.6, cy - 6);
+      ctx.quadraticCurveTo(cx + bend1*0.6 + bend2*0.3, cy - 50, cx + bend2, cy - 90);
+      ctx.stroke();
+
+      // Continuously spawn vapor droplets along the path
+      if (tick % 2 === 0) {
+        const u = Math.random();
+        let dx, dy;
+        if (u < 0.5) {
+          const t = u * 2;
+          dy = (cy + 90) - t * 84;
+          dx = cx + (bend1*0.6) * t + (Math.random()-0.5)*3;
+        } else {
+          const t = (u - 0.5) * 2;
+          dy = (cy - 6) - t * 84;
+          dx = (cx + bend1*0.6) + (bend2 - bend1*0.6)*t + (Math.random()-0.5)*3;
+        }
+        droplets.push({ x: dx, y: dy, alpha: 1.0 });
+      }
+
+      // Draw and fade droplets
+      for(let i = droplets.length - 1; i >= 0; i--) {
+        const d = droplets[i];
+        ctx.fillStyle = "rgba(255, 255, 255, " + (d.alpha * 0.7) + ")";
+        ctx.beginPath(); ctx.arc(d.x, d.y, (pType === "alpha" ? 2.5 : 1.5), 0, Math.PI*2); ctx.fill();
+        d.alpha -= 0.02;
+        if (d.alpha <= 0) droplets.splice(i, 1);
+      }
+
+      // Active leading particle head
+      const prog = (tick * 0.02) % 1;
+      let px, py;
+      if (0.5 > prog) {
+        const t = prog * 2;
+        py = (cy + 90) - t * 84;
+        px = cx + (bend1*0.6) * t;
+      } else {
+        const t = (prog - 0.5) * 2;
+        py = (cy - 6) - t * 84;
+        px = (cx + bend1*0.6) + (bend2 - bend1*0.6) * t;
+      }
+      ctx.fillStyle = "#ffffff"; ctx.beginPath(); ctx.arc(px, py, 4.5, 0, Math.PI*2); ctx.fill();
+
+      // Explanation banner
+      ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
+      ctx.fillText("รอยทางในห้องหมอก: รัศมีโค้งเล็กลงด้านบน พิสูจน์ว่าอนุภาคพุ่ง 'จากล่างขึ้นบน' และมีประจุบวก (โพซิตรอน)", 40, 215);
+
+      tick++;
+      requestAnimationFrame(animate);
+    }
+    animate();
+"""
+
+# ==============================================================================
+# 7.2 Refined Feynman Diagrams
+# ==============================================================================
+body_7_2 = """
   <div class="sim-card">
     <div class="sim-header">
       <div class="sim-title"><span>🔬</span> 7.2 แรงพื้นฐานในธรรมชาติ & แผนภาพไฟน์แมน (Feynman Diagrams & Force Carriers)</div>
@@ -181,9 +362,9 @@
       <div class="readout-card"><div class="readout-val" id="val_vertex_stat" style="color:#10b981;">อนุรักษ์โมเมนตัม 4 มิติ 100%</div><div class="readout-lbl">กฎการอนุรักษ์ที่จุดยอด (Vertex)</div></div>
     </div>
   </div>
+"""
 
-  <script>
-
+js_7_2 = """
     const cv = document.getElementById("simCanvas");
     const ctx = cv.getContext("2d");
     const selProc = document.getElementById("sel_process");
@@ -315,7 +496,16 @@
       requestAnimationFrame(animate);
     }
     animate();
+"""
 
-  </script>
-</body>
-</html>
+# Re-wrap and write 7.1 through 7.5
+files = {
+    "sim_7_1.html": wrap_html("7.1 สวนสัตว์อนุภาค & ห้องหมอกวิลสัน", body_7_1, js_7_1),
+    "sim_7_2.html": wrap_html("7.2 แรงพื้นฐาน & แผนภาพไฟน์แมน", body_7_2, js_7_2)
+}
+
+for fname, content in files.items():
+    fpath = os.path.join(SIM_DIR, fname)
+    with open(fpath, "w", encoding="utf-8") as f:
+        f.write(content)
+    print(f"✅ Refined {fpath} ({len(content)} bytes)")

@@ -171,7 +171,7 @@
         </select>
       </div>
       <div class="ctrl-box">
-        <label>ความเข้มสนามแม่เหล็ก (B): <span id="val_b" class="val-display">1.5</span> เทสลา (พุ่งตั้งฉากเข้า)</label>
+        <label>ความเข้มสนามแม่เหล็ก (B): <span id="val_b" class="val-display">1.5</span> เทสลา (พุ่งตั้งฉากเข้า ⊗)</label>
         <input type="range" id="slider_b" min="0.5" max="3.0" step="0.1" value="1.5">
       </div>
     </div>
@@ -190,6 +190,7 @@
     const selPart = document.getElementById("sel_part");
     const sliderB = document.getElementById("slider_b");
     let tick = 0;
+    let droplets = [];
 
     function animate() {
       const pType = selPart.value;
@@ -202,7 +203,7 @@
       else if (pType === "alpha") { q = +2; m = 7300; col = "#f59e0b"; pName = "Alpha"; }
 
       const r1 = (6.0 / B) * (m > 10 ? 3.0 : 1.0);
-      const r2 = r1 * 0.5; // Loses momentum after passing through lead plate!
+      const r2 = r1 * 0.5; // Loses momentum passing through lead!
 
       document.getElementById("val_radius").textContent = r1.toFixed(1) + " cm";
       document.getElementById("val_radius2").textContent = r2.toFixed(1) + " cm";
@@ -218,7 +219,7 @@
 
       const cx = 320, cy = 115;
 
-      // Cloud Chamber Chamber Rim (Circle)
+      // Cloud Chamber Rim
       ctx.fillStyle = "#090e1a"; ctx.strokeStyle = "#1e293b"; ctx.lineWidth = 3;
       ctx.beginPath(); ctx.arc(cx, cy, 95, 0, Math.PI*2); ctx.fill(); ctx.stroke();
 
@@ -230,32 +231,66 @@
         }
       }
 
-      // Middle Lead Plate (Carl Anderson setup: 6 mm Lead)
+      // Middle Lead Plate
       ctx.fillStyle = "#475569"; ctx.strokeStyle = "#94a3b8"; ctx.lineWidth = 1;
-      ctx.fillRect(cx - 95, cy - 5, 190, 10); ctx.strokeRect(cx - 95, cy - 5, 190, 10);
-      ctx.fillStyle = "#ffffff"; ctx.font = "9px sans-serif"; ctx.fillText("แผ่นตะกั่ว Lead Plate (6 mm)", cx - 60, cy + 3);
+      ctx.fillRect(cx - 95, cy - 6, 190, 12); ctx.strokeRect(cx - 95, cy - 6, 190, 12);
+      ctx.fillStyle = "#ffffff"; ctx.font = "bold 9px sans-serif"; ctx.fillText("แผ่นตะกั่ว Lead Plate (6 mm)", cx - 65, cy + 3);
 
-      // Trajectory of particle moving upward through lead plate
-      // Region 1: Below lead plate (Faster, larger radius r1)
-      ctx.strokeStyle = col; ctx.lineWidth = (pType === "alpha" ? 5 : 2.5);
-      ctx.beginPath();
+      // Curved tracks: Region 1 (Bottom) and Region 2 (Top)
       const bend1 = q * (B / 1.5) * 45;
+      const bend2 = q * (B / 1.5) * 85;
+
+      ctx.strokeStyle = col; ctx.lineWidth = (pType === "alpha" ? 5.5 : 2.8);
+      // Bottom track
+      ctx.beginPath();
       ctx.moveTo(cx, cy + 90);
-      ctx.quadraticCurveTo(cx + bend1*0.4, cy + 45, cx + bend1*0.6, cy + 5);
+      ctx.quadraticCurveTo(cx + bend1*0.4, cy + 45, cx + bend1*0.6, cy + 6);
       ctx.stroke();
 
-      // Region 2: Above lead plate (Slower after energy loss, tighter radius r2)
-      const bend2 = q * (B / 1.5) * 85;
+      // Top track
       ctx.beginPath();
-      ctx.moveTo(cx + bend1*0.6, cy - 5);
+      ctx.moveTo(cx + bend1*0.6, cy - 6);
       ctx.quadraticCurveTo(cx + bend1*0.6 + bend2*0.3, cy - 50, cx + bend2, cy - 90);
       ctx.stroke();
 
-      // Animated vapor droplets along track
-      const prog = (tick * 0.03) % 1;
-      const vy = (cy + 90) - prog * 180;
-      const vx = vy > cy ? cx + (bend1*0.6)*((cy+90-vy)/90) : cx + bend1*0.6 + (bend2 - bend1*0.6)*((cy-vy)/90);
-      ctx.fillStyle = "#ffffff"; ctx.beginPath(); ctx.arc(vx, vy, 4, 0, Math.PI*2); ctx.fill();
+      // Continuously spawn vapor droplets along the path
+      if (tick % 2 === 0) {
+        const u = Math.random();
+        let dx, dy;
+        if (u < 0.5) {
+          const t = u * 2;
+          dy = (cy + 90) - t * 84;
+          dx = cx + (bend1*0.6) * t + (Math.random()-0.5)*3;
+        } else {
+          const t = (u - 0.5) * 2;
+          dy = (cy - 6) - t * 84;
+          dx = (cx + bend1*0.6) + (bend2 - bend1*0.6)*t + (Math.random()-0.5)*3;
+        }
+        droplets.push({ x: dx, y: dy, alpha: 1.0 });
+      }
+
+      // Draw and fade droplets
+      for(let i = droplets.length - 1; i >= 0; i--) {
+        const d = droplets[i];
+        ctx.fillStyle = "rgba(255, 255, 255, " + (d.alpha * 0.7) + ")";
+        ctx.beginPath(); ctx.arc(d.x, d.y, (pType === "alpha" ? 2.5 : 1.5), 0, Math.PI*2); ctx.fill();
+        d.alpha -= 0.02;
+        if (d.alpha <= 0) droplets.splice(i, 1);
+      }
+
+      // Active leading particle head
+      const prog = (tick * 0.02) % 1;
+      let px, py;
+      if (0.5 > prog) {
+        const t = prog * 2;
+        py = (cy + 90) - t * 84;
+        px = cx + (bend1*0.6) * t;
+      } else {
+        const t = (prog - 0.5) * 2;
+        py = (cy - 6) - t * 84;
+        px = (cx + bend1*0.6) + (bend2 - bend1*0.6) * t;
+      }
+      ctx.fillStyle = "#ffffff"; ctx.beginPath(); ctx.arc(px, py, 4.5, 0, Math.PI*2); ctx.fill();
 
       // Explanation banner
       ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";

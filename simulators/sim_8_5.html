@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 8.5 8.5 งานวิจัยและแบบฝึกหัดทางดาราศาสตร์ฟิสิกส์</title>
+  <title>8.5 ปฏิบัติการเอกภพวิทยา & กล้อง JWST</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,33 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
+      margin: 0;
+      padding: 6px;
       overflow-x: hidden;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -48,33 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -88,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -101,9 +96,9 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
@@ -116,107 +111,224 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 8.5 8.5 งานวิจัยและแบบฝึกหัดทางดาราศาสตร์ฟิสิกส์
-      </div>
+      <div class="sim-title"><span>🔭</span> 8.5 ปฏิบัติการเอกภพวิทยา & กล้อง JWST (Friedmann Engine & JWST Deep Field)</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
-    
-        <div class="control-grid">
-          <div class="ctrl-box" style="grid-column: 1 / -1;">
-            <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="val_param" class="val-display">50</span>%</label>
-            <input type="range" id="slider_param" min="1" max="100" value="50">
-          </div>
-        </div>
-        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
-        
-
-    
-        <div class="readout-grid">
-          <div class="readout-card"><div class="readout-val" id="val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_status" style="color:#10b981;">Ready 2D/3D</div><div class="readout-lbl">โหมดประมวลผล</div></div>
-        </div>
-        
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tabFried" onclick="setMode('fried')">🌌 แบบจำลองฟรีดมันน์ (Friedmann Expansion a(t))</button>
+      <button class="tab-btn" id="tabJWST" onclick="setMode('jwst')">🔭 ภาพอวกาศห้วงลึก JWST (Primordial Galaxies & Lensing)</button>
+    </div>
+    <div id="controlsFried" class="control-grid">
+      <div class="ctrl-box">
+        <label>ความหนาแน่นสสารรวม (Matter Ω_m): <span id="val_om" class="val-display">0.30</span></label>
+        <input type="range" id="slider_om" min="0.0" max="1.5" step="0.05" value="0.30">
+      </div>
+      <div class="ctrl-box">
+        <label>ความหนาแน่นพลังงานมืด (Dark Energy Ω_Λ): <span id="val_ol" class="val-display">0.70</span></label>
+        <input type="range" id="slider_ol" min="0.0" max="1.5" step="0.05" value="0.70">
+      </div>
+    </div>
+    <div id="controlsJWST" class="control-grid" style="display:none;">
+      <div class="ctrl-box">
+        <label>ความยาวคลื่นอินฟราเรดตรวจจับ (JWST NIRCam): 0.6 - 5.0 µm</label>
+        <div style="color:#94a3b8; font-size:0.80rem; margin-top:4px;">ส่องทะลุฝุ่นแก๊ส พบกาแล็กซีแรกเริ่มที่ z = 13.2 (300 ล้านปีหลังบิกแบง)</div>
+      </div>
+      <div class="ctrl-box">
+        <label>ปรากฏการณ์เลนส์ความโน้มถ่วง (Einstein Ring / Arcs):</label>
+        <div style="color:#10b981; font-size:0.80rem; margin-top:4px;">กระจุกกาแล็กซี SMACS 0723 ขยายภาพกาแล็กซีพื้นหลัง</div>
+      </div>
+    </div>
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+    <div class="readout-grid" id="readoutsFried">
+      <div class="readout-card"><div class="readout-val" id="val_omega_tot">Ω_tot = 1.00 (Flat)</div><div class="readout-lbl">ความโค้งอวกาศรวม (Ω_m + Ω_Λ)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_fate_univ" style="color:#10b981;">ขยายตัวเร่งขึ้น (Accelerating)</div><div class="readout-lbl">ชะตากรรมของเอกภพในอนาคต</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_scale_today">a(t₀) = 1.00</div><div class="readout-lbl">แฟกเตอร์มาตราส่วนเอกภพปัจจุบัน</div></div>
+    </div>
+    <div class="readout-grid" id="readoutsJWST" style="display:none;">
+      <div class="readout-card"><div class="readout-val" id="val_jwst_redshift">z = 13.2</div><div class="readout-lbl">การเลื่อนทางแดงสูงสุดที่บันทึกได้</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_jwst_dist">33 พันล้านปีแสง</div><div class="readout-lbl">ระยะห่างตามการขยายตัว (Proper Distance)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_jwst_stat" style="color:#00f0ff;">Primordial Universe 100%</div><div class="readout-lbl">การค้นพบใหม่ของ JWST</div></div>
+    </div>
   </div>
 
   <script>
-    
-        const cv = document.getElementById("simCanvas");
-        const ctx = cv.getContext("2d");
-        const slider = document.getElementById("slider_param") || { value: 50 };
-        let tick = 0;
 
-        function animate() {
-          const val = +slider.value || 50;
-          const valEl = document.getElementById("val_param");
-          if (valEl) valEl.textContent = val;
-          const coeff = (val / 50).toFixed(3);
-          const mEl = document.getElementById("val_metric");
-          if (mEl) mEl.textContent = coeff;
+    const cv = document.getElementById("simCanvas");
+    const ctx = cv.getContext("2d");
+    let currentMode = "fried";
+    let tick = 0;
 
-          ctx.clearRect(0, 0, cv.width, cv.height);
+    function setMode(mode) {
+      currentMode = mode;
+      document.getElementById("tabFried").classList.toggle("active", mode === "fried");
+      document.getElementById("tabJWST").classList.toggle("active", mode === "jwst");
+      document.getElementById("controlsFried").style.display = mode === "fried" ? "grid" : "none";
+      document.getElementById("controlsJWST").style.display = mode === "jwst" ? "grid" : "none";
+      document.getElementById("readoutsFried").style.display = mode === "fried" ? "grid" : "none";
+      document.getElementById("readoutsJWST").style.display = mode === "jwst" ? "grid" : "none";
+    }
 
-          // Waveform 1 (Neon Cyan)
-          ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=2) {
-            const norm = (x-40)/560;
-            const y = 115 + 45 * Math.sin(norm * Math.PI * 4 * coeff + tick*0.06) * Math.cos(norm * Math.PI * 2);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    function animate() {
+      ctx.clearRect(0, 0, cv.width, cv.height);
+
+      if (currentMode === "fried") {
+        const Om = +document.getElementById("slider_om").value;
+        const Ol = +document.getElementById("slider_ol").value;
+
+        document.getElementById("val_om").textContent = Om.toFixed(2);
+        document.getElementById("val_ol").textContent = Ol.toFixed(2);
+
+        const Otot = Om + Ol;
+        let geomStr = "Ω_tot = " + Otot.toFixed(2) + " (Flat แบนราบ)";
+        if (Otot > 1.05) geomStr = "Ω_tot = " + Otot.toFixed(2) + " (Closed โค้งปิด)";
+        else if (0.95 > Otot) geomStr = "Ω_tot = " + Otot.toFixed(2) + " (Open โค้งเปิด)";
+        document.getElementById("val_omega_tot").textContent = geomStr;
+
+        let fateStr = "ขยายตัวเร่งขึ้น (Accelerating Big Freeze)";
+        let fateCol = "#10b981";
+        if (Ol === 0 && Om > 1.0) { fateStr = "หดตัวยุบสลาย (Big Crunch)"; fateCol = "#f43f5e"; }
+        else if (Ol === 0 && 1.0 >= Om) { fateStr = "ขยายตัวชะลอลงชั่วนิรันดร์ (Big Freeze)"; fateCol = "#38bdf8"; }
+
+        const fateEl = document.getElementById("val_fate_univ");
+        fateEl.textContent = fateStr; fateEl.style.color = fateCol;
+
+        // Friedmann Scale Factor a(t) Graph
+        const ox = 90, oy = 185, gw = 470, gh = 150;
+
+        ctx.strokeStyle = "#475569"; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(ox + gw, oy); ctx.stroke(); // Time t
+        ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(ox, oy - gh); ctx.stroke(); // Scale a(t)
+
+        ctx.fillStyle = "#94a3b8"; ctx.font = "10px sans-serif";
+        ctx.fillText("เวลา t (พันล้านปี) → [อดีต 0 ถึง อนาคต 30 Gyr]", ox + gw - 210, oy + 16);
+        ctx.fillText("ขนาดเอกภพ a(t)", ox - 10, oy - gh - 6);
+
+        // Present Day Line at t = 13.8 Gyr
+        const presX = ox + (13.8 / 30.0) * gw;
+        const presY = oy - (1.0 / 2.5) * gh;
+        ctx.strokeStyle = "rgba(148, 163, 184, 0.4)"; ctx.lineWidth = 1.5; ctx.setLineDash([3, 3]);
+        ctx.beginPath(); ctx.moveTo(presX, oy); ctx.lineTo(presX, oy - gh); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = "#ffffff"; ctx.font = "9px sans-serif";
+        ctx.fillText("ปัจจุบัน (t₀ = 13.8 Gyr, a=1.0)", presX - 55, oy - gh + 14);
+
+        // Plot dynamic a(t)
+        ctx.strokeStyle = fateCol; ctx.lineWidth = 3.0;
+        ctx.beginPath();
+        for(let t = 0; 30 >= t; t += 0.5) {
+          const px = ox + (t / 30.0) * gw;
+          let a_val;
+          if (Ol > 0.4) {
+            // Accelerating Lambda-dominated
+            a_val = Math.pow(t / 13.8, 0.66) * (1 - Ol*0.3) + (Ol*0.3) * Math.exp((t - 13.8)*0.08);
+          } else if (Om > 1.0) {
+            // Big Crunch
+            const tau = t / 13.8;
+            a_val = Math.max(0, 1.4 * Math.sin(tau * Math.PI / 2.2));
+          } else {
+            // Matter dominated deceleration
+            a_val = Math.pow(t / 13.8, 0.66);
           }
-          ctx.stroke();
-
-          // Waveform 2 (Amber Field)
-          ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=4) {
-            const norm = (x-40)/560;
-            const y = 115 + 50 * Math.sin(norm * Math.PI * 2 * coeff - tick*0.04);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
-
-          // Particle Field
-          for(let i=0; 10 > i; i++) {
-            const px = 40 + ((tick*3 + i*56) % 560);
-            const py = 115 + 30 * Math.sin(px*0.02 + tick*0.05);
-            ctx.fillStyle = "#10b981";
-            ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI*2); ctx.fill();
-          }
-
-          ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
-          ctx.fillText("จำลองผลลัพธ์พลวัตเชิงฟิสิกส์เรียลไทม์ (Live 60 FPS Engine)", 50, 30);
-
-          tick++;
-          requestAnimationFrame(animate);
+          const py = oy - (a_val / 2.5) * gh;
+          if (t === 0) ctx.moveTo(px, oy); else ctx.lineTo(px, Math.max(oy - gh - 10, py));
         }
-        animate();
-        
+        ctx.stroke();
+
+        ctx.fillStyle = fateCol; ctx.beginPath(); ctx.arc(presX, presY, 5, 0, Math.PI*2); ctx.fill();
+      }
+      else {
+        // JWST Deep Field & Gravitational Lensing Visualizer
+        const cx = 320, cy = 115;
+
+        // Foreground Massive Cluster Galaxy (Golden Lensing Core)
+        const lGrad = ctx.createRadialGradient(cx, cy, 2, cx, cy, 35);
+        lGrad.addColorStop(0, "#ffffff");
+        lGrad.addColorStop(0.4, "#f59e0b");
+        lGrad.addColorStop(1, "transparent");
+        ctx.fillStyle = lGrad;
+        ctx.beginPath(); ctx.arc(cx, cy, 35, 0, Math.PI*2); ctx.fill();
+
+        ctx.fillStyle = "#ffffff"; ctx.font = "bold 10px sans-serif";
+        ctx.fillText("กระจุกกาแล็กซีเลนส์โน้มถ่วง (Lensing Cluster)", cx - 100, cy - 45);
+
+        // Gravitational Lensed Arcs (Einstein Ring Arcs in Red/Infrared)
+        ctx.strokeStyle = "rgba(239, 68, 68, 0.85)"; ctx.lineWidth = 3.5;
+        // Top Arc
+        ctx.beginPath(); ctx.arc(cx, cy, 65, Math.PI*1.15, Math.PI*1.85); ctx.stroke();
+        // Bottom Arc
+        ctx.beginPath(); ctx.arc(cx, cy, 65, Math.PI*0.15, Math.PI*0.85); ctx.stroke();
+
+        // Primordial Infant Galaxies (Tiny red dots with diffraction spikes)
+        const prims = [
+          { x: cx - 120, y: cy - 35, z: "z=13.2" },
+          { x: cx + 130, y: cy + 40, z: "z=12.5" },
+          { x: cx - 80, y: cy + 60, z: "z=11.8" },
+          { x: cx + 90, y: cy - 65, z: "z=10.9" }
+        ];
+
+        prims.forEach(p => {
+          ctx.fillStyle = "#ef4444";
+          ctx.beginPath(); ctx.arc(p.x, p.y, 3.5, 0, Math.PI*2); ctx.fill();
+          // Diffraction spikes
+          ctx.strokeStyle = "rgba(239, 68, 68, 0.5)"; ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(p.x - 8, p.y); ctx.lineTo(p.x + 8, p.y); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(p.x, p.y - 8); ctx.lineTo(p.x, p.y + 8); ctx.stroke();
+
+          ctx.fillStyle = "#fca5a5"; ctx.font = "bold 9px 'JetBrains Mono', monospace";
+          ctx.fillText(p.z, p.x + 8, p.y + 3);
+        });
+      }
+
+      tick++;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
   </script>
 </body>
 </html>

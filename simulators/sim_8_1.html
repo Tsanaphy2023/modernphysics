@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RBRU Physics Lab: 8.1 8.1 การขยายตัวของเอกภพและกฎของฮับเบิล</title>
+  <title>8.1 การขยายตัวของเอกภพ & กฎของฮับเบิล</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -11,33 +11,29 @@
       background: #020617;
       color: #f8fafc;
       font-family: 'Sarabun', -apple-system, sans-serif;
+      margin: 0;
+      padding: 6px;
       overflow-x: hidden;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
     }
     .sim-card {
-      background: rgba(15, 23, 42, 0.95);
+      background: #090e1a;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       width: 100%;
-      max-width: 680px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      max-width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
     .sim-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #1e293b;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
     }
     .sim-title {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #00f0ff;
       display: flex;
@@ -48,33 +44,32 @@
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.4);
       color: #10b981;
-      padding: 3px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       font-weight: 700;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.5px;
     }
     .control-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     @media (max-width: 540px) {
       .control-grid { grid-template-columns: 1fr; }
     }
     .ctrl-box {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 7px;
     }
     .ctrl-box label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
       color: #94a3b8;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
     .ctrl-box .val-display {
       color: #00f0ff;
@@ -88,12 +83,12 @@
     }
     select {
       width: 100%;
-      background: #0f172a;
+      background: #090e1a;
       color: #00f0ff;
       border: 1px solid #334155;
-      padding: 6px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Sarabun', sans-serif;
     }
     .canvas-box {
@@ -101,9 +96,9 @@
       width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 10px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     canvas {
       display: block;
@@ -116,107 +111,179 @@
       gap: 8px;
     }
     .readout-card {
-      background: #090e1a;
+      background: #0f172a;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 8px 10px;
+      border-radius: 7px;
+      padding: 6px 8px;
       text-align: center;
     }
     .readout-val {
-      font-size: 1.0rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #00f0ff;
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
     .readout-lbl {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: #64748b;
     }
-  </style>
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sarabun', sans-serif;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0, 240, 255, 0.15);
+      border-color: #00f0ff;
+      color: #00f0ff;
+    }
+</style>
 </head>
 <body>
 
   <div class="sim-card">
     <div class="sim-header">
-      <div class="sim-title">
-        <span>🔬</span> 8.1 8.1 การขยายตัวของเอกภพและกฎของฮับเบิล
-      </div>
+      <div class="sim-title"><span>🔭</span> 8.1 การขยายตัวของเอกภพ & กฎของฮับเบิล (Hubble-Lemaître Law & Cosmological Redshift)</div>
       <div class="badge-fps">● 60 FPS REAL-TIME</div>
     </div>
-
-    
-        <div class="control-grid">
-          <div class="ctrl-box" style="grid-column: 1 / -1;">
-            <label>ระยะห่างกาแล็กซี (d): <span id="val_d" class="val-display">100</span> Mpc</label>
-            <input type="range" id="slider_d" min="10" max="500" step="5" value="100">
-          </div>
-        </div>
-        <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
-        
-
-    
-        <div class="readout-grid">
-          <div class="readout-card"><div class="readout-val" id="val_v">7,000 km/s</div><div class="readout-lbl">ความเร็วการถอยห่าง (v)</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_z">0.023</div><div class="readout-lbl">ค่าการเลื่อนทางแดง (Redshift z)</div></div>
-          <div class="readout-card"><div class="readout-val" id="val_h0">70 km/s/Mpc</div><div class="readout-lbl">ค่าคงตัวฮับเบิล (H₀)</div></div>
-        </div>
-        
+    <div class="control-grid">
+      <div class="ctrl-box">
+        <label>ระยะทางของกาแล็กซี (Distance d): <span id="val_dist" class="val-display">500</span> Mpc (ล้านพาร์เซก)</label>
+        <input type="range" id="slider_dist" min="50" max="2000" step="50" value="500">
+      </div>
+      <div class="ctrl-box">
+        <label>ค่าคงที่ฮับเบิล (Hubble Constant H₀): <span id="val_h0" class="val-display">70.0</span> km/s/Mpc</label>
+        <input type="range" id="slider_h0" min="50.0" max="90.0" step="1.0" value="70.0">
+      </div>
+    </div>
+    <div class="canvas-box"><canvas id="simCanvas" width="640" height="230"></canvas></div>
+    <div class="readout-grid">
+      <div class="readout-card"><div class="readout-val" id="val_velocity">35,000 km/s</div><div class="readout-lbl">ความเร็วถอยห่าง (v = H₀·d)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_redshift">z = 0.117</div><div class="readout-lbl">การเลื่อนทางแดงของสเปกตรัม (Redshift z)</div></div>
+      <div class="readout-card"><div class="readout-val" id="val_universe_age">13.97 พันล้านปี</div><div class="readout-lbl">อายุเอกภพโดยประมาณ (1/H₀)</div></div>
+    </div>
   </div>
 
   <script>
-    
-        const cv = document.getElementById("simCanvas");
-        const ctx = cv.getContext("2d");
-        const slider = document.getElementById("slider_param") || { value: 50 };
-        let tick = 0;
 
-        function animate() {
-          const val = +slider.value || 50;
-          const valEl = document.getElementById("val_param");
-          if (valEl) valEl.textContent = val;
-          const coeff = (val / 50).toFixed(3);
-          const mEl = document.getElementById("val_metric");
-          if (mEl) mEl.textContent = coeff;
+    const cv = document.getElementById("simCanvas");
+    const ctx = cv.getContext("2d");
+    const sliderDist = document.getElementById("slider_dist");
+    const sliderH0 = document.getElementById("slider_h0");
+    let tick = 0;
 
-          ctx.clearRect(0, 0, cv.width, cv.height);
+    const galaxies = [
+      { name: "Andromeda (M31)", d: 0.78, ang: 0.5, col: "#38bdf8" },
+      { name: "Virgo Cluster", d: 16.5, ang: 1.8, col: "#f59e0b" },
+      { name: "Centaurus Cluster", d: 52.0, ang: 3.2, col: "#10b981" },
+      { name: "Coma Cluster", d: 100.0, ang: 4.5, col: "#f43f5e" },
+      { name: "Hercules Cluster", d: 200.0, ang: 5.7, col: "#a855f7" }
+    ];
 
-          // Waveform 1 (Neon Cyan)
-          ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=2) {
-            const norm = (x-40)/560;
-            const y = 115 + 45 * Math.sin(norm * Math.PI * 4 * coeff + tick*0.06) * Math.cos(norm * Math.PI * 2);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+    function animate() {
+      const d_target = +sliderDist.value;
+      const H0 = +sliderH0.value;
 
-          // Waveform 2 (Amber Field)
-          ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          for(let x=40; 600 > x; x+=4) {
-            const norm = (x-40)/560;
-            const y = 115 + 50 * Math.sin(norm * Math.PI * 2 * coeff - tick*0.04);
-            if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
+      document.getElementById("val_dist").textContent = d_target;
+      document.getElementById("val_h0").textContent = H0.toFixed(1);
 
-          // Particle Field
-          for(let i=0; 10 > i; i++) {
-            const px = 40 + ((tick*3 + i*56) % 560);
-            const py = 115 + 30 * Math.sin(px*0.02 + tick*0.05);
-            ctx.fillStyle = "#10b981";
-            ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI*2); ctx.fill();
-          }
+      // v = H0 * d (km/s)
+      const v = H0 * d_target;
+      const c = 299792.458; // km/s
+      // Relativistic redshift: z = sqrt((1+v/c)/(1-v/c)) - 1 (or v/c for small v)
+      const beta = Math.min(0.95, v / c);
+      const z = Math.sqrt((1 + beta) / (1 - beta)) - 1;
 
-          ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
-          ctx.fillText("จำลองผลลัพธ์พลวัตเชิงฟิสิกส์เรียลไทม์ (Live 60 FPS Engine)", 50, 30);
+      // Age of universe in billion years: t_H = (1 / H0) * conversion
+      // 1 Mpc = 3.0857e19 km, 1 year = 3.1557e7 s
+      // (3.0857e19 / H0) / 3.1557e7 / 1e9 = 977.8 / H0
+      const ageGyr = 977.8 / H0;
 
-          tick++;
-          requestAnimationFrame(animate);
-        }
-        animate();
-        
+      document.getElementById("val_velocity").textContent = Math.round(v).toLocaleString() + " km/s";
+      document.getElementById("val_redshift").textContent = "z = " + z.toFixed(3);
+      document.getElementById("val_universe_age").textContent = ageGyr.toFixed(2) + " พันล้านปี";
+
+      ctx.clearRect(0, 0, cv.width, cv.height);
+
+      const cx = 320, cy = 115;
+
+      // Cosmic expanding grid
+      ctx.strokeStyle = "rgba(51, 65, 85, 0.35)"; ctx.lineWidth = 1;
+      const gridScale = 1.0 + (tick * 0.005 * (H0 / 70)) % 0.5;
+      for(let r=1; 4 >= r; r++) {
+        ctx.beginPath(); ctx.arc(cx, cy, r * 45 * gridScale, 0, Math.PI*2); ctx.stroke();
+      }
+
+      // Milky Way at Center
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath(); ctx.arc(cx, cy, 6, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = "#00f0ff"; ctx.font = "bold 10px sans-serif";
+      ctx.fillText("ทางช้างเผือก (Milky Way)", cx - 55, cy - 12);
+
+      // Expanding Galaxies
+      galaxies.forEach(g => {
+        const drift = ((tick * 0.008 * (H0 / 70) * (g.d / 100)) % 30);
+        const rad = 25 + (g.d / 200) * 120 + drift;
+        const gx = cx + rad * Math.cos(g.ang);
+        const gy = cy + rad * Math.sin(g.ang);
+
+        // Velocity vector arrow
+        const vx = (gx - cx) * 0.18;
+        const vy = (gy - cy) * 0.18;
+        ctx.strokeStyle = "#ef4444"; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(gx, gy); ctx.lineTo(gx + vx, gy + vy); ctx.stroke();
+
+        ctx.fillStyle = g.col;
+        ctx.beginPath(); ctx.arc(gx, gy, 4.5, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle = "#94a3b8"; ctx.font = "9px sans-serif";
+        ctx.fillText(g.name, gx + 8, gy + 3);
+      });
+
+      // Target Selected Galaxy (User controlled distance)
+      const targetRad = 35 + (d_target / 2000) * 160;
+      const tgX = cx + targetRad * Math.cos(0.2);
+      const tgY = cy + targetRad * Math.sin(0.2);
+
+      ctx.fillStyle = "#f43f5e"; ctx.beginPath(); ctx.arc(tgX, tgY, 6.5, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 1.5; ctx.stroke();
+      ctx.fillStyle = "#ffffff"; ctx.font = "bold 10px sans-serif";
+      ctx.fillText("เป้าหมาย (d=" + d_target + " Mpc)", tgX + 10, tgY + 4);
+
+      // Bottom Redshift Spectrum Bar
+      const specX = 120, specY = 195, specW = 400, specH = 14;
+      const specGrad = ctx.createLinearGradient(specX, 0, specX + specW, 0);
+      specGrad.addColorStop(0, "#3b82f6");
+      specGrad.addColorStop(0.5, "#10b981");
+      specGrad.addColorStop(1, "#ef4444");
+      ctx.fillStyle = specGrad;
+      ctx.fillRect(specX, specY, specW, specH);
+
+      // Redshifted absorption marker
+      const shiftX = specX + specW * 0.4 + Math.min(specW * 0.55, z * specW * 0.4);
+      ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(shiftX, specY - 3); ctx.lineTo(shiftX, specY + specH + 3); ctx.stroke();
+      ctx.fillStyle = "#ffffff"; ctx.font = "bold 9px sans-serif";
+      ctx.fillText("Hα Shifted (z=" + z.toFixed(3) + ")", shiftX - 35, specY - 6);
+
+      tick++;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
   </script>
 </body>
 </html>
