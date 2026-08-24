@@ -141,16 +141,16 @@
   <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 14px 18px; margin: 14px 0 12px 0;">
     <div style="font-size: 0.82rem; font-weight: 700; color: #94a3b8; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">คำอธิบายตัวแปรและหน่วย SI:</div>
     <div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
-      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:90px;">&bull; Actual Size:</span>
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; Actual Size:</span>
       <span>ขนาดจริงของอนุภาคหรือโครงสร้างนาโน (หน่วย: nm หรือ &mu;m)</span>
     </div><div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
-      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:90px;">&bull; Measured Pixels:</span>
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; Measured Pixels:</span>
       <span>ระยะพิกเซลที่วัดได้บนตัวอนุภาคจากโปรแกรมวิเคราะห์ภาพ (เช่น ImageJ)</span>
     </div><div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
-      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:90px;">&bull; Scale Pixels:</span>
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; Scale Pixels:</span>
       <span>ความยาวพิกเซลของแถบสเกลบาร์อ้างอิงบนภาพ</span>
     </div><div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
-      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:90px;">&bull; Scale Unit:</span>
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; Scale Unit:</span>
       <span>ค่าความยาวจริงที่ระบุบนสเกลบาร์ (เช่น 20 nm, 50 nm, 100 nm)</span>
     </div>
   </div>
@@ -175,7 +175,7 @@
     </div>
     
     <div style="position: relative; width: 100%; height: 545px; border-radius: 10px; overflow: hidden; background: #020617; border: 1px solid #1e293b;">
-      <iframe src="https://tsanaphy2023.github.io/modernphysics/simulators/sim_nano_1_4.html?v=2026_v3" style="width: 100%; height: 100%; border: none;" allow="camera; microphone; accelerometer; gyroscope;"></iframe>
+      <iframe src="https://tsanaphy2023.github.io/modernphysics/simulators/sim_nano_1_4.html?v=2026_v4" style="width: 100%; height: 100%; border: none;" allow="camera; microphone; accelerometer; gyroscope;"></iframe>
     </div>
 
     <div style="margin-top: 10px; font-size: 0.82rem; color: #94a3b8; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
@@ -204,7 +204,7 @@
           <span style="display: inline-block; background: #0284c7; color: #ffffff; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-size: 0.85rem; font-weight: 700; margin-right: 8px;">1</span>
           <strong>ขั้นตอนที่ 1: กำหนดตัวแปรและแทนค่าลงในสมการหลัก</strong>
           <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; margin: 8px 0 8px 32px; font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; text-align: center; color: #0284c7;">
-            \text{Actual Size} = \frac{\text{Measured Pixels}}{\text{Scale Pixels}} \times \text{Scale Unit}
+            สมการการวัดและเทียบมาตราส่วนภาพกล้องจุลทรรศน์ (Scale Bar Metrology Formula)
           </div>
         </div>
 
@@ -212,7 +212,7 @@
           <span style="display: inline-block; background: #0284c7; color: #ffffff; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-size: 0.85rem; font-weight: 700; margin-right: 8px;">2</span>
           <strong>ขั้นตอนที่ 2: วิเคราะห์ผลกระทบทางกายภาพและการเปลี่ยนแปลงระดับควอนตัม</strong>
           <p style="margin: 6px 0 0 32px; font-size: 0.95rem; color: #334155;">
-            เมื่อสสารลดขนาดลงสู่ช่วงนาโนเมตร สมบัติต่างๆ จะเบี่ยงเบนจากกลศาสตร์ดั้งเดิม (Classical Mechanics) เข้าสู่พฤติกรรมเฉพาะตามกฎมาตราส่วนของ 1.4 การอ่านสเกลบาร์และการวิเคราะห์ภาพกล้องจุลทรรศน์ (Scale Bar Metrology)
+            การวัดขนาดอนุภาคจากภาพ SEM/TEM ต้องวัดอนุภาคอย่างน้อย 100-300 จุดเพื่อสร้างฮิสโตแกรมการกระจายตัว (Size Distribution) และหาค่าเฉลี่ย d₅₀ พร้อมค่าเบี่ยงเบนมาตรฐาน (&plusmn;&sigma;)
           </p>
         </div>
 

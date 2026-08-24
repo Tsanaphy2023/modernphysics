@@ -116,17 +116,17 @@
   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; border-bottom: 1px solid rgba(0, 240, 255, 0.2); padding-bottom: 12px;">
     <div style="display: flex; align-items: center; gap: 10px;">
       <span style="font-size: 1.2rem;">📌</span>
-      <span style="font-weight: 800; font-size: 1.08rem; color: #38bdf8; letter-spacing: -0.2px;">กฎและสมการสำคัญประจำหัวข้อ 2.4</span>
+      <span style="font-weight: 800; font-size: 1.08rem; color: #38bdf8; letter-spacing: -0.2px;">สภาพนำไฟฟ้าควอนไทซ์และเวลาคลายตัวแม่เหล็กยิ่งยวด (Quantized Conductance & Néel Relaxation)</span>
     </div>
     <span style="background: rgba(0, 240, 255, 0.15); border: 1px solid #00f0ff; color: #00f0ff; padding: 3px 12px; border-radius: 9999px; font-size: 0.78rem; font-weight: 700; font-family: 'JetBrains Mono', monospace;">
-      ฟิสิกส์นาโน
+      บัลลิสติก & แม่เหล็ก
     </span>
   </div>
 
   <!-- Formula Highlight Display Box -->
   <div style="background: #020617; border: 1.5px solid rgba(0, 240, 255, 0.35); border-radius: 12px; padding: 20px 24px; text-align: center; margin: 16px 0; box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.8);">
     <div style="font-family: 'Cambria Math', 'Times New Roman', 'KaTeX_Main', serif; font-size: 1.55rem; line-height: 1.8; letter-spacing: 0.5px; display: inline-flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px;">
-      <span style='color:#facc15; font-weight:700;'>G = <span style='display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;'><span style='border-bottom:2px solid #38bdf8; padding:0 4px;'>2e^2</span>{h</span> \sum_{n</span> T_n, \quad &tau; = &tau;_0 \exp&le;ft(<span style='display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;'><span style='border-bottom:2px solid #38bdf8; padding:0 4px;'>KV</span>{k_B T</span>\right)</span>
+      <span style="color:#38bdf8; font-weight:700;">G</span> <span style="color:#ffffff;">=</span> <span style="color:#facc15; font-weight:700;">n</span> <span style="color:#ffffff;">&middot;</span> <span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;"><span style="border-bottom:2px solid #38bdf8; padding:0 6px; color:#38bdf8; font-weight:700;">2 e<sup>2</sup></span><span style="color:#38bdf8; font-weight:700;">h</span></span><span style="color:#ffffff;">,</span> &emsp; <span style="color:#f43f5e; font-weight:700;">&tau;</span> <span style="color:#ffffff;">=</span> <span style="color:#cbd5e1; font-style:italic;">&tau;<sub>0</sub></span> <span style="color:#ffffff;">exp</span><span style="color:#cbd5e1;">(</span><span style="display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center;"><span style="border-bottom:2px solid #f43f5e; padding:0 6px; color:#f43f5e;">K &middot; V</span><span style="color:#f43f5e;">k<sub>B</sub> T</span></span><span style="color:#cbd5e1;">)</span>
     </div>
   </div>
 
@@ -134,14 +134,26 @@
   <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 14px 18px; margin: 14px 0 12px 0;">
     <div style="font-size: 0.82rem; font-weight: 700; color: #94a3b8; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">คำอธิบายตัวแปรและหน่วย SI:</div>
     <div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
-      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:90px;">&bull; สมการหลัก:</span>
-      <span>ความสัมพันธ์เชิงปริมาณของตัวแปรในระบบฟิสิกส์ระดับนาโน (2.4 สภาพนำไฟฟ้าควอนไทซ์และสมบัติแม่เหล็กยิ่งยวด (Quantized Conductance & Superparamagnetism))</span>
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; G:</span>
+      <span>สภาพนำไฟฟ้าแบบบัลลิสติกผ่านจุดสัมผัสควอนตัม QPC (Quantized Conductance)</span>
+    </div><div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; G₀ = 2e²/h:</span>
+      <span>ค่าควอนตัมของสภาพนำไฟฟ้า (Conductance Quantum &asymp; 77.48 &mu;S)</span>
+    </div><div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; n:</span>
+      <span>จำนวนช่องทางการส่งผ่านควอนตัม (Conduction Subband Modes)</span>
+    </div><div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; &tau;:</span>
+      <span>เวลาคลายตัวแบบนีลของโมเมนต์แม่เหล็กในอนุภาคนาโนแม่เหล็กยิ่งยวด (Superparamagnetism)</span>
+    </div><div style="display:flex; gap:10px; margin-bottom:8px; font-size:0.92rem; color:#cbd5e1; line-height:1.6;">
+      <span style="color:#38bdf8; font-weight:700; font-family:'JetBrains Mono', monospace; min-width:110px;">&bull; K &middot; V:</span>
+      <span>พลังงานแอนไอโซโทรปีของอนุภาคแม่เหล็กปริมาตร V</span>
     </div>
   </div>
 
   <!-- Physical Significance Callout -->
   <div style="background: rgba(0, 240, 255, 0.08); border-left: 4px solid #00f0ff; border-radius: 8px; padding: 10px 16px; font-size: 0.90rem; color: #e2e8f0; line-height: 1.65;">
-    💡 <strong style="color: #38bdf8;">นัยสำคัญทางฟิสิกส์:</strong> สมการนี้แสดงความสัมพันธ์เชิงฟิสิกส์ในระดับนาโนสเกล โดยสมบัติของสสารจะเปลี่ยนแปลงอย่างมีนัยสำคัญตามขนาดและมิติของโครงสร้าง 2.4 สภาพนำไฟฟ้าควอนไทซ์และสมบัติแม่เหล็กยิ่งยวด (Quantized Conductance & Superparamagnetism)
+    💡 <strong style="color: #38bdf8;">นัยสำคัญทางฟิสิกส์:</strong> เมื่อสารแม่เหล็กมีขนาดต่ำกว่าขนาดโดเมนเดี่ยววิกฤต (D < 15 nm) พลังงานความร้อน k_B T จะทำให้ทิศทางโมเมนต์แม่เหล็กแกว่งไปมาอย่างอิสระ เกิดสมบัติแม่เหล็กยิ่งยวดไร้แรงต้านแม่เหล็กตกค้าง
   </div>
 </div>
 
@@ -159,7 +171,7 @@
     </div>
     
     <div style="position: relative; width: 100%; height: 545px; border-radius: 10px; overflow: hidden; background: #020617; border: 1px solid #1e293b;">
-      <iframe src="https://tsanaphy2023.github.io/modernphysics/simulators/sim_nano_2_4.html?v=2026_v3" style="width: 100%; height: 100%; border: none;" allow="camera; microphone; accelerometer; gyroscope;"></iframe>
+      <iframe src="https://tsanaphy2023.github.io/modernphysics/simulators/sim_nano_2_4.html?v=2026_v4" style="width: 100%; height: 100%; border: none;" allow="camera; microphone; accelerometer; gyroscope;"></iframe>
     </div>
 
     <div style="margin-top: 10px; font-size: 0.82rem; color: #94a3b8; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
@@ -188,7 +200,7 @@
           <span style="display: inline-block; background: #0284c7; color: #ffffff; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-size: 0.85rem; font-weight: 700; margin-right: 8px;">1</span>
           <strong>ขั้นตอนที่ 1: กำหนดตัวแปรและแทนค่าลงในสมการหลัก</strong>
           <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; margin: 8px 0 8px 32px; font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; text-align: center; color: #0284c7;">
-            G = \frac{2e^2}{h} \sum_{n} T_n, \quad \tau = \tau_0 \exp\left(\frac{KV}{k_B T}\right)
+            สภาพนำไฟฟ้าควอนไทซ์และเวลาคลายตัวแม่เหล็กยิ่งยวด (Quantized Conductance & Néel Relaxation)
           </div>
         </div>
 
@@ -196,7 +208,7 @@
           <span style="display: inline-block; background: #0284c7; color: #ffffff; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-size: 0.85rem; font-weight: 700; margin-right: 8px;">2</span>
           <strong>ขั้นตอนที่ 2: วิเคราะห์ผลกระทบทางกายภาพและการเปลี่ยนแปลงระดับควอนตัม</strong>
           <p style="margin: 6px 0 0 32px; font-size: 0.95rem; color: #334155;">
-            เมื่อสสารลดขนาดลงสู่ช่วงนาโนเมตร สมบัติต่างๆ จะเบี่ยงเบนจากกลศาสตร์ดั้งเดิม (Classical Mechanics) เข้าสู่พฤติกรรมเฉพาะตามกฎมาตราส่วนของ 2.4 สภาพนำไฟฟ้าควอนไทซ์และสมบัติแม่เหล็กยิ่งยวด (Quantized Conductance & Superparamagnetism)
+            เมื่อสารแม่เหล็กมีขนาดต่ำกว่าขนาดโดเมนเดี่ยววิกฤต (D < 15 nm) พลังงานความร้อน k_B T จะทำให้ทิศทางโมเมนต์แม่เหล็กแกว่งไปมาอย่างอิสระ เกิดสมบัติแม่เหล็กยิ่งยวดไร้แรงต้านแม่เหล็กตกค้าง
           </p>
         </div>
 
