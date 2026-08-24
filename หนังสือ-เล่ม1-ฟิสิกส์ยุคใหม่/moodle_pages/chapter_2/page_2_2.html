@@ -166,75 +166,115 @@
       <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
       
         <div class="sim-panel" id="sim_2_2_panel">
-          <div class="sim-control-group">
-            <label>อัตราเร็วสัมพัทธ์ (β = v/c): <span id="sim_2_2_val_beta" class="readout-val">0.60</span></label>
-            <input type="range" class="sim-slider" id="sim_2_2_slider_beta" min="0" max="95" value="60">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div class="sim-control-group">
+              <label>ความเร็วสัมพัทธ์ (v): <span id="sim_2_2_val_v" class="readout-val">0.80</span> c</label>
+              <input type="range" class="sim-slider" id="sim_2_2_slider_v" min="0" max="0.99" step="0.01" value="0.80">
+            </div>
+            <div class="sim-control-group">
+              <label>พิกัดตำแหน่งในกรอบ S (x): <span id="sim_2_2_val_x" class="readout-val">10</span> เมตร</label>
+              <input type="range" class="sim-slider" id="sim_2_2_slider_x" min="0" max="100" value="10">
+            </div>
           </div>
           <div class="sim-canvas-wrapper"><canvas id="sim_2_2_canvas" width="640" height="210"></canvas></div>
           <div class="sim-readout-grid">
-            <div class="readout-card"><div class="readout-val" id="sim_2_2_val_gamma">1.25</div><div class="readout-lbl">ตัวประกอบลอเรนซ์ (γ)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_2_2_val_xprime">x' = γ(x - vt)</div><div class="readout-lbl">การแปลงพิกัด x'</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_2_2_val_tprime">t' = γ(t - vx/c²)</div><div class="readout-lbl">การแปลงพิกัดเวลา t'</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_2_2_val_gamma">1.667</div><div class="readout-lbl">Lorentz Factor (γ)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_2_2_val_xp">16.67 m</div><div class="readout-lbl">พิกัดตำแหน่งในกรอบ S' (x')</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_2_2_val_tp">-4.44 × 10⁻⁸ s</div><div class="readout-lbl">พิกัดเวลาในกรอบ S' (t')</div></div>
           </div>
         </div>
         <script>
         (function() {
           function initSim() {
             const cv = document.getElementById("sim_2_2_canvas");
-            if (!cv) return;
+            if (!cv) return false;
             const ctx = cv.getContext("2d");
-            const slider = document.getElementById("sim_2_2_slider_beta");
+            const sliderV = document.getElementById("sim_2_2_slider_v");
+            const sliderX = document.getElementById("sim_2_2_slider_x");
+            if (!sliderV || !sliderX) return false;
 
             function draw() {
-              const beta = (+slider.value) / 100;
-              document.getElementById("sim_2_2_val_beta").textContent = beta.toFixed(2);
-              const gamma = 1 / Math.sqrt(1 - beta*beta);
-              document.getElementById("sim_2_2_val_gamma").textContent = gamma.toFixed(2);
+              const v = +sliderV.value;
+              const x = +sliderX.value;
+              const vEl = document.getElementById("sim_2_2_val_v");
+              if (vEl) vEl.textContent = v.toFixed(2);
+              const xEl = document.getElementById("sim_2_2_val_x");
+              if (xEl) xEl.textContent = x;
+
+              const gamma = 1 / Math.sqrt(Math.max(0.001, 1 - v*v));
+              const xp = gamma * x;
+              const tp = -gamma * v * (x / 3e8);
+
+              const gEl = document.getElementById("sim_2_2_val_gamma");
+              if (gEl) gEl.textContent = gamma.toFixed(3);
+              const xpEl = document.getElementById("sim_2_2_val_xp");
+              if (xpEl) xpEl.textContent = xp.toFixed(2) + " m";
+              const tpEl = document.getElementById("sim_2_2_val_tp");
+              if (tpEl) tpEl.textContent = tp.toExponential(2) + " s";
 
               ctx.clearRect(0,0,cv.width,cv.height);
-              const cx = cv.width/2, cy = cv.height/2;
+              // Spacetime Minkowski light cone schematic
+              ctx.strokeStyle = "#475569"; ctx.lineWidth = 1;
+              ctx.beginPath(); ctx.moveTo(320, 20); ctx.lineTo(320, 190); ctx.stroke(); // ct axis
+              ctx.beginPath(); ctx.moveTo(40, 105); ctx.lineTo(600, 105); ctx.stroke(); // x axis
+              ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
+              ctx.fillText("ct (เวลา)", 326, 30); ctx.fillText("x (ตำแหน่ง)", 550, 98);
 
-              ctx.strokeStyle = "#475569"; ctx.lineWidth = 1.5;
-              ctx.beginPath(); ctx.moveTo(cx - 200, cy); ctx.lineTo(cx + 200, cy); ctx.stroke();
-              ctx.beginPath(); ctx.moveTo(cx, cy + 90); ctx.lineTo(cx, cy - 90); ctx.stroke();
-              ctx.fillStyle = "#94a3b8"; ctx.font = "11px Sarabun";
-              ctx.fillText("x (ตำแหน่ง)", cx + 205, cy + 4);
-              ctx.fillText("ct (เวลา)", cx - 15, cy - 92);
-
-              ctx.strokeStyle = "rgba(245, 158, 11, 0.4)"; ctx.lineWidth = 1; ctx.setLineDash([3,3]);
-              ctx.beginPath(); ctx.moveTo(cx - 90, cy + 90); ctx.lineTo(cx + 90, cy - 90); ctx.stroke();
-              ctx.beginPath(); ctx.moveTo(cx + 90, cy + 90); ctx.lineTo(cx - 90, cy - 90); ctx.stroke();
+              // Light cone lines (45 deg)
+              ctx.strokeStyle = "rgba(245, 158, 11, 0.5)"; ctx.lineWidth = 1.5; ctx.setLineDash([4,4]);
+              ctx.beginPath(); ctx.moveTo(320 - 85, 105 + 85); ctx.lineTo(320 + 85, 105 - 85); ctx.stroke();
+              ctx.beginPath(); ctx.moveTo(320 - 85, 105 - 85); ctx.lineTo(320 + 85, 105 + 85); ctx.stroke();
               ctx.setLineDash([]);
 
-              const angle = Math.atan(beta);
+              // Boosted axis (x', ct')
+              const angle = Math.atan(v);
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              ctx.moveTo(cx - 90*Math.sin(angle), cy + 90*Math.cos(angle));
-              ctx.lineTo(cx + 90*Math.sin(angle), cy - 90*Math.cos(angle));
+              ctx.moveTo(320 - 180*Math.cos(angle), 105 + 180*Math.sin(angle));
+              ctx.lineTo(320 + 180*Math.cos(angle), 105 - 180*Math.sin(angle));
               ctx.stroke();
-              ctx.fillStyle = "#00f0ff"; ctx.fillText("ct'", cx + 90*Math.sin(angle) + 4, cy - 90*Math.cos(angle));
-
-              ctx.beginPath();
-              ctx.moveTo(cx - 160*Math.cos(angle), cy + 160*Math.sin(angle));
-              ctx.lineTo(cx + 160*Math.cos(angle), cy - 160*Math.sin(angle));
-              ctx.stroke();
-              ctx.fillText("x'", cx + 160*Math.cos(angle) + 6, cy - 160*Math.sin(angle) + 4);
+              ctx.fillStyle = "#00f0ff"; ctx.fillText("x' axis (Boosted S')", 480, 105 - 180*Math.sin(angle) - 5);
             }
-            slider.addEventListener("input", draw);
+            sliderV.addEventListener("input", draw);
+            sliderX.addEventListener("input", draw);
             draw();
+            return true;
           }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
-          else initSim();
+          function run() { if (!initSim()) setTimeout(run, 100); }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
+          else run();
+          setTimeout(run, 250);
+          setTimeout(run, 700);
         })();
         </script>
         
     </div>
 
-    <div class="example-card">
-      <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างคำนวณ: ตัวประกอบลอเรนซ์ที่ความเร็ว 0.8c</h3>
-      <p><b>โจทย์:</b> ยานอวกาศเคลื่อนที่ด้วยความเร็ว v = 0.8c จงหาค่าตัวประกอบลอเรนซ์</p>
-      <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e0f2fe;">
-        <b>เฉลยและวิธีทำ:</b><br>\(\gamma = \frac{1}{\sqrt{1 - (0.8)^2}} = \frac{1}{\sqrt{1 - 0.64}} = \frac{1}{\sqrt{0.36}} = \frac{1}{0.6} = 1.667\)
+    <!-- Worked Example with Toggleable Hidden Solution -->
+    <div class="example-card" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin:24px 0; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+        <h3 style="color:#0284c7; margin:0; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>📐</span> <span>ตัวอย่างคำนวณ: ตัวประกอบลอเรนซ์ที่ความเร็ว 0.8c</span>
+        </h3>
+        <span style="background:#e0f2fe; color:#0369a1; font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:20px;">WORKED EXAMPLE</span>
+      </div>
+      <div style="margin-bottom:16px; font-size:1rem; line-height:1.7; color:#334155;">
+        <b style="color:#0f172a;">โจทย์ตัวอย่าง:</b> ยานอวกาศเคลื่อนที่ด้วยความเร็ว v = 0.8c จงหาค่าตัวประกอบลอเรนซ์
+      </div>
+      
+      <div class="solution-container" style="margin-top:12px;">
+        <button type="button" class="btn-toggle-solution" onclick="toggleSolution('2.2')" id="btn-sol-2.2" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; border:none; border-radius:8px; padding:9px 20px; font-size:0.92rem; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:all 0.2s ease; box-shadow:0 2px 6px rgba(2,132,199,0.25);">
+          <span id="btn-icon-2.2">👁️</span>
+          <span id="btn-text-2.2">คลิกเพื่อดูเฉลยและวิธีทำละเอียด</span>
+        </button>
+        <div class="solution-content" id="sol-content-2.2" style="display:none; margin-top:14px; padding:18px 22px; background:#ffffff; border:1px solid #bae6fd; border-radius:10px; border-left:4px solid #0284c7; box-shadow:0 4px 12px rgba(2,132,199,0.08);">
+          <div style="font-weight:700; color:#0369a1; margin-bottom:10px; display:flex; align-items:center; gap:6px; font-size:0.95rem;">
+            <span>📝</span> <span>เฉลยและขั้นตอนการคำนวณอย่างละเอียด:</span>
+          </div>
+          <div style="line-height:1.8; color:#1e293b; font-size:0.98rem;">
+            \(\gamma = \frac{1}{\sqrt{1 - (0.8)^2}} = \frac{1}{\sqrt{1 - 0.64}} = \frac{1}{\sqrt{0.36}} = \frac{1}{0.6} = 1.667\)
+          </div>
+        </div>
       </div>
     </div>
 
@@ -260,6 +300,30 @@
     </div>
   </div>
 </div>
+
+<script>
+function toggleSolution(pageId) {
+  const sol = document.getElementById("sol-content-" + pageId);
+  const btn = document.getElementById("btn-sol-" + pageId);
+  const txt = document.getElementById("btn-text-" + pageId);
+  const ico = document.getElementById("btn-icon-" + pageId);
+  if (!sol) return;
+  if (sol.style.display === "none" || sol.style.display === "") {
+    sol.style.display = "block";
+    if (txt) txt.textContent = "ซ่อนเฉลยและวิธีทำ";
+    if (ico) ico.textContent = "🙈";
+    if (btn) btn.style.background = "#475569";
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise([sol]);
+    }
+  } else {
+    sol.style.display = "none";
+    if (txt) txt.textContent = "คลิกเพื่อดูเฉลยและวิธีทำละเอียด";
+    if (ico) ico.textContent = "👁️";
+    if (btn) btn.style.background = "linear-gradient(135deg, #0284c7, #0369a1)";
+  }
+}
+</script>
 
 </body>
 </html>

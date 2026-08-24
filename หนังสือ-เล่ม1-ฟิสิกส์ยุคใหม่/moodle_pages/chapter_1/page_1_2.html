@@ -181,32 +181,38 @@
         (function() {
           function initSim() {
             const cv = document.getElementById("sim_1_2_canvas");
-            if (!cv) return;
+            if (!cv) return false;
             const ctx = cv.getContext("2d");
             const slider = document.getElementById("sim_1_2_slider_temp");
+            if (!slider) return false;
             function draw() {
               const T = +slider.value;
-              document.getElementById("sim_1_2_val_temp").textContent = T;
+              const tEl = document.getElementById("sim_1_2_val_temp");
+              if (tEl) tEl.textContent = T;
               const peak = Math.round(2898000 / T);
-              document.getElementById("sim_1_2_val_peak").textContent = peak + " nm";
+              const pEl = document.getElementById("sim_1_2_val_peak");
+              if (pEl) pEl.textContent = peak + " nm";
               
               const power = (5.67e-8 * Math.pow(T, 4)).toExponential(2);
-              document.getElementById("sim_1_2_val_power").textContent = power + " W/m²";
+              const pwEl = document.getElementById("sim_1_2_val_power");
+              if (pwEl) pwEl.textContent = power + " W/m²";
               
               let col = "แดง";
               if (T > 3500 && T <= 5000) col = "ส้ม-เหลือง";
               else if (T > 5000 && T <= 7500) col = "ขาวนวล (Yellow-White)";
               else if (T > 7500 && T <= 10000) col = "ขาวอมฟ้า (Blue-White)";
               else if (T > 10000) col = "ฟ้าเข้ม (Deep Blue)";
-              document.getElementById("sim_1_2_val_color").textContent = col;
+              const cEl = document.getElementById("sim_1_2_val_color");
+              if (cEl) cEl.textContent = col;
 
               ctx.clearRect(0,0,cv.width,cv.height);
+              // Visible spectrum band
               const grad = ctx.createLinearGradient(120, 0, 480, 0);
-              grad.addColorStop(0, "rgba(168, 85, 247, 0.15)");
-              grad.addColorStop(0.2, "rgba(59, 130, 246, 0.15)");
-              grad.addColorStop(0.5, "rgba(34, 197, 94, 0.15)");
-              grad.addColorStop(0.7, "rgba(234, 179, 8, 0.15)");
-              grad.addColorStop(1, "rgba(239, 68, 68, 0.15)");
+              grad.addColorStop(0, "rgba(168, 85, 247, 0.2)");
+              grad.addColorStop(0.2, "rgba(59, 130, 246, 0.2)");
+              grad.addColorStop(0.5, "rgba(34, 197, 94, 0.2)");
+              grad.addColorStop(0.7, "rgba(234, 179, 8, 0.2)");
+              grad.addColorStop(1, "rgba(239, 68, 68, 0.2)");
               ctx.fillStyle = grad;
               ctx.fillRect(120, 20, 360, 170);
 
@@ -230,25 +236,49 @@
 
               ctx.strokeStyle = "#94a3b8"; ctx.lineWidth = 1.5;
               ctx.beginPath(); ctx.moveTo(40, 20); ctx.lineTo(40, 190); ctx.lineTo(600, 190); ctx.stroke();
-              ctx.fillStyle = "#94a3b8"; ctx.font = "11px Sarabun";
-              ctx.fillText("ความยาวคลื่น λ (nm) →", 470, 208);
+              ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
+              ctx.fillText("ความยาวคลื่น λ (nm) →", 460, 210);
               ctx.fillText("ความเข้ม I(λ)", 10, 25);
             }
             slider.addEventListener("input", draw);
             draw();
+            return true;
           }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
-          else initSim();
+          function run() { if (!initSim()) setTimeout(run, 100); }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
+          else run();
+          setTimeout(run, 250);
+          setTimeout(run, 700);
         })();
         </script>
         
     </div>
 
-    <div class="example-card">
-      <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างคำนวณ: อุณหภูมิพื้นผิวของดวงอาทิตย์</h3>
-      <p><b>โจทย์:</b> ยอดความเข้มสูงสุดของแสงอาทิตย์อยู่ที่ความยาวคลื่น \(\lambda_{\max} \approx 500 \text{ nm}\) จงประมาณอุณหภูมิยังผลที่ผิวของดวงอาทิตย์</p>
-      <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e0f2fe;">
-        <b>เฉลยและวิธีทำ:</b><br>จากกฎการกระจัดของวีน: \(T = \frac{b}{\lambda_{\max}} = \frac{2.898 \times 10^{-3} \text{ m}\cdot\text{K}}{500 \times 10^{-9} \text{ m}} = 5,796 \text{ K}\) (ประมาณ 5,800 เคลวิน)
+    <!-- Worked Example with Toggleable Hidden Solution -->
+    <div class="example-card" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin:24px 0; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+        <h3 style="color:#0284c7; margin:0; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>📐</span> <span>ตัวอย่างคำนวณ: อุณหภูมิพื้นผิวของดวงอาทิตย์</span>
+        </h3>
+        <span style="background:#e0f2fe; color:#0369a1; font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:20px;">WORKED EXAMPLE</span>
+      </div>
+      <div style="margin-bottom:16px; font-size:1rem; line-height:1.7; color:#334155;">
+        <b style="color:#0f172a;">โจทย์ตัวอย่าง:</b> ยอดความเข้มสูงสุดของแสงอาทิตย์อยู่ที่ความยาวคลื่น \(\lambda_{\max} \approx 500 \text{ nm}\) จงประมาณอุณหภูมิยังผลที่ผิวของดวงอาทิตย์
+      </div>
+      
+      <div class="solution-container" style="margin-top:12px;">
+        <button type="button" class="btn-toggle-solution" onclick="toggleSolution('1.2')" id="btn-sol-1.2" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; border:none; border-radius:8px; padding:9px 20px; font-size:0.92rem; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:all 0.2s ease; box-shadow:0 2px 6px rgba(2,132,199,0.25);">
+          <span id="btn-icon-1.2">👁️</span>
+          <span id="btn-text-1.2">คลิกเพื่อดูเฉลยและวิธีทำละเอียด</span>
+        </button>
+        <div class="solution-content" id="sol-content-1.2" style="display:none; margin-top:14px; padding:18px 22px; background:#ffffff; border:1px solid #bae6fd; border-radius:10px; border-left:4px solid #0284c7; box-shadow:0 4px 12px rgba(2,132,199,0.08);">
+          <div style="font-weight:700; color:#0369a1; margin-bottom:10px; display:flex; align-items:center; gap:6px; font-size:0.95rem;">
+            <span>📝</span> <span>เฉลยและขั้นตอนการคำนวณอย่างละเอียด:</span>
+          </div>
+          <div style="line-height:1.8; color:#1e293b; font-size:0.98rem;">
+            จากกฎการกระจัดของวีน: \(T = \frac{b}{\lambda_{\max}} = \frac{2.898 \times 10^{-3} \text{ m}\cdot\text{K}}{500 \times 10^{-9} \text{ m}} = 5,796 \text{ K}\) (ประมาณ 5,800 เคลวิน)
+          </div>
+        </div>
       </div>
     </div>
 
@@ -274,6 +304,30 @@
     </div>
   </div>
 </div>
+
+<script>
+function toggleSolution(pageId) {
+  const sol = document.getElementById("sol-content-" + pageId);
+  const btn = document.getElementById("btn-sol-" + pageId);
+  const txt = document.getElementById("btn-text-" + pageId);
+  const ico = document.getElementById("btn-icon-" + pageId);
+  if (!sol) return;
+  if (sol.style.display === "none" || sol.style.display === "") {
+    sol.style.display = "block";
+    if (txt) txt.textContent = "ซ่อนเฉลยและวิธีทำ";
+    if (ico) ico.textContent = "🙈";
+    if (btn) btn.style.background = "#475569";
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise([sol]);
+    }
+  } else {
+    sol.style.display = "none";
+    if (txt) txt.textContent = "คลิกเพื่อดูเฉลยและวิธีทำละเอียด";
+    if (ico) ico.textContent = "👁️";
+    if (btn) btn.style.background = "linear-gradient(135deg, #0284c7, #0369a1)";
+  }
+}
+</script>
 
 </body>
 </html>

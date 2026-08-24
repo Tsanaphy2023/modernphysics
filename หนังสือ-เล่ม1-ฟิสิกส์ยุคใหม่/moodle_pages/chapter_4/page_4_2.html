@@ -166,76 +166,126 @@
       <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px;">ทดลองปรับตัวแปรและสังเกตผลการคำนวณทางฟิสิกส์แบบเรียลไทม์ได้โดยตรงในหน้านี้:</p>
       
         <div class="sim-panel" id="sim_4_2_panel">
-          <div class="sim-control-group">
-            <label>ระดับควอนตัม (Quantum Number n): <span id="sim_4_2_val_n" class="readout-val">2</span></label>
-            <input type="range" class="sim-slider" id="sim_4_2_slider_n" min="1" max="6" value="2">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div class="sim-control-group">
+              <label>ระดับควอนตัม (Quantum Number n): <span id="sim_4_2_val_n" class="readout-val">1</span></label>
+              <input type="range" class="sim-slider" id="sim_4_2_slider_n" min="1" max="5" value="1">
+            </div>
+            <div class="sim-control-group">
+              <label>ความกว้างกล่องศักย์ (L): <span id="sim_4_2_val_l" class="readout-val">1.0</span> nm</label>
+              <input type="range" class="sim-slider" id="sim_4_2_slider_l" min="0.5" max="3.0" step="0.1" value="1.0">
+            </div>
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_4_2_canvas" width="640" height="200"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_4_2_canvas" width="640" height="220"></canvas></div>
           <div class="sim-readout-grid">
-            <div class="readout-card"><div class="readout-val" id="sim_4_2_val_nodes">1 โหนด</div><div class="readout-lbl">จำนวน Node ภายในกล่อง (n-1)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_4_2_val_energy">4.0 E₁</div><div class="readout-lbl">ระดับพลังงาน E_n = n² E₁</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_4_2_val_prob">|ψ|² ความน่าจะเป็น</div><div class="readout-lbl">Probability Density</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_4_2_val_en">0.376 eV</div><div class="readout-lbl">ระดับพลังงาน (E_n)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_4_2_val_nodes">0 โหนด</div><div class="readout-lbl">จำนวนบัพภายใน (Nodes)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_4_2_val_prob" style="color:#10b981;">|ψ(x)|² สมบูรณ์</div><div class="readout-lbl">ความหนาแน่นความน่าจะเป็น</div></div>
           </div>
         </div>
         <script>
         (function() {
           function initSim() {
             const cv = document.getElementById("sim_4_2_canvas");
-            if (!cv) return;
+            if (!cv) return false;
             const ctx = cv.getContext("2d");
-            const slider = document.getElementById("sim_4_2_slider_n");
+            const sliderN = document.getElementById("sim_4_2_slider_n");
+            const sliderL = document.getElementById("sim_4_2_slider_l");
+            if (!sliderN || !sliderL) return false;
 
             function draw() {
-              const n = +slider.value;
-              document.getElementById("sim_4_2_val_n").textContent = n;
-              document.getElementById("sim_4_2_val_nodes").textContent = (n - 1) + " โหนด";
-              document.getElementById("sim_4_2_val_energy").textContent = (n*n).toFixed(1) + " E₁";
+              const n = +sliderN.value;
+              const L = +sliderL.value;
+              const nEl = document.getElementById("sim_4_2_val_n");
+              if (nEl) nEl.textContent = n;
+              const lEl = document.getElementById("sim_4_2_val_l");
+              if (lEl) lEl.textContent = L.toFixed(1);
+
+              // En = n^2 h^2 / (8 m L^2)
+              const E1 = 0.376 / (L*L);
+              const En = n * n * E1;
+
+              const enEl = document.getElementById("sim_4_2_val_en");
+              if (enEl) enEl.textContent = En.toFixed(3) + " eV";
+              const ndEl = document.getElementById("sim_4_2_val_nodes");
+              if (ndEl) ndEl.textContent = (n - 1) + " โหนด";
 
               ctx.clearRect(0,0,cv.width,cv.height);
+              // Potential Walls (x = 100, x = 540)
               ctx.fillStyle = "#334155";
-              ctx.fillRect(60, 20, 12, 160);
-              ctx.fillRect(568, 20, 12, 160);
-              ctx.fillStyle = "#94a3b8"; ctx.font = "11px Sarabun";
-              ctx.fillText("x = 0 (V=∞)", 40, 195);
-              ctx.fillText("x = L (V=∞)", 550, 195);
+              ctx.fillRect(80, 20, 20, 170);
+              ctx.fillRect(540, 20, 20, 170);
+              ctx.fillStyle = "#f43f5e"; ctx.font = "11px sans-serif";
+              ctx.fillText("V = ∞", 72, 198); ctx.fillText("V = ∞", 532, 198);
 
+              // Wavefunction psi(x) (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=72; x<=568; x++) {
-                const normX = (x - 72) / (568 - 72);
-                const y = 90 - 55 * Math.sin(n * Math.PI * normX);
-                if (x===72) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+              for(let x=100; x<=540; x+=2) {
+                const norm = (x - 100) / 440;
+                const psi = Math.sin(n * Math.PI * norm);
+                const y = 105 - 60 * psi;
+                if (x===100) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
+              // Probability density |psi(x)|^2 (Filled Amber)
+              ctx.fillStyle = "rgba(245, 158, 11, 0.25)";
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2;
               ctx.beginPath();
-              for(let x=72; x<=568; x++) {
-                const normX = (x - 72) / (568 - 72);
-                const sinVal = Math.sin(n * Math.PI * normX);
-                const y = 175 - 110 * sinVal * sinVal;
-                if (x===72) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+              ctx.moveTo(100, 185);
+              for(let x=100; x<=540; x+=2) {
+                const norm = (x - 100) / 440;
+                const prob = Math.pow(Math.sin(n * Math.PI * norm), 2);
+                const y = 185 - 75 * prob;
+                ctx.lineTo(x, y);
               }
-              ctx.stroke();
+              ctx.lineTo(540, 185); ctx.closePath();
+              ctx.fill(); ctx.stroke();
 
-              ctx.fillStyle = "#00f0ff"; ctx.fillText("— ฟังก์ชันคลื่น ψ_n(x)", 80, 35);
-              ctx.fillStyle = "#f59e0b"; ctx.fillText("— ความหนาแน่นความน่าจะเป็น |ψ_n|²", 340, 35);
+              ctx.fillStyle = "#00f0ff"; ctx.fillText("ฟังก์ชันคลื่น ψ_" + n + "(x)", 120, 40);
+              ctx.fillStyle = "#f59e0b"; ctx.fillText("ความหนาแน่นความน่าจะเป็น |ψ_" + n + "(x)|²", 120, 58);
             }
-            slider.addEventListener("input", draw);
+            sliderN.addEventListener("input", draw);
+            sliderL.addEventListener("input", draw);
             draw();
+            return true;
           }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
-          else initSim();
+          function run() { if (!initSim()) setTimeout(run, 100); }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
+          else run();
+          setTimeout(run, 250);
+          setTimeout(run, 700);
         })();
         </script>
         
     </div>
 
-    <div class="example-card">
-      <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างคำนวณ: พลังงานสถานะพื้นของอิเล็กตรอนในกล่อง 1 nm</h3>
-      <p><b>โจทย์:</b> อิเล็กตรอนถูกขังในกล่อง L = 1.0 nm จงหาระดับพลังงานสถานะพื้น (n=1) ในหน่วย eV</p>
-      <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e0f2fe;">
-        <b>เฉลยและวิธีทำ:</b><br>E1 = (1^2 * h^2) / (8 * m * L^2) = 6.02 * 10^-20 J = 0.376 eV ระดับถัดไปคือ E2 = 4 * E1 = 1.504 eV
+    <!-- Worked Example with Toggleable Hidden Solution -->
+    <div class="example-card" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin:24px 0; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+        <h3 style="color:#0284c7; margin:0; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>📐</span> <span>ตัวอย่างคำนวณ: พลังงานสถานะพื้นของอิเล็กตรอนในกล่อง 1 nm</span>
+        </h3>
+        <span style="background:#e0f2fe; color:#0369a1; font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:20px;">WORKED EXAMPLE</span>
+      </div>
+      <div style="margin-bottom:16px; font-size:1rem; line-height:1.7; color:#334155;">
+        <b style="color:#0f172a;">โจทย์ตัวอย่าง:</b> อิเล็กตรอนถูกขังในกล่อง L = 1.0 nm จงหาระดับพลังงานสถานะพื้น (n=1) ในหน่วย eV
+      </div>
+      
+      <div class="solution-container" style="margin-top:12px;">
+        <button type="button" class="btn-toggle-solution" onclick="toggleSolution('4.2')" id="btn-sol-4.2" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; border:none; border-radius:8px; padding:9px 20px; font-size:0.92rem; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:all 0.2s ease; box-shadow:0 2px 6px rgba(2,132,199,0.25);">
+          <span id="btn-icon-4.2">👁️</span>
+          <span id="btn-text-4.2">คลิกเพื่อดูเฉลยและวิธีทำละเอียด</span>
+        </button>
+        <div class="solution-content" id="sol-content-4.2" style="display:none; margin-top:14px; padding:18px 22px; background:#ffffff; border:1px solid #bae6fd; border-radius:10px; border-left:4px solid #0284c7; box-shadow:0 4px 12px rgba(2,132,199,0.08);">
+          <div style="font-weight:700; color:#0369a1; margin-bottom:10px; display:flex; align-items:center; gap:6px; font-size:0.95rem;">
+            <span>📝</span> <span>เฉลยและขั้นตอนการคำนวณอย่างละเอียด:</span>
+          </div>
+          <div style="line-height:1.8; color:#1e293b; font-size:0.98rem;">
+            E1 = (1^2 * h^2) / (8 * m * L^2) = 6.02 * 10^-20 J = 0.376 eV ระดับถัดไปคือ E2 = 4 * E1 = 1.504 eV
+          </div>
+        </div>
       </div>
     </div>
 
@@ -261,6 +311,30 @@
     </div>
   </div>
 </div>
+
+<script>
+function toggleSolution(pageId) {
+  const sol = document.getElementById("sol-content-" + pageId);
+  const btn = document.getElementById("btn-sol-" + pageId);
+  const txt = document.getElementById("btn-text-" + pageId);
+  const ico = document.getElementById("btn-icon-" + pageId);
+  if (!sol) return;
+  if (sol.style.display === "none" || sol.style.display === "") {
+    sol.style.display = "block";
+    if (txt) txt.textContent = "ซ่อนเฉลยและวิธีทำ";
+    if (ico) ico.textContent = "🙈";
+    if (btn) btn.style.background = "#475569";
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise([sol]);
+    }
+  } else {
+    sol.style.display = "none";
+    if (txt) txt.textContent = "คลิกเพื่อดูเฉลยและวิธีทำละเอียด";
+    if (ico) ico.textContent = "👁️";
+    if (btn) btn.style.background = "linear-gradient(135deg, #0284c7, #0369a1)";
+  }
+}
+</script>
 
 </body>
 </html>

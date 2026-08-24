@@ -167,82 +167,114 @@
       
         <div class="sim-panel" id="sim_8_4_panel">
           <div class="sim-control-group">
-            <label>มวลดาวฤกษ์เริ่มต้น (Mass M): <span id="sim_8_4_val_m" class="readout-val">10</span> มวลดวงอาทิตย์ (M_☉)</label>
-            <input type="range" class="sim-slider" id="sim_8_4_slider_m" min="1" max="50" value="10">
+            <label>มวลของหลุมดำ (M): <span id="sim_8_4_val_m" class="readout-val">10</span> เท่ามวลดวงอาทิตย์ (M_☉)</label>
+            <input type="range" class="sim-slider" id="sim_8_4_slider_m" min="3" max="100" value="10">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_8_4_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_8_4_canvas" width="640" height="220"></canvas></div>
           <div class="sim-readout-grid">
-            <div class="readout-card"><div class="readout-val" id="sim_8_4_val_rs">29.5 km</div><div class="readout-lbl">รัศมีชวาร์ซชิลด์ (Schwarzschild Radius Rs)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_8_4_val_remnant">หลุมดำดาวฤกษ์ (Stellar Black Hole)</div><div class="readout-lbl">สถานะซากดาวสุดท้าย</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_8_4_val_sphere">44.3 km</div><div class="readout-lbl">โฟตอนสเฟียร์ (Photon Sphere 1.5 Rs)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_8_4_val_rs">29.5 km</div><div class="readout-lbl">รัศมีชวาร์ซชิลด์ (R_s = 2GM/c²)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_8_4_val_photon">44.3 km</div><div class="readout-lbl">วงแหวนโฟตอน (Photon Sphere 1.5 R_s)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_8_4_val_isco">88.5 km</div><div class="readout-lbl">วงโคจรเสถียรในสุด (ISCO 3 R_s)</div></div>
           </div>
         </div>
         <script>
         (function() {
           function initSim() {
             const cv = document.getElementById("sim_8_4_canvas");
-            if (!cv) return;
+            if (!cv) return false;
             const ctx = cv.getContext("2d");
             const slider = document.getElementById("sim_8_4_slider_m");
+            if (!slider) return false;
 
             function draw() {
               const M = +slider.value;
-              document.getElementById("sim_8_4_val_m").textContent = M;
-              const Rs = 2.95 * M;
-              document.getElementById("sim_8_4_val_rs").textContent = Rs.toFixed(1) + " km";
-              document.getElementById("sim_8_4_val_sphere").textContent = (Rs * 1.5).toFixed(1) + " km";
+              const mEl = document.getElementById("sim_8_4_val_m");
+              if (mEl) mEl.textContent = M;
 
-              let remnant = "ดาวแคระขาว (White Dwarf: มวล < 1.4 M_☉)";
-              if (M >= 1.4 && M < 3.0) remnant = "ดาวนิวตรอน (Neutron Star: 1.4-3.0 M_☉)";
-              else if (M >= 3.0) remnant = "หลุมดำดาวฤกษ์ (Black Hole: มวล > 3.0 M_☉)";
-              document.getElementById("sim_8_4_val_remnant").textContent = remnant;
+              // Rs = 2.95 km * M
+              const Rs_km = M * 2.95;
+              const photon_km = Rs_km * 1.5;
+              const isco_km = Rs_km * 3.0;
+
+              const rsEl = document.getElementById("sim_8_4_val_rs");
+              if (rsEl) rsEl.textContent = Rs_km.toFixed(1) + " km";
+              const phEl = document.getElementById("sim_8_4_val_photon");
+              if (phEl) phEl.textContent = photon_km.toFixed(1) + " km";
+              const isEl = document.getElementById("sim_8_4_val_isco");
+              if (isEl) isEl.textContent = isco_km.toFixed(1) + " km";
 
               ctx.clearRect(0,0,cv.width,cv.height);
-              const cx = cv.width/2, cy = cv.height/2;
+              const cx = 320, cy = 110;
 
-              // Gravitational lensing grid distortion
-              ctx.strokeStyle = "rgba(0, 240, 255, 0.15)";
-              ctx.lineWidth = 1;
-              for(let r=20; r<180; r+=20) {
-                ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.stroke();
+              // Accretion Disk Glow
+              const grad = ctx.createRadialGradient(cx, cy, 25, cx, cy, 140);
+              grad.addColorStop(0, "rgba(245, 158, 11, 0.8)");
+              grad.addColorStop(0.3, "rgba(239, 68, 68, 0.4)");
+              grad.addColorStop(0.7, "rgba(168, 85, 247, 0.15)");
+              grad.addColorStop(1, "transparent");
+              ctx.fillStyle = grad;
+              ctx.fillRect(cx - 150, cy - 80, 300, 160);
+
+              // Gravitational Lensing Beams
+              ctx.strokeStyle = "rgba(0, 240, 255, 0.5)"; ctx.lineWidth = 1.5;
+              for(let i=0; i<6; i++) {
+                ctx.beginPath();
+                ctx.arc(cx, cy, 35 + i*16, 0, Math.PI*2);
+                ctx.stroke();
               }
 
-              // Accretion disk glow
-              const grad = ctx.createRadialGradient(cx, cy, 15, cx, cy, 90);
-              grad.addColorStop(0, "rgba(245, 158, 11, 0.8)");
-              grad.addColorStop(0.5, "rgba(239, 68, 68, 0.4)");
-              grad.addColorStop(1, "rgba(0, 0, 0, 0)");
-              ctx.fillStyle = grad;
-              ctx.fillRect(cx-100, cy-100, 200, 200);
-
-              // Photon Sphere
-              ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5; ctx.setLineDash([3,3]);
-              ctx.beginPath(); ctx.arc(cx, cy, 38, 0, Math.PI*2); ctx.stroke();
+              // Photon Sphere (1.5 Rs)
+              ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2; ctx.setLineDash([3,3]);
+              ctx.beginPath(); ctx.arc(cx, cy, 45, 0, Math.PI*2); ctx.stroke();
               ctx.setLineDash([]);
-              ctx.fillStyle = "#f59e0b"; ctx.font = "10px Sarabun";
-              ctx.fillText("Photon Sphere (1.5 Rs)", cx + 44, cy - 25);
+              ctx.fillStyle = "#f59e0b"; ctx.font = "10px sans-serif";
+              ctx.fillText("Photon Sphere (1.5 Rs)", cx + 50, cy - 25);
 
               // Black Hole Event Horizon (Schwarzschild radius)
               ctx.fillStyle = "#000000";
-              ctx.beginPath(); ctx.arc(cx, cy, 25, 0, Math.PI*2); ctx.fill();
+              ctx.beginPath(); ctx.arc(cx, cy, 26, 0, Math.PI*2); ctx.fill();
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5; ctx.stroke();
-              ctx.fillStyle = "#00f0ff"; ctx.fillText("Event Horizon (Rs)", cx + 30, cy + 20);
+              ctx.fillStyle = "#00f0ff"; ctx.fillText("Event Horizon (Rs)", cx + 32, cy + 20);
             }
             slider.addEventListener("input", draw);
             draw();
+            return true;
           }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
-          else initSim();
+          function run() { if (!initSim()) setTimeout(run, 100); }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
+          else run();
+          setTimeout(run, 250);
+          setTimeout(run, 700);
         })();
         </script>
         
     </div>
 
-    <div class="example-card">
-      <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างคำนวณ: รัศมีขอบฟ้าเหตุการณ์ของหลุมดำใจกลางทางช้างเผือก (Sgr A*)</h3>
-      <p><b>โจทย์:</b> หลุมดำ Sagittarius A* มีมวล 4.3 ล้านเท่าของดวงอาทิตย์ จงหารัศมีชวาร์ซชิลด์</p>
-      <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e0f2fe;">
-        <b>เฉลยและวิธีทำ:</b><br>Rs = 4.3 * 10^6 * 3 km = 12.9 ล้านกิโลเมตร (ประมาณ 0.086 AU เล็กกว่าวงโคจรของดาวพุธ)
+    <!-- Worked Example with Toggleable Hidden Solution -->
+    <div class="example-card" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin:24px 0; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+        <h3 style="color:#0284c7; margin:0; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>📐</span> <span>ตัวอย่างคำนวณ: รัศมีขอบฟ้าเหตุการณ์ของหลุมดำใจกลางทางช้างเผือก (Sgr A*)</span>
+        </h3>
+        <span style="background:#e0f2fe; color:#0369a1; font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:20px;">WORKED EXAMPLE</span>
+      </div>
+      <div style="margin-bottom:16px; font-size:1rem; line-height:1.7; color:#334155;">
+        <b style="color:#0f172a;">โจทย์ตัวอย่าง:</b> หลุมดำ Sagittarius A* มีมวล 4.3 ล้านเท่าของดวงอาทิตย์ จงหารัศมีชวาร์ซชิลด์
+      </div>
+      
+      <div class="solution-container" style="margin-top:12px;">
+        <button type="button" class="btn-toggle-solution" onclick="toggleSolution('8.4')" id="btn-sol-8.4" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; border:none; border-radius:8px; padding:9px 20px; font-size:0.92rem; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:all 0.2s ease; box-shadow:0 2px 6px rgba(2,132,199,0.25);">
+          <span id="btn-icon-8.4">👁️</span>
+          <span id="btn-text-8.4">คลิกเพื่อดูเฉลยและวิธีทำละเอียด</span>
+        </button>
+        <div class="solution-content" id="sol-content-8.4" style="display:none; margin-top:14px; padding:18px 22px; background:#ffffff; border:1px solid #bae6fd; border-radius:10px; border-left:4px solid #0284c7; box-shadow:0 4px 12px rgba(2,132,199,0.08);">
+          <div style="font-weight:700; color:#0369a1; margin-bottom:10px; display:flex; align-items:center; gap:6px; font-size:0.95rem;">
+            <span>📝</span> <span>เฉลยและขั้นตอนการคำนวณอย่างละเอียด:</span>
+          </div>
+          <div style="line-height:1.8; color:#1e293b; font-size:0.98rem;">
+            Rs = 4.3 * 10^6 * 3 km = 12.9 ล้านกิโลเมตร (ประมาณ 0.086 AU เล็กกว่าวงโคจรของดาวพุธ)
+          </div>
+        </div>
       </div>
     </div>
 
@@ -268,6 +300,30 @@
     </div>
   </div>
 </div>
+
+<script>
+function toggleSolution(pageId) {
+  const sol = document.getElementById("sol-content-" + pageId);
+  const btn = document.getElementById("btn-sol-" + pageId);
+  const txt = document.getElementById("btn-text-" + pageId);
+  const ico = document.getElementById("btn-icon-" + pageId);
+  if (!sol) return;
+  if (sol.style.display === "none" || sol.style.display === "") {
+    sol.style.display = "block";
+    if (txt) txt.textContent = "ซ่อนเฉลยและวิธีทำ";
+    if (ico) ico.textContent = "🙈";
+    if (btn) btn.style.background = "#475569";
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise([sol]);
+    }
+  } else {
+    sol.style.display = "none";
+    if (txt) txt.textContent = "คลิกเพื่อดูเฉลยและวิธีทำละเอียด";
+    if (ico) ico.textContent = "👁️";
+    if (btn) btn.style.background = "linear-gradient(135deg, #0284c7, #0369a1)";
+  }
+}
+</script>
 
 </body>
 </html>

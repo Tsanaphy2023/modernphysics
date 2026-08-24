@@ -167,68 +167,110 @@
       
         <div class="sim-panel" id="sim_2_1_panel">
           <div class="sim-control-group">
-            <label>อัตราเร็วสัมพัทธ์ (v/c): <span id="sim_2_1_val_vc" class="readout-val">0.70</span> c</label>
-            <input type="range" class="sim-slider" id="sim_2_1_slider_vc" min="0" max="95" value="70">
+            <label>ความเร็วสัมพัทธ์ของยาน (v): <span id="sim_2_1_val_v" class="readout-val">0.60</span> c</label>
+            <input type="range" class="sim-slider" id="sim_2_1_slider_v" min="0" max="0.99" step="0.01" value="0.60">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_2_1_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_2_1_canvas" width="640" height="220"></canvas></div>
           <div class="sim-readout-grid">
-            <div class="readout-card"><div class="readout-val" id="sim_2_1_val_gamma">1.40</div><div class="readout-lbl">ตัวประกอบลอเรนซ์ (γ)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_2_1_val_path">Zig-zag Path</div><div class="readout-lbl">เส้นทางแสงสำหรับผู้สังเกตภายนอก</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_2_1_val_diff">+40.0%</div><div class="readout-lbl">เวลาเดินช้าลง (Dilation)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_2_1_val_gamma">1.250</div><div class="readout-lbl">Lorentz Factor (γ)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_2_1_val_t">1.250 s</div><div class="readout-lbl">เวลาที่สังเกตจากภายนอก (Δt)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_2_1_val_path">แนวทแยง (Z-path)</div><div class="readout-lbl">วิถีเดินแสงในกรอบเคลื่อนที่</div></div>
           </div>
         </div>
         <script>
         (function() {
           function initSim() {
             const cv = document.getElementById("sim_2_1_canvas");
-            if (!cv) return;
+            if (!cv) return false;
             const ctx = cv.getContext("2d");
-            const slider = document.getElementById("sim_2_1_slider_vc");
-            let t = 0;
+            const slider = document.getElementById("sim_2_1_slider_v");
+            if (!slider) return false;
+            let tick = 0;
 
-            function render() {
-              const beta = (+slider.value) / 100;
-              document.getElementById("sim_2_1_val_vc").textContent = beta.toFixed(2);
-              const gamma = 1 / Math.sqrt(1 - beta*beta);
-              document.getElementById("sim_2_1_val_gamma").textContent = gamma.toFixed(2);
-              document.getElementById("sim_2_1_val_diff").textContent = "+" + ((gamma - 1)*100).toFixed(1) + "%";
+            function draw() {
+              const v = +slider.value;
+              const vEl = document.getElementById("sim_2_1_val_v");
+              if (vEl) vEl.textContent = v.toFixed(2);
+              const gamma = 1 / Math.sqrt(Math.max(0.001, 1 - v*v));
+              const gEl = document.getElementById("sim_2_1_val_gamma");
+              if (gEl) gEl.textContent = gamma.toFixed(3);
+              const tEl = document.getElementById("sim_2_1_val_t");
+              if (tEl) tEl.textContent = gamma.toFixed(3) + " s";
 
               ctx.clearRect(0,0,cv.width,cv.height);
-              ctx.strokeStyle = "#334155"; ctx.strokeRect(60, 20, 180, 160);
-              ctx.fillStyle = "#94a3b8"; ctx.fillText("นาฬิกาแสงอยู่นิ่ง (Δt₀)", 90, 40);
-              ctx.fillStyle = "#38bdf8"; ctx.fillRect(100, 50, 100, 6); ctx.fillRect(100, 150, 100, 6);
-              const yPulse1 = 56 + Math.abs((t % 60) - 30) * 3;
-              ctx.fillStyle = "#f59e0b"; ctx.beginPath(); ctx.arc(150, yPulse1, 5, 0, Math.PI*2); ctx.fill();
 
-              ctx.strokeStyle = "#0891b2"; ctx.strokeRect(300, 20, 300, 160);
-              ctx.fillStyle = "#00f0ff"; ctx.fillText("นาฬิกาแสงเคลื่อนที่ v = " + beta.toFixed(2) + " c (Δt = γΔt₀)", 320, 40);
-              
-              ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2; ctx.setLineDash([4,4]);
+              // Left Frame: Rest Clock (S')
+              ctx.strokeStyle = "#475569"; ctx.lineWidth = 1;
+              ctx.strokeRect(30, 20, 240, 180);
+              ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
+              ctx.fillText("กรอบนิ่งของผู้สังเกตในยาน (Proper Time Δt₀)", 40, 40);
+              // Mirrors
+              ctx.fillStyle = "#00f0ff";
+              ctx.fillRect(100, 60, 100, 6);
+              ctx.fillRect(100, 160, 100, 6);
+              // Vertical bouncing light
+              const yPulse = 66 + 94 * (0.5 + 0.5*Math.sin(tick*0.1));
+              ctx.fillStyle = "#f59e0b";
+              ctx.beginPath(); ctx.arc(150, yPulse, 5, 0, Math.PI*2); ctx.fill();
+              ctx.strokeStyle = "rgba(245, 158, 11, 0.4)"; ctx.lineWidth = 2;
+              ctx.beginPath(); ctx.moveTo(150, 66); ctx.lineTo(150, 160); ctx.stroke();
+
+              // Right Frame: Moving Observer (S)
+              ctx.strokeStyle = "#475569";
+              ctx.strokeRect(330, 20, 280, 180);
+              ctx.fillStyle = "#00f0ff";
+              ctx.fillText("กรอบสังเกตภายนอก (เวลาขยายตัว Δt = γΔt₀)", 340, 40);
+              // Zig-zag light path
+              ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              ctx.moveTo(340, 56);
-              ctx.lineTo(340 + 60*gamma*0.7, 150);
-              ctx.lineTo(340 + 120*gamma*0.7, 56);
+              ctx.moveTo(360, 66);
+              ctx.lineTo(460 + v*80, 160);
+              ctx.lineTo(560, 66);
               ctx.stroke();
-              ctx.setLineDash([]);
+              ctx.fillStyle = "#10b981"; ctx.fillText("ระยะทางแสงเดินไกลขึ้น → เวลาเดินช้าลง", 360, 190);
 
-              t += 1;
-              requestAnimationFrame(render);
+              tick++;
+              requestAnimationFrame(draw);
             }
-            slider.addEventListener("input", render);
-            render();
+            slider.addEventListener("input", draw);
+            draw();
+            return true;
           }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
-          else initSim();
+          function run() { if (!initSim()) setTimeout(run, 100); }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
+          else run();
+          setTimeout(run, 250);
+          setTimeout(run, 700);
         })();
         </script>
         
     </div>
 
-    <div class="example-card">
-      <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างเชิงแนวคิด: การยิงไฟฉายบนยานอวกาศ</h3>
-      <p><b>โจทย์:</b> ยานอวกาศเคลื่อนที่ด้วยความเร็ว 0.8c สัมพัทธ์กับโลก และเปิดไฟฉายฉายไปข้างหน้า ผู้สังเกตบนยานและบนโลกจะวัดความเร็วของลำแสงไฟฉายได้เท่าใด?</p>
-      <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e0f2fe;">
-        <b>เฉลยและวิธีทำ:</b><br>ตามสัจพจน์ข้อที่ 2: ทั้งผู้สังเกตบนยานและผู้สังเกตบนโลกจะวัดความเร็วแสงได้เท่ากันเป๊ะคือ c (ไม่ใช่ 0.8c + c = 1.8c ตามฟิสิกส์ดั้งเดิมของกาลิเลโอ)
+    <!-- Worked Example with Toggleable Hidden Solution -->
+    <div class="example-card" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin:24px 0; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+        <h3 style="color:#0284c7; margin:0; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>📐</span> <span>ตัวอย่างเชิงแนวคิด: การยิงไฟฉายบนยานอวกาศ</span>
+        </h3>
+        <span style="background:#e0f2fe; color:#0369a1; font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:20px;">WORKED EXAMPLE</span>
+      </div>
+      <div style="margin-bottom:16px; font-size:1rem; line-height:1.7; color:#334155;">
+        <b style="color:#0f172a;">โจทย์ตัวอย่าง:</b> ยานอวกาศเคลื่อนที่ด้วยความเร็ว 0.8c สัมพัทธ์กับโลก และเปิดไฟฉายฉายไปข้างหน้า ผู้สังเกตบนยานและบนโลกจะวัดความเร็วของลำแสงไฟฉายได้เท่าใด?
+      </div>
+      
+      <div class="solution-container" style="margin-top:12px;">
+        <button type="button" class="btn-toggle-solution" onclick="toggleSolution('2.1')" id="btn-sol-2.1" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; border:none; border-radius:8px; padding:9px 20px; font-size:0.92rem; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:all 0.2s ease; box-shadow:0 2px 6px rgba(2,132,199,0.25);">
+          <span id="btn-icon-2.1">👁️</span>
+          <span id="btn-text-2.1">คลิกเพื่อดูเฉลยและวิธีทำละเอียด</span>
+        </button>
+        <div class="solution-content" id="sol-content-2.1" style="display:none; margin-top:14px; padding:18px 22px; background:#ffffff; border:1px solid #bae6fd; border-radius:10px; border-left:4px solid #0284c7; box-shadow:0 4px 12px rgba(2,132,199,0.08);">
+          <div style="font-weight:700; color:#0369a1; margin-bottom:10px; display:flex; align-items:center; gap:6px; font-size:0.95rem;">
+            <span>📝</span> <span>เฉลยและขั้นตอนการคำนวณอย่างละเอียด:</span>
+          </div>
+          <div style="line-height:1.8; color:#1e293b; font-size:0.98rem;">
+            ตามสัจพจน์ข้อที่ 2: ทั้งผู้สังเกตบนยานและผู้สังเกตบนโลกจะวัดความเร็วแสงได้เท่ากันเป๊ะคือ c (ไม่ใช่ 0.8c + c = 1.8c ตามฟิสิกส์ดั้งเดิมของกาลิเลโอ)
+          </div>
+        </div>
       </div>
     </div>
 
@@ -254,6 +296,30 @@
     </div>
   </div>
 </div>
+
+<script>
+function toggleSolution(pageId) {
+  const sol = document.getElementById("sol-content-" + pageId);
+  const btn = document.getElementById("btn-sol-" + pageId);
+  const txt = document.getElementById("btn-text-" + pageId);
+  const ico = document.getElementById("btn-icon-" + pageId);
+  if (!sol) return;
+  if (sol.style.display === "none" || sol.style.display === "") {
+    sol.style.display = "block";
+    if (txt) txt.textContent = "ซ่อนเฉลยและวิธีทำ";
+    if (ico) ico.textContent = "🙈";
+    if (btn) btn.style.background = "#475569";
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise([sol]);
+    }
+  } else {
+    sol.style.display = "none";
+    if (txt) txt.textContent = "คลิกเพื่อดูเฉลยและวิธีทำละเอียด";
+    if (ico) ico.textContent = "👁️";
+    if (btn) btn.style.background = "linear-gradient(135deg, #0284c7, #0369a1)";
+  }
+}
+</script>
 
 </body>
 </html>

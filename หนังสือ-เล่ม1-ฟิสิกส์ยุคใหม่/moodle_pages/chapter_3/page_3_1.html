@@ -169,87 +169,106 @@
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
             <div class="sim-control-group">
               <label>ชนิดอนุภาค:</label>
-              <select id="sim_3_1_sel_p" class="search-input" style="padding:6px 10px;">
-                <option value="electron" selected>อิเล็กตรอน (Electron: 9.11 × 10⁻³¹ kg)</option>
-                <option value="proton">โปรตอน (Proton: 1.67 × 10⁻²⁷ kg)</option>
-                <option value="alpha">อนุภาคแอลฟา (Alpha: 6.64 × 10⁻²⁷ kg)</option>
-                <option value="baseball">ลูกเบสบอล (Baseball: 0.145 kg)</option>
+              <select id="sim_3_1_sel_p" style="width:100%; background:#0f172a; color:#00f0ff; border:1px solid #334155; padding:8px; border-radius:6px;">
+                <option value="9.109e-31">อิเล็กตรอน (Electron m = 9.1×10⁻³¹ kg)</option>
+                <option value="1.673e-27">โปรตอน (Proton m = 1.67×10⁻²⁷ kg)</option>
+                <option value="6.646e-27">อนุภาคแอลฟา (Alpha m = 6.6×10⁻²⁷ kg)</option>
               </select>
             </div>
             <div class="sim-control-group">
-              <label>พลังงานจลน์ (eV): <span id="sim_3_1_val_ev" class="readout-val">100</span> eV</label>
-              <input type="range" class="sim-slider" id="sim_3_1_slider_ev" min="1" max="1000" value="100">
+              <label>ความต่างศักย์เร่งอนุภาค (V): <span id="sim_3_1_val_v" class="readout-val">100</span> V</label>
+              <input type="range" class="sim-slider" id="sim_3_1_slider_v" min="10" max="5000" step="10" value="100">
             </div>
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_3_1_canvas" width="640" height="200"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_3_1_canvas" width="640" height="210"></canvas></div>
           <div class="sim-readout-grid">
-            <div class="readout-card"><div class="readout-val" id="sim_3_1_val_lam">0.123 nm</div><div class="readout-lbl">ความยาวคลื่นเดอบรอยล์ (λ = h/p)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_3_1_val_v">5.93 × 10⁶ m/s</div><div class="readout-lbl">อัตราเร็วอนุภาค (v)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_3_1_val_domain">Atomic X-ray scale</div><div class="readout-lbl">ระดับมิติเชิงควอนตัม</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_3_1_val_lam">0.123 nm</div><div class="readout-lbl">ความยาวคลื่นเดอบรอยล์ (λ)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_3_1_val_scale">ขนาดอะตอมผลึก</div><div class="readout-lbl">ระดับสเกลทางฟิสิกส์</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_3_1_val_diff">เลี้ยวเบนชัดเจน</div><div class="readout-lbl">พฤติกรรมความเป็นคลื่น</div></div>
           </div>
         </div>
         <script>
         (function() {
           function initSim() {
             const cv = document.getElementById("sim_3_1_canvas");
-            if (!cv) return;
+            if (!cv) return false;
             const ctx = cv.getContext("2d");
             const sel = document.getElementById("sim_3_1_sel_p");
-            const slider = document.getElementById("sim_3_1_slider_ev");
+            const slider = document.getElementById("sim_3_1_slider_v");
+            if (!sel || !slider) return false;
 
-            function calc() {
-              const pType = sel.value;
-              const eV = +slider.value;
-              document.getElementById("sim_3_1_val_ev").textContent = eV;
-              
-              let m = 9.10938356e-31;
-              if (pType === "proton") m = 1.6726219e-27;
-              else if (pType === "alpha") m = 6.6446572e-27;
-              else if (pType === "baseball") m = 0.145;
+            function draw() {
+              const m = +sel.value;
+              const V = +slider.value;
+              const vEl = document.getElementById("sim_3_1_val_v");
+              if (vEl) vEl.textContent = V;
 
-              const E = eV * 1.60217663e-19;
-              const p = Math.sqrt(2 * m * E);
-              const v = p / m;
-              const h = 6.62607015e-34;
-              const lam = h / p;
-              
-              let lamStr = (lam * 1e9).toFixed(3) + " nm";
-              if (lam < 1e-12) lamStr = (lam * 1e15).toFixed(3) + " fm";
-              if (pType === "baseball") lamStr = lam.toExponential(2) + " m (พฤติกรรมคลื่นสลายตัว)";
-              document.getElementById("sim_3_1_val_lam").textContent = lamStr;
-              document.getElementById("sim_3_1_val_v").textContent = v.toExponential(2) + " m/s";
+              // De Broglie wavelength lambda = h / sqrt(2m q V)
+              const h = 6.626e-34;
+              const q = 1.602e-19;
+              const p = Math.sqrt(2 * m * q * V);
+              const lam_m = h / p;
+              const lam_nm = lam_m * 1e9;
+              const lam_pm = lam_m * 1e12;
+
+              const lEl = document.getElementById("sim_3_1_val_lam");
+              if (lEl) lEl.textContent = lam_nm >= 0.01 ? lam_nm.toFixed(3) + " nm" : lam_pm.toFixed(1) + " pm";
 
               ctx.clearRect(0,0,cv.width,cv.height);
-              ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
+              // Matter Wave packet animation/display
+              ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 3;
               ctx.beginPath();
-              const k = Math.min(0.3, Math.max(0.02, 1e-10 / lam));
+              const freq = Math.max(0.04, Math.min(0.4, 0.05 / Math.max(0.01, lam_nm)));
               for(let x=40; x<600; x+=2) {
-                const env = Math.exp(-Math.pow((x - 320)/120, 2));
-                const y = 100 + 50 * env * Math.sin((x-40) * (k*15 + 0.1));
+                const env = Math.exp(-Math.pow((x-320)/120, 2));
+                const y = 105 + 65 * env * Math.sin((x-40)*freq);
                 if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
-              ctx.fillStyle = "#f59e0b"; ctx.beginPath(); ctx.arc(320, 100, 6, 0, Math.PI*2); ctx.fill();
-              ctx.fillStyle = "#ffffff"; ctx.font = "12px Sarabun";
-              ctx.fillText("Particle & Matter Wave (λ = " + lamStr + ")", 230, 180);
+              ctx.fillStyle = "#f59e0b"; ctx.font = "12px sans-serif";
+              ctx.fillText("กลุ่มคลื่นสสารเดอบรอยล์: λ = h/p = " + (lam_nm >= 0.01 ? lam_nm.toFixed(3) + " nm" : lam_pm.toFixed(1) + " pm"), 60, 40);
             }
-            sel.addEventListener("change", calc);
-            slider.addEventListener("input", calc);
-            calc();
+            sel.addEventListener("change", draw);
+            slider.addEventListener("input", draw);
+            draw();
+            return true;
           }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
-          else initSim();
+          function run() { if (!initSim()) setTimeout(run, 100); }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
+          else run();
+          setTimeout(run, 250);
+          setTimeout(run, 700);
         })();
         </script>
         
     </div>
 
-    <div class="example-card">
-      <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างคำนวณ: ความยาวคลื่นของอิเล็กตรอนในกล้องจุลทรรศน์</h3>
-      <p><b>โจทย์:</b> อิเล็กตรอนถูกเร่งด้วยความต่างศักย์ V = 100 Volts จงหาความยาวคลื่นเดอบรอยล์</p>
-      <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e0f2fe;">
-        <b>เฉลยและวิธีทำ:</b><br>\(\lambda = \frac{1.228}{\sqrt{100}} = \frac{1.228}{10} = 0.1228 \text{ nm} = 1.228 \text{ Å}\) (สั้นกว่าแสงขาวถึง 4,000 เท่า จึงมองเห็นระดับอะตอมได้)
+    <!-- Worked Example with Toggleable Hidden Solution -->
+    <div class="example-card" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin:24px 0; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+        <h3 style="color:#0284c7; margin:0; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>📐</span> <span>ตัวอย่างคำนวณ: ความยาวคลื่นของอิเล็กตรอนในกล้องจุลทรรศน์</span>
+        </h3>
+        <span style="background:#e0f2fe; color:#0369a1; font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:20px;">WORKED EXAMPLE</span>
+      </div>
+      <div style="margin-bottom:16px; font-size:1rem; line-height:1.7; color:#334155;">
+        <b style="color:#0f172a;">โจทย์ตัวอย่าง:</b> อิเล็กตรอนถูกเร่งด้วยความต่างศักย์ V = 100 Volts จงหาความยาวคลื่นเดอบรอยล์
+      </div>
+      
+      <div class="solution-container" style="margin-top:12px;">
+        <button type="button" class="btn-toggle-solution" onclick="toggleSolution('3.1')" id="btn-sol-3.1" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; border:none; border-radius:8px; padding:9px 20px; font-size:0.92rem; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:all 0.2s ease; box-shadow:0 2px 6px rgba(2,132,199,0.25);">
+          <span id="btn-icon-3.1">👁️</span>
+          <span id="btn-text-3.1">คลิกเพื่อดูเฉลยและวิธีทำละเอียด</span>
+        </button>
+        <div class="solution-content" id="sol-content-3.1" style="display:none; margin-top:14px; padding:18px 22px; background:#ffffff; border:1px solid #bae6fd; border-radius:10px; border-left:4px solid #0284c7; box-shadow:0 4px 12px rgba(2,132,199,0.08);">
+          <div style="font-weight:700; color:#0369a1; margin-bottom:10px; display:flex; align-items:center; gap:6px; font-size:0.95rem;">
+            <span>📝</span> <span>เฉลยและขั้นตอนการคำนวณอย่างละเอียด:</span>
+          </div>
+          <div style="line-height:1.8; color:#1e293b; font-size:0.98rem;">
+            \(\lambda = \frac{1.228}{\sqrt{100}} = \frac{1.228}{10} = 0.1228 \text{ nm} = 1.228 \text{ Å}\) (สั้นกว่าแสงขาวถึง 4,000 เท่า จึงมองเห็นระดับอะตอมได้)
+          </div>
+        </div>
       </div>
     </div>
 
@@ -275,6 +294,30 @@
     </div>
   </div>
 </div>
+
+<script>
+function toggleSolution(pageId) {
+  const sol = document.getElementById("sol-content-" + pageId);
+  const btn = document.getElementById("btn-sol-" + pageId);
+  const txt = document.getElementById("btn-text-" + pageId);
+  const ico = document.getElementById("btn-icon-" + pageId);
+  if (!sol) return;
+  if (sol.style.display === "none" || sol.style.display === "") {
+    sol.style.display = "block";
+    if (txt) txt.textContent = "ซ่อนเฉลยและวิธีทำ";
+    if (ico) ico.textContent = "🙈";
+    if (btn) btn.style.background = "#475569";
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise([sol]);
+    }
+  } else {
+    sol.style.display = "none";
+    if (txt) txt.textContent = "คลิกเพื่อดูเฉลยและวิธีทำละเอียด";
+    if (ico) ico.textContent = "👁️";
+    if (btn) btn.style.background = "linear-gradient(135deg, #0284c7, #0369a1)";
+  }
+}
+</script>
 
 </body>
 </html>

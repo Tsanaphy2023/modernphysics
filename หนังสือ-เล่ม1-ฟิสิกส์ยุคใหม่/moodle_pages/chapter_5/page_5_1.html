@@ -167,85 +167,109 @@
       
         <div class="sim-panel" id="sim_5_1_panel">
           <div class="sim-control-group">
-            <label>เลขควอนตัมหลัก (Principal Quantum Number n): <span id="sim_5_1_val_n" class="readout-val">2</span></label>
+            <label>วงโคจรระดับควอนตัม (Bohr Orbit n): <span id="sim_5_1_val_n" class="readout-val">2</span></label>
             <input type="range" class="sim-slider" id="sim_5_1_slider_n" min="1" max="5" value="2">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_5_1_canvas" width="640" height="210"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_5_1_canvas" width="640" height="230"></canvas></div>
           <div class="sim-readout-grid">
-            <div class="readout-card"><div class="readout-val" id="sim_5_1_val_r">2.12 Å</div><div class="readout-lbl">รัศมีวงโคจร r_n = n² a₀</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_5_1_val_en">-3.40 eV</div><div class="readout-lbl">พลังงานยึดเหนี่ยว E_n = -13.6/n²</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_5_1_val_vn">1.09 × 10⁶ m/s</div><div class="readout-lbl">อัตราเร็วอิเล็กตรอน (v_n)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_5_1_val_rad">0.212 nm</div><div class="readout-lbl">รัศมีวงโคจร (r_n = n² a₀)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_5_1_val_en">-3.40 eV</div><div class="readout-lbl">ระดับพลังงาน (E_n = -13.6/n²)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_5_1_val_l">2 ℏ</div><div class="readout-lbl">โมเมนตัมเชิงมุม (L = nℏ)</div></div>
           </div>
         </div>
         <script>
         (function() {
           function initSim() {
             const cv = document.getElementById("sim_5_1_canvas");
-            if (!cv) return;
+            if (!cv) return false;
             const ctx = cv.getContext("2d");
             const slider = document.getElementById("sim_5_1_slider_n");
+            if (!slider) return false;
             let angle = 0;
 
-            function render() {
+            function draw() {
               const n = +slider.value;
-              document.getElementById("sim_5_1_val_n").textContent = n;
-              const a0 = 0.529; // Angstroms
-              const r_ang = n * n * a0;
-              document.getElementById("sim_5_1_val_r").textContent = r_ang.toFixed(2) + " Å";
-              document.getElementById("sim_5_1_val_en").textContent = (-13.6 / (n*n)).toFixed(2) + " eV";
-              const vn = (2.187e6 / n).toExponential(2);
-              document.getElementById("sim_5_1_val_vn").textContent = vn + " m/s";
+              const nEl = document.getElementById("sim_5_1_val_n");
+              if (nEl) nEl.textContent = n;
+              const a0 = 0.0529; // nm
+              const rn = n * n * a0;
+              const En = -13.6 / (n * n);
+
+              const rEl = document.getElementById("sim_5_1_val_rad");
+              if (rEl) rEl.textContent = rn.toFixed(3) + " nm";
+              const enEl = document.getElementById("sim_5_1_val_en");
+              if (enEl) enEl.textContent = En.toFixed(2) + " eV";
+              const lEl = document.getElementById("sim_5_1_val_l");
+              if (lEl) lEl.textContent = n + " ℏ";
 
               ctx.clearRect(0,0,cv.width,cv.height);
-              const cx = cv.width/2, cy = cv.height/2;
+              const cx = 320, cy = 115;
 
               // Nucleus (Proton)
-              ctx.fillStyle = "#ef4444"; ctx.beginPath(); ctx.arc(cx, cy, 9, 0, Math.PI*2); ctx.fill();
-              ctx.fillStyle = "#ffffff"; ctx.font = "10px Sarabun"; ctx.fillText("+e", cx-5, cy+3);
+              ctx.fillStyle = "#ef4444";
+              ctx.beginPath(); ctx.arc(cx, cy, 10, 0, Math.PI*2); ctx.fill();
+              ctx.fillStyle = "#ffffff"; ctx.font = "10px sans-serif";
+              ctx.fillText("+e", cx - 6, cy + 3);
 
-              // Circular orbits
+              // Draw All Orbits up to 5
               for(let i=1; i<=5; i++) {
-                const orbR = i * 18 + 12;
-                ctx.strokeStyle = i === n ? "#00f0ff" : "rgba(255,255,255,0.08)";
-                ctx.lineWidth = i === n ? 2 : 1;
-                ctx.beginPath(); ctx.arc(cx, cy, orbR, 0, Math.PI*2); ctx.stroke();
+                const r = 20 + i*i * 3.5;
+                ctx.strokeStyle = i === n ? "#00f0ff" : "rgba(255,255,255,0.12)";
+                ctx.lineWidth = i === n ? 2.5 : 1;
+                ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.stroke();
               }
 
-              // Orbiting electron
-              const curR = n * 18 + 12;
-              const ex = cx + curR * Math.cos(angle);
-              const ey = cy + curR * Math.sin(angle);
-              ctx.fillStyle = "#10b981"; ctx.beginPath(); ctx.arc(ex, ey, 5, 0, Math.PI*2); ctx.fill();
+              // Orbiting Electron
+              const currentR = 20 + n*n * 3.5;
+              const ex = cx + currentR * Math.cos(angle);
+              const ey = cy + currentR * Math.sin(angle);
+              ctx.fillStyle = "#10b981";
+              ctx.beginPath(); ctx.arc(ex, ey, 6, 0, Math.PI*2); ctx.fill();
+              ctx.fillStyle = "#10b981"; ctx.font = "11px sans-serif";
+              ctx.fillText("e⁻ (n=" + n + ")", ex + 8, ey + 4);
 
-              // De Broglie standing wave on orbit
-              ctx.strokeStyle = "rgba(0, 240, 255, 0.4)"; ctx.lineWidth = 1.5;
-              ctx.beginPath();
-              for(let a=0; a<=Math.PI*2; a+=0.02) {
-                const waveR = curR + 4 * Math.sin(n * a);
-                const wx = cx + waveR * Math.cos(a);
-                const wy = cy + waveR * Math.sin(a);
-                if (a===0) ctx.moveTo(wx, wy); else ctx.lineTo(wx, wy);
-              }
-              ctx.closePath(); ctx.stroke();
-
-              angle += 0.04 / n;
-              requestAnimationFrame(render);
+              angle += 0.05 / n;
+              requestAnimationFrame(draw);
             }
-            slider.addEventListener("input", render);
-            render();
+            slider.addEventListener("input", draw);
+            draw();
+            return true;
           }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
-          else initSim();
+          function run() { if (!initSim()) setTimeout(run, 100); }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
+          else run();
+          setTimeout(run, 250);
+          setTimeout(run, 700);
         })();
         </script>
         
     </div>
 
-    <div class="example-card">
-      <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างคำนวณ: รัศมีและพลังงานในสถานะกระตุ้นแรก (n=2)</h3>
-      <p><b>โจทย์:</b> จงหารัศมีวงโคจรและพลังงานของอิเล็กตรอนในอะตอมไฮโดรเจนที่สถานะ n=2</p>
-      <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e0f2fe;">
-        <b>เฉลยและวิธีทำ:</b><br>1) รัศมี: r2 = 2^2 * 0.0529 nm = 0.2116 nm<br>2) พลังงาน: E2 = -13.6 / 4 = -3.40 eV
+    <!-- Worked Example with Toggleable Hidden Solution -->
+    <div class="example-card" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin:24px 0; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+        <h3 style="color:#0284c7; margin:0; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>📐</span> <span>ตัวอย่างคำนวณ: รัศมีและพลังงานในสถานะกระตุ้นแรก (n=2)</span>
+        </h3>
+        <span style="background:#e0f2fe; color:#0369a1; font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:20px;">WORKED EXAMPLE</span>
+      </div>
+      <div style="margin-bottom:16px; font-size:1rem; line-height:1.7; color:#334155;">
+        <b style="color:#0f172a;">โจทย์ตัวอย่าง:</b> จงหารัศมีวงโคจรและพลังงานของอิเล็กตรอนในอะตอมไฮโดรเจนที่สถานะ n=2
+      </div>
+      
+      <div class="solution-container" style="margin-top:12px;">
+        <button type="button" class="btn-toggle-solution" onclick="toggleSolution('5.1')" id="btn-sol-5.1" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; border:none; border-radius:8px; padding:9px 20px; font-size:0.92rem; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:all 0.2s ease; box-shadow:0 2px 6px rgba(2,132,199,0.25);">
+          <span id="btn-icon-5.1">👁️</span>
+          <span id="btn-text-5.1">คลิกเพื่อดูเฉลยและวิธีทำละเอียด</span>
+        </button>
+        <div class="solution-content" id="sol-content-5.1" style="display:none; margin-top:14px; padding:18px 22px; background:#ffffff; border:1px solid #bae6fd; border-radius:10px; border-left:4px solid #0284c7; box-shadow:0 4px 12px rgba(2,132,199,0.08);">
+          <div style="font-weight:700; color:#0369a1; margin-bottom:10px; display:flex; align-items:center; gap:6px; font-size:0.95rem;">
+            <span>📝</span> <span>เฉลยและขั้นตอนการคำนวณอย่างละเอียด:</span>
+          </div>
+          <div style="line-height:1.8; color:#1e293b; font-size:0.98rem;">
+            1) รัศมี: r2 = 2^2 * 0.0529 nm = 0.2116 nm<br>2) พลังงาน: E2 = -13.6 / 4 = -3.40 eV
+          </div>
+        </div>
       </div>
     </div>
 
@@ -271,6 +295,30 @@
     </div>
   </div>
 </div>
+
+<script>
+function toggleSolution(pageId) {
+  const sol = document.getElementById("sol-content-" + pageId);
+  const btn = document.getElementById("btn-sol-" + pageId);
+  const txt = document.getElementById("btn-text-" + pageId);
+  const ico = document.getElementById("btn-icon-" + pageId);
+  if (!sol) return;
+  if (sol.style.display === "none" || sol.style.display === "") {
+    sol.style.display = "block";
+    if (txt) txt.textContent = "ซ่อนเฉลยและวิธีทำ";
+    if (ico) ico.textContent = "🙈";
+    if (btn) btn.style.background = "#475569";
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise([sol]);
+    }
+  } else {
+    sol.style.display = "none";
+    if (txt) txt.textContent = "คลิกเพื่อดูเฉลยและวิธีทำละเอียด";
+    if (ico) ico.textContent = "👁️";
+    if (btn) btn.style.background = "linear-gradient(135deg, #0284c7, #0369a1)";
+  }
+}
+</script>
 
 </body>
 </html>

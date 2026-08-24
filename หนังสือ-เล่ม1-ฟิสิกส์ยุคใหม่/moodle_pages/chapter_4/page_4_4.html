@@ -168,99 +168,130 @@
         <div class="sim-panel" id="sim_4_4_panel">
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
             <div class="sim-control-group">
-              <label>พลังงานอนุภาค (E): <span id="sim_4_4_val_e" class="readout-val">3.5</span> eV</label>
-              <input type="range" class="sim-slider" id="sim_4_4_slider_e" min="10" max="90" value="35">
+              <label>พลังงานอนุภาค (E): <span id="sim_4_4_val_e" class="readout-val">3.0</span> eV</label>
+              <input type="range" class="sim-slider" id="sim_4_4_slider_e" min="1.0" max="6.0" step="0.1" value="3.0">
             </div>
             <div class="sim-control-group">
-              <label>ความหนากำแพงศักย์ (L): <span id="sim_4_4_val_l" class="readout-val">0.30</span> nm</label>
-              <input type="range" class="sim-slider" id="sim_4_4_slider_l" min="10" max="80" value="30">
+              <label>ความหนากำแพงศักย์ (a): <span id="sim_4_4_val_a" class="readout-val">0.5</span> nm (V₀ = 5.0 eV)</label>
+              <input type="range" class="sim-slider" id="sim_4_4_slider_a" min="0.1" max="1.5" step="0.05" value="0.5">
             </div>
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_4_4_canvas" width="640" height="200"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_4_4_canvas" width="640" height="220"></canvas></div>
           <div class="sim-readout-grid">
-            <div class="readout-card"><div class="readout-val" id="sim_4_4_val_trans">14.2%</div><div class="readout-lbl">ความน่าจะเป็นในการทะลุผ่าน (T)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_4_4_val_ref">85.8%</div><div class="readout-lbl">ความน่าจะเป็นในการสะท้อนกลับ (R)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_4_4_val_decay">Exponential decay</div><div class="readout-lbl">ลักษณะคลื่นในกำแพง e^(-κx)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_4_4_val_tprob">2.41 %</div><div class="readout-lbl">ความน่าจะเป็นทะลุผ่าน (T)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_4_4_val_rprob">97.59 %</div><div class="readout-lbl">ความน่าจะเป็นสะท้อนกลับ (R)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_4_4_val_decay">Exponential Decay</div><div class="readout-lbl">พฤติกรรมในกำแพงศักย์</div></div>
           </div>
         </div>
         <script>
         (function() {
           function initSim() {
             const cv = document.getElementById("sim_4_4_canvas");
-            if (!cv) return;
+            if (!cv) return false;
             const ctx = cv.getContext("2d");
             const sliderE = document.getElementById("sim_4_4_slider_e");
-            const sliderL = document.getElementById("sim_4_4_slider_l");
+            const sliderA = document.getElementById("sim_4_4_slider_a");
+            if (!sliderE || !sliderA) return false;
 
             function draw() {
-              const E = (+sliderE.value) / 10;
-              const L = (+sliderL.value) / 100;
+              const E = +sliderE.value;
+              const a = +sliderA.value;
               const V0 = 5.0;
-              document.getElementById("sim_4_4_val_e").textContent = E.toFixed(1);
-              document.getElementById("sim_4_4_val_l").textContent = L.toFixed(2);
+              const eEl = document.getElementById("sim_4_4_val_e");
+              if (eEl) eEl.textContent = E.toFixed(1);
+              const aEl = document.getElementById("sim_4_4_val_a");
+              if (aEl) aEl.textContent = a.toFixed(2);
 
-              const kappa = Math.sqrt(2 * 9.1e-31 * Math.max(0.1, (V0 - E)) * 1.6e-19) / 1.054e-34;
-              const T_prob = Math.exp(-2 * kappa * L * 1e-9);
-              const T_pct = Math.min(100, Math.max(0.01, T_prob * 100));
-              document.getElementById("sim_4_4_val_trans").textContent = T_pct.toFixed(2) + "%";
-              document.getElementById("sim_4_4_val_ref").textContent = (100 - T_pct).toFixed(2) + "%";
+              let T = 0;
+              if (E < V0) {
+                const kappa = 5.12 * Math.sqrt(V0 - E);
+                T = 1 / (1 + (V0*V0 / (4*E*(V0-E))) * Math.pow(Math.sinh(kappa * a), 2));
+              } else {
+                T = 1.0;
+              }
+              const R = 1 - T;
+
+              const tpEl = document.getElementById("sim_4_4_val_tprob");
+              if (tpEl) tpEl.textContent = (T * 100).toFixed(2) + " %";
+              const rpEl = document.getElementById("sim_4_4_val_rprob");
+              if (rpEl) rpEl.textContent = (R * 100).toFixed(2) + " %";
 
               ctx.clearRect(0,0,cv.width,cv.height);
-              
-              const bWidth = L * 250;
-              const bX = (cv.width - bWidth) / 2;
+              // Barrier box
+              const barW = Math.max(20, a * 120);
               ctx.fillStyle = "rgba(244, 63, 94, 0.25)";
-              ctx.fillRect(bX, 30, bWidth, 140);
-              ctx.strokeStyle = "#f43f5e"; ctx.strokeRect(bX, 30, bWidth, 140);
-              ctx.fillStyle = "#f43f5e"; ctx.font = "11px Sarabun";
-              ctx.fillText("กำแพงศักย์ V₀ = 5.0 eV", bX + 6, 25);
+              ctx.strokeStyle = "#f43f5e"; ctx.lineWidth = 2;
+              ctx.fillRect(280, 40, barW, 140);
+              ctx.strokeRect(280, 40, barW, 140);
+              ctx.fillStyle = "#f43f5e"; ctx.font = "11px sans-serif";
+              ctx.fillText("Barrier V₀ = 5.0 eV", 285, 30);
 
+              // Wavefunction (Incident + Reflected -> Barrier -> Transmitted)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=40; x<=bX; x++) {
-                const y = 100 + 40 * Math.sin((x-40)*0.12);
+              // Region I (Left)
+              for(let x=40; x<=280; x+=2) {
+                const y = 110 + 40 * Math.sin((x-40)*0.15) + (R * 20) * Math.sin((x-40)*0.15);
                 if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
-              ctx.stroke();
-
-              ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2.5;
-              ctx.beginPath();
-              for(let x=bX; x<=bX+bWidth; x++) {
-                const norm = (x - bX) / bWidth;
-                const decay = Math.exp(-norm * 2.5);
-                const y = 100 + 40 * decay * Math.sin(x*0.05);
-                if (x===bX) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+              // Region II (Inside Barrier - Exponential Decay)
+              const yStart = 110 + 40 * Math.sin(240*0.15);
+              for(let x=280; x<=280+barW; x+=2) {
+                const norm = (x - 280) / barW;
+                const y = 110 + (yStart - 110) * Math.exp(-norm * 2.5);
+                ctx.lineTo(x, y);
+              }
+              // Region III (Transmitted Wave - Smaller Amplitude)
+              const transAmp = Math.max(2, 40 * Math.sqrt(T));
+              for(let x=280+barW; x<=600; x+=2) {
+                const y = 110 + transAmp * Math.sin((x - 280 - barW)*0.15);
+                ctx.lineTo(x, y);
               }
               ctx.stroke();
 
-              const transAmp = 40 * Math.sqrt(T_pct/100);
-              ctx.strokeStyle = "#10b981"; ctx.lineWidth = 2.5;
-              ctx.beginPath();
-              for(let x=bX+bWidth; x<=600; x++) {
-                const y = 100 + transAmp * Math.sin((x - bX - bWidth)*0.12);
-                if (x===bX+bWidth) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-              }
-              ctx.stroke();
-
-              ctx.fillStyle = "#00f0ff"; ctx.fillText("I. คลื่นตกกระทบ (E=" + E.toFixed(1) + " eV)", 50, 185);
-              ctx.fillStyle = "#10b981"; ctx.fillText("III. คลื่นทะลุผ่าน (T=" + T_pct.toFixed(1) + "%)", bX+bWidth+10, 185);
+              ctx.fillStyle = "#10b981";
+              ctx.fillText("Transmitted Wave ψ_T (T = " + (T*100).toFixed(2) + "%)", 290 + barW + 10, 80);
             }
             sliderE.addEventListener("input", draw);
-            sliderL.addEventListener("input", draw);
+            sliderA.addEventListener("input", draw);
             draw();
+            return true;
           }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
-          else initSim();
+          function run() { if (!initSim()) setTimeout(run, 100); }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
+          else run();
+          setTimeout(run, 250);
+          setTimeout(run, 700);
         })();
         </script>
         
     </div>
 
-    <div class="example-card">
-      <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างการประยุกต์: กล้องจุลทรรศน์ STM (Scanning Tunneling Microscope)</h3>
-      <p><b>โจทย์:</b> หัวเข็ม STM อยู่ห่างจากผิวตัวอย่างเพียง 0.5 nm หากระยะห่างเปลี่ยนไปเพียง 0.1 nm กระแสทะลุผ่านจะเปลี่ยนไปอย่างไร?</p>
-      <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e0f2fe;">
-        <b>เฉลยและวิธีทำ:</b><br>เนื่องจากความน่าจะเป็นขึ้นกับเอกซ์โพเนนเชียล การเปลี่ยนระยะเพียง 0.1 nm จะทำให้กระแสเปลี่ยนไปถึงเกือบ 10 เท่า ความไวระดับมหาศาลนี้ทำให้ STM สร้างภาพระดับอะตอมเดี่ยวๆ ได้อย่างคมชัด
+    <!-- Worked Example with Toggleable Hidden Solution -->
+    <div class="example-card" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin:24px 0; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+        <h3 style="color:#0284c7; margin:0; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>📐</span> <span>ตัวอย่างการประยุกต์: กล้องจุลทรรศน์ STM (Scanning Tunneling Microscope)</span>
+        </h3>
+        <span style="background:#e0f2fe; color:#0369a1; font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:20px;">WORKED EXAMPLE</span>
+      </div>
+      <div style="margin-bottom:16px; font-size:1rem; line-height:1.7; color:#334155;">
+        <b style="color:#0f172a;">โจทย์ตัวอย่าง:</b> หัวเข็ม STM อยู่ห่างจากผิวตัวอย่างเพียง 0.5 nm หากระยะห่างเปลี่ยนไปเพียง 0.1 nm กระแสทะลุผ่านจะเปลี่ยนไปอย่างไร?
+      </div>
+      
+      <div class="solution-container" style="margin-top:12px;">
+        <button type="button" class="btn-toggle-solution" onclick="toggleSolution('4.4')" id="btn-sol-4.4" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; border:none; border-radius:8px; padding:9px 20px; font-size:0.92rem; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:all 0.2s ease; box-shadow:0 2px 6px rgba(2,132,199,0.25);">
+          <span id="btn-icon-4.4">👁️</span>
+          <span id="btn-text-4.4">คลิกเพื่อดูเฉลยและวิธีทำละเอียด</span>
+        </button>
+        <div class="solution-content" id="sol-content-4.4" style="display:none; margin-top:14px; padding:18px 22px; background:#ffffff; border:1px solid #bae6fd; border-radius:10px; border-left:4px solid #0284c7; box-shadow:0 4px 12px rgba(2,132,199,0.08);">
+          <div style="font-weight:700; color:#0369a1; margin-bottom:10px; display:flex; align-items:center; gap:6px; font-size:0.95rem;">
+            <span>📝</span> <span>เฉลยและขั้นตอนการคำนวณอย่างละเอียด:</span>
+          </div>
+          <div style="line-height:1.8; color:#1e293b; font-size:0.98rem;">
+            เนื่องจากความน่าจะเป็นขึ้นกับเอกซ์โพเนนเชียล การเปลี่ยนระยะเพียง 0.1 nm จะทำให้กระแสเปลี่ยนไปถึงเกือบ 10 เท่า ความไวระดับมหาศาลนี้ทำให้ STM สร้างภาพระดับอะตอมเดี่ยวๆ ได้อย่างคมชัด
+          </div>
+        </div>
       </div>
     </div>
 
@@ -286,6 +317,30 @@
     </div>
   </div>
 </div>
+
+<script>
+function toggleSolution(pageId) {
+  const sol = document.getElementById("sol-content-" + pageId);
+  const btn = document.getElementById("btn-sol-" + pageId);
+  const txt = document.getElementById("btn-text-" + pageId);
+  const ico = document.getElementById("btn-icon-" + pageId);
+  if (!sol) return;
+  if (sol.style.display === "none" || sol.style.display === "") {
+    sol.style.display = "block";
+    if (txt) txt.textContent = "ซ่อนเฉลยและวิธีทำ";
+    if (ico) ico.textContent = "🙈";
+    if (btn) btn.style.background = "#475569";
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise([sol]);
+    }
+  } else {
+    sol.style.display = "none";
+    if (txt) txt.textContent = "คลิกเพื่อดูเฉลยและวิธีทำละเอียด";
+    if (ico) ico.textContent = "👁️";
+    if (btn) btn.style.background = "linear-gradient(135deg, #0284c7, #0369a1)";
+  }
+}
+</script>
 
 </body>
 </html>

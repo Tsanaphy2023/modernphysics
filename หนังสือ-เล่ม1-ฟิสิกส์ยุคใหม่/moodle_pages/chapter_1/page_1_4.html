@@ -169,11 +169,11 @@
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
             <div class="sim-control-group">
               <label>อนุกรมสเปกตรัม (Lower Level n₁):</label>
-              <select id="sim_1_4_sel_series" class="search-input" style="padding:6px 10px;">
-                <option value="1">Lyman (n₁ = 1, UV)</option>
-                <option value="2" selected>Balmer (n₁ = 2, Visible แสงขาว)</option>
-                <option value="3">Paschen (n₁ = 3, Infrared)</option>
-                <option value="4">Brackett (n₁ = 4, Far IR)</option>
+              <select id="sim_1_4_sel_series" style="width:100%; background:#0f172a; color:#00f0ff; border:1px solid #334155; padding:8px; border-radius:6px;">
+                <option value="1">Lyman (n₁ = 1, ย่าน UV)</option>
+                <option value="2" selected>Balmer (n₁ = 2, ย่านแสงขาวที่ตามองเห็น)</option>
+                <option value="3">Paschen (n₁ = 3, ย่าน Infrared)</option>
+                <option value="4">Brackett (n₁ = 4, ย่าน Far IR)</option>
               </select>
             </div>
             <div class="sim-control-group">
@@ -183,98 +183,122 @@
           </div>
           <div class="sim-canvas-wrapper"><canvas id="sim_1_4_canvas" width="640" height="210"></canvas></div>
           <div class="sim-readout-grid">
-            <div class="readout-card"><div class="readout-val" id="sim_1_4_val_lam">656.3 nm</div><div class="readout-lbl">ความยาวคลื่น (λ)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_1_4_val_de">1.89 eV</div><div class="readout-lbl">พลังงานโฟตอนที่ปล่อย (ΔE)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_1_4_val_line">H-alpha (สีแดง)</div><div class="readout-lbl">ชื่อเส้นสเปกตรัม</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_1_4_val_lam">656.3 nm</div><div class="readout-lbl">ความยาวคลื่นโฟตอน (λ)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_1_4_val_de">1.89 eV</div><div class="readout-lbl">พลังงานที่ปลดปล่อย (ΔE)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_1_4_val_line">H-alpha (สีแดง)</div><div class="readout-lbl">ชื่อและสีของเส้นสเปกตรัม</div></div>
           </div>
         </div>
         <script>
         (function() {
           function initSim() {
             const cv = document.getElementById("sim_1_4_canvas");
-            if (!cv) return;
+            if (!cv) return false;
             const ctx = cv.getContext("2d");
             const sel = document.getElementById("sim_1_4_sel_series");
             const slider = document.getElementById("sim_1_4_slider_n2");
+            if (!sel || !slider) return false;
 
-            function calc() {
+            function draw() {
               const n1 = +sel.value;
               slider.min = n1 + 1;
               if (+slider.value <= n1) slider.value = n1 + 1;
               const n2 = +slider.value;
-              document.getElementById("sim_1_4_val_n2").textContent = n2;
+              const n2El = document.getElementById("sim_1_4_val_n2");
+              if (n2El) n2El.textContent = n2;
 
               const invLam = 1.097373e7 * (1/(n1*n1) - 1/(n2*n2));
-              const lamM = 1 / invLam;
-              const lamNm = lamM * 1e9;
-              document.getElementById("sim_1_4_val_lam").textContent = lamNm.toFixed(1) + " nm";
-              
+              const lam_nm = (1 / invLam) * 1e9;
               const dE = 13.6 * (1/(n1*n1) - 1/(n2*n2));
-              document.getElementById("sim_1_4_val_de").textContent = dE.toFixed(2) + " eV";
 
-              let label = "Infrared";
-              if (n1 === 1) label = "Lyman UV";
+              const lEl = document.getElementById("sim_1_4_val_lam");
+              if (lEl) lEl.textContent = lam_nm.toFixed(1) + " nm";
+              const deEl = document.getElementById("sim_1_4_val_de");
+              if (deEl) deEl.textContent = dE.toFixed(2) + " eV";
+
+              let lineName = "สเปกตรัม";
+              let color = "#00f0ff";
+              if (n1 === 1) { lineName = "Lyman (" + n2 + "→1 UV)"; color = "#a855f7"; }
               else if (n1 === 2) {
-                if (n2 === 3) label = "H-alpha (แดง 656 nm)";
-                else if (n2 === 4) label = "H-beta (ฟ้า 486 nm)";
-                else if (n2 === 5) label = "H-gamma (น้ำเงิน 434 nm)";
-                else label = "H-delta (ม่วง 410 nm)";
-              }
-              document.getElementById("sim_1_4_val_line").textContent = label;
+                if (n2===3) { lineName = "H-alpha (สีแดง 656.3 nm)"; color = "#ef4444"; }
+                else if (n2===4) { lineName = "H-beta (สีฟ้าคราม 486.1 nm)"; color = "#06b6d4"; }
+                else if (n2===5) { lineName = "H-gamma (สีน้ำเงิน 434.0 nm)"; color = "#3b82f6"; }
+                else { lineName = "H-delta (สีม่วง 410.2 nm)"; color = "#8b5cf6"; }
+              } else if (n1 === 3) { lineName = "Paschen (" + n2 + "→3 IR)"; color = "#f97316"; }
+              else { lineName = "Brackett (" + n2 + "→4 Far-IR)"; color = "#e11d48"; }
+              const lnEl = document.getElementById("sim_1_4_val_line");
+              if (lnEl) lnEl.textContent = lineName;
 
               ctx.clearRect(0,0,cv.width,cv.height);
-              for(let i=1; i<=6; i++) {
-                const y = 180 - (160 / i);
-                ctx.strokeStyle = i === n1 ? "#00f0ff" : (i === n2 ? "#f59e0b" : "#475569");
-                ctx.lineWidth = i === n1 || i === n2 ? 2.5 : 1;
-                ctx.beginPath(); ctx.moveTo(80, y); ctx.lineTo(340, y); ctx.stroke();
-                ctx.fillStyle = "#94a3b8"; ctx.font = "11px Sarabun";
-                ctx.fillText("n = " + i + " (" + (-13.6/(i*i)).toFixed(2) + " eV)", 15, y+4);
+              // Draw Energy Levels
+              for(let n=1; n<=6; n++) {
+                const y = 190 - 160 * (1 - 1/(n*n));
+                ctx.strokeStyle = n === n1 ? "#00f0ff" : "#475569";
+                ctx.lineWidth = n === n1 ? 2.5 : 1;
+                ctx.beginPath(); ctx.moveTo(60, y); ctx.lineTo(340, y); ctx.stroke();
+                ctx.fillStyle = n === n1 ? "#00f0ff" : "#94a3b8";
+                ctx.font = "11px sans-serif";
+                ctx.fillText("n=" + n + " (" + (-13.6/(n*n)).toFixed(2) + " eV)", 348, y + 4);
               }
 
-              const y1 = 180 - (160 / n1);
-              const y2 = 180 - (160 / n2);
-              ctx.strokeStyle = "#f43f5e"; ctx.lineWidth = 3;
-              ctx.beginPath(); ctx.moveTo(210, y2); ctx.lineTo(210, y1); ctx.stroke();
-              ctx.fillStyle = "#f43f5e";
-              ctx.beginPath(); ctx.moveTo(204, y1 - 6); ctx.lineTo(216, y1 - 6); ctx.lineTo(210, y1); ctx.fill();
+              // Draw Transition Arrow
+              const yStart = 190 - 160 * (1 - 1/(n2*n2));
+              const yEnd = 190 - 160 * (1 - 1/(n1*n1));
+              ctx.strokeStyle = color; ctx.lineWidth = 3;
+              ctx.beginPath(); ctx.moveTo(200, yStart); ctx.lineTo(200, yEnd); ctx.stroke();
+              // Arrowhead
+              ctx.fillStyle = color;
+              ctx.beginPath(); ctx.moveTo(195, yEnd - 6); ctx.lineTo(205, yEnd - 6); ctx.lineTo(200, yEnd); ctx.fill();
 
-              ctx.strokeStyle = n1 === 2 ? "#10b981" : "#a855f7";
-              ctx.lineWidth = 2;
+              // Emission Photon Wave packet
+              ctx.strokeStyle = color; ctx.lineWidth = 2.5;
               ctx.beginPath();
-              for(let x=220; x<420; x+=2) {
-                const wy = (y1 + y2)/2 + 8 * Math.sin((x-220)*0.2);
-                if (x===220) ctx.moveTo(x, wy); else ctx.lineTo(x, wy);
+              for(let x=220; x<580; x+=2) {
+                const waveY = (yStart + yEnd)/2 + 12 * Math.sin((x-220)*0.15);
+                if (x===220) ctx.moveTo(x, waveY); else ctx.lineTo(x, waveY);
               }
               ctx.stroke();
-              ctx.fillText("hν (" + lamNm.toFixed(0) + " nm)", 430, (y1+y2)/2 + 4);
-
-              ctx.fillStyle = "#090d16";
-              ctx.fillRect(480, 20, 140, 160);
-              ctx.strokeStyle = "#334155";
-              ctx.strokeRect(480, 20, 140, 160);
-              ctx.fillStyle = "#94a3b8"; ctx.fillText("สเปกตรัมที่สังเกตได้", 495, 40);
-              const lineX = 490 + Math.min(120, Math.max(10, (lamNm - 380)*0.3));
-              ctx.strokeStyle = n1 === 2 && n2 === 3 ? "#ef4444" : (n1 === 2 && n2 === 4 ? "#38bdf8" : "#a855f7");
-              ctx.lineWidth = 4;
-              ctx.beginPath(); ctx.moveTo(lineX, 60); ctx.lineTo(lineX, 150); ctx.stroke();
+              ctx.fillStyle = color; ctx.fillText("Photon hf (λ = " + lam_nm.toFixed(1) + " nm)", 420, (yStart + yEnd)/2 - 10);
             }
-            sel.addEventListener("change", calc);
-            slider.addEventListener("input", calc);
-            calc();
+            sel.addEventListener("change", draw);
+            slider.addEventListener("input", draw);
+            draw();
+            return true;
           }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
-          else initSim();
+          function run() { if (!initSim()) setTimeout(run, 100); }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
+          else run();
+          setTimeout(run, 250);
+          setTimeout(run, 700);
         })();
         </script>
         
     </div>
 
-    <div class="example-card">
-      <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างคำนวณ: เส้นสีแดงของไฮโดรเจน</h3>
-      <p><b>โจทย์:</b> จงคำนวณความยาวคลื่นของการเปลี่ยนสถานะจาก \(n_2 = 3 \to n_1 = 2\) (เส้นแรกในอนุกรมบาลเมอร์)</p>
-      <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e0f2fe;">
-        <b>เฉลยและวิธีทำ:</b><br>\(\frac{1}{\lambda} = 1.097 \times 10^7 \left( \frac{1}{2^2} - \frac{1}{3^2} \right) = 1.097 \times 10^7 \times \frac{5}{36} = 1.5236 \times 10^6 \text{ m}^{-1}\)<br>\(\lambda = 656.3 \text{ nm}\) (แสงสีแดง H-alpha)
+    <!-- Worked Example with Toggleable Hidden Solution -->
+    <div class="example-card" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin:24px 0; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+        <h3 style="color:#0284c7; margin:0; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>📐</span> <span>ตัวอย่างคำนวณ: เส้นสีแดงของไฮโดรเจน</span>
+        </h3>
+        <span style="background:#e0f2fe; color:#0369a1; font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:20px;">WORKED EXAMPLE</span>
+      </div>
+      <div style="margin-bottom:16px; font-size:1rem; line-height:1.7; color:#334155;">
+        <b style="color:#0f172a;">โจทย์ตัวอย่าง:</b> จงคำนวณความยาวคลื่นของการเปลี่ยนสถานะจาก \(n_2 = 3 \to n_1 = 2\) (เส้นแรกในอนุกรมบาลเมอร์)
+      </div>
+      
+      <div class="solution-container" style="margin-top:12px;">
+        <button type="button" class="btn-toggle-solution" onclick="toggleSolution('1.4')" id="btn-sol-1.4" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; border:none; border-radius:8px; padding:9px 20px; font-size:0.92rem; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:all 0.2s ease; box-shadow:0 2px 6px rgba(2,132,199,0.25);">
+          <span id="btn-icon-1.4">👁️</span>
+          <span id="btn-text-1.4">คลิกเพื่อดูเฉลยและวิธีทำละเอียด</span>
+        </button>
+        <div class="solution-content" id="sol-content-1.4" style="display:none; margin-top:14px; padding:18px 22px; background:#ffffff; border:1px solid #bae6fd; border-radius:10px; border-left:4px solid #0284c7; box-shadow:0 4px 12px rgba(2,132,199,0.08);">
+          <div style="font-weight:700; color:#0369a1; margin-bottom:10px; display:flex; align-items:center; gap:6px; font-size:0.95rem;">
+            <span>📝</span> <span>เฉลยและขั้นตอนการคำนวณอย่างละเอียด:</span>
+          </div>
+          <div style="line-height:1.8; color:#1e293b; font-size:0.98rem;">
+            \(\frac{1}{\lambda} = 1.097 \times 10^7 \left( \frac{1}{2^2} - \frac{1}{3^2} \right) = 1.097 \times 10^7 \times \frac{5}{36} = 1.5236 \times 10^6 \text{ m}^{-1}\)<br>\(\lambda = 656.3 \text{ nm}\) (แสงสีแดง H-alpha)
+          </div>
+        </div>
       </div>
     </div>
 
@@ -300,6 +324,30 @@
     </div>
   </div>
 </div>
+
+<script>
+function toggleSolution(pageId) {
+  const sol = document.getElementById("sol-content-" + pageId);
+  const btn = document.getElementById("btn-sol-" + pageId);
+  const txt = document.getElementById("btn-text-" + pageId);
+  const ico = document.getElementById("btn-icon-" + pageId);
+  if (!sol) return;
+  if (sol.style.display === "none" || sol.style.display === "") {
+    sol.style.display = "block";
+    if (txt) txt.textContent = "ซ่อนเฉลยและวิธีทำ";
+    if (ico) ico.textContent = "🙈";
+    if (btn) btn.style.background = "#475569";
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise([sol]);
+    }
+  } else {
+    sol.style.display = "none";
+    if (txt) txt.textContent = "คลิกเพื่อดูเฉลยและวิธีทำละเอียด";
+    if (ico) ico.textContent = "👁️";
+    if (btn) btn.style.background = "linear-gradient(135deg, #0284c7, #0369a1)";
+  }
+}
+</script>
 
 </body>
 </html>

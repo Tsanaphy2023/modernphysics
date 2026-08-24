@@ -456,11 +456,31 @@ def build_standalone_moodle_html(ch, page):
       {get_simulator_html_and_js(page["id"], page.get("sim_type", ""), page["title"], standalone=True)}
     </div>
 
-    <div class="example-card">
-      <h3 style="color: #0369a1; margin-top:0;">📐 {ex["title"]}</h3>
-      <p><b>โจทย์:</b> {ex["problem"]}</p>
-      <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e0f2fe;">
-        <b>เฉลยและวิธีทำ:</b><br>{ex["solution"]}
+    <!-- Worked Example with Toggleable Hidden Solution -->
+    <div class="example-card" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin:24px 0; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+        <h3 style="color:#0284c7; margin:0; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>📐</span> <span>{ex["title"]}</span>
+        </h3>
+        <span style="background:#e0f2fe; color:#0369a1; font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:20px;">WORKED EXAMPLE</span>
+      </div>
+      <div style="margin-bottom:16px; font-size:1rem; line-height:1.7; color:#334155;">
+        <b style="color:#0f172a;">โจทย์ตัวอย่าง:</b> {ex["problem"]}
+      </div>
+      
+      <div class="solution-container" style="margin-top:12px;">
+        <button type="button" class="btn-toggle-solution" onclick="toggleSolution('{page["id"]}')" id="btn-sol-{page["id"]}" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; border:none; border-radius:8px; padding:9px 20px; font-size:0.92rem; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:all 0.2s ease; box-shadow:0 2px 6px rgba(2,132,199,0.25);">
+          <span id="btn-icon-{page["id"]}">👁️</span>
+          <span id="btn-text-{page["id"]}">คลิกเพื่อดูเฉลยและวิธีทำละเอียด</span>
+        </button>
+        <div class="solution-content" id="sol-content-{page["id"]}" style="display:none; margin-top:14px; padding:18px 22px; background:#ffffff; border:1px solid #bae6fd; border-radius:10px; border-left:4px solid #0284c7; box-shadow:0 4px 12px rgba(2,132,199,0.08);">
+          <div style="font-weight:700; color:#0369a1; margin-bottom:10px; display:flex; align-items:center; gap:6px; font-size:0.95rem;">
+            <span>📝</span> <span>เฉลยและขั้นตอนการคำนวณอย่างละเอียด:</span>
+          </div>
+          <div style="line-height:1.8; color:#1e293b; font-size:0.98rem;">
+            {ex["solution"]}
+          </div>
+        </div>
       </div>
     </div>
 
@@ -486,6 +506,30 @@ def build_standalone_moodle_html(ch, page):
     </div>
   </div>
 </div>
+
+<script>
+function toggleSolution(pageId) {{
+  const sol = document.getElementById("sol-content-" + pageId);
+  const btn = document.getElementById("btn-sol-" + pageId);
+  const txt = document.getElementById("btn-text-" + pageId);
+  const ico = document.getElementById("btn-icon-" + pageId);
+  if (!sol) return;
+  if (sol.style.display === "none" || sol.style.display === "") {{
+    sol.style.display = "block";
+    if (txt) txt.textContent = "ซ่อนเฉลยและวิธีทำ";
+    if (ico) ico.textContent = "🙈";
+    if (btn) btn.style.background = "#475569";
+    if (window.MathJax && window.MathJax.typesetPromise) {{
+      window.MathJax.typesetPromise([sol]);
+    }}
+  }} else {{
+    sol.style.display = "none";
+    if (txt) txt.textContent = "คลิกเพื่อดูเฉลยและวิธีทำละเอียด";
+    if (ico) ico.textContent = "👁️";
+    if (btn) btn.style.background = "linear-gradient(135deg, #0284c7, #0369a1)";
+  }}
+}}
+</script>
 
 </body>
 </html>"""
@@ -540,16 +584,31 @@ def build_subtopic_page_html(ch, page, all_pages, current_idx):
     </div>
     """
 
-    # Worked Example HTML
+    # Worked Example HTML with Toggle Button
     ex = page["worked_example"]
     example_html = f"""
-    <div class="example-card">
-      <div class="example-header">
-        <span class="example-title">📐 {ex["title"]}</span>
-        <span class="example-badge">Worked Example</span>
+    <div class="example-card" style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:22px; margin:24px 0; box-shadow:0 4px 16px rgba(0,0,0,0.15);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid var(--border-color); padding-bottom:10px;">
+        <span class="example-title" style="font-weight:700; color:var(--primary); font-size:1.15rem;">📐 {ex["title"]}</span>
+        <span class="example-badge" style="background:rgba(0,240,255,0.12); color:#00f0ff; font-size:0.75rem; font-weight:700; padding:4px 12px; border-radius:20px; border:1px solid rgba(0,240,255,0.3);">WORKED EXAMPLE</span>
       </div>
-      <div class="example-problem"><b>โจทย์:</b> {ex["problem"]}</div>
-      <div class="example-solution"><b>วิธีทำและคำอธิบาย:</b><br>{ex["solution"]}</div>
+      <div class="example-problem" style="margin-bottom:16px; font-size:1rem; line-height:1.75; color:var(--text-main);">
+        <b style="color:var(--text-highlight);">โจทย์ตัวอย่าง:</b> {ex["problem"]}
+      </div>
+      <div class="solution-wrapper" style="margin-top:12px;">
+        <button type="button" class="btn-toggle-solution" onclick="toggleSolution('{page["id"]}')" id="btn-sol-{page["id"]}" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; border:none; border-radius:8px; padding:9px 20px; font-size:0.92rem; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:all 0.2s ease; box-shadow:0 2px 8px rgba(2,132,199,0.3);">
+          <span id="btn-icon-{page["id"]}">👁️</span>
+          <span id="btn-text-{page["id"]}">คลิกเพื่อดูเฉลยและวิธีทำละเอียด</span>
+        </button>
+        <div class="solution-content" id="sol-content-{page["id"]}" style="display:none; margin-top:14px; padding:18px 22px; background:rgba(2,6,23,0.7); border:1px solid rgba(0,240,255,0.2); border-radius:10px; border-left:4px solid #00f0ff; box-shadow:0 4px 16px rgba(0,0,0,0.3);">
+          <div style="font-weight:700; color:#00f0ff; margin-bottom:10px; display:flex; align-items:center; gap:6px; font-size:0.95rem;">
+            <span>📝</span> <span>เฉลยและขั้นตอนการคำนวณอย่างละเอียด:</span>
+          </div>
+          <div class="example-solution" style="line-height:1.8; color:var(--text-main); font-size:0.98rem;">
+            {ex["solution"]}
+          </div>
+        </div>
+      </div>
     </div>
     """
 
@@ -2031,8 +2090,12 @@ function navigateToPage(pageId) {{
   // Update Progress Badge
   updateProgressBadge();
 
-  // Initialize Simulator for this page
-  initSimulator(pageId, pageObj ? pageObj.sim_type : "");
+  // Trigger Simulator redraw on page activation
+  setTimeout(() => {{
+    const sliders = targetPage.querySelectorAll("input[type='range'], select");
+    sliders.forEach(s => s.dispatchEvent(new Event('input')));
+    sliders.forEach(s => s.dispatchEvent(new Event('change')));
+  }}, 60);
 
   // Typeset MathJax
   if (window.MathJax && MathJax.typesetPromise) {{
@@ -2167,223 +2230,27 @@ window.addEventListener("keydown", (e) => {{
 }});
 
 // -------------------------------------------------------------
-// REAL-TIME SIMULATORS ENGINE
+// WORKED EXAMPLE TOGGLE SOLUTION & SIMULATOR REDRAW ENGINE
 // -------------------------------------------------------------
-function initSimulator(pageId, simType) {{
-  const container = document.getElementById("sim-body-" + pageId);
-  if (!container || container.dataset.initialized === "true") return;
-  container.dataset.initialized = "true";
-
-  if (simType === "planck_blackbody") {{
-    container.innerHTML = `
-      <div class="sim-control-group">
-        <label>อุณหภูมิสัมบูรณ์ (T): <span id="val-temp-12" class="readout-val" style="font-size:1rem;">5500</span> K</label>
-        <input type="range" class="sim-slider" id="slider-temp-12" min="1000" max="10000" step="100" value="5500">
-      </div>
-      <div class="sim-canvas-wrapper"><canvas id="cv-planck" width="600" height="220"></canvas></div>
-      <div class="sim-readout-grid">
-        <div class="readout-card"><div class="readout-val" id="val-peak-12">527 nm</div><div class="readout-lbl">ความยาวคลื่นสูงสุด (λ_max)</div></div>
-        <div class="readout-card"><div class="readout-val" id="val-color-12">เหลือง-ขาว</div><div class="readout-lbl">สีที่ปรากฏ</div></div>
-      </div>
-    `;
-    const cv = document.getElementById("cv-planck");
-    const ctx = cv.getContext("2d");
-    const slider = document.getElementById("slider-temp-12");
-    
-    function drawPlanck() {{
-      const T = +slider.value;
-      document.getElementById("val-temp-12").textContent = T;
-      const peakNm = Math.round(2898000 / T);
-      document.getElementById("val-peak-12").textContent = peakNm + " nm";
-      let colName = "แดง";
-      if (T > 3000 && T <= 5000) colName = "ส้ม-เหลือง";
-      else if (T > 5000 && T <= 7500) colName = "ขาวนวล (เหมือนดวงอาทิตย์)";
-      else if (T > 7500) colName = "ฟ้า-น้ำเงิน";
-      document.getElementById("val-color-12").textContent = colName;
-
-      ctx.clearRect(0,0,cv.width,cv.height);
-      ctx.strokeStyle = "#38bdf8";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(40, 190);
-      for(let x=40; x<580; x+=2) {{
-        const lam = (x-40)*3;
-        const p = Math.pow(T/1000, 3) * Math.pow(lam/peakNm, 5) / (Math.exp((lam?peakNm/lam:10)*2) - 1 + 0.1);
-        const y = 190 - Math.min(160, p*5);
-        ctx.lineTo(x, y);
-      }}
-      ctx.stroke();
-      // Axis
-      ctx.strokeStyle = "#475569";
-      ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(40, 20); ctx.lineTo(40, 190); ctx.lineTo(580, 190); ctx.stroke();
-      ctx.fillStyle = "#94a3b8"; ctx.font = "11px Sarabun";
-      ctx.fillText("ความยาวคลื่น λ (nm) →", 460, 208);
-      ctx.fillText("ความเข้ม I(λ)", 10, 30);
+function toggleSolution(pageId) {{
+  const sol = document.getElementById("sol-content-" + pageId);
+  const btn = document.getElementById("btn-sol-" + pageId);
+  const txt = document.getElementById("btn-text-" + pageId);
+  const ico = document.getElementById("btn-icon-" + pageId);
+  if (!sol) return;
+  if (sol.style.display === "none" || sol.style.display === "") {{
+    sol.style.display = "block";
+    if (txt) txt.textContent = "ซ่อนเฉลยและวิธีทำ";
+    if (ico) ico.textContent = "🙈";
+    if (btn) btn.style.background = "#475569";
+    if (window.MathJax && window.MathJax.typesetPromise) {{
+      window.MathJax.typesetPromise([sol]);
     }}
-    slider.addEventListener("input", drawPlanck);
-    drawPlanck();
-  }}
-  else if (simType === "photoelectric") {{
-    container.innerHTML = `
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-        <div class="sim-control-group">
-          <label>ชนิดโลหะ (Work Function φ):</label>
-          <select id="sel-metal-13" class="search-input" style="padding:6px 10px;">
-            <option value="2.14">ซีเซียม (Cs: 2.14 eV)</option>
-            <option value="2.30" selected>โซเดียม (Na: 2.30 eV)</option>
-            <option value="4.30">สังกะสี (Zn: 4.30 eV)</option>
-            <option value="5.65">แพลทินัม (Pt: 5.65 eV)</option>
-          </select>
-        </div>
-        <div class="sim-control-group">
-          <label>ความยาวคลื่นแสง (λ): <span id="val-lam-13" class="readout-val" style="font-size:1rem;">350</span> nm</label>
-          <input type="range" class="sim-slider" id="slider-lam-13" min="150" max="750" value="350">
-        </div>
-      </div>
-      <div class="sim-readout-grid">
-        <div class="readout-card"><div class="readout-val" id="val-ephoton-13">3.54 eV</div><div class="readout-lbl">พลังงานโฟตอน (E = hf)</div></div>
-        <div class="readout-card"><div class="readout-val" id="val-kmax-13">1.24 eV</div><div class="readout-lbl">พลังงานจลน์สูงสุด (K_max)</div></div>
-        <div class="readout-card"><div class="readout-val" id="val-vs-13">1.24 V</div><div class="readout-lbl">ความต่างศักย์หยุดยั้ง (Vs)</div></div>
-      </div>
-    `;
-    const sel = document.getElementById("sel-metal-13");
-    const slider = document.getElementById("slider-lam-13");
-    function calcPE() {{
-      const phi = +sel.value;
-      const lam = +slider.value;
-      document.getElementById("val-lam-13").textContent = lam;
-      const Ephoton = 1240 / lam;
-      document.getElementById("val-ephoton-13").textContent = Ephoton.toFixed(2) + " eV";
-      const Kmax = Ephoton - phi;
-      if (Kmax > 0) {{
-        document.getElementById("val-kmax-13").textContent = Kmax.toFixed(2) + " eV";
-        document.getElementById("val-vs-13").textContent = Kmax.toFixed(2) + " V";
-      }} else {{
-        document.getElementById("val-kmax-13").textContent = "0 (ไม่หลุด)";
-        document.getElementById("val-vs-13").textContent = "0 V";
-      }}
-    }}
-    sel.addEventListener("change", calcPE);
-    slider.addEventListener("input", calcPE);
-    calcPE();
-  }}
-  else if (simType === "lorentz_calc" || simType === "time_dilation_sim") {{
-    container.innerHTML = `
-      <div class="sim-control-group">
-        <label>อัตราเร็วสัมพัทธ์ (v/c): <span id="val-vc" class="readout-val" style="font-size:1rem;">0.80</span> c</label>
-        <input type="range" class="sim-slider" id="slider-vc" min="0" max="99" value="80">
-      </div>
-      <div class="sim-readout-grid">
-        <div class="readout-card"><div class="readout-val" id="val-gamma">1.67</div><div class="readout-lbl">ตัวประกอบลอเรนซ์ (γ)</div></div>
-        <div class="readout-card"><div class="readout-val" id="val-tdilate">+66.7%</div><div class="readout-lbl">เวลายืดออก (Time Dilation)</div></div>
-        <div class="readout-card"><div class="readout-val" id="val-lcontract">-40.0%</div><div class="readout-lbl">ระยะห่างหดสั้น (Contraction)</div></div>
-      </div>
-    `;
-    const slider = document.getElementById("slider-vc");
-    function calcRel() {{
-      const beta = (+slider.value) / 100;
-      document.getElementById("val-vc").textContent = beta.toFixed(2);
-      const gamma = 1 / Math.sqrt(1 - beta*beta);
-      document.getElementById("val-gamma").textContent = gamma.toFixed(2);
-      document.getElementById("val-tdilate").textContent = `+${{((gamma - 1)*100).toFixed(1)}}%`;
-      document.getElementById("val-lcontract").textContent = `-${{((1 - 1/gamma)*100).toFixed(1)}}%`;
-    }}
-    slider.addEventListener("input", calcRel);
-    calcRel();
-  }}
-  else if (simType === "particle_box_sim") {{
-    container.innerHTML = `
-      <div class="sim-control-group">
-        <label>ระดับควอนตัม (Quantum Number n): <span id="val-nbox" class="readout-val" style="font-size:1rem;">2</span></label>
-        <input type="range" class="sim-slider" id="slider-nbox" min="1" max="6" value="2">
-      </div>
-      <div class="sim-canvas-wrapper"><canvas id="cv-box" width="600" height="200"></canvas></div>
-      <div class="sim-readout-grid">
-        <div class="readout-card"><div class="readout-val" id="val-nodes">1 โหนด</div><div class="readout-lbl">จำนวน Node ภายในกล่อง</div></div>
-        <div class="readout-card"><div class="readout-val" id="val-ebox">4.0 E1</div><div class="readout-lbl">พลังงาน (En = n² E1)</div></div>
-      </div>
-    `;
-    const slider = document.getElementById("slider-nbox");
-    const cv = document.getElementById("cv-box");
-    const ctx = cv.getContext("2d");
-    function drawBox() {{
-      const n = +slider.value;
-      document.getElementById("val-nbox").textContent = n;
-      document.getElementById("val-nodes").textContent = (n - 1) + " โหนด";
-      document.getElementById("val-ebox").textContent = (n*n).toFixed(1) + " E₁";
-
-      ctx.clearRect(0,0,cv.width,cv.height);
-      // Walls
-      ctx.fillStyle = "#334155";
-      ctx.fillRect(40, 10, 8, 180);
-      ctx.fillRect(552, 10, 8, 180);
-      
-      // Wavefunction
-      ctx.strokeStyle = "#00f0ff";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      for(let x=48; x<=552; x++) {{
-        const normX = (x - 48) / (552 - 48);
-        const y = 100 - 70 * Math.sin(n * Math.PI * normX);
-        if (x===48) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-      }}
-      ctx.stroke();
-
-      // Probability density |psi|^2
-      ctx.strokeStyle = "#f59e0b";
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      for(let x=48; x<=552; x++) {{
-        const normX = (x - 48) / (552 - 48);
-        const sinVal = Math.sin(n * Math.PI * normX);
-        const y = 180 - 130 * sinVal * sinVal;
-        if (x===48) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-      }}
-      ctx.stroke();
-    }}
-    slider.addEventListener("input", drawBox);
-    drawBox();
-  }}
-  else if (simType === "radioactive_decay_sim") {{
-    container.innerHTML = `
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-        <div class="sim-control-group">
-          <label>ครึ่งชีวิต (T_1/2): <span id="val-thalf" class="readout-val" style="font-size:1rem;">10</span> ปี</label>
-          <input type="range" class="sim-slider" id="slider-thalf" min="2" max="50" value="10">
-        </div>
-        <div class="sim-control-group">
-          <label>เวลาที่ผ่านไป (t): <span id="val-tdecay" class="readout-val" style="font-size:1rem;">20</span> ปี</label>
-          <input type="range" class="sim-slider" id="slider-tdecay" min="0" max="100" value="20">
-        </div>
-      </div>
-      <div class="sim-readout-grid">
-        <div class="readout-card"><div class="readout-val" id="val-nremain">25.0%</div><div class="readout-lbl">สารคงเหลือ N(t)/N0</div></div>
-        <div class="readout-card"><div class="readout-val" id="val-ndecayed">75.0%</div><div class="readout-lbl">สลายตัวไปแล้ว</div></div>
-      </div>
-    `;
-    const sHalf = document.getElementById("slider-thalf");
-    const sTime = document.getElementById("slider-tdecay");
-    function calcDecay() {{
-      const h = +sHalf.value;
-      const t = +sTime.value;
-      document.getElementById("val-thalf").textContent = h;
-      document.getElementById("val-tdecay").textContent = t;
-      const remain = 100 * Math.pow(0.5, t / h);
-      document.getElementById("val-nremain").textContent = remain.toFixed(1) + "%";
-      document.getElementById("val-ndecayed").textContent = (100 - remain).toFixed(1) + "%";
-    }}
-    sHalf.addEventListener("input", calcDecay);
-    sTime.addEventListener("input", calcDecay);
-    calcDecay();
-  }}
-  else {{
-    container.innerHTML = `
-      <div style="text-align:center; padding:20px 10px;">
-        <p style="color:var(--text-highlight); font-weight:600;">⚡ แบบจำลองเชิงตัวเลขและการวิเคราะห์ข้อมูลพร้อมใช้งาน</p>
-        <p style="color:var(--text-muted); font-size:0.9em;">สามารถเชื่อมโยงค่าพารามิเตอร์ของหัวข้อนี้เข้าสู่การจำลองแบบ 3D และกราฟิกเวกเตอร์ความคมชัดสูง</p>
-      </div>
-    `;
+  }} else {{
+    sol.style.display = "none";
+    if (txt) txt.textContent = "คลิกเพื่อดูเฉลยและวิธีทำละเอียด";
+    if (ico) ico.textContent = "👁️";
+    if (btn) btn.style.background = "linear-gradient(135deg, #0284c7, #0369a1)";
   }}
 }}
 

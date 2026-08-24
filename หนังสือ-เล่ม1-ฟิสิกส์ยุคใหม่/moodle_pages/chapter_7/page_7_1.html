@@ -168,106 +168,120 @@
         <div class="sim-panel" id="sim_7_1_panel">
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
             <div class="sim-control-group">
-              <label>ชนิดเหตุการณ์อนุภาค (Event):</label>
-              <select id="sim_7_1_sel_event" class="search-input" style="padding:6px 10px;">
-                <option value="pair_prod" selected>Pair Production (γ → e⁺ + e⁻)</option>
-                <option value="muon_decay">Muon Decay (μ⁻ → e⁻ + ν_μ + ν_e)</option>
-                <option value="proton_pion">Proton-Pion Collision</option>
-              </select>
+              <label>สนามแม่เหล็ก (B): <span id="sim_7_1_val_b" class="readout-val">1.5</span> Tesla</label>
+              <input type="range" class="sim-slider" id="sim_7_1_slider_b" min="0.2" max="3.0" step="0.1" value="1.5">
             </div>
             <div class="sim-control-group">
-              <label>สนามแม่เหล็ก (B): <span id="sim_7_1_val_bfield" class="readout-val">1.5</span> Tesla</label>
-              <input type="range" class="sim-slider" id="sim_7_1_slider_bfield" min="5" max="30" value="15">
+              <label>ชนิดอนุภาคที่ยิงเข้าห้องฟองสบู่:</label>
+              <select id="sim_7_1_sel_p" style="width:100%; background:#0f172a; color:#00f0ff; border:1px solid #334155; padding:8px; border-radius:6px;">
+                <option value="e_minus">อิเล็กตรอน (e⁻: ประจุลบ รัศมีโค้งเล็ก)</option>
+                <option value="e_plus">โพซิตรอน (e⁺: ปฏิยานุภาค ประจุบวก)</option>
+                <option value="proton">โปรตอน (p⁺: มวลมาก รัศมีโค้งใหญ่)</option>
+                <option value="muon">มิวออน (μ⁻: รอยทางทะลุผ่านยาว)</option>
+              </select>
             </div>
           </div>
           <div class="sim-canvas-wrapper"><canvas id="sim_7_1_canvas" width="640" height="210"></canvas></div>
           <div class="sim-readout-grid">
-            <div class="readout-card"><div class="readout-val" id="sim_7_1_val_curve" style="color:#00f0ff;">Spiral Tracks</div><div class="readout-lbl">ทิศทางความโค้งตามประจุ q</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_7_1_val_radius">r = p / (qB)</div><div class="readout-lbl">รัศมีความโค้งไซโคลตรอน</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_7_1_val_cons" style="color:#10b981;">Charge Conserved (ΔQ=0)</div><div class="readout-lbl">การอนุรักษ์ประจุไฟฟ้า</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_7_1_val_r">3.8 cm</div><div class="readout-lbl">รัศมีความโค้งรอยทาง (r = p/qB)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_7_1_val_dir">เบนตามเข็มนาฬิกา</div><div class="readout-lbl">ทิศทางการเบนตามกฎมือขวา</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_7_1_val_type" style="color:#10b981;">Lepton Charged</div><div class="readout-lbl">การจำแนกชนิดอนุภาค</div></div>
           </div>
         </div>
         <script>
         (function() {
           function initSim() {
             const cv = document.getElementById("sim_7_1_canvas");
-            if (!cv) return;
+            if (!cv) return false;
             const ctx = cv.getContext("2d");
-            const sel = document.getElementById("sim_7_1_sel_event");
-            const slider = document.getElementById("sim_7_1_slider_bfield");
+            const sliderB = document.getElementById("sim_7_1_slider_b");
+            const selP = document.getElementById("sim_7_1_sel_p");
+            if (!sliderB || !selP) return false;
 
             function draw() {
-              const B = (+slider.value) / 10;
-              document.getElementById("sim_7_1_val_bfield").textContent = B.toFixed(1);
+              const B = +sliderB.value;
+              const pType = selP.value;
+              const bEl = document.getElementById("sim_7_1_val_b");
+              if (bEl) bEl.textContent = B.toFixed(1);
+
+              let q = -1, m = 1, col = "#00f0ff", name = "e⁻";
+              if (pType === "e_minus") { q = -1; m = 1; col = "#00f0ff"; name = "e⁻ (Electron)"; }
+              else if (pType === "e_plus") { q = 1; m = 1; col = "#f59e0b"; name = "e⁺ (Positron)"; }
+              else if (pType === "proton") { q = 1; m = 1836; col = "#ef4444"; name = "p⁺ (Proton)"; }
+              else if (pType === "muon") { q = -1; m = 207; col = "#a855f7"; name = "μ⁻ (Muon)"; }
+
+              const r_cm = (m / (Math.abs(q) * B * 20)).toFixed(1);
+              const rEl = document.getElementById("sim_7_1_val_r");
+              if (rEl) rEl.textContent = r_cm + " cm";
+              const dEl = document.getElementById("sim_7_1_val_dir");
+              if (dEl) dEl.textContent = q > 0 ? "เบนทวนเข็มนาฬิกา (+)" : "เบนตามเข็มนาฬิกา (-)";
+
               ctx.clearRect(0,0,cv.width,cv.height);
-              
-              // Chamber magnetic field dots
-              ctx.fillStyle = "rgba(255,255,255,0.08)";
-              for(let x=30; x<610; x+=40) {
-                for(let y=20; y<190; y+=35) {
+              // B-field dots (out of page)
+              ctx.fillStyle = "rgba(255,255,255,0.15)";
+              for(let x=40; x<600; x+=40) {
+                for(let y=30; y<190; y+=30) {
                   ctx.beginPath(); ctx.arc(x, y, 1.5, 0, Math.PI*2); ctx.fill();
                 }
               }
+              ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
+              ctx.fillText("สนามแม่เหล็ก B ทิศพุ่งออกจากหน้ากระดาษ (⊙)", 40, 25);
 
-              const ev = sel.value;
-              const cx = 200, cy = 105;
-
-              if (ev === "pair_prod") {
-                // Incident gamma photon (dashed line)
-                ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2; ctx.setLineDash([4,4]);
-                ctx.beginPath(); ctx.moveTo(40, cy); ctx.lineTo(cx, cy); ctx.stroke();
-                ctx.setLineDash([]);
-                ctx.fillStyle = "#f59e0b"; ctx.fillText("γ photon", 80, cy - 8);
-
-                // Positron e+ curving up-spiral (Cyan)
-                ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
-                ctx.beginPath();
-                for(let a=0; a<Math.PI*4; a+=0.05) {
-                  const r = Math.max(2, 60 / B - a * 4);
-                  const x = cx + r * Math.sin(a);
-                  const y = cy - r * (1 - Math.cos(a));
-                  if (a===0) ctx.moveTo(cx, cy); else ctx.lineTo(x, y);
-                }
-                ctx.stroke();
-                ctx.fillStyle = "#00f0ff"; ctx.fillText("e⁺ (Positron)", cx + 50, cy - 60);
-
-                // Electron e- curving down-spiral (Emerald)
-                ctx.strokeStyle = "#10b981"; ctx.lineWidth = 2.5;
-                ctx.beginPath();
-                for(let a=0; a<Math.PI*4; a+=0.05) {
-                  const r = Math.max(2, 60 / B - a * 4);
-                  const x = cx + r * Math.sin(a);
-                  const y = cy + r * (1 - Math.cos(a));
-                  if (a===0) ctx.moveTo(cx, cy); else ctx.lineTo(x, y);
-                }
-                ctx.stroke();
-                ctx.fillStyle = "#10b981"; ctx.fillText("e⁻ (Electron)", cx + 50, cy + 80);
-              } else {
-                ctx.strokeStyle = "#a855f7"; ctx.lineWidth = 3;
-                ctx.beginPath(); ctx.moveTo(60, 40); ctx.lineTo(cx, cy); ctx.stroke();
-                ctx.fillStyle = "#a855f7"; ctx.fillText("Primary Track", 70, 60);
-                
-                ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2;
-                ctx.beginPath(); ctx.arc(cx+60, cy, 60/B, 0, Math.PI); ctx.stroke();
-                ctx.fillStyle = "#00f0ff"; ctx.fillText("Decay Products", cx+90, cy-10);
+              // Particle Spiral / Arc Track
+              ctx.strokeStyle = col; ctx.lineWidth = 3;
+              ctx.beginPath();
+              ctx.moveTo(60, 105);
+              const curveFactor = (q * B * 0.008) / Math.sqrt(m);
+              for(let s=0; s<180; s+=2) {
+                const x = 60 + s * 2.8;
+                const y = 105 + curveFactor * s * s * 0.35;
+                ctx.lineTo(x, y);
               }
+              ctx.stroke();
+
+              ctx.fillStyle = col; ctx.font = "12px sans-serif";
+              ctx.fillText(name + " Track (r = " + r_cm + " cm)", 340, 60);
             }
-            sel.addEventListener("change", draw);
-            slider.addEventListener("input", draw);
+            sliderB.addEventListener("input", draw);
+            selP.addEventListener("change", draw);
             draw();
+            return true;
           }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
-          else initSim();
+          function run() { if (!initSim()) setTimeout(run, 100); }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
+          else run();
+          setTimeout(run, 250);
+          setTimeout(run, 700);
         })();
         </script>
         
     </div>
 
-    <div class="example-card">
-      <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างประวัติศาสตร์: การค้นพบโพซิตรอนของ Carl Anderson</h3>
-      <p><b>โจทย์:</b> ในห้องตรวจวัดแบบหมอกภายใต้สนามแม่เหล็ก อนุภาคโพซิตรอนมีรอยทางโค้งต่างจากอิเล็กตรอนอย่างไร?</p>
-      <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e0f2fe;">
-        <b>เฉลยและวิธีทำ:</b><br>โพซิตรอนมีมวลเท่ากับอิเล็กตรอน แต่มีประจุบวก ทำให้รอยทางโค้งไปในทิศทางตรงข้ามกับอิเล็กตรอนในสนามแม่เหล็กเดียวกัน
+    <!-- Worked Example with Toggleable Hidden Solution -->
+    <div class="example-card" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin:24px 0; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+        <h3 style="color:#0284c7; margin:0; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>📐</span> <span>ตัวอย่างประวัติศาสตร์: การค้นพบโพซิตรอนของ Carl Anderson</span>
+        </h3>
+        <span style="background:#e0f2fe; color:#0369a1; font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:20px;">WORKED EXAMPLE</span>
+      </div>
+      <div style="margin-bottom:16px; font-size:1rem; line-height:1.7; color:#334155;">
+        <b style="color:#0f172a;">โจทย์ตัวอย่าง:</b> ในห้องตรวจวัดแบบหมอกภายใต้สนามแม่เหล็ก อนุภาคโพซิตรอนมีรอยทางโค้งต่างจากอิเล็กตรอนอย่างไร?
+      </div>
+      
+      <div class="solution-container" style="margin-top:12px;">
+        <button type="button" class="btn-toggle-solution" onclick="toggleSolution('7.1')" id="btn-sol-7.1" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; border:none; border-radius:8px; padding:9px 20px; font-size:0.92rem; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:all 0.2s ease; box-shadow:0 2px 6px rgba(2,132,199,0.25);">
+          <span id="btn-icon-7.1">👁️</span>
+          <span id="btn-text-7.1">คลิกเพื่อดูเฉลยและวิธีทำละเอียด</span>
+        </button>
+        <div class="solution-content" id="sol-content-7.1" style="display:none; margin-top:14px; padding:18px 22px; background:#ffffff; border:1px solid #bae6fd; border-radius:10px; border-left:4px solid #0284c7; box-shadow:0 4px 12px rgba(2,132,199,0.08);">
+          <div style="font-weight:700; color:#0369a1; margin-bottom:10px; display:flex; align-items:center; gap:6px; font-size:0.95rem;">
+            <span>📝</span> <span>เฉลยและขั้นตอนการคำนวณอย่างละเอียด:</span>
+          </div>
+          <div style="line-height:1.8; color:#1e293b; font-size:0.98rem;">
+            โพซิตรอนมีมวลเท่ากับอิเล็กตรอน แต่มีประจุบวก ทำให้รอยทางโค้งไปในทิศทางตรงข้ามกับอิเล็กตรอนในสนามแม่เหล็กเดียวกัน
+          </div>
+        </div>
       </div>
     </div>
 
@@ -293,6 +307,30 @@
     </div>
   </div>
 </div>
+
+<script>
+function toggleSolution(pageId) {
+  const sol = document.getElementById("sol-content-" + pageId);
+  const btn = document.getElementById("btn-sol-" + pageId);
+  const txt = document.getElementById("btn-text-" + pageId);
+  const ico = document.getElementById("btn-icon-" + pageId);
+  if (!sol) return;
+  if (sol.style.display === "none" || sol.style.display === "") {
+    sol.style.display = "block";
+    if (txt) txt.textContent = "ซ่อนเฉลยและวิธีทำ";
+    if (ico) ico.textContent = "🙈";
+    if (btn) btn.style.background = "#475569";
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise([sol]);
+    }
+  } else {
+    sol.style.display = "none";
+    if (txt) txt.textContent = "คลิกเพื่อดูเฉลยและวิธีทำละเอียด";
+    if (ico) ico.textContent = "👁️";
+    if (btn) btn.style.background = "linear-gradient(135deg, #0284c7, #0369a1)";
+  }
+}
+</script>
 
 </body>
 </html>

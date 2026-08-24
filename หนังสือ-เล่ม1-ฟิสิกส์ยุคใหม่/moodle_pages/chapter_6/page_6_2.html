@@ -168,92 +168,121 @@
         <div class="sim-panel" id="sim_6_2_panel">
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
             <div class="sim-control-group">
-              <label>ครึ่งชีวิต (T_1/2): <span id="sim_6_2_val_thalf" class="readout-val">10</span> ปี</label>
-              <input type="range" class="sim-slider" id="sim_6_2_slider_thalf" min="2" max="50" value="10">
+              <label>เวลาที่ผ่านไป (t): <span id="sim_6_2_val_t" class="readout-val">1.0</span> เท่าของครึ่งชีวิต</label>
+              <input type="range" class="sim-slider" id="sim_6_2_slider_t" min="0" max="5.0" step="0.1" value="1.0">
             </div>
             <div class="sim-control-group">
-              <label>เวลาที่ผ่านไป (t): <span id="sim_6_2_val_tdecay" class="readout-val">20</span> ปี</label>
-              <input type="range" class="sim-slider" id="sim_6_2_slider_tdecay" min="0" max="100" value="20">
+              <label>ไอโซโทปกัมมันตรังสี:</label>
+              <select id="sim_6_2_sel_iso" style="width:100%; background:#0f172a; color:#00f0ff; border:1px solid #334155; padding:8px; border-radius:6px;">
+                <option value="5730">Carbon-14 (T₁/₂ = 5,730 ปี)</option>
+                <option value="30.17">Cesium-137 (T₁/₂ = 30.17 ปี)</option>
+                <option value="8.02">Iodine-131 (T₁/₂ = 8.02 วัน)</option>
+                <option value="1600">Radium-226 (T₁/₂ = 1,600 ปี)</option>
+              </select>
             </div>
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_6_2_canvas" width="640" height="200"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_6_2_canvas" width="640" height="210"></canvas></div>
           <div class="sim-readout-grid">
-            <div class="readout-card"><div class="readout-val" id="sim_6_2_val_nremain">25.0%</div><div class="readout-lbl">สารคงเหลือ N(t)/N₀</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_6_2_val_ndecayed">75.0%</div><div class="readout-lbl">สลายตัวไปแล้ว (Daughter)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_6_2_val_halves">2.0 ครึ่งชีวิต</div><div class="readout-lbl">จำนวนรอบครึ่งชีวิต (t / T_1/2)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_6_2_val_rem">50.0 %</div><div class="readout-lbl">สัดส่วนนิวเคลียสที่เหลือ (N/N₀)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_6_2_val_dec">50.0 %</div><div class="readout-lbl">นิวเคลียสที่สลายตัวไปแล้ว</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_6_2_val_act">0.500 A₀</div><div class="readout-lbl">กัมมันตภาพรังสี (Activity A)</div></div>
           </div>
         </div>
         <script>
         (function() {
           function initSim() {
             const cv = document.getElementById("sim_6_2_canvas");
-            if (!cv) return;
+            if (!cv) return false;
             const ctx = cv.getContext("2d");
-            const sHalf = document.getElementById("sim_6_2_slider_thalf");
-            const sTime = document.getElementById("sim_6_2_slider_tdecay");
+            const slider = document.getElementById("sim_6_2_slider_t");
+            const sel = document.getElementById("sim_6_2_sel_iso");
+            if (!slider || !sel) return false;
 
             function draw() {
-              const h = +sHalf.value;
-              const t = +sTime.value;
-              document.getElementById("sim_6_2_val_thalf").textContent = h;
-              document.getElementById("sim_6_2_val_tdecay").textContent = t;
-              const remain = 100 * Math.pow(0.5, t / h);
-              document.getElementById("sim_6_2_val_nremain").textContent = remain.toFixed(1) + "%";
-              document.getElementById("sim_6_2_val_ndecayed").textContent = (100 - remain).toFixed(1) + "%";
-              document.getElementById("sim_6_2_val_halves").textContent = (t / h).toFixed(1) + " รอบ";
+              const t = +slider.value;
+              const tEl = document.getElementById("sim_6_2_val_t");
+              if (tEl) tEl.textContent = t.toFixed(1);
+
+              const remFraction = Math.pow(0.5, t);
+              const remPct = remFraction * 100;
+              const decPct = 100 - remPct;
+
+              const rEl = document.getElementById("sim_6_2_val_rem");
+              if (rEl) rEl.textContent = remPct.toFixed(1) + " %";
+              const dEl = document.getElementById("sim_6_2_val_dec");
+              if (dEl) dEl.textContent = decPct.toFixed(1) + " %";
+              const aEl = document.getElementById("sim_6_2_val_act");
+              if (aEl) aEl.textContent = remFraction.toFixed(3) + " A₀";
 
               ctx.clearRect(0,0,cv.width,cv.height);
-              ctx.strokeStyle = "#475569"; ctx.lineWidth = 1.5;
-              ctx.beginPath(); ctx.moveTo(50, 20); ctx.lineTo(50, 170); ctx.lineTo(380, 170); ctx.stroke();
-              ctx.fillStyle = "#94a3b8"; ctx.font = "11px Sarabun";
-              ctx.fillText("เวลา t (ปี) →", 320, 185);
-              ctx.fillText("ปริมาณ N(t)", 10, 25);
-
-              ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
-              ctx.beginPath(); ctx.moveTo(50, 30);
-              for(let x=50; x<=380; x+=2) {
-                const simT = (x - 50) * (100 / 330);
-                const r = Math.pow(0.5, simT / h);
-                const y = 170 - r * 140;
-                ctx.lineTo(x, y);
+              // Decay Curve N(t) = N0 e^(-lambda t)
+              ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 3;
+              ctx.beginPath();
+              for(let x=60; x<=580; x+=2) {
+                const normT = (x - 60) / 100; // 0 to 5.2 half-lives
+                const y = 180 - 150 * Math.pow(0.5, normT);
+                if (x===60) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
-              const curX = 50 + t * (330 / 100);
-              const curY = 170 - (remain/100) * 140;
-              ctx.fillStyle = "#f59e0b"; ctx.beginPath(); ctx.arc(curX, curY, 6, 0, Math.PI*2); ctx.fill();
+              // Current marker
+              const markerX = 60 + t * 100;
+              const markerY = 180 - 150 * remFraction;
+              ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2; ctx.setLineDash([4,4]);
+              ctx.beginPath(); ctx.moveTo(markerX, 20); ctx.lineTo(markerX, 180); ctx.stroke();
+              ctx.beginPath(); ctx.moveTo(60, markerY); ctx.lineTo(580, markerY); ctx.stroke();
+              ctx.setLineDash([]);
 
-              ctx.strokeStyle = "#334155"; ctx.strokeRect(420, 20, 190, 150);
-              ctx.fillStyle = "#94a3b8"; ctx.fillText("แบบจำลองอะตอม (100 อนุภาค)", 435, 36);
-              
-              let seed = 42;
-              function rand() { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
-              for(let r=0; r<10; r++) {
-                for(let c=0; c<10; c++) {
-                  const isRemain = rand() * 100 < remain;
-                  ctx.fillStyle = isRemain ? "#00f0ff" : "#334155";
-                  ctx.beginPath();
-                  ctx.arc(435 + c*17, 52 + r*11, 4, 0, Math.PI*2);
-                  ctx.fill();
-                }
-              }
+              ctx.fillStyle = "#f59e0b";
+              ctx.beginPath(); ctx.arc(markerX, markerY, 6, 0, Math.PI*2); ctx.fill();
+              ctx.fillStyle = "#f8fafc"; ctx.font = "12px sans-serif";
+              ctx.fillText("N(t) = " + remPct.toFixed(1) + "%", markerX + 10, markerY - 8);
+
+              // Axes
+              ctx.strokeStyle = "#94a3b8"; ctx.lineWidth = 1.5;
+              ctx.beginPath(); ctx.moveTo(60, 20); ctx.lineTo(60, 180); ctx.lineTo(580, 180); ctx.stroke();
+              ctx.fillStyle = "#94a3b8"; ctx.fillText("จำนวนเท่าครึ่งชีวิต (t / T₁/₂) →", 430, 200);
             }
-            sHalf.addEventListener("input", draw);
-            sTime.addEventListener("input", draw);
+            slider.addEventListener("input", draw);
+            sel.addEventListener("change", draw);
             draw();
+            return true;
           }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
-          else initSim();
+          function run() { if (!initSim()) setTimeout(run, 100); }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
+          else run();
+          setTimeout(run, 250);
+          setTimeout(run, 700);
         })();
         </script>
         
     </div>
 
-    <div class="example-card">
-      <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างคำนวณ: การหาอายุโบราณคดีด้วยคาร์บอน-14</h3>
-      <p><b>โจทย์:</b> ชิ้นไม้โบราณมีกัมมันตภาพของ C-14 เหลือเพียง 25% ของไม้มีชีวิต (ครึ่งชีวิต 5,730 ปี) จงหาอายุของไม้ชิ้นนี้</p>
-      <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e0f2fe;">
-        <b>เฉลยและวิธีทำ:</b><br>เนื่องจาก 25% = (1/2)^2 แสดงว่าผ่านครึ่งชีวิตมาแล้ว 2 รอบ อายุของไม้โบราณ = 2 * 5,730 = 11,460 ปี
+    <!-- Worked Example with Toggleable Hidden Solution -->
+    <div class="example-card" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin:24px 0; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+        <h3 style="color:#0284c7; margin:0; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>📐</span> <span>ตัวอย่างคำนวณ: การหาอายุโบราณคดีด้วยคาร์บอน-14</span>
+        </h3>
+        <span style="background:#e0f2fe; color:#0369a1; font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:20px;">WORKED EXAMPLE</span>
+      </div>
+      <div style="margin-bottom:16px; font-size:1rem; line-height:1.7; color:#334155;">
+        <b style="color:#0f172a;">โจทย์ตัวอย่าง:</b> ชิ้นไม้โบราณมีกัมมันตภาพของ C-14 เหลือเพียง 25% ของไม้มีชีวิต (ครึ่งชีวิต 5,730 ปี) จงหาอายุของไม้ชิ้นนี้
+      </div>
+      
+      <div class="solution-container" style="margin-top:12px;">
+        <button type="button" class="btn-toggle-solution" onclick="toggleSolution('6.2')" id="btn-sol-6.2" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; border:none; border-radius:8px; padding:9px 20px; font-size:0.92rem; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:all 0.2s ease; box-shadow:0 2px 6px rgba(2,132,199,0.25);">
+          <span id="btn-icon-6.2">👁️</span>
+          <span id="btn-text-6.2">คลิกเพื่อดูเฉลยและวิธีทำละเอียด</span>
+        </button>
+        <div class="solution-content" id="sol-content-6.2" style="display:none; margin-top:14px; padding:18px 22px; background:#ffffff; border:1px solid #bae6fd; border-radius:10px; border-left:4px solid #0284c7; box-shadow:0 4px 12px rgba(2,132,199,0.08);">
+          <div style="font-weight:700; color:#0369a1; margin-bottom:10px; display:flex; align-items:center; gap:6px; font-size:0.95rem;">
+            <span>📝</span> <span>เฉลยและขั้นตอนการคำนวณอย่างละเอียด:</span>
+          </div>
+          <div style="line-height:1.8; color:#1e293b; font-size:0.98rem;">
+            เนื่องจาก 25% = (1/2)^2 แสดงว่าผ่านครึ่งชีวิตมาแล้ว 2 รอบ อายุของไม้โบราณ = 2 * 5,730 = 11,460 ปี
+          </div>
+        </div>
       </div>
     </div>
 
@@ -279,6 +308,30 @@
     </div>
   </div>
 </div>
+
+<script>
+function toggleSolution(pageId) {
+  const sol = document.getElementById("sol-content-" + pageId);
+  const btn = document.getElementById("btn-sol-" + pageId);
+  const txt = document.getElementById("btn-text-" + pageId);
+  const ico = document.getElementById("btn-icon-" + pageId);
+  if (!sol) return;
+  if (sol.style.display === "none" || sol.style.display === "") {
+    sol.style.display = "block";
+    if (txt) txt.textContent = "ซ่อนเฉลยและวิธีทำ";
+    if (ico) ico.textContent = "🙈";
+    if (btn) btn.style.background = "#475569";
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise([sol]);
+    }
+  } else {
+    sol.style.display = "none";
+    if (txt) txt.textContent = "คลิกเพื่อดูเฉลยและวิธีทำละเอียด";
+    if (ico) ico.textContent = "👁️";
+    if (btn) btn.style.background = "linear-gradient(135deg, #0284c7, #0369a1)";
+  }
+}
+</script>
 
 </body>
 </html>

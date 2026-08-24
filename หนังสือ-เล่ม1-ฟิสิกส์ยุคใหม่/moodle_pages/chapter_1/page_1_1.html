@@ -167,28 +167,31 @@
       
         <div class="sim-panel" id="sim_1_1_panel">
           <div class="sim-control-group">
-            <label>อุณหภูมิวัตถุ (T): <span id="sim_1_1_val_temp" class="readout-val">5000</span> K</label>
+            <label>อุณหภูมิวัตถุร้อน (T): <span id="sim_1_1_val_temp" class="readout-val">5000</span> K</label>
             <input type="range" class="sim-slider" id="sim_1_1_slider_temp" min="2000" max="10000" step="100" value="5000">
           </div>
           <div class="sim-canvas-wrapper"><canvas id="sim_1_1_canvas" width="640" height="230"></canvas></div>
           <div class="sim-readout-grid">
-            <div class="readout-card"><div class="readout-val" id="sim_1_1_val_rj" style="color:#f43f5e;">Diverging (∞)</div><div class="readout-lbl">ทฤษฎีดั้งเดิม (Rayleigh-Jeans)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_1_1_val_planck" style="color:#00f0ff;">Peak at 580 nm</div><div class="readout-lbl">ทฤษฎีควอนตัม (Planck)</div></div>
-            <div class="readout-card"><div class="readout-val" id="sim_1_1_val_catastrophe" style="color:#f59e0b;">UV Catastrophe</div><div class="readout-lbl">ปรากฏการณ์หายนะ UV</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_1_1_val_rj" style="color:#f43f5e;">ลู่ออกสู่อนันต์ (∞)</div><div class="readout-lbl">ทฤษฎีดั้งเดิม (Rayleigh-Jeans)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_1_1_val_planck" style="color:#00f0ff;">จุดยอด 580 nm</div><div class="readout-lbl">ทฤษฎีควอนตัม (Planck)</div></div>
+            <div class="readout-card"><div class="readout-val" id="sim_1_1_val_catastrophe" style="color:#f59e0b;">UV Catastrophe</div><div class="readout-lbl">ปรากฏการณ์หายนะรังสี UV</div></div>
           </div>
         </div>
         <script>
         (function() {
           function initSim() {
             const cv = document.getElementById("sim_1_1_canvas");
-            if (!cv) return;
+            if (!cv) return false;
             const ctx = cv.getContext("2d");
             const slider = document.getElementById("sim_1_1_slider_temp");
+            if (!slider) return false;
             function draw() {
               const T = +slider.value;
-              document.getElementById("sim_1_1_val_temp").textContent = T;
+              const vEl = document.getElementById("sim_1_1_val_temp");
+              if (vEl) vEl.textContent = T;
               const peak = Math.round(2898000 / T);
-              document.getElementById("sim_1_1_val_planck").textContent = "Peak " + peak + " nm";
+              const pEl = document.getElementById("sim_1_1_val_planck");
+              if (pEl) pEl.textContent = "จุดยอด " + peak + " nm";
               
               ctx.clearRect(0,0,cv.width,cv.height);
               ctx.strokeStyle = "rgba(255,255,255,0.06)";
@@ -196,7 +199,7 @@
               for(let x=50; x<600; x+=50) { ctx.beginPath(); ctx.moveTo(x, 20); ctx.lineTo(x, 190); ctx.stroke(); }
               
               // Rayleigh-Jeans (Red Curve diverging)
-              ctx.strokeStyle = "#f43f5e"; ctx.lineWidth = 2; ctx.setLineDash([4,4]);
+              ctx.strokeStyle = "#f43f5e"; ctx.lineWidth = 2.5; ctx.setLineDash([4,4]);
               ctx.beginPath(); ctx.moveTo(50, 190);
               for(let x=50; x<600; x+=2) {
                 const lam = (x - 40)*3;
@@ -220,27 +223,51 @@
               // Axes
               ctx.strokeStyle = "#94a3b8"; ctx.lineWidth = 1.5;
               ctx.beginPath(); ctx.moveTo(50, 20); ctx.lineTo(50, 190); ctx.lineTo(600, 190); ctx.stroke();
-              ctx.fillStyle = "#94a3b8"; ctx.font = "11px Sarabun";
-              ctx.fillText("ความยาวคลื่น λ (nm) →", 470, 208);
+              ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
+              ctx.fillText("ความยาวคลื่น λ (nm) →", 460, 210);
               ctx.fillText("ความเข้มพลังงาน I(λ)", 10, 25);
               ctx.fillStyle = "#f43f5e"; ctx.fillText("-- Classical (Rayleigh-Jeans)", 70, 40);
-              ctx.fillStyle = "#00f0ff"; ctx.fillText("— Quantum (Planck)", 70, 60);
+              ctx.fillStyle = "#00f0ff"; ctx.fillText("— Quantum (Planck Law)", 70, 60);
             }
             slider.addEventListener("input", draw);
             draw();
+            return true;
           }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
-          else initSim();
+          function run() { if (!initSim()) setTimeout(run, 100); }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
+          else run();
+          setTimeout(run, 250);
+          setTimeout(run, 700);
         })();
         </script>
         
     </div>
 
-    <div class="example-card">
-      <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างการวิเคราะห์: ปริศนาหายนะอัลตราไวโอเลต</h3>
-      <p><b>โจทย์:</b> หากฟิสิกส์ดั้งเดิมของ Rayleigh-Jeans เป็นจริง จะเกิดอะไรขึ้นเมื่อเราเปิดเตาอบหรือนั่งข้างเตาผิง?</p>
-      <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e0f2fe;">
-        <b>เฉลยและวิธีทำ:</b><br>ตามกฎของ Rayleigh-Jeans ความหนาแน่นพลังงานแปรผันตามความถี่ยกกกำลังสอง เมื่อความถี่สูงเข้าใกล้อนันต์ พลังงานรวมจะลู่ออกสู่อนันต์ หมายความว่าการเปิดเตาอบจะปล่อยรังสี UV และรังสีแกมมาปริมาณมหาศาลฆ่าสิ่งมีชีวิตทันที แต่ในความเป็นจริง วัตถุแผ่รังสีตามกฎของพลังค์ซึ่งมีจุดยอดสูงสุดแล้วลดลงอย่างรวดเร็วที่ความถี่สูง ทำให้โลกปลอดภัย
+    <!-- Worked Example with Toggleable Hidden Solution -->
+    <div class="example-card" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin:24px 0; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+        <h3 style="color:#0284c7; margin:0; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>📐</span> <span>ตัวอย่างการวิเคราะห์: ปริศนาหายนะอัลตราไวโอเลต</span>
+        </h3>
+        <span style="background:#e0f2fe; color:#0369a1; font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:20px;">WORKED EXAMPLE</span>
+      </div>
+      <div style="margin-bottom:16px; font-size:1rem; line-height:1.7; color:#334155;">
+        <b style="color:#0f172a;">โจทย์ตัวอย่าง:</b> หากฟิสิกส์ดั้งเดิมของ Rayleigh-Jeans เป็นจริง จะเกิดอะไรขึ้นเมื่อเราเปิดเตาอบหรือนั่งข้างเตาผิง?
+      </div>
+      
+      <div class="solution-container" style="margin-top:12px;">
+        <button type="button" class="btn-toggle-solution" onclick="toggleSolution('1.1')" id="btn-sol-1.1" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; border:none; border-radius:8px; padding:9px 20px; font-size:0.92rem; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:all 0.2s ease; box-shadow:0 2px 6px rgba(2,132,199,0.25);">
+          <span id="btn-icon-1.1">👁️</span>
+          <span id="btn-text-1.1">คลิกเพื่อดูเฉลยและวิธีทำละเอียด</span>
+        </button>
+        <div class="solution-content" id="sol-content-1.1" style="display:none; margin-top:14px; padding:18px 22px; background:#ffffff; border:1px solid #bae6fd; border-radius:10px; border-left:4px solid #0284c7; box-shadow:0 4px 12px rgba(2,132,199,0.08);">
+          <div style="font-weight:700; color:#0369a1; margin-bottom:10px; display:flex; align-items:center; gap:6px; font-size:0.95rem;">
+            <span>📝</span> <span>เฉลยและขั้นตอนการคำนวณอย่างละเอียด:</span>
+          </div>
+          <div style="line-height:1.8; color:#1e293b; font-size:0.98rem;">
+            ตามกฎของ Rayleigh-Jeans ความหนาแน่นพลังงานแปรผันตามความถี่ยกกกำลังสอง เมื่อความถี่สูงเข้าใกล้อนันต์ พลังงานรวมจะลู่ออกสู่อนันต์ หมายความว่าการเปิดเตาอบจะปล่อยรังสี UV และรังสีแกมมาปริมาณมหาศาลฆ่าสิ่งมีชีวิตทันที แต่ในความเป็นจริง วัตถุแผ่รังสีตามกฎของพลังค์ซึ่งมีจุดยอดสูงสุดแล้วลดลงอย่างรวดเร็วที่ความถี่สูง ทำให้โลกปลอดภัย
+          </div>
+        </div>
       </div>
     </div>
 
@@ -266,6 +293,30 @@
     </div>
   </div>
 </div>
+
+<script>
+function toggleSolution(pageId) {
+  const sol = document.getElementById("sol-content-" + pageId);
+  const btn = document.getElementById("btn-sol-" + pageId);
+  const txt = document.getElementById("btn-text-" + pageId);
+  const ico = document.getElementById("btn-icon-" + pageId);
+  if (!sol) return;
+  if (sol.style.display === "none" || sol.style.display === "") {
+    sol.style.display = "block";
+    if (txt) txt.textContent = "ซ่อนเฉลยและวิธีทำ";
+    if (ico) ico.textContent = "🙈";
+    if (btn) btn.style.background = "#475569";
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise([sol]);
+    }
+  } else {
+    sol.style.display = "none";
+    if (txt) txt.textContent = "คลิกเพื่อดูเฉลยและวิธีทำละเอียด";
+    if (ico) ico.textContent = "👁️";
+    if (btn) btn.style.background = "linear-gradient(135deg, #0284c7, #0369a1)";
+  }
+}
+</script>
 
 </body>
 </html>

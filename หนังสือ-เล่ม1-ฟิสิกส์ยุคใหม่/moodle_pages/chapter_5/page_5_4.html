@@ -167,10 +167,10 @@
       
         <div class="sim-panel" id="sim_5_4_panel">
           <div class="sim-control-group">
-            <label>พารามิเตอร์การทดลองหลัก (Parameter Scale): <span id="sim_5_4_val_param" class="readout-val">50</span>%</label>
+            <label>สเกลพารามิเตอร์การทดลองหลัก: <span id="sim_5_4_val_param" class="readout-val">50</span>%</label>
             <input type="range" class="sim-slider" id="sim_5_4_slider_param" min="1" max="100" value="50">
           </div>
-          <div class="sim-canvas-wrapper"><canvas id="sim_5_4_canvas" width="640" height="200"></canvas></div>
+          <div class="sim-canvas-wrapper"><canvas id="sim_5_4_canvas" width="640" height="210"></canvas></div>
           <div class="sim-readout-grid">
             <div class="readout-card"><div class="readout-val" id="sim_5_4_val_primary">Active Dynamic</div><div class="readout-lbl">สถานะการคำนวณสด</div></div>
             <div class="readout-card"><div class="readout-val" id="sim_5_4_val_metric">1.000</div><div class="readout-lbl">ค่าสัมประสิทธิ์เชิงฟิสิกส์</div></div>
@@ -181,54 +181,87 @@
         (function() {
           function initSim() {
             const cv = document.getElementById("sim_5_4_canvas");
-            if (!cv) return;
+            if (!cv) return false;
             const ctx = cv.getContext("2d");
             const slider = document.getElementById("sim_5_4_slider_param");
+            if (!slider) return false;
             let t = 0;
 
             function draw() {
               const val = +slider.value;
-              document.getElementById("sim_5_4_val_param").textContent = val;
+              const pEl = document.getElementById("sim_5_4_val_param");
+              if (pEl) pEl.textContent = val;
               const coeff = (val / 50).toFixed(3);
-              document.getElementById("sim_5_4_val_metric").textContent = coeff;
+              const mEl = document.getElementById("sim_5_4_val_metric");
+              if (mEl) mEl.textContent = coeff;
 
               ctx.clearRect(0,0,cv.width,cv.height);
+              
+              // Wave 1 (Cyan)
               ctx.strokeStyle = "#00f0ff"; ctx.lineWidth = 2.5;
               ctx.beginPath();
               for(let x=40; x<600; x+=2) {
                 const norm = (x-40)/560;
-                const y = 100 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
+                const y = 105 + 45 * Math.sin(norm * Math.PI * 4 * coeff + t*0.05) * Math.cos(norm * Math.PI * 2);
                 if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
 
+              // Wave 2 (Amber)
               ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 1.5;
               ctx.beginPath();
               for(let x=40; x<600; x+=4) {
                 const norm = (x-40)/560;
-                const y = 100 + 60 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
+                const y = 105 + 55 * Math.sin(norm * Math.PI * 2 * coeff - t*0.03);
                 if (x===40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
               }
               ctx.stroke();
+
+              ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
+              ctx.fillText("จำลองผลลัพธ์พลวัตเชิงควอนตัม / สัมพัทธภาพ (Live Dynamic Simulation)", 50, 30);
 
               t += 1;
               requestAnimationFrame(draw);
             }
             slider.addEventListener("input", () => {});
             draw();
+            return true;
           }
-          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initSim);
-          else initSim();
+          function run() { if (!initSim()) setTimeout(run, 100); }
+          if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
+          else run();
+          setTimeout(run, 250);
+          setTimeout(run, 700);
         })();
         </script>
         
     </div>
 
-    <div class="example-card">
-      <h3 style="color: #0369a1; margin-top:0;">📐 ตัวอย่างประวัติศาสตร์: การค้นพบธาตุฮีเลียม (Helium)</h3>
-      <p><b>โจทย์:</b> ธาตุฮีเลียมถูกค้นพบบนดวงอาทิตย์ก่อนที่จะพบตัวอย่างบนโลกได้อย่างไร?</p>
-      <div style="background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #e0f2fe;">
-        <b>เฉลยและวิธีทำ:</b><br>ในปี ค.ศ. 1868 นักดาราศาสตร์ตรวจพบเส้นสเปกตรัมสีเหลืองเข้มที่ความยาวคลื่น 587.49 nm ในบรรยากาศของดวงอาทิตย์ระหว่างเกิดสุริยุปราคา ซึ่งไม่ตรงกับธาตุใดๆ ที่รู้จักบนโลกในเวลานั้น จึงตั้งชื่อว่า Helium
+    <!-- Worked Example with Toggleable Hidden Solution -->
+    <div class="example-card" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px; margin:24px 0; box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+        <h3 style="color:#0284c7; margin:0; font-size:1.15rem; display:flex; align-items:center; gap:8px;">
+          <span>📐</span> <span>ตัวอย่างประวัติศาสตร์: การค้นพบธาตุฮีเลียม (Helium)</span>
+        </h3>
+        <span style="background:#e0f2fe; color:#0369a1; font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:20px;">WORKED EXAMPLE</span>
+      </div>
+      <div style="margin-bottom:16px; font-size:1rem; line-height:1.7; color:#334155;">
+        <b style="color:#0f172a;">โจทย์ตัวอย่าง:</b> ธาตุฮีเลียมถูกค้นพบบนดวงอาทิตย์ก่อนที่จะพบตัวอย่างบนโลกได้อย่างไร?
+      </div>
+      
+      <div class="solution-container" style="margin-top:12px;">
+        <button type="button" class="btn-toggle-solution" onclick="toggleSolution('5.4')" id="btn-sol-5.4" style="background:linear-gradient(135deg, #0284c7, #0369a1); color:#ffffff; border:none; border-radius:8px; padding:9px 20px; font-size:0.92rem; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:all 0.2s ease; box-shadow:0 2px 6px rgba(2,132,199,0.25);">
+          <span id="btn-icon-5.4">👁️</span>
+          <span id="btn-text-5.4">คลิกเพื่อดูเฉลยและวิธีทำละเอียด</span>
+        </button>
+        <div class="solution-content" id="sol-content-5.4" style="display:none; margin-top:14px; padding:18px 22px; background:#ffffff; border:1px solid #bae6fd; border-radius:10px; border-left:4px solid #0284c7; box-shadow:0 4px 12px rgba(2,132,199,0.08);">
+          <div style="font-weight:700; color:#0369a1; margin-bottom:10px; display:flex; align-items:center; gap:6px; font-size:0.95rem;">
+            <span>📝</span> <span>เฉลยและขั้นตอนการคำนวณอย่างละเอียด:</span>
+          </div>
+          <div style="line-height:1.8; color:#1e293b; font-size:0.98rem;">
+            ในปี ค.ศ. 1868 นักดาราศาสตร์ตรวจพบเส้นสเปกตรัมสีเหลืองเข้มที่ความยาวคลื่น 587.49 nm ในบรรยากาศของดวงอาทิตย์ระหว่างเกิดสุริยุปราคา ซึ่งไม่ตรงกับธาตุใดๆ ที่รู้จักบนโลกในเวลานั้น จึงตั้งชื่อว่า Helium
+          </div>
+        </div>
       </div>
     </div>
 
@@ -254,6 +287,30 @@
     </div>
   </div>
 </div>
+
+<script>
+function toggleSolution(pageId) {
+  const sol = document.getElementById("sol-content-" + pageId);
+  const btn = document.getElementById("btn-sol-" + pageId);
+  const txt = document.getElementById("btn-text-" + pageId);
+  const ico = document.getElementById("btn-icon-" + pageId);
+  if (!sol) return;
+  if (sol.style.display === "none" || sol.style.display === "") {
+    sol.style.display = "block";
+    if (txt) txt.textContent = "ซ่อนเฉลยและวิธีทำ";
+    if (ico) ico.textContent = "🙈";
+    if (btn) btn.style.background = "#475569";
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise([sol]);
+    }
+  } else {
+    sol.style.display = "none";
+    if (txt) txt.textContent = "คลิกเพื่อดูเฉลยและวิธีทำละเอียด";
+    if (ico) ico.textContent = "👁️";
+    if (btn) btn.style.background = "linear-gradient(135deg, #0284c7, #0369a1)";
+  }
+}
+</script>
 
 </body>
 </html>
