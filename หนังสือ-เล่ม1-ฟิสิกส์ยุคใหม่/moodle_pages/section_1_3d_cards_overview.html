@@ -1,0 +1,229 @@
+
+<div class="chapter-overview-container" style="font-family: 'Sarabun', -apple-system, sans-serif; color: #f8fafc; margin-bottom: 24px;">
+  <style>
+    .chapter-hero-banner {
+      background: linear-gradient(135deg, #090e1a 0%, #0f172a 100%);
+      border: 1px solid rgba(0, 240, 255, 0.35);
+      border-radius: 16px;
+      padding: 22px 28px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65);
+    }
+    .chapter-hero-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(0, 240, 255, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .chapter-badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 240, 255, 0.15);
+      border: 1px solid #00f0ff;
+      color: #00f0ff;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 0.80rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 8px;
+    }
+    .chapter-hero-title {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
+    }
+    .chapter-hero-desc {
+      font-size: 0.92rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+      max-width: 800px;
+    }
+    .topics-grid-3d {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .topic-card-3d {
+      background: rgba(9, 14, 26, 0.92);
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
+    .topic-card-3d:hover {
+      transform: translateY(-4px);
+      border-color: #00f0ff;
+      box-shadow: 0 12px 30px rgba(0, 240, 255, 0.25);
+    }
+    .card-top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .card-icon-3d {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0f172a;
+      border-radius: 10px;
+      border: 1px solid #334155;
+    }
+    .topic-badge {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #38bdf8;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .topic-title {
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+    .formula-badge {
+      background: #020617;
+      border: 1px solid #334155;
+      color: #facc15;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 8px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .topic-summary {
+      font-size: 0.82rem;
+      color: #94a3b8;
+      line-height: 1.5;
+      margin-bottom: 14px;
+      flex-grow: 1;
+    }
+    .btn-enter-lesson {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(135deg, #0284c7 0%, #00f0ff 100%);
+      color: #020617 !himportant;
+      text-decoration: none !important;
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    .btn-enter-lesson:hover {
+      box-shadow: 0 0 14px rgba(0, 240, 255, 0.6);
+      transform: scale(1.02);
+    }
+    .arrow-icon {
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
+  </style>
+
+  <div class="chapter-hero-banner">
+    <div class="chapter-badge-tag">⚛️ CHAPTER 1 OVERVIEW</div>
+    <h2 class="chapter-hero-title">บทที่ 1 1 จุดกำเนิดของทฤษฎีควอนตัม</h2>
+    <p class="chapter-hero-desc">การก้าวข้ามขีดจำกัดของฟิสิกส์ดั้งเดิม สู่กำเนิดแนวคิดควอนตัมของพลังค์และโฟตอนของไอน์สไตน์</p>
+  </div>
+
+  <div class="topics-grid-3d">
+    
+        <div class="topic-card-3d">
+          <div class="card-top-header">
+            <div class="card-icon-3d"><svg width="48" height="48" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="28" fill="#0f172a" stroke="#f43f5e" stroke-width="2"/><path d="M16 44 C24 44 28 36 32 20 C36 12 40 44 48 44" stroke="#f43f5e" stroke-width="3" fill="none"/><line x1="16" y1="44" x2="48" y2="44" stroke="#475569" stroke-width="1.5"/><circle cx="32" cy="20" r="4" fill="#fb7185"/></svg></div>
+            <div class="topic-badge">หัวข้อ 1.1</div>
+          </div>
+          <h3 class="topic-title">1.1 ข้อจำกัดของฟิสิกส์ดั้งเดิม</h3>
+          <div class="formula-badge">I(λ) ∝ λ⁻⁴ (Rayleigh-Jeans)</div>
+          <p class="topic-summary">ทำความเข้าใจ 3 ปริศนาใหญ่ปลายศตวรรษที่ 19 ที่ฟิสิกส์ดั้งเดิมของนิวตันและแมกซ์เวลล์ไม่สามารถอธิบ...</p>
+          <a href="https://elearning.rbru.ac.th/mod/page/view.php?id=4909" class="btn-enter-lesson">
+            <span>🚀 เข้าสู่บทเรียน & ปฏิบัติการจำลอง</span>
+            <span class="arrow-icon">→</span>
+          </a>
+        </div>
+        
+        <div class="topic-card-3d">
+          <div class="card-top-header">
+            <div class="card-icon-3d"><svg width="48" height="48" viewBox="0 0 64 64" fill="none"><rect x="10" y="10" width="44" height="44" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/><circle cx="32" cy="32" r="14" fill="url(#pgrad)"/><defs><radialGradient id="pgrad"><stop offset="0%" stop-color="#fef08a"/><stop offset="100%" stop-color="#d97706"/></radialGradient></defs><path d="M22 32 Q32 18 42 32 Q32 46 22 32" stroke="#fef08a" stroke-width="1.5" fill="none"/></svg></div>
+            <div class="topic-badge">หัวข้อ 1.2</div>
+          </div>
+          <h3 class="topic-title">1.2 การแผ่รังสีของวัตถุดำและสมมติฐานของพลังค์</h3>
+          <div class="formula-badge">E = nhf, u(λ,T) = (8πhc/λ⁵)/(e^(hc/λkT)-1)</div>
+          <p class="topic-summary">ค้นพบจุดกำเนิดของค่าคงตัวของพลังค์ และการพิสูจน์กฎการแผ่รังสีของวัตถุดำที่แก้ปัญหาหายนะอัลตราไว...</p>
+          <a href="https://elearning.rbru.ac.th/mod/page/view.php?id=4910" class="btn-enter-lesson">
+            <span>🚀 เข้าสู่บทเรียน & ปฏิบัติการจำลอง</span>
+            <span class="arrow-icon">→</span>
+          </a>
+        </div>
+        
+        <div class="topic-card-3d">
+          <div class="card-top-header">
+            <div class="card-icon-3d"><svg width="48" height="48" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="28" fill="#0f172a" stroke="#00f0ff" stroke-width="2"/><path d="M12 20 L28 36" stroke="#facc15" stroke-width="3" stroke-dasharray="3 3"/><polygon points="26,38 32,36 30,30" fill="#facc15"/><rect x="26" y="38" width="24" height="6" rx="2" fill="#64748b"/><circle cx="44" cy="24" r="5" fill="#38bdf8"/><path d="M38 36 L48 18" stroke="#38bdf8" stroke-width="2"/></svg></div>
+            <div class="topic-badge">หัวข้อ 1.3</div>
+          </div>
+          <h3 class="topic-title">1.3 ปรากฏการณ์โฟโตอิเล็กทริกและแนวคิดโฟตอนของไอน์สไตน์</h3>
+          <div class="formula-badge">hf = W₀ + K_max = W₀ + eV_s</div>
+          <p class="topic-summary">การค้นพบโฟตอน (Photon) และสมการของไอน์สไตน์ที่อธิบายพลังงานจลน์สูงสุดและความต่างศักย์หยุดยั้ง...</p>
+          <a href="https://elearning.rbru.ac.th/mod/page/view.php?id=4911" class="btn-enter-lesson">
+            <span>🚀 เข้าสู่บทเรียน & ปฏิบัติการจำลอง</span>
+            <span class="arrow-icon">→</span>
+          </a>
+        </div>
+        
+        <div class="topic-card-3d">
+          <div class="card-top-header">
+            <div class="card-icon-3d"><svg width="48" height="48" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="28" fill="#0f172a" stroke="#a855f7" stroke-width="2"/><circle cx="32" cy="32" r="8" fill="#f43f5e"/><circle cx="32" cy="32" r="18" stroke="rgba(168,85,247,0.5)" stroke-width="1.5" stroke-dasharray="2 2"/><circle cx="32" cy="32" r="24" stroke="rgba(168,85,247,0.3)" stroke-width="1"/><circle cx="48" cy="24" r="4" fill="#38bdf8"/><path d="M48 24 L38 32" stroke="#facc15" stroke-width="2" stroke-dasharray="2 2"/></svg></div>
+            <div class="topic-badge">หัวข้อ 1.4</div>
+          </div>
+          <h3 class="topic-title">1.4 สเปกตรัมของอะตอมไฮโดรเจนและสูตรริดเบิร์ก</h3>
+          <div class="formula-badge">1/λ = R_H (1/n₁² - 1/n₂²)</div>
+          <p class="topic-summary">การถอดรหัสความยาวคลื่นของไฮโดรเจนผ่านสูตรริดเบิร์ก สู่หลักฐานระดับพลังงานของอะตอม...</p>
+          <a href="https://elearning.rbru.ac.th/mod/page/view.php?id=4912" class="btn-enter-lesson">
+            <span>🚀 เข้าสู่บทเรียน & ปฏิบัติการจำลอง</span>
+            <span class="arrow-icon">→</span>
+          </a>
+        </div>
+        
+        <div class="topic-card-3d">
+          <div class="card-top-header">
+            <div class="card-icon-3d"><svg width="48" height="48" viewBox="0 0 64 64" fill="none"><rect x="8" y="12" width="48" height="40" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="2"/><path d="M22 36 L28 24 L36 38 L42 30" stroke="#10b981" stroke-width="3" fill="none"/><circle cx="28" cy="24" r="3" fill="#34d399"/><circle cx="42" cy="30" r="3" fill="#34d399"/><text x="18" y="47" fill="#10b981" font-size="8" font-family="sans-serif" font-weight="bold">3D AR LAB</text></svg></div>
+            <div class="topic-badge">หัวข้อ 1.5</div>
+          </div>
+          <h3 class="topic-title">1.5 แบบฝึกหัดและปฏิบัติการจำลอง AR</h3>
+          <div class="formula-badge">3D AR Quantum Optics Studio</div>
+          <p class="topic-summary">สรุปสาระสำคัญบทที่ 1 แบบทดสอบประเมินผลสัมฤทธิ์ และทางเข้าสู่ห้องทดลองเสมือนจริง 3D AR Studio...</p>
+          <a href="https://elearning.rbru.ac.th/mod/page/view.php?id=4913" class="btn-enter-lesson">
+            <span>🚀 เข้าสู่บทเรียน & ปฏิบัติการจำลอง</span>
+            <span class="arrow-icon">→</span>
+          </a>
+        </div>
+        
+  </div>
+</div>

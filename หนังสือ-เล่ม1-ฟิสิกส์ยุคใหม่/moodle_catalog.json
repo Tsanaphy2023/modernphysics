@@ -1,0 +1,255 @@
+{
+  "0": {
+    "section_num": 0,
+    "sec_db_id": "2521",
+    "pages": []
+  },
+  "1": {
+    "section_num": 1,
+    "sec_db_id": "2523",
+    "pages": [
+      {
+        "cmid": "4909",
+        "name": "1.1 ข้อจำกัดของฟิสิกส์ดั้งเดิม  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4909"
+      },
+      {
+        "cmid": "4910",
+        "name": "1.2 การแผ่รังสีของวัตถุดำและสมมติฐานของพลังค์  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4910"
+      },
+      {
+        "cmid": "4911",
+        "name": "1.3 ปรากฏการณ์โฟโตอิเล็กทริกและแนวคิดโฟตอนของไอน์สไตน์  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4911"
+      },
+      {
+        "cmid": "4912",
+        "name": "1.4 สเปกตรัมของอะตอมไฮโดรเจนและสูตรริดเบิร์ก  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4912"
+      },
+      {
+        "cmid": "4913",
+        "name": "1.5 แบบฝึกหัดและปฏิบัติการจำลอง AR  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4913"
+      }
+    ]
+  },
+  "2": {
+    "section_num": 2,
+    "sec_db_id": "2522",
+    "pages": [
+      {
+        "cmid": "4914",
+        "name": "2.1 หลักการพื้นฐานของทฤษฎีสัมพัทธภาพพิเศษ  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4914"
+      },
+      {
+        "cmid": "4915",
+        "name": "2.2 การแปลงแบบลอเรนซ์  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4915"
+      },
+      {
+        "cmid": "4916",
+        "name": "2.3 การยืดออกของเวลาและการหดสั้นของระยะทาง  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4916"
+      },
+      {
+        "cmid": "4917",
+        "name": "2.4 ความสมมูลระหว่างมวลกับพลังงาน  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4917"
+      },
+      {
+        "cmid": "4918",
+        "name": "2.5 แบบฝึกหัดและปฏิบัติการจำลอง AR  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4918"
+      }
+    ]
+  },
+  "3": {
+    "section_num": 3,
+    "sec_db_id": "2524",
+    "pages": [
+      {
+        "cmid": "4919",
+        "name": "3.1 สมมติฐานของเดอบรอยล์  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4919"
+      },
+      {
+        "cmid": "4920",
+        "name": "3.2 การเลี้ยวเบนและการแทรกสอดของอนุภาค  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4920"
+      },
+      {
+        "cmid": "4921",
+        "name": "3.3 กลุ่มคลื่นและหลักความไม่แน่นอนของไฮเซนเบิร์ก  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4921"
+      },
+      {
+        "cmid": "4922",
+        "name": "3.4 การประยุกต์ใช้ทวิภาวะคลื่นและอนุภาค  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4922"
+      },
+      {
+        "cmid": "4923",
+        "name": "3.5 แบบฝึกหัดและปฏิบัติการจำลอง AR  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4923"
+      }
+    ]
+  },
+  "4": {
+    "section_num": 4,
+    "sec_db_id": "2525",
+    "pages": [
+      {
+        "cmid": "4949",
+        "name": "4.1 ฟังก์ชันคลื่นและสมการชโรดิงเจอร์  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4949"
+      },
+      {
+        "cmid": "4950",
+        "name": "4.2 อนุภาคในกล่องศักย์  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4950"
+      },
+      {
+        "cmid": "4951",
+        "name": "4.3 ฮาร์มอนิกออสซิลเลเตอร์เชิงควอนตัม  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4951"
+      },
+      {
+        "cmid": "4952",
+        "name": "4.4 การทะลุผ่านกำแพงศักย์ (Quantum Tunneling)  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4952"
+      },
+      {
+        "cmid": "4953",
+        "name": "4.5 แบบฝึกหัดและปฏิบัติการจำลอง AR  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4953"
+      }
+    ]
+  },
+  "5": {
+    "section_num": 5,
+    "sec_db_id": "2526",
+    "pages": [
+      {
+        "cmid": "4954",
+        "name": "5.1 แบบจำลองอะตอมของบอร์-ซอมเมอร์เฟลด์  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4954"
+      },
+      {
+        "cmid": "4955",
+        "name": "5.2 เลขควอนตัมและสถานะของอิเล็กตรอน  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4955"
+      },
+      {
+        "cmid": "4956",
+        "name": "5.3 หลักการกีดกันของเพาลีและตารางธาตุ  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4956"
+      },
+      {
+        "cmid": "4957",
+        "name": "5.4 สเปกตรัมของอะตอมและการวิเคราะห์ธาตุ  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4957"
+      },
+      {
+        "cmid": "4958",
+        "name": "5.5 แบบฝึกหัดและปฏิบัติการจำลอง AR  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4958"
+      }
+    ]
+  },
+  "6": {
+    "section_num": 6,
+    "sec_db_id": "2527",
+    "pages": [
+      {
+        "cmid": "4959",
+        "name": "6.1 โครงสร้างและสมบัติของนิวเคลียส  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4959"
+      },
+      {
+        "cmid": "4960",
+        "name": "6.2 การสลายของนิวเคลียสกัมมันตรังสีและครึ่งชีวิต  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4960"
+      },
+      {
+        "cmid": "4961",
+        "name": "6.3 ปฏิกิริยานิวเคลียร์: ฟิชชันและฟิวชัน  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4961"
+      },
+      {
+        "cmid": "4962",
+        "name": "6.4 การประยุกต์ใช้พลังงานนิวเคลียร์และการแพทย์  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4962"
+      },
+      {
+        "cmid": "4963",
+        "name": "6.5 แบบฝึกหัดและปฏิบัติการจำลอง AR  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4963"
+      }
+    ]
+  },
+  "7": {
+    "section_num": 7,
+    "sec_db_id": "2529",
+    "pages": [
+      {
+        "cmid": "4964",
+        "name": "7.1 สวนสัตว์อนุภาคและประวัติการค้นพบ  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4964"
+      },
+      {
+        "cmid": "4965",
+        "name": "7.2 แรงพื้นฐานในธรรมชาติ  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4965"
+      },
+      {
+        "cmid": "4966",
+        "name": "7.3 แบบจำลองมาตรฐาน (The Standard Model)  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4966"
+      },
+      {
+        "cmid": "4967",
+        "name": "7.4 ควาร์ก เลปตอน และกฎการอนุรักษ์  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4967"
+      },
+      {
+        "cmid": "4968",
+        "name": "7.5 แบบฝึกหัดและปฏิบัติการจำลอง AR  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4968"
+      }
+    ]
+  },
+  "8": {
+    "section_num": 8,
+    "sec_db_id": "2530",
+    "pages": [
+      {
+        "cmid": "4969",
+        "name": "8.1 การขยายตัวของเอกภพและกฎของฮับเบิล  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4969"
+      },
+      {
+        "cmid": "4970",
+        "name": "8.2 ทฤษฎีบิกแบงและรังสีไมโครเวฟพื้นหลังของเอกภพ  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4970"
+      },
+      {
+        "cmid": "4971",
+        "name": "8.3 สสารมืดและพลังงานมืด  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4971"
+      },
+      {
+        "cmid": "4972",
+        "name": "8.4 วิวัฒนาการของดาวฤกษ์และหลุมดำ  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4972"
+      },
+      {
+        "cmid": "4973",
+        "name": "8.5 งานวิจัยและแบบฝึกหัดทางดาราศาสตร์ฟิสิกส์  หน้า",
+        "url": "https://elearning.rbru.ac.th/mod/page/view.php?id=4973"
+      }
+    ]
+  }
+}
