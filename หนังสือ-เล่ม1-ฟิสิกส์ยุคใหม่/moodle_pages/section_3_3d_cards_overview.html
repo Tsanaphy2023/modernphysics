@@ -1,25 +1,46 @@
 
 <div class="chapter-overview-container" style="font-family: 'Sarabun', -apple-system, sans-serif; color: #f8fafc; margin-bottom: 24px;">
   <style>
+    @keyframes pulse-slow {
+      0%, 100% { transform: scale(1); opacity: 0.85; }
+      50% { transform: scale(1.08); opacity: 1.0; }
+    }
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes dash-flow {
+      to { stroke-dashoffset: -20; }
+    }
+    .anim-pulse { animation: pulse-slow 3s infinite ease-in-out; }
+    .anim-spin-slow { transform-origin: center; animation: spin-slow 20s linear infinite; }
+    .anim-ray { animation: dash-flow 1s linear infinite; }
+    .anim-wave { animation: pulse-slow 2.5s infinite ease-in-out; }
+
+    .cover-svg-wrapper {
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      border: 1px solid rgba(0, 240, 255, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      background: #020617;
+    }
+    .cover-svg-anim {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
     .chapter-hero-banner {
       background: linear-gradient(135deg, #090e1a 0%, #0f172a 100%);
       border: 1px solid rgba(0, 240, 255, 0.35);
       border-radius: 16px;
-      padding: 22px 28px;
+      padding: 20px 24px;
       margin-bottom: 20px;
       position: relative;
       overflow: hidden;
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65);
-    }
-    .chapter-hero-banner::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -20%;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(0, 240, 255, 0.12) 0%, transparent 70%);
-      pointer-events: none;
     }
     .chapter-badge-tag {
       display: inline-flex;
@@ -129,7 +150,7 @@
       align-items: center;
       justify-content: space-between;
       background: linear-gradient(135deg, #0284c7 0%, #00f0ff 100%);
-      color: #020617 !himportant;
+      color: #020617 !important;
       text-decoration: none !important;
       font-weight: 700;
       font-size: 0.82rem;
@@ -147,9 +168,47 @@
     }
   </style>
 
+  
+        <div class="cover-svg-wrapper">
+          <svg class="cover-svg-anim" viewBox="0 0 760 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="c3_bg" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#020617"/>
+                <stop offset="50%" stop-color="#064e3b"/>
+                <stop offset="100%" stop-color="#0f172a"/>
+              </linearGradient>
+            </defs>
+            <rect width="760" height="220" rx="14" fill="url(#c3_bg)"/>
+
+            <!-- De Broglie Matter Wave (Left) -->
+            <g transform="translate(130, 110)">
+              <path d="M-80 0 Q-40 -35 0 0 T80 0" stroke="#38bdf8" stroke-width="3" fill="none" class="anim-wave"/>
+              <circle cx="0" cy="0" r="10" fill="#facc15" filter="drop-shadow(0 0 8px #f59e0b)"/>
+              <text x="-55" y="65" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold">λ = h / p (de Broglie)</text>
+            </g>
+
+            <!-- Davisson-Germer Bragg Diffraction (Middle) -->
+            <g transform="translate(380, 110)">
+              <circle cx="0" cy="0" r="15" fill="none" stroke="#10b981" stroke-width="2"/>
+              <circle cx="0" cy="0" r="35" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4 4" class="anim-spin-slow"/>
+              <circle cx="0" cy="0" r="55" fill="none" stroke="#a855f7" stroke-width="2"/>
+              <circle cx="0" cy="0" r="5" fill="#ffffff"/>
+              <text x="-50" y="65" fill="#10b981" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold">2d sin θ = nλ (Bragg)</text>
+            </g>
+
+            <!-- Heisenberg Uncertainty Packet (Right) -->
+            <g transform="translate(610, 110)">
+              <path d="M-60 0 Q-30 -40 0 -5 Q30 35 60 0" stroke="#f59e0b" stroke-width="2.5" fill="none" class="anim-wave"/>
+              <path d="M-60 0 Q-30 40 0 5 Q30 -35 60 0" stroke="#f59e0b" stroke-width="2.5" fill="none" class="anim-wave"/>
+              <text x="-50" y="65" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold">Δx · Δp ≥ ℏ/2</text>
+            </g>
+          </svg>
+        </div>
+        
+
   <div class="chapter-hero-banner">
     <div class="chapter-badge-tag">⚛️ CHAPTER 3 OVERVIEW</div>
-    <h2 class="chapter-hero-title">บทที่ 3 3 ทวิภาวะของคลื่นและอนุภาค</h2>
+    <h2 class="chapter-hero-title">บทที่ 3 ทวิภาวะของคลื่นและอนุภาค</h2>
     <p class="chapter-hero-desc">สมมติฐานเดอบรอยล์ การแทรกสอดของอนุภาค กลุ่มคลื่น และหลักความไม่แน่นอนของไฮเซนเบิร์ก</p>
   </div>
 

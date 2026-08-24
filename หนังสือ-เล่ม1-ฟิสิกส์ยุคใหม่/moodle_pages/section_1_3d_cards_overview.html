@@ -1,25 +1,46 @@
 
 <div class="chapter-overview-container" style="font-family: 'Sarabun', -apple-system, sans-serif; color: #f8fafc; margin-bottom: 24px;">
   <style>
+    @keyframes pulse-slow {
+      0%, 100% { transform: scale(1); opacity: 0.85; }
+      50% { transform: scale(1.08); opacity: 1.0; }
+    }
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes dash-flow {
+      to { stroke-dashoffset: -20; }
+    }
+    .anim-pulse { animation: pulse-slow 3s infinite ease-in-out; }
+    .anim-spin-slow { transform-origin: center; animation: spin-slow 20s linear infinite; }
+    .anim-ray { animation: dash-flow 1s linear infinite; }
+    .anim-wave { animation: pulse-slow 2.5s infinite ease-in-out; }
+
+    .cover-svg-wrapper {
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      border: 1px solid rgba(0, 240, 255, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      background: #020617;
+    }
+    .cover-svg-anim {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
     .chapter-hero-banner {
       background: linear-gradient(135deg, #090e1a 0%, #0f172a 100%);
       border: 1px solid rgba(0, 240, 255, 0.35);
       border-radius: 16px;
-      padding: 22px 28px;
+      padding: 20px 24px;
       margin-bottom: 20px;
       position: relative;
       overflow: hidden;
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65);
-    }
-    .chapter-hero-banner::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -20%;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(0, 240, 255, 0.12) 0%, transparent 70%);
-      pointer-events: none;
     }
     .chapter-badge-tag {
       display: inline-flex;
@@ -129,7 +150,7 @@
       align-items: center;
       justify-content: space-between;
       background: linear-gradient(135deg, #0284c7 0%, #00f0ff 100%);
-      color: #020617 !himportant;
+      color: #020617 !important;
       text-decoration: none !important;
       font-weight: 700;
       font-size: 0.82rem;
@@ -147,9 +168,72 @@
     }
   </style>
 
+  
+        <div class="cover-svg-wrapper">
+          <svg class="cover-svg-anim" viewBox="0 0 760 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="c1_bg" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#090e1a"/>
+                <stop offset="50%" stop-color="#0f172a"/>
+                <stop offset="100%" stop-color="#1e1b4b"/>
+              </linearGradient>
+              <radialGradient id="c1_glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#f43f5e" stop-opacity="0.8"/>
+                <stop offset="40%" stop-color="#f59e0b" stop-opacity="0.4"/>
+                <stop offset="100%" stop-color="#f43f5e" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="c1_ray" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#facc15"/>
+                <stop offset="50%" stop-color="#38bdf8"/>
+                <stop offset="100%" stop-color="#00f0ff"/>
+              </linearGradient>
+            </defs>
+            <rect width="760" height="220" rx="14" fill="url(#c1_bg)"/>
+
+            <!-- Grid Perspective Floor -->
+            <g opacity="0.25" stroke="#00f0ff" stroke-width="1">
+              <line x1="0" y1="180" x2="760" y2="180"/>
+              <line x1="0" y1="200" x2="760" y2="200"/>
+              <line x1="100" y1="160" x2="0" y2="220"/>
+              <line x1="250" y1="160" x2="180" y2="220"/>
+              <line x1="400" y1="160" x2="380" y2="220"/>
+              <line x1="550" y1="160" x2="580" y2="220"/>
+              <line x1="700" y1="160" x2="760" y2="220"/>
+            </g>
+
+            <!-- 3D Blackbody Cavity Glow (Left) -->
+            <circle cx="140" cy="110" r="70" fill="url(#c1_glow)" class="anim-pulse"/>
+            <polygon points="110,65 170,65 190,145 90,145" fill="#020617" stroke="#f59e0b" stroke-width="2"/>
+            <circle cx="140" cy="105" r="18" fill="#facc15" filter="drop-shadow(0 0 10px #f59e0b)"/>
+            <text x="80" y="175" fill="#facc15" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold">Cavity E = nhf</text>
+
+            <!-- Photoelectric Effect Plate & Ejected Electrons (Middle) -->
+            <rect x="330" y="55" width="22" height="100" rx="4" fill="#334155" stroke="#00f0ff" stroke-width="2"/>
+            <!-- Incident Photons -->
+            <path d="M220 70 L330 90" stroke="#facc15" stroke-width="3" stroke-dasharray="6 4" class="anim-ray"/>
+            <path d="M220 110 L330 120" stroke="#facc15" stroke-width="3" stroke-dasharray="6 4" class="anim-ray"/>
+            <!-- Ejected Photoelectrons -->
+            <circle cx="375" cy="80" r="6" fill="#38bdf8" class="anim-eject-1"/>
+            <circle cx="410" cy="115" r="6" fill="#38bdf8" class="anim-eject-2"/>
+            <circle cx="440" cy="70" r="6" fill="#38bdf8" class="anim-eject-3"/>
+            <text x="310" y="175" fill="#00f0ff" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold">hf = W₀ + eV_s</text>
+
+            <!-- Hydrogen Spectral Series (Right) -->
+            <g transform="translate(560, 45)">
+              <circle cx="90" cy="65" r="45" stroke="rgba(168,85,247,0.4)" stroke-width="1.5" fill="none"/>
+              <circle cx="90" cy="65" r="30" stroke="rgba(168,85,247,0.6)" stroke-width="1.5" fill="none"/>
+              <circle cx="90" cy="65" r="14" fill="#f43f5e"/>
+              <circle cx="120" cy="65" r="5" fill="#38bdf8" class="anim-orbit"/>
+              <path d="M120 65 L90 51" stroke="#facc15" stroke-width="2" stroke-dasharray="3 3"/>
+              <text x="35" y="130" fill="#a855f7" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold">1/λ = R_H(1/n₁²-1/n₂²)</text>
+            </g>
+          </svg>
+        </div>
+        
+
   <div class="chapter-hero-banner">
     <div class="chapter-badge-tag">⚛️ CHAPTER 1 OVERVIEW</div>
-    <h2 class="chapter-hero-title">บทที่ 1 1 จุดกำเนิดของทฤษฎีควอนตัม</h2>
+    <h2 class="chapter-hero-title">บทที่ 1 จุดกำเนิดของทฤษฎีควอนตัม</h2>
     <p class="chapter-hero-desc">การก้าวข้ามขีดจำกัดของฟิสิกส์ดั้งเดิม สู่กำเนิดแนวคิดควอนตัมของพลังค์และโฟตอนของไอน์สไตน์</p>
   </div>
 

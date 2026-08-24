@@ -1,25 +1,46 @@
 
 <div class="chapter-overview-container" style="font-family: 'Sarabun', -apple-system, sans-serif; color: #f8fafc; margin-bottom: 24px;">
   <style>
+    @keyframes pulse-slow {
+      0%, 100% { transform: scale(1); opacity: 0.85; }
+      50% { transform: scale(1.08); opacity: 1.0; }
+    }
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes dash-flow {
+      to { stroke-dashoffset: -20; }
+    }
+    .anim-pulse { animation: pulse-slow 3s infinite ease-in-out; }
+    .anim-spin-slow { transform-origin: center; animation: spin-slow 20s linear infinite; }
+    .anim-ray { animation: dash-flow 1s linear infinite; }
+    .anim-wave { animation: pulse-slow 2.5s infinite ease-in-out; }
+
+    .cover-svg-wrapper {
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      border: 1px solid rgba(0, 240, 255, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      background: #020617;
+    }
+    .cover-svg-anim {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
     .chapter-hero-banner {
       background: linear-gradient(135deg, #090e1a 0%, #0f172a 100%);
       border: 1px solid rgba(0, 240, 255, 0.35);
       border-radius: 16px;
-      padding: 22px 28px;
+      padding: 20px 24px;
       margin-bottom: 20px;
       position: relative;
       overflow: hidden;
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65);
-    }
-    .chapter-hero-banner::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -20%;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(0, 240, 255, 0.12) 0%, transparent 70%);
-      pointer-events: none;
     }
     .chapter-badge-tag {
       display: inline-flex;
@@ -129,7 +150,7 @@
       align-items: center;
       justify-content: space-between;
       background: linear-gradient(135deg, #0284c7 0%, #00f0ff 100%);
-      color: #020617 !himportant;
+      color: #020617 !important;
       text-decoration: none !important;
       font-weight: 700;
       font-size: 0.82rem;
@@ -147,9 +168,48 @@
     }
   </style>
 
+  
+        <div class="cover-svg-wrapper">
+          <svg class="cover-svg-anim" viewBox="0 0 760 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="c4_bg" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#020617"/>
+                <stop offset="50%" stop-color="#1e1b4b"/>
+                <stop offset="100%" stop-color="#0f172a"/>
+              </linearGradient>
+            </defs>
+            <rect width="760" height="220" rx="14" fill="url(#c4_bg)"/>
+
+            <!-- Complex Wavefunction Phase Helix (Left) -->
+            <g transform="translate(140, 110)">
+              <path d="M-70 0 Q-35 -40 0 0 T70 0" stroke="#00f0ff" stroke-width="3" fill="none" class="anim-wave"/>
+              <path d="M-70 0 Q-35 40 0 0 T70 0" stroke="#f43f5e" stroke-width="2" stroke-dasharray="3 3" fill="none" class="anim-wave"/>
+              <text x="-65" y="65" fill="#00f0ff" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold">Ψ(x,t) = Re + i Im</text>
+            </g>
+
+            <!-- 1D Potential Well & Harmonic Oscillator (Middle) -->
+            <g transform="translate(380, 110)">
+              <line x1="-50" y1="-50" x2="-50" y2="40" stroke="#64748b" stroke-width="2"/>
+              <line x1="50" y1="-50" x2="50" y2="40" stroke="#64748b" stroke-width="2"/>
+              <line x1="-50" y1="40" x2="50" y2="40" stroke="#64748b" stroke-width="2"/>
+              <path d="M-50 20 Q0 -25 50 20" stroke="#10b981" stroke-width="2.5" fill="none"/>
+              <path d="M-50 -10 Q-25 -35 0 -10 Q25 15 50 -10" stroke="#38bdf8" stroke-width="2" fill="none"/>
+              <text x="-50" y="65" fill="#10b981" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold">E_n = n²h²/(8mL²)</text>
+            </g>
+
+            <!-- Quantum Tunneling & STM (Right) -->
+            <g transform="translate(610, 110)">
+              <rect x="-15" y="-50" width="30" height="90" fill="#334155" stroke="#f59e0b" stroke-width="1.5"/>
+              <path d="M-70 10 Q-40 -20 -15 10 L15 25 Q45 20 70 25" stroke="#00f0ff" stroke-width="2.5" fill="none"/>
+              <text x="-55" y="65" fill="#f59e0b" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold">Tunneling T ∝ e^(-2κL)</text>
+            </g>
+          </svg>
+        </div>
+        
+
   <div class="chapter-hero-banner">
     <div class="chapter-badge-tag">⚛️ CHAPTER 4 OVERVIEW</div>
-    <h2 class="chapter-hero-title">บทที่ 4 4 กลศาสตร์ควอนตัม</h2>
+    <h2 class="chapter-hero-title">บทที่ 4 กลศาสตร์ควอนตัม</h2>
     <p class="chapter-hero-desc">ฟังก์ชันคลื่น สมการชโรดิงเจอร์ อนุภาคในกล่องศักย์ ฮาร์มอนิกออสซิลเลเตอร์ และการทะลุผ่านกำแพงศักย์</p>
   </div>
 

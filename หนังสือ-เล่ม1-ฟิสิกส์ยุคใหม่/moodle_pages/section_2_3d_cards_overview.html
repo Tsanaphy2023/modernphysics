@@ -1,25 +1,46 @@
 
 <div class="chapter-overview-container" style="font-family: 'Sarabun', -apple-system, sans-serif; color: #f8fafc; margin-bottom: 24px;">
   <style>
+    @keyframes pulse-slow {
+      0%, 100% { transform: scale(1); opacity: 0.85; }
+      50% { transform: scale(1.08); opacity: 1.0; }
+    }
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes dash-flow {
+      to { stroke-dashoffset: -20; }
+    }
+    .anim-pulse { animation: pulse-slow 3s infinite ease-in-out; }
+    .anim-spin-slow { transform-origin: center; animation: spin-slow 20s linear infinite; }
+    .anim-ray { animation: dash-flow 1s linear infinite; }
+    .anim-wave { animation: pulse-slow 2.5s infinite ease-in-out; }
+
+    .cover-svg-wrapper {
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      border: 1px solid rgba(0, 240, 255, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      background: #020617;
+    }
+    .cover-svg-anim {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
     .chapter-hero-banner {
       background: linear-gradient(135deg, #090e1a 0%, #0f172a 100%);
       border: 1px solid rgba(0, 240, 255, 0.35);
       border-radius: 16px;
-      padding: 22px 28px;
+      padding: 20px 24px;
       margin-bottom: 20px;
       position: relative;
       overflow: hidden;
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65);
-    }
-    .chapter-hero-banner::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -20%;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(0, 240, 255, 0.12) 0%, transparent 70%);
-      pointer-events: none;
     }
     .chapter-badge-tag {
       display: inline-flex;
@@ -129,7 +150,7 @@
       align-items: center;
       justify-content: space-between;
       background: linear-gradient(135deg, #0284c7 0%, #00f0ff 100%);
-      color: #020617 !himportant;
+      color: #020617 !important;
       text-decoration: none !important;
       font-weight: 700;
       font-size: 0.82rem;
@@ -147,9 +168,55 @@
     }
   </style>
 
+  
+        <div class="cover-svg-wrapper">
+          <svg class="cover-svg-anim" viewBox="0 0 760 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="c2_bg" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#020617"/>
+                <stop offset="50%" stop-color="#0f172a"/>
+                <stop offset="100%" stop-color="#0369a1"/>
+              </linearGradient>
+            </defs>
+            <rect width="760" height="220" rx="14" fill="url(#c2_bg)"/>
+
+            <!-- Light Cones (Left) -->
+            <g transform="translate(130, 110)">
+              <!-- Upper & Lower Cones -->
+              <polygon points="0,0 -55,-65 55,-65" fill="rgba(56, 189, 248, 0.2)" stroke="#38bdf8" stroke-width="1.5"/>
+              <polygon points="0,0 -55,65 55,65" fill="rgba(244, 63, 94, 0.2)" stroke="#f43f5e" stroke-width="1.5"/>
+              <line x1="-70" y1="0" x2="70" y2="0" stroke="#64748b" stroke-width="1.5"/>
+              <line x1="0" y1="-75" x2="0" y2="75" stroke="#64748b" stroke-width="1.5"/>
+              <!-- Worldline -->
+              <line x1="-30" y1="60" x2="30" y2="-60" stroke="#facc15" stroke-width="2.5" class="anim-pulse"/>
+              <text x="-60" y="88" fill="#38bdf8" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold">Minkowski Cone</text>
+            </g>
+
+            <!-- Light Clock & Time Dilation (Middle) -->
+            <g transform="translate(360, 110)">
+              <rect x="-40" y="-55" width="80" height="8" rx="2" fill="#64748b"/>
+              <rect x="-40" y="47" width="80" height="8" rx="2" fill="#64748b"/>
+              <!-- Zigzag photon path -->
+              <path d="M-30 47 L0 -47 L30 47" stroke="#00f0ff" stroke-width="2.5" stroke-dasharray="4 3" class="anim-ray" fill="none"/>
+              <circle cx="0" cy="-47" r="4" fill="#facc15"/>
+              <text x="-48" y="88" fill="#00f0ff" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold">Δt = γ Δt₀ (v → c)</text>
+            </g>
+
+            <!-- Relativistic Rocket & Energy Mass Equivalence (Right) -->
+            <g transform="translate(580, 110)">
+              <!-- Relativistic Warping Grid -->
+              <ellipse cx="0" cy="0" rx="75" ry="30" stroke="rgba(0,240,255,0.4)" stroke-width="1.5" fill="none" class="anim-spin-slow"/>
+              <ellipse cx="0" cy="0" rx="50" ry="20" stroke="rgba(245,158,11,0.5)" stroke-width="1.5" fill="none"/>
+              <text x="-55" y="8" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="20" font-weight="bold">E = γmc²</text>
+              <text x="-65" y="88" fill="#facc15" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="bold">Lorentz Invariance</text>
+            </g>
+          </svg>
+        </div>
+        
+
   <div class="chapter-hero-banner">
     <div class="chapter-badge-tag">⚛️ CHAPTER 2 OVERVIEW</div>
-    <h2 class="chapter-hero-title">บทที่ 2 2 ทฤษฎีสัมพัทธภาพพิเศษ</h2>
+    <h2 class="chapter-hero-title">บทที่ 2 ทฤษฎีสัมพัทธภาพพิเศษ</h2>
     <p class="chapter-hero-desc">กาลอวกาศเชิงสัมพัทธภาพ การยืดของเวลา การหดของระยะทาง และความสมมูลมวล-พลังงาน E = mc²</p>
   </div>
 
