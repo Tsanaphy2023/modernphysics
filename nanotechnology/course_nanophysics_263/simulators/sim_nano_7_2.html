@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nanophysics Simulator 7.2 — 7.2 มาตรการควบคุมและขั้นตอนปฏิบัติงานมาตรฐาน</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg-dark: #020617;
+      --card-bg: #090e1a;
+      --cyan: #00f0ff;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --rose: #f43f5e;
+      --purple: #a855f7;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-dark);
+      color: #f8fafc;
+      font-family: 'Sarabun', -apple-system, sans-serif;
+      padding: 10px;
+      overflow-x: hidden;
+    }
+    .sim-card {
+      background: var(--card-bg);
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 16px;
+      max-width: 100%;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+      position: relative;
+    }
+    .sim-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 8px;
+    }
+    .sim-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .status-badge {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid var(--emerald);
+      color: var(--emerald);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .sim-canvas-container {
+      position: relative;
+      width: 100%;
+      height: 280px;
+      background: #000000;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin-bottom: 10px;
+      background: #0f172a;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid #1e293b;
+    }
+    .ctrl-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .ctrl-label {
+      font-size: 0.78rem;
+      color: #94a3b8;
+      display: flex;
+      justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    input[type=range] {
+      width: 100%;
+      accent-color: var(--cyan);
+      cursor: pointer;
+    }
+    .hud-readout {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      background: #020617;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .hud-val {
+      color: var(--amber);
+      font-weight: 700;
+    }
+    .btn-action {
+      background: linear-gradient(135deg, #0284c7, var(--cyan));
+      color: #020617;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 14px;
+      font-weight: 700;
+      font-size: 0.80rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-action:hover {
+      box-shadow: 0 0 10px var(--cyan);
+      transform: scale(1.02);
+    }
+  </style>
+</head>
+<body>
+  <div class="sim-card">
+    <div class="sim-header">
+      <div class="sim-title">
+        <span>🔬</span>
+        <span>แล็บจำลอง 7.2: 7.2 มาตรการควบคุมและขั้นตอนปฏิบัติงานมาตรฐาน</span>
+      </div>
+      <div class="status-badge">● 60 FPS REAL-TIME</div>
+    </div>
+
+    <div class="sim-canvas-container">
+      <canvas id="nanoCanvas"></canvas>
+    </div>
+
+    <div class="controls-grid">
+      <div class="ctrl-item">
+        <div class="ctrl-label">
+          <span>ขนาดอนุภาค (Diameter)</span>
+          <span id="valD">10.0 nm</span>
+        </div>
+        <input type="range" id="sliderD" min="1" max="100" step="0.5" value="10">
+      </div>
+      <div class="ctrl-item">
+        <div class="ctrl-label">
+          <span>อุณหภูมิ (Temperature)</span>
+          <span id="valT">300 K</span>
+        </div>
+        <input type="range" id="sliderT" min="10" max="600" step="5" value="300">
+      </div>
+      <div class="ctrl-item">
+        <div class="ctrl-label">
+          <span>พารามิเตอร์จำลอง (Parameter)</span>
+          <span id="valP">1.00</span>
+        </div>
+        <input type="range" id="sliderP" min="0.1" max="5.0" step="0.05" value="1.0">
+      </div>
+    </div>
+
+    <div class="hud-readout">
+      <div>สมการหลัก: <span class="hud-val">\text{Hierarchy: Engineering} > \text{Administrative} > \text{PPE}</span></div>
+      <div>สถานะ: <span class="hud-val" id="hudStatus">Active Simulation</span></div>
+      <button type="button" class="btn-action" id="btnReset" onclick="resetSim()">↺ รีเซ็ตการทดลอง</button>
+    </div>
+  </div>
+
+  <script src="ar_mediapipe_controller.js"></script>
+  <script>
+    const canvas = document.getElementById("nanoCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvas() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    let d = 10.0;
+    let temp = 300;
+    let param = 1.0;
+    let animTime = 0;
+
+    const sliderD = document.getElementById("sliderD");
+    const sliderT = document.getElementById("sliderT");
+    const sliderP = document.getElementById("sliderP");
+    const valD = document.getElementById("valD");
+    const valT = document.getElementById("valT");
+    const valP = document.getElementById("valP");
+    const hudStatus = document.getElementById("hudStatus");
+
+    sliderD.addEventListener("input", (e) => {
+      d = parseFloat(e.target.value);
+      valD.textContent = d.toFixed(1) + " nm";
+      updateReadout();
+    });
+
+    sliderT.addEventListener("input", (e) => {
+      temp = parseFloat(e.target.value);
+      valT.textContent = temp.toFixed(0) + " K";
+      updateReadout();
+    });
+
+    sliderP.addEventListener("input", (e) => {
+      param = parseFloat(e.target.value);
+      valP.textContent = param.toFixed(2);
+      updateReadout();
+    });
+
+    function resetSim() {
+      sliderD.value = 10;
+      sliderT.value = 300;
+      sliderP.value = 1.0;
+      d = 10; temp = 300; param = 1.0;
+      valD.textContent = "10.0 nm";
+      valT.textContent = "300 K";
+      valP.textContent = "1.00";
+      animTime = 0;
+    }
+
+    function updateReadout() {
+      const ratio = (6.0 / d).toFixed(2);
+      hudStatus.textContent = "A/V Ratio = " + ratio + " nm⁻¹";
+    }
+
+    // Particles for Simulation
+    const particles = [];
+    for (let i = 0; i < 40; i++) {
+      particles.push({
+        x: Math.random() * 400 + 50,
+        y: Math.random() * 200 + 40,
+        vx: (Math.random() - 0.5) * 1.5,
+        vy: (Math.random() - 0.5) * 1.5,
+        color: i % 2 === 0 ? "#00f0ff" : "#f59e0b"
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const w = canvas.width;
+      const h = canvas.height;
+      animTime += 0.03;
+
+      // Draw Perspective Grid
+      ctx.strokeStyle = "rgba(0, 240, 255, 0.15)";
+      ctx.lineWidth = 1;
+      for (let x = 0; x < w; x += 40) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, h);
+        ctx.stroke();
+      }
+      for (let y = 0; y < h; y += 40) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      }
+
+      // Dynamic Nanoscale Entity Render
+      const cx = w * 0.45;
+      const cy = h * 0.5;
+      const visualR = Math.max(15, Math.min(90, d * 1.8));
+
+      // Glow Halo
+      const grad = ctx.createRadialGradient(cx, cy, 5, cx, cy, visualR * 1.6);
+      grad.addColorStop(0, "rgba(0, 240, 255, 0.8)");
+      grad.addColorStop(0.5, "rgba(168, 85, 247, 0.3)");
+      grad.addColorStop(1, "rgba(0, 0, 0, 0)");
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(cx, cy, visualR * 1.6, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Main Core Nanoparticle
+      ctx.fillStyle = "#0f172a";
+      ctx.strokeStyle = "#00f0ff";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(cx, cy, visualR, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // Atomic Shells inside Nanoparticle
+      const numRings = Math.max(2, Math.floor(visualR / 15));
+      ctx.strokeStyle = "rgba(245, 158, 11, 0.5)";
+      ctx.lineWidth = 1.5;
+      for (let r = 1; r <= numRings; r++) {
+        ctx.beginPath();
+        ctx.arc(cx, cy, (visualR / numRings) * r, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      // Orbiting Surface Atoms
+      const numAtoms = Math.floor(d * 1.5);
+      for (let a = 0; a < numAtoms; a++) {
+        const angle = (a / numAtoms) * Math.PI * 2 + animTime * 0.5;
+        const ax = cx + Math.cos(angle) * visualR;
+        const ay = cy + Math.sin(angle) * visualR;
+        ctx.fillStyle = a % 2 === 0 ? "#f43f5e" : "#38bdf8";
+        ctx.beginPath();
+        ctx.arc(ax, ay, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Real-time Graph Overlay (Right side)
+      const gx = w * 0.72;
+      const gy = 30;
+      const gw = w * 0.25;
+      const gh = h - 60;
+      ctx.fillStyle = "rgba(15, 23, 42, 0.85)";
+      ctx.strokeStyle = "#334155";
+      ctx.lineWidth = 1.5;
+      ctx.fillRect(gx, gy, gw, gh);
+      ctx.strokeRect(gx, gy, gw, gh);
+
+      ctx.fillStyle = "#38bdf8";
+      ctx.font = "11px 'JetBrains Mono', monospace";
+      ctx.fillText("A/V vs Diameter (nm)", gx + 10, gy + 18);
+
+      // Plot A/V curve
+      ctx.strokeStyle = "#facc15";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      for (let px = 0; px < gw - 20; px += 2) {
+        const simD = 1 + (px / (gw - 20)) * 100;
+        const simAV = 6.0 / simD;
+        const py = gy + gh - 15 - (simAV / 6.0) * (gh - 40);
+        if (px === 0) ctx.moveTo(gx + 10 + px, py);
+        else ctx.lineTo(gx + 10 + px, py);
+      }
+      ctx.stroke();
+
+      // Plot current point
+      const curPX = ((d - 1) / 99) * (gw - 20);
+      const curAV = 6.0 / d;
+      const curPY = gy + gh - 15 - (curAV / 6.0) * (gh - 40);
+      ctx.fillStyle = "#f43f5e";
+      ctx.beginPath();
+      ctx.arc(gx + 10 + curPX, curPY, 5, 0, Math.PI * 2);
+      ctx.fill();
+
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+  </script>
+</body>
+</html>

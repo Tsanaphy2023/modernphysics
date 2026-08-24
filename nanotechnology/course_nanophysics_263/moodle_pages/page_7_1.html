@@ -1,0 +1,279 @@
+<!-- RBRU MOOC Masterclass Content: 7.1 7.1 ความเป็นพิษของอนุภาคนาโนและเส้นทางการรับสัมผัส -->
+<div class="rbru-mooc-page" style="font-family: 'Sarabun', -apple-system, sans-serif; color: #1e293b; line-height: 1.8; max-width: 1000px; margin: 0 auto;">
+  <style>
+    .topic-hero-header {
+      background: linear-gradient(135deg, #090e1a 0%, #0f172a 100%);
+      border: 1px solid rgba(0, 240, 255, 0.35);
+      border-radius: 16px;
+      padding: 24px 30px;
+      margin-bottom: 24px;
+      color: #ffffff;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    .topic-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 240, 255, 0.15);
+      border: 1px solid #00f0ff;
+      color: #00f0ff;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 0.80rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 8px;
+    }
+    .topic-main-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+    .topic-sub-desc {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+    .formula-box {
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      border-left: 5px solid #10b981;
+      border-radius: 12px;
+      padding: 18px 24px;
+      margin: 20px 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .formula-title {
+      font-weight: 700;
+      color: #065f46;
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+    }
+    .formula-display {
+      background: #ffffff;
+      border: 1.5px solid #a7f3d0;
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+      font-size: 1.25rem;
+      color: #064e3b;
+      margin: 10px 0;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .sim-embed-card {
+      background: #090e1a;
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 14px;
+      margin: 28px 0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .sim-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      color: #f8fafc;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .btn-fullscreen {
+      background: linear-gradient(135deg, #0284c7 0%, #00f0ff 100%);
+      color: #020617 !important;
+      text-decoration: none !important;
+      font-weight: 700;
+      font-size: 0.80rem;
+      padding: 6px 14px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .example-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 24px 0;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+    }
+    .btn-toggle-sol {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 20px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-toggle-sol:hover {
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+      transform: translateY(-1px);
+    }
+    .solution-content {
+      display: none;
+      margin-top: 14px;
+      padding: 18px 22px;
+      background: #ffffff;
+      border-left: 4px solid #0284c7;
+      border-radius: 10px;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .quiz-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 24px 0;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+    }
+    .btn-quiz-opt {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 8px 0;
+      cursor: pointer;
+      font-size: 0.92rem;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .btn-quiz-opt:hover {
+      background: #e0f2fe;
+      border-color: #0284c7;
+    }
+  </style>
+
+  <div class="topic-hero-header">
+    <div class="topic-tag">⚛️ NANOTECHNOLOGY IN PHYSICS 7.1</div>
+    <h1 class="topic-main-title">7.1 ความเป็นพิษของอนุภาคนาโนและเส้นทางการรับสัมผัส</h1>
+    <p class="topic-sub-desc">เส้นทางการรับสัมผัส (การหายใจ การซึมผ่านผิวหนัง การกลืนกิน) การเกิดภาวะเครียดออกซิเดชัน (Reactive Oxygen Species - ROS) และพิษต่อเซลล์</p>
+  </div>
+
+  <div class="formula-box">
+    <div class="formula-title">📌 กฎและสมการสำคัญประจำหัวข้อ 7.1</div>
+    <div class="formula-display">\(\text{Risk} = \text{Hazard} \times \text{Exposure}\)</div>
+    <div style="font-size: 0.88rem; color: #065f46; line-height: 1.6;">
+      สมการนี้แสดงความสัมพันธ์เชิงฟิสิกส์ในระดับนาโนสเกล โดยสมบัติของสสารจะเปลี่ยนแปลงอย่างมีนัยสำคัญเมื่อขนาดอนุภาคลดลงสู่ระดับเดอบรอยล์หรือรัศมีบอร์ของเอ็กไซตอน
+    </div>
+  </div>
+
+  <div class="theory-section" style="margin: 24px 0; font-size: 1rem; color: #334155; line-height: 1.85;">
+    <h2 style="color: #0f172a; font-size: 1.25rem; font-weight: 700; margin-bottom: 12px;">📖 1. รากฐานทฤษฎีและกลไกเชิงฟิสิกส์</h2>
+    <p>
+      ในมิติระดับนาโนเมตร (1 ถึง 100 นาโนเมตร) พฤติกรรมของสสารจะอยู่กึ่งกลางระหว่างฟิสิกส์ดั้งเดิมระดับมหภาค (Classical Bulk Physics) และกลศาสตร์ควอนตัมระดับอะตอมเดี่ยว (Quantum Mechanics) ส่งผลให้เกิดปรากฏการณ์เฉพาะตัว เช่น อัตราส่วนพื้นที่ผิวต่อปริมาตรที่เพิ่มขึ้นอย่างมหาศาล, การกักขังเชิงควอนตัม (Quantum Confinement), และการสั่นพ้องพลาสมอนพื้นผิวเฉพาะที่ (LSPR)
+    </p>
+    <p>
+      การทำความเข้าใจฟิสิกส์ในระดับนี้ทำให้เราสามารถออกแบบวัสดุที่มีสมบัติทางแสง ไฟฟ้า แม่เหล็ก และปฏิกิริยาเคมีตามต้องการ เพื่อนำไปประยุกต์ใช้ในโซลาร์เซลล์ประสิทธิภาพสูง ทรานซิสเตอร์นาโน และการนำส่งยารักษาโรคอย่างตรงเป้าหมาย
+    </p>
+  </div>
+
+  <div class="sim-embed-card">
+    <div class="sim-card-header">
+      <div style="font-weight: 700; color: #00f0ff; display: flex; align-items: center; gap: 8px;">
+        <span>🔬</span>
+        <span>ห้องปฏิบัติการจำลองเสมือนจริง 60 FPS & AR Touchless Controls</span>
+      </div>
+      <a href="https://tsanaphy2023.github.io/modernphysics/simulators/sim_nano_7_1.html" target="_blank" class="btn-fullscreen">
+        <span>🚀 เปิดแล็บเต็มจอ</span>
+        <span>↗</span>
+      </a>
+    </div>
+    <iframe src="https://tsanaphy2023.github.io/modernphysics/simulators/sim_nano_7_1.html?v=2026" style="width:100%; height:545px; border:1px solid #1e293b; border-radius:10px; background:#020617;" allow="accelerometer; autoplay; camera; gyroscope;"></iframe>
+  </div>
+
+  <div class="example-card">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+      <h3 style="color:#0284c7; margin:0; font-size:1.15rem;">📐 ตัวอย่างที่ 7.1: การวิเคราะห์และคำนวณเชิงฟิสิกส์</h3>
+      <span style="background:#e0f2fe; color:#0369a1; font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:20px;">WORKED EXAMPLE</span>
+    </div>
+    <div style="margin-bottom:16px; font-size:1rem; line-height:1.7; color:#334155;">
+      <b>โจทย์:</b> อนุภาคทองคำทรงกลมมีรัศมี \(R = 5.0\text{ nm}\); จงคำนวณอัตราส่วนพื้นที่ผิวต่อปริมาตร (\(A/V\)) และเปรียบเทียบกับก้อนทองคำขนาดเส้นผ่านศูนย์กลาง \(1.0\text{ cm}\)
+    </div>
+    
+    <div class="solution-container">
+      <button type="button" class="btn-toggle-sol" onclick="toggleSolution('7_1')" id="btn-sol-7_1">
+        <span id="btn-icon-7_1">👁️</span>
+        <span id="btn-text-7_1">คลิกเพื่อดูเฉลยและวิธีทำละเอียด</span>
+      </button>
+      <div class="solution-content" id="sol-content-7_1">
+        <div style="font-weight:700; color:#0369a1; margin-bottom:10px;">📝 เฉลยและขั้นตอนการคำนวณอย่างละเอียด:</div>
+        <div style="line-height:1.8; color:#1e293b;">
+          <b>1. ตั้งสมการอัตราส่วนพื้นที่ผิวต่อปริมาตรทรงกลม:</b><br>
+          \[\frac{A}{V} = \frac{4\pi R^2}{\frac{4}{3}\pi R^3} = \frac{3}{R} = \frac{6}{d}\]
+          <b>2. แทนค่ารัศมีอนุภาคนาโน \(R = 5.0\text{ nm} = 5.0 \times 10^{-9}\text{ m}\):</b><br>
+          \[\left(\frac{A}{V}\right)_{\text{nano}} = \frac{3}{5.0 \times 10^{-9}\text{ m}} = 6.0 \times 10^8\text{ m}^{-1} = 0.60\text{ nm}^{-1}\]
+          <b>3. แทนค่าก้อนทองคำมหภาค \(R = 0.50\text{ cm} = 5.0 \times 10^{-3}\text{ m}\):</b><br>
+          \[\left(\frac{A}{V}\right)_{\text{bulk}} = \frac{3}{5.0 \times 10^{-3}\text{ m}} = 6.0 \times 10^2\text{ m}^{-1}\]
+          <div style="background:#ecfdf5; border-left:4px solid #10b981; padding:10px 16px; border-radius:6px; margin-top:10px; color:#065f46; font-weight:600;">
+            🎯 <b>สรุปคำตอบ:</b> อนุภาคทองคำนาโนมีสัดส่วนพื้นที่ผิวต่อปริมาตรสูงกว่าก้อนทองคำมหภาคถึง \(10^6\) เท่า (หนึ่งล้านเท่า) ส่งผลให้อะตอมส่วนใหญ่สัมผัสกับสิ่งแวดล้อมภายนอกโดยตรง!
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quiz-card">
+    <h3 style="color:#0f172a; font-size:1.15rem; font-weight:700; margin-bottom:10px;">❓ แบบทดสอบความเข้าใจ (Concept Check)</h3>
+    <p style="color:#475569; margin-bottom:12px;">ข้อใดกล่าวถูกต้องที่สุดเกี่ยวกับพฤติกรรมของวัสดุเมื่อขนาดลดลงสู่ระดับนาโนเมตร?</p>
+    <button type="button" class="btn-quiz-opt" onclick="checkAnswer(this, false)">ก. อัตราส่วนพื้นที่ผิวต่อปริมาตรจะลดลงทำให้เกิดปฏิกิริยาเคมีช้าลง</button>
+    <button type="button" class="btn-quiz-opt" onclick="checkAnswer(this, true)">ข. ช่องว่างแถบพลังงาน (Band Gap) ขยายกว้างขึ้นเนื่องจากการกักขังเชิงควอนตัม</button>
+    <button type="button" class="btn-quiz-opt" onclick="checkAnswer(this, false)">ค. จุดหลอมเหลวของอนุภาคนาโนจะเพิ่มสูงขึ้นกว่าวัสดุขนาดใหญ่เสมอ</button>
+    <button type="button" class="btn-quiz-opt" onclick="checkAnswer(this, false)">ง. สภาพนำไฟฟ้าของสสารจะกลายเป็นศูนย์ทั้งหมด</button>
+    <div class="quiz-feedback" style="display:none; margin-top:10px; padding:10px 14px; border-radius:8px; font-weight:600;"></div>
+  </div>
+</div>
+
+<script>
+function toggleSolution(id) {
+  const sol = document.getElementById("sol-content-" + id);
+  const btn = document.getElementById("btn-sol-" + id);
+  const txt = document.getElementById("btn-text-" + id);
+  const ico = document.getElementById("btn-icon-" + id);
+  if (!sol) return;
+  if (sol.style.display === "none" || sol.style.display === "") {
+    sol.style.display = "block";
+    if (txt) txt.textContent = "ซ่อนเฉลยและวิธีทำ";
+    if (ico) ico.textContent = "🙈";
+    if (btn) btn.style.background = "#475569";
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise([sol]);
+    }
+  } else {
+    sol.style.display = "none";
+    if (txt) txt.textContent = "คลิกเพื่อดูเฉลยและวิธีทำละเอียด";
+    if (ico) ico.textContent = "👁️";
+    if (btn) btn.style.background = "linear-gradient(135deg, #0284c7, #0369a1)";
+  }
+}
+
+function checkAnswer(btn, isCorrect) {
+  const parent = btn.parentElement;
+  const fb = parent.querySelector(".quiz-feedback");
+  const allBtns = parent.querySelectorAll(".btn-quiz-opt");
+  allBtns.forEach(b => b.disabled = true);
+  if (isCorrect) {
+    btn.style.background = "#dcfce7";
+    btn.style.borderColor = "#10b981";
+    fb.style.display = "block";
+    fb.style.background = "#ecfdf5";
+    fb.style.color = "#065f46";
+    fb.innerHTML = "✅ ถูกต้องยอดเยี่ยม! ปรากฏการณ์ Quantum Confinement ทำให้ระดับพลังงานแยกห่างจากกันและ Band Gap กว้างขึ้น";
+  } else {
+    btn.style.background = "#fee2e2";
+    btn.style.borderColor = "#ef4444";
+    fb.style.display = "block";
+    fb.style.background = "#fef2f2";
+    fb.style.color = "#991b1b";
+    fb.innerHTML = "❌ ยังไม่ถูกต้อง ลองทบทวนผลของขนาดอนุภาคต่อช่องว่างแถบพลังงาน (Brus Model) อีกครั้งนะครับ";
+  }
+}
+</script>

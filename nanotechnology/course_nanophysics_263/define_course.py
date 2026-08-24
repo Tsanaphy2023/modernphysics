@@ -1,0 +1,395 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Master Course Builder & Deployment System for
+รายวิชา 4014971 นาโนเทคโนโลยีเชิงฟิสิกส์ (Nanotechnological Physics)
+RBRU Moodle LMS Course ID: 263
+"""
+
+import os
+import re
+import json
+import time
+import requests
+
+COURSE_ID = "263"
+BASE_URL = "https://elearning.rbru.ac.th"
+CDN_BASE = "https://tsanaphy2023.github.io/modernphysics"
+
+BASE_DIR = "/Users/chewathassana/Downloads/manus_backup2026/ModernPhysics"
+NANO_DIR = os.path.join(BASE_DIR, "nanotechnology/course_nanophysics_263")
+MOODLE_PAGES_DIR = os.path.join(NANO_DIR, "moodle_pages")
+SIMS_DIR = os.path.join(NANO_DIR, "simulators")
+SIMS_ROOT_DIR = os.path.join(BASE_DIR, "simulators")
+
+os.makedirs(MOODLE_PAGES_DIR, exist_ok=True)
+os.makedirs(SIMS_DIR, exist_ok=True)
+os.makedirs(SIMS_ROOT_DIR, exist_ok=True)
+
+session = requests.Session()
+session.cookies.set("MoodleSessionrbrulms", "lsd8fv1nrb9spqgtchgv9a1co1", domain="elearning.rbru.ac.th")
+session.headers.update({
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Origin": BASE_URL,
+    "Referer": f"{BASE_URL}/course/view.php?id={COURSE_ID}"
+})
+
+# ==============================================================================
+# 1. Course Definition (8 Chapters, 40 Subtopics)
+# ==============================================================================
+CHAPTERS_DEF = [
+    {
+        "id": 1,
+        "title": "บทที่ 1 พื้นฐานนาโนเทคโนโลยีเชิงฟิสิกส์และการคิดเชิงมาตราส่วน",
+        "description": "สำรวจมิติและมาตราส่วนระดับ 1 ถึง 100 นาโนเมตร อัตราส่วนพื้นที่ผิวต่อปริมาตร พลังงานพื้นผิว การอ่านสเกลบาร์ และการคำนวณเชิงตัวเลขสำหรับอนุภาคนาโน",
+        "badge": "1-100 nm & Surface Area",
+        "pages": [
+            {
+                "id": "1.1",
+                "title": "1.1 มิติและมาตราส่วนระดับนาโน",
+                "summary": "ความหมายของระดับ 1–100 นาโนเมตร การเปรียบเทียบขนาดอะตอม โมเลกุล และวัตถุชีวภาพ พร้อมการแปลงหน่วยความยาวเชิงฟิสิกส์",
+                "formula": "1\\text{ nm} = 10^{-9}\\text{ m} = 10\\text{ Å}",
+                "sim_type": "scale_explorer"
+            },
+            {
+                "id": "1.2",
+                "title": "1.2 สัดส่วนพื้นที่ผิวต่อปริมาตรและผลกระทบเชิงกายภาพ",
+                "summary": "การพิสูจน์คณิตศาสตร์อัตราส่วน A/V = 6/d ของอนุภาคทรงกลม/ลูกบาศก์ และผลกระทบต่ออัตราการเกิดปฏิกิริยาเคมีและความไวต่อสภาพแวดล้อม",
+                "formula": "\\frac{A}{V} = \\frac{6}{d} \\propto \\frac{1}{d}",
+                "sim_type": "surface_area_ratio"
+            },
+            {
+                "id": "1.3",
+                "title": "1.3 พลังงานพื้นผิวและพฤติกรรมการเกาะกลุ่มของอนุภาคนาโน",
+                "summary": "พันธะไม่อิ่มตัวที่พื้นผิว พลังงานอิสระพื้นผิว ปรากฏการณ์การเกาะกลุ่ม (Agglomeration) และแรงแวนเดอร์วาลส์ระดับนาโน",
+                "formula": "\\gamma = \\left(\\frac{\\partial G}{\\partial A}\\right)_{T,P,n_i}",
+                "sim_type": "surface_energy"
+            },
+            {
+                "id": "1.4",
+                "title": "1.4 การอ่านสเกลบาร์และการวิเคราะห์ภาพกล้องจุลทรรศน์",
+                "summary": "เทคนิคการวัดขนาดอนุภาคจริงจากสเกลบาร์ในภาพ SEM/TEM การสร้างฮิสโตแกรมการกระจายขนาด และการคำนวณสถิติ Mean/SD",
+                "formula": "\\bar{d} = \\frac{1}{N}\\sum_{i=1}^N d_i, \\quad \\sigma = \\sqrt{\\frac{\\sum(d_i-\\bar{d})^2}{N-1}}",
+                "sim_type": "scale_bar_reader"
+            },
+            {
+                "id": "1.5",
+                "title": "1.5 แบบฝึกหัดและปฏิบัติการจำลอง AR: พื้นที่ผิวและมาตราส่วนนาโน",
+                "summary": "ห้องปฏิบัติการเสมือนจริง 60 FPS คำนวณอัตราส่วนพื้นที่ผิวต่อปริมาตรแบบโต้ตอบ พร้อมระบบตรวจจับท่าทางมือ AR MediaPipe",
+                "formula": "3D AR Nanoscale Interactive Studio",
+                "sim_type": "ar_nanoscale_lab"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "title": "บทที่ 2 สมบัติขึ้นกับขนาดและการกักขังเชิงควอนตัม",
+        "description": "ศึกษาการกักขังเชิงควอนตัมในอนุภาคขนาดเล็ก แบบจำลอง Brus สเปกตรัมการคายแสงของควอนตัมดอท การสั่นพลาสมอนพื้นผิวเฉพาะที่ (LSPR) และสมบัติแม่เหล็กยิ่งยวด",
+        "badge": "Quantum Confinement & LSPR",
+        "pages": [
+            {
+                "id": "2.1",
+                "title": "2.1 ปรากฏการณ์การกักขังเชิงควอนตัมและแบบจำลอง Brus",
+                "summary": "การขยายตัวของช่องว่างแถบพลังงาน (Band Gap) ตามขนาดอนุภาค การพิสูจน์สมการ Brus และการเปลี่ยนสีการเรืองแสง",
+                "formula": "E_g(R) = E_g^{bulk} + \\frac{h^2}{8R^2}\\left(\\frac{1}{m_e^*} + \\frac{1}{m_h^*}\\right) - \\frac{1.8e^2}{4\\pi\\varepsilon_0\\varepsilon R}",
+                "sim_type": "quantum_confinement"
+            },
+            {
+                "id": "2.2",
+                "title": "2.2 อนุภาคควอนตัมดอทและสเปกตรัมการดูดกลืนและการคายแสง",
+                "summary": "โครงสร้างและสมบัติทางแสงของควอนตัมดอท CdSe/ZnS และ Perovskite สเปกตรัม UV-Vis และ Photoluminescence (PL)",
+                "formula": "\\lambda_{emission} = \\frac{hc}{E_g(R)}",
+                "sim_type": "quantum_dot_spectra"
+            },
+            {
+                "id": "2.3",
+                "title": "2.3 การสั่นพลาสมอนพื้นผิวเฉพาะที่",
+                "summary": "การสั่นพ้องของกลุ่มอิเล็กตรอนอิสระบนผิวอนุภาคโลหะทอง/เงินนาโน (LSPR) เมื่อถูกกระตุ้นด้วยสนามคลื่นแม่เหล็กไฟฟ้า",
+                "formula": "\\omega_{sp} = \\frac{\\omega_p}{\\sqrt{1 + 2\\varepsilon_m}}",
+                "sim_type": "lspr_plasmon"
+            },
+            {
+                "id": "2.4",
+                "title": "2.4 สภาพนำไฟฟ้าควอนไทซ์และสมบัติแม่เหล็กยิ่งยวด",
+                "summary": "การนำไฟฟ้าแบบบอลลิสติก (Ballistic Transport) สภาพนำไฟฟ้าควอนไทซ์ $G_0 = 2e^2/h$ และพฤติกรรม Superparamagnetism ของอนุภาคแม่เหล็กนาโน",
+                "formula": "G = \\frac{2e^2}{h} \\sum T_i \\approx 77.48\\;\\mu\\text{S}",
+                "sim_type": "superparamagnetism"
+            },
+            {
+                "id": "2.5",
+                "title": "2.5 แบบฝึกหัดและปฏิบัติการจำลอง AR: สเปกตรัมควอนตัมดอทและ LSPR",
+                "summary": "ห้องทดลองจำลอง 3D ควอนตัมดอท ปรับขนาดรัศมีอนุภาคแบบเรียลไทม์ และสังเกตการเปลี่ยนสีของสเปกตรัมด้วยระบบตรวจจับมือ AR",
+                "formula": "3D AR Quantum Dots & Plasmonics Lab",
+                "sim_type": "ar_qd_lab"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "title": "บทที่ 3 การสังเคราะห์วัสดุนาโนและวิศวกรรมการผลิต",
+        "description": "สำรวจกลยุทธ์การสังเคราะห์วัสดุนาโนแบบ Bottom-Up และ Top-Down กระบวนการ Sol-Gel, Chemical Vapor Deposition (CVD), Physical Vapor Deposition (PVD) และการสร้างลวดลายนาโนลิโทกราฟี",
+        "badge": "Bottom-Up vs Top-Down",
+        "pages": [
+            {
+                "id": "3.1",
+                "title": "3.1 แนวทางการสังเคราะห์แบบล่างขึ้นบนและบนลงล่าง",
+                "summary": "การเปรียบเทียบปรัชญาการผลิตแบบ Top-Down (การลดขนาด) และ Bottom-Up (การประกอบตัวเองของโมเลกุล) ข้อดี ข้อจำกัด และต้นทุน",
+                "formula": "\\Delta G = -\\frac{4}{3}\\pi r^3 \\Delta G_v + 4\\pi r^2 \\gamma",
+                "sim_type": "synthesis_routes"
+            },
+            {
+                "id": "3.2",
+                "title": "3.2 กระบวนการโซล-เจลและเคมีสารละลาย",
+                "summary": "ปฏิกิริยาไฮโดรไลซิส (Hydrolysis) และคอนเดนเซชัน (Condensation) ในกระบวนการ Sol-Gel การตกตะกอนร่วม และ Hydrothermal",
+                "formula": "\\equiv\\!\\text{Si-OR} + \\text{H}_2\\text{O} \\xrightarrow{H^+/OH^-} \\equiv\\!\\text{Si-OH} + \\text{ROH}",
+                "sim_type": "sol_gel_process"
+            },
+            {
+                "id": "3.3",
+                "title": "3.3 การสะสมไอสารเคมีและไอสารกายภาพ",
+                "summary": "หลักการของ Chemical Vapor Deposition (CVD) สำหรับสร้างกราฟีน/CNT และ Physical Vapor Deposition (Sputtering/Thermal Evaporation)",
+                "formula": "J = -D \\frac{\\partial C}{\\partial x}, \\quad R_{growth} \\propto P_{precursor}",
+                "sim_type": "cvd_pvd_growth"
+            },
+            {
+                "id": "3.4",
+                "title": "3.4 นาโนลิโทกราฟีและการสร้างลวดลายระดับนาโน",
+                "summary": "Photolithography ย่าน DUV/EUV, Electron Beam Lithography (EBL), และ Nanoimprint Lithography สำหรับการผลิตชิปสารกึ่งตัวนำ",
+                "formula": "R = k_1 \\frac{\\lambda}{\\text{NA}}, \\quad \\text{DOF} = k_2 \\frac{\\lambda}{\\text{NA}^2}",
+                "sim_type": "nanolithography"
+            },
+            {
+                "id": "3.5",
+                "title": "3.5 แบบฝึกหัดและปฏิบัติการจำลอง AR: การสังเคราะห์และควบคุมขนาดอนุภาค",
+                "summary": "จำลองการเติบโตของผลึกนาโน LaMer Nucleation-Growth และควบคุมขนาดอนุภาคผ่านสไลเดอร์อุณหภูมิและความเข้มข้นสารตั้งต้น",
+                "formula": "3D AR Nanoparticle Growth Studio",
+                "sim_type": "ar_synthesis_lab"
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "title": "บทที่ 4 เครื่องมือตรวจวิเคราะห์และมาตรวิทยาระดับนาโน",
+        "description": "เจาะลึกเทคนิคการตรวจวิเคราะห์วัสดุนาโน: กล้องจุลทรรศน์อิเล็กตรอน SEM/TEM, กล้องโพรบสแกน AFM/STM, การเลี้ยวเบนรังสีเอกซ์ XRD และ Dynamic Light Scattering (DLS)",
+        "badge": "SEM, TEM, AFM, STM & XRD",
+        "pages": [
+            {
+                "id": "4.1",
+                "title": "4.1 กล้องจุลทรรศน์อิเล็กตรอนแบบส่องกราดและส่องผ่าน",
+                "summary": "หลักการทำงานของ SEM (Secondary & Backscattered Electrons) และ TEM (Bright-Field, Dark-Field, HRTEM Atomic Lattice)",
+                "formula": "d_{min} = \\frac{0.61\\lambda}{\\alpha}, \\quad \\lambda = \\frac{h}{\\sqrt{2m_0 e V}}",
+                "sim_type": "sem_tem_microscopy"
+            },
+            {
+                "id": "4.2",
+                "title": "4.2 กล้องจุลทรรศน์โพรบสแกน",
+                "summary": "กลไก Atomic Force Microscopy (AFM Contact/Tapping Mode) และ Scanning Tunneling Microscopy (STM Quantum Tunneling Current)",
+                "formula": "I_{tunnel} \\propto V \\cdot e^{-2\\kappa d}, \\quad F = -k \\Delta z",
+                "sim_type": "afm_stm_probe"
+            },
+            {
+                "id": "4.3",
+                "title": "4.3 การเลี้ยวเบนของรังสีเอกซ์และสมการเชอร์เรอร์",
+                "summary": "การวิเคราะห์โครงสร้างผลึกด้วยกฎของแบรกก์ และการคำนวณขนาดผลึกเฉลี่ย (Crystallite Size) จากความกว้างพีค FWHM ด้วยสมการ Scherrer",
+                "formula": "D = \\frac{K\\lambda}{\\beta \\cos\\theta}, \\quad 2d\\sin\\theta = n\\lambda",
+                "sim_type": "xrd_scherrer"
+            },
+            {
+                "id": "4.4",
+                "title": "4.4 การกระเจิงแสงแบบพลวัตและศักย์ซีตา",
+                "summary": "การวัดขนาดอนุภาคเชิงอุทกพลศาสตร์ (Hydrodynamic Size) ด้วย DLS และการประเมินเสถียรภาพคอลลอยด์ด้วย Zeta Potential",
+                "formula": "D = \\frac{k_B T}{6\\pi \\eta R_h}, \\quad \\zeta = \\frac{\\eta \\mu_e}{\\varepsilon_r \\varepsilon_0}",
+                "sim_type": "dls_zeta_potential"
+            },
+            {
+                "id": "4.5",
+                "title": "4.5 แบบฝึกหัดและปฏิบัติการจำลอง AR: การสแกนหัวโพรบ AFM/STM",
+                "summary": "ห้องทดลองเสมือนจริง 3D สแกนพื้นผิวโครงสร้างอะตอมด้วยหัวโพรบ AFM/STM วัดโปรไฟล์ความสูงแบบเรียลไทม์",
+                "formula": "3D AR SPM Surface Metrology Lab",
+                "sim_type": "ar_spm_lab"
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "title": "บทที่ 5 วัสดุนาโน 1D/2D และอุปกรณ์นาโนอิเล็กทรอนิกส์",
+        "description": "สำรวจกราฟีน ท่อคาร์บอนนาโน (CNT) วัสดุ 2 มิติ TMDs ทรานซิสเตอร์ระดับนาโน (FET/SET) และสปินทรอนิกส์ (Spintronics)",
+        "badge": "Graphene, CNT & Nano-FET",
+        "pages": [
+            {
+                "id": "5.1",
+                "title": "5.1 กราฟีนและวัสดุโครงสร้าง 2 มิติ",
+                "summary": "โครงสร้างผลึกแบบรังผึ้ง (Honeycomb Lattice), Dirac Cones, สภาพคล่องตัวของประจุที่สูงยิ่ง และวัสดุ 2D TMDCs (MoS2, WS2)",
+                "formula": "E(k) = \\pm \\hbar v_F |k|, \\quad v_F \\approx 10^6\\text{ m/s}",
+                "sim_type": "graphene_band"
+            },
+            {
+                "id": "5.2",
+                "title": "5.2 ท่อคาร์บอนนาโนและสมบัติการนำส่งทางไฟฟ้า",
+                "summary": "เวกเตอร์ไครัลลิตี้ (Chiral Vector $C_h = n a_1 + m a_2$) การแบ่งเป็น Metallic vs Semiconducting CNTs และความแข็งแรงเชิงกลสูง",
+                "formula": "C_h = n\\vec{a}_1 + m\\vec{a}_2, \\quad (n-m)\\equiv 0\\!\\pmod 3",
+                "sim_type": "cnt_chirality"
+            },
+            {
+                "id": "5.3",
+                "title": "5.3 ทรานซิสเตอร์สนามผลและทรานซิสเตอร์อิเล็กตรอนเดี่ยว",
+                "summary": "Carbon Nanotube FET (CNT-FET), 2D-FET, และ Single Electron Transistor (SET) ที่ทำงานด้วยปรากฏการณ์ Coulomb Blockade",
+                "formula": "E_C = \\frac{e^2}{2C_\\Sigma} > k_B T, \\quad I_{ds} = g_m(V_{gs}-V_{th})",
+                "sim_type": "nano_fet_set"
+            },
+            {
+                "id": "5.4",
+                "title": "5.4 สปินทรอนิกส์และเทคโนโลยีหัวอ่านแม่เหล็ก",
+                "summary": "การใช้สปินของอิเล็กตรอนในการประมวลผลและกักเก็บข้อมูล ปรากฏการณ์ Giant Magnetoresistance (GMR) และ Tunnel Magnetoresistance (TMR)",
+                "formula": "\\text{GMR} = \\frac{R_{AP} - R_P}{R_P} \\times 100\\%",
+                "sim_type": "spintronics_gmr"
+            },
+            {
+                "id": "5.5",
+                "title": "5.5 แบบฝึกหัดและปฏิบัติการจำลอง AR: ทรานซิสเตอร์นาโนและแผ่นกราฟีน",
+                "summary": "จำลองการทดลองปรับ Gate Voltage ควบคุมกระแสในทรานซิสเตอร์นาโน และการจำลอง Dirac Cone 3D ด้วยมือเปล่า",
+                "formula": "3D AR Nanoelectronics Studio",
+                "sim_type": "ar_nanoelectronics_lab"
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "title": "บทที่ 6 การประยุกต์ใช้นาโนเทคโนโลยี พลังงาน และการแพทย์",
+        "description": "สำรวจการประยุกต์ใช้วัสดุนาโนในโซลาร์เซลล์รุ่นใหม่ ตัวเร่งปฏิกิริยานาโน การกักเก็บพลังงาน การนำส่งยาตรงเป้าหมาย และนาโนไบโอเซนเซอร์",
+        "badge": "Perovskite, Battery & Nanomedicine",
+        "pages": [
+            {
+                "id": "6.1",
+                "title": "6.1 โซลาร์เซลล์รุ่นใหม่และตัวเร่งปฏิกิริยานาโน",
+                "summary": "Perovskite Solar Cells, Dye-Sensitized Solar Cells (DSSC) ที่ใช้ TiO2 นาโน และ Photocatalysis บำบัดมลพิษด้วยแสง",
+                "formula": "\\eta = \\frac{J_{sc} \\cdot V_{oc} \\cdot \\text{FF}}{P_{in}} \\times 100\\%",
+                "sim_type": "nanosolar_cell"
+            },
+            {
+                "id": "6.2",
+                "title": "6.2 การกักเก็บพลังงาน: นาโนแบตเตอรี่และซูเปอร์คาปาซิเตอร์",
+                "summary": "การใช้วัสดุนาโนเป็นขั้วไฟฟ้าเพื่อลดระยะการแพร่ของไอออนลิเธียม และการเก็บประจุสองชั้นไฟฟ้า (EDLC) ในซูเปอร์คาปาซิเตอร์",
+                "formula": "C = \\frac{\\varepsilon_r \\varepsilon_0 A}{d}, \\quad E = \\frac{1}{2} C V^2",
+                "sim_type": "nanobattery_supercap"
+            },
+            {
+                "id": "6.3",
+                "title": "6.3 การนำส่งยาตรงเป้าหมายและอนุภาคไขมันระดับนาโน",
+                "summary": "Lipid Nanoparticles (LNPs) ในวัคซีน mRNA, Polymeric Nanoparticles, และกลไก Enhanced Permeability and Retention (EPR) effect",
+                "formula": "\\text{EE}\\% = \\frac{\\text{Total Drug} - \\text{Free Drug}}{\\text{Total Drug}} \\times 100\\%",
+                "sim_type": "targeted_drug_delivery"
+            },
+            {
+                "id": "6.4",
+                "title": "6.4 นาโนเซนเซอร์และการตรวจวินิจฉัยโรคทางการแพทย์",
+                "summary": "Optical & Electrochemical Biosensors, Surface-Enhanced Raman Scattering (SERS) ตรวจวัดโมเลกุลเป้าหมายในระดับ Single Molecule",
+                "formula": "\\text{EF}_{SERS} \\propto |E_{local}/E_0|^4",
+                "sim_type": "nanobiosensors"
+            },
+            {
+                "id": "6.5",
+                "title": "6.5 แบบฝึกหัดและปฏิบัติการจำลอง AR: การนำส่งยาและโซลาร์เซลล์นาโน",
+                "summary": "จำลองการเคลื่อนที่ของอนุภาคนาโนนำส่งยาผ่านเส้นเลือดเข้าสู่เซลล์เป้าหมายในรูปแบบ 3D Interactive พร้อม AR Touchless Control",
+                "formula": "3D AR Nanomedicine & Energy Lab",
+                "sim_type": "ar_nanomed_lab"
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "title": "บทที่ 7 ความปลอดภัย พิษวิทยา และจริยธรรมนาโน",
+        "description": "เรียนรู้พิษวิทยาของวัสดุนาโน (Nanotoxicology) การประเมินความเสี่ยง การควบคุมทางวิศวกรรม ขั้นตอนปฏิบัติงานมาตรฐาน (SOP) และจริยธรรมวิทยาศาสตร์",
+        "badge": "Nanotoxicology & Lab Safety",
+        "pages": [
+            {
+                "id": "7.1",
+                "title": "7.1 ความเป็นพิษของอนุภาคนาโนและเส้นทางการรับสัมผัส",
+                "summary": "เส้นทางการรับสัมผัส (การหายใจ การซึมผ่านผิวหนัง การกลืนกิน) การเกิดภาวะเครียดออกซิเดชัน (Reactive Oxygen Species - ROS) และพิษต่อเซลล์",
+                "formula": "\\text{Risk} = \\text{Hazard} \\times \\text{Exposure}",
+                "sim_type": "nanotoxicity_ros"
+            },
+            {
+                "id": "7.2",
+                "title": "7.2 มาตรการควบคุมและขั้นตอนปฏิบัติงานมาตรฐาน",
+                "summary": "ลำดับขั้นการควบคุม (Hierarchy of Controls: Elimination, Engineering Controls, PPE), การอ่านเอกสาร SDS, และการร่าง SOP",
+                "formula": "\\text{Hierarchy: Engineering} > \\text{Administrative} > \\text{PPE}",
+                "sim_type": "safety_controls"
+            },
+            {
+                "id": "7.3",
+                "title": "7.3 การจัดการของเสียวัสดุนาโนและสิ่งแวดล้อม",
+                "summary": "แนวทางการแยกเก็บ บำบัด และกำจัดของเสียสารแขวนลอยและตัวอย่างที่มีวัสดุนาโนปนเปื้อนตามมาตรฐานสากล",
+                "formula": "\\text{Containment} \\to \\text{Neutralization} \\to \\text{Hazardous Disposal}",
+                "sim_type": "waste_management"
+            },
+            {
+                "id": "7.4",
+                "title": "7.4 จริยธรรมการวิจัยและการกำกับดูแลเทคโนโลยี",
+                "summary": "ความซื่อสัตย์ในข้อมูลการวิจัย (Data Integrity) การไม่บิดเบือนภาพ/กราฟ การประเมินผลกระทบทางสังคม (ELSI) และหลักความรับผิดชอบ",
+                "formula": "\\text{Data Integrity: Raw Data} = \\text{Reported Fact}",
+                "sim_type": "research_ethics"
+            },
+            {
+                "id": "7.5",
+                "title": "7.5 แบบฝึกหัดและปฏิบัติการจำลอง AR: การประเมินความปลอดภัยในห้องปฏิบัติการ",
+                "summary": "สถานการณ์จำลอง 3D ตรวจสอบความปลอดภัยในห้องปฏิบัติการนาโนเทคโนโลยี และประเมินจุดเสี่ยงตามเกณฑ์ความปลอดภัยสากล",
+                "formula": "3D AR Nano Lab Safety Audit",
+                "sim_type": "ar_safety_lab"
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "title": "บทที่ 8 ปฏิบัติการจำลองเสมือนจริง 3D/AR และโครงงานวิจัยนาโนฟิสิกส์",
+        "description": "ประมวลผลความรู้สู่การสร้างแบบจำลองพลวัตโมเลกุล การคำนวณเชิงตัวเลข และการออกแบบโครงงานวิจัยนาโนเทคโนโลยีเชิงฟิสิกส์ขั้นสูง",
+        "badge": "Molecular Dynamics & Capstone Lab",
+        "pages": [
+            {
+                "id": "8.1",
+                "title": "8.1 การจำลองสมบัติทางแสงของวัสดุนาโนด้วยระเบียบวิธีเชิงตัวเลข",
+                "summary": "ระเบียบวิธี Finite-Difference Time-Domain (FDTD) และ Mie Scattering สำหรับคำนวณสเปกตรัมดูดกลืนของอนุภาคนาโน",
+                "formula": "\\nabla \\times \\vec{E} = -\\frac{\\partial \\vec{B}}{\\partial t}, \\quad \\nabla \\times \\vec{H} = \\frac{\\partial \\vec{D}}{\\partial t}",
+                "sim_type": "fdtd_mie_sim"
+            },
+            {
+                "id": "8.2",
+                "title": "8.2 การจำลองพลวัตโมเลกุลในระดับนาโน",
+                "summary": "ระเบียบวิธี Molecular Dynamics (MD) การคำนวณแรงระหว่างอะตอมด้วย Lennard-Jones Potential และการรวมสมการการเคลื่อนที่ Verlet",
+                "formula": "V_{LJ}(r) = 4\\varepsilon \\left[\\left(\\frac{\\sigma}{r}\\right)^{12} - \\left(\\frac{\\sigma}{r}\\right)^6\\right]",
+                "sim_type": "molecular_dynamics"
+            },
+            {
+                "id": "8.3",
+                "title": "8.3 การออกแบบโครงงานวิจัยนาโนเทคโนโลยีเชิงฟิสิกส์",
+                "summary": "ระเบียบวิธีวิจัย การตั้งสมมติฐาน การเลือกเครื่องมือตรวจวิเคราะห์ (Characterization Matrix) และการเขียนข้อเสนอโครงการวิจัย",
+                "formula": "\\text{Problem} \\to \\text{Hypothesis} \\to \\text{SOP} \\to \\text{Evidence}",
+                "sim_type": "capstone_design"
+            },
+            {
+                "id": "8.4",
+                "title": "8.4 การวิเคราะห์ข้อมูลขั้นสูงและการนำเสนอผลงานวิจัย",
+                "summary": "การเขียนบทความวิจัยเชิงวิชาการตามมาตรฐานสากล การทำ Data Visualization คุณภาพสูง และการนำเสนอผลงาน",
+                "formula": "\\text{High-Impact Data Visualization & Science Communication}",
+                "sim_type": "data_analytics_report"
+            },
+            {
+                "id": "8.5",
+                "title": "8.5 ห้องปฏิบัติการเสมือนจริง 3D/AR เต็มรูปแบบพร้อมระบบตรวจจับท่าทางมือ",
+                "summary": "สตูดิโอห้องปฏิบัติการจำลอง 3 มิติครบวงจร รวมเครื่องมือสแกน AFM, กักขังควอนตัม, และทรานซิสเตอร์นาโน ควบคุมด้วยกล้องและท่าทางมือ",
+                "formula": "Universal 3D AR Multi-Modal Nanophysics Hub",
+                "sim_type": "ar_master_nanolab"
+            }
+        ]
+    }
+]
+
+# Save course data JSON
+COURSE_DATA_FILE = os.path.join(NANO_DIR, "course_data.json")
+with open(COURSE_DATA_FILE, "w", encoding="utf-8") as f:
+    json.dump(CHAPTERS_DEF, f, ensure_ascii=False, indent=2)
+
+print(f"✅ Generated course_data.json with {len(CHAPTERS_DEF)} chapters and 40 subtopics.")
+
+if __name__ == "__main__":
+    print("🚀 Course definition ready for Nanotechnological Physics!")
